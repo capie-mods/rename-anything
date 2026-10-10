@@ -1,41 +1,111 @@
 # Rename Anything (HOI4)
 
-Mod do Hearts of Iron IV (cel: 1.19.x, obserwowana instalacja: 1.19.3.0 "Operation Postern"),
-który pozwala graczowi swobodnie zmieniać z klawiatury nazwy:
+Mod z oknem do wpisywania nazw własnych postaci, stanów i miast (punktów zwycięstwa).
+Interfejs jest po polsku i angielsku; pozostałe języki gry dostają angielskie napisy.
 
-- państw (nazwa, przymiotnik),
-- regionów (stanów),
-- miast / prowincji (victory points),
-- liderów (postaci),
-- partii politycznych (długa i krótka nazwa).
+## Stan projektu
 
-**Wymaganie twarde: musi działać identycznie w singleplayerze i w multiplayerze** (bez desynców,
-bez checksum-mismatch problemów poza standardowym "wszyscy mają ten sam mod").
+- `mod/` zawiera implementację skryptową i `descriptor.mod`. Generator oraz kontrola referencji
+  przechodzą lokalnie; wynik bieżących testów w grze opisuje [raport testów](docs/test-report.md).
+- Próby na HOI4 1.19.3.0 potwierdziły przyjmowanie dowolnych literałów przez efekty zmiany nazw
+  postaci, stanów i prowincji oraz ich trwałość po zapisie i wczytaniu. To dowód mechanizmu;
+  pełny interfejs moda wymaga osobnej weryfikacji opisanej w raporcie.
+- **Nazwa i przymiotnik kraju pozostają niedostępne w modzie skryptowym.** Zakładka „Kraj”
+  zachowuje wpisany tekst, lecz „Zastosuj” jest wyłączone. Przycisk zmiany imienia przywódcy działa
+  osobno. Badany komponent natywny znajduje się w `plugin/`; nie jest wymagany przez `mod/`.
+- Multiplayer nie został jeszcze potwierdzony na dwóch klientach. Nie traktuj tej wersji jako
+  wydania ze zweryfikowaną zgodnością MP.
 
-## Status
+Dowody wcześniejszych prób: [probe 1](docs/stage0-probe-results.md),
+[probe 2](docs/stage0-probe2-results.md). Uzasadnienie ograniczenia nazw krajów i stan badań
+natywnych: [naming-internals.md](docs/naming-internals.md).
 
-Szkielet repo. Implementacja jeszcze nie istnieje — patrz [docs/design.md](docs/design.md)
-(założenia architektury, ryzyka do zweryfikowania prototypem).
+## Instalacja lokalna
 
-## Struktura
+1. Zachowaj cały katalog `mod/` z repozytorium, np.
+   `C:/Users/user/Documents/GitHub/hoi4-rename-anything/mod`.
+2. W swoim katalogu użytkownika HOI4 (`Documents/Paradox Interactive/Hearts of Iron IV/mod/`)
+   utwórz plik `rename_anything_dev.mod` z poniższą zawartością. Dostosuj ścieżkę bezwzględną;
+   musi wskazywać na **podkatalog `mod`** zawierający `common/`, `interface/` i `descriptor.mod`.
 
+   ```text
+   name="Rename Anything (dev)"
+   path="C:/Users/user/Documents/GitHub/hoi4-rename-anything/mod"
+   version="0.1.0"
+   supported_version="1.19.*"
+   ```
+
+3. Dodaj mod do playsetu w launcherze i włącz go. Do odtwarzalnego testu wybierz tylko ten mod.
+   Zachowaj własny playset; instalacja nie wymaga podmiany `dlc_load.json` ani plików gry.
+4. Uruchom grę i kampanię. Przycisk „Zmień nazwy” / „Rename” jest w lewym górnym rogu.
+
+## Obsługa
+
+- **Postacie:** wybierz własną postać na liście i kliknij „Zmień”. Lista odświeża się po otwarciu
+  okna lub zmianie zakładki, a strony mieszczą po 10 pozycji. Zakładka „Kraj” ma też skrót do przywódcy.
+- **Stany:** wybierz własny stan i „Zmień”. „Przywróć” usuwa nadpisanie nazwy. Przyciski są też
+  w panelu zaznaczonego własnego stanu na mapie.
+- **Miasta:** w zakładce „Stany” kliknij „Miasta”, następnie zmień nazwę wybranego punktu
+  zwycięstwa. Lista pokazuje oryginalne nazwy z lokalizacji, także po zmianie. „Przywróć” usuwa
+  nadpisanie nazwy prowincji. Zwykła podpowiedź terenu pokazuje nazwę stanu, nie nazwę miasta.
+- Pole przyjmuje do **32 znaków**: A–Z / a–z, cyfry, spację, `-`, `.`, apostrof oraz
+  `ąćęłńóśźż` i ich wielkie odpowiedniki. Litery, Shift+litera, cyfry, `-`, `.`, Backspace,
+  Enter i spacja mają skróty; można też klikać klawiaturę ekranową. Polskie litery i apostrof
+  wpisuje się przyciskami; przełącznik wielkich liter obejmuje polskie znaki.
+- Skróty gry pozostają aktywne podczas wpisywania: spacja również pauzuje/wznawia grę,
+  a inne klawisze mogą otwierać panele gry. W razie kolizji użyj przycisków ekranowych.
+- „Anuluj” odrzuca bufor. Zmiana postaci nie ma przycisku przywracania; wpisz wcześniejsze imię
+  lub wczytaj wcześniejszy zapis. Nazwy ustawione przez efekty są częścią zapisu gry.
+
+Polskie znaki działają w efektach nazw i w przetestowanych miejscach interfejsu przy języku
+angielskim. Pełna czytelność wszystkich fontów i etykiet pozostaje punktem kontroli raportu;
+AltGr nie jest wejściem tekstowym tej klawiatury skryptowej.
+
+## Multiplayer, ironman i zgodność
+
+Logika wpisywania oraz zmiany nazw jest wykonywana przez efekty przycisków scripted GUI.
+Bufory należą do krajów, a tablice kodów znaków mają identyczną zawartość we wszystkich
+lokalizacjach. To założenie synchronizacji, **nie wynik testu MP**. Gracze kooperacyjni tego
+samego kraju współdzielą bufor. Do weryfikacji potrzebne są dwa klienty z identyczną wersją
+moda i zestawem modów, kontrola nazw u obu graczy, zapis/wczytanie i obserwacja OOS.
+
+Mod zmienia pliki `common/`, więc zmienia checksum gry. Nie jest zgodny z osiągnięciami
+wymagającymi niezmienionej checksumy. Obsługi ironman nie zweryfikowano; do testów używaj
+kampanii bez ironman i kopii zapisu.
+
+Badana wersja gry to **Windows / Steam, HOI4 1.19.3.0**. Deklaracja `supported_version="1.19.*"`
+w deskryptorze ogranicza ostrzeżenia launchera; nie stanowi dowodu działania na innych patchach.
+Tabela miast pochodzi z vanilli 1.19.3 (955 stanów z VP, 1500 punktów). Mody zmieniające mapę,
+ID stanów/prowincji lub dodające VP wymagają regeneracji tabel i ponownego testu. VP dodane
+w trakcie kampanii nie pojawią się automatycznie. Mod nie obejmuje nazw partii politycznych.
+
+## Odinstalowanie
+
+Wyłącz mod w playsecie i usuń `rename_anything_dev.mod` oraz kopię jego katalogu, jeżeli była
+utworzona wyłącznie dla niego. Pliki instalacji gry nie są zmieniane. Nazwy postaci, stanów i miast
+zapisane w kampanii mogą pozostać po wyłączeniu moda; odinstalowanie nie jest ich cofnięciem.
+Przed odinstalowaniem przywróć nazwy stanów/miast w UI albo zachowaj wcześniejszy zapis.
+Zmienne moda mogą pozostać w istniejącym zapisie. Kontynuację bez moda trzeba sprawdzić na kopii.
+
+## Steam Workshop
+
+`mod/` jest katalogiem zawartości zwykłego moda skryptowego. Repozytorium nie zawiera
+opublikowanego identyfikatora Workshop; publikacja wymaga osobnego przesłania przez launcher.
+Natywny komponent z `plugin/` nie jest automatycznie ładowany przez standardowy system modów HOI4;
+subskrypcja Workshop sama go nie instaluje ani nie uruchamia.
+
+## Development
+
+```powershell
+python tools/gen.py
+python tools/check.py
 ```
-descriptor.mod            # deskryptor moda
-common/scripted_guis/     # logika okna rename (MP-safe: efekty przez kliknięcia GUI)
-interface/                # .gui / .gfx okna i klawiatury
-localisation/{english,polish}/
-docs/                     # projekt i notatki techniczne
-```
 
-## Lokalny development
+Generator czyta instalację gry bez jej modyfikowania; inną ścieżkę podaj przez
+`python tools/gen.py --game "D:/Steam/steamapps/common/Hearts of Iron IV"` i
+`python tools/check.py "D:/Steam/steamapps/common/Hearts of Iron IV"`.
+Edytuj generator, nie pliki oznaczone `GENERATED`. `tools/check.py` sprawdza referencje, strukturę
+oraz lokalizacje; nie zastępuje parsera gry, testu zapisu/wczytania ani testu multiplayer.
 
-Utwórz w `Documents/Paradox Interactive/Hearts of Iron IV/mod/` plik `rename_anything.mod`:
-
-```
-name="Rename Anything (dev)"
-path="C:/Users/user/Documents/GitHub/hoi4-rename-anything"
-supported_version="1.19.*"
-```
-
-Testy MP: dwa klienty (np. drugi przez `-multiplayer` na LAN/hotjoin), ten sam zestaw modów,
-po każdej zmianie nazwy sprawdzić brak OOS (`oos` w `game.log`, `error.log`).
+Struktura: `mod/` — mod skryptowy; `plugin/` — badania komponentu natywnego; `probes/` —
+osobne mody eksperymentalne; `docs/` — dowody i raporty; `tools/` — generator i kontrola statyczna.

@@ -85,8 +85,8 @@ def slots_expr(prefix: str) -> str:
 UI = {
     # key: (english, polish)
     "RN_ENTRY_BTN": ("Rename", "Zmień nazwy"),
-    "RN_ENTRY_BTN_TT": ("Open §YRename Anything§!: rename your country, characters, states and cities.",
-                        "Otwórz §YRename Anything§!: zmień nazwę kraju, postaci, stanów i miast."),
+    "RN_ENTRY_BTN_TT": ("Open §YRename Anything§!: rename characters, states and cities. Country renaming is unavailable.",
+                        "Otwórz §YRename Anything§!: zmień nazwy postaci, stanów i miast. Zmiana nazwy kraju jest niedostępna."),
     "RN_MAIN_TITLE": ("Rename Anything", "Rename Anything – zmiana nazw"),
     "RN_TAB_1": ("Country", "Kraj"),
     "RN_TAB_2": ("Characters", "Postacie"),
@@ -108,7 +108,7 @@ UI = {
     "RN_COUNTRY_APPLY_TT": ("Not available in this version.", "Niedostępne w tej wersji."),
     "RN_COUNTRY_NOTE": ("Renaming the country is not available in this version: the game only displays country names that exist in its localisation files. You can already type and keep the name and adjective here.",
                         "Zmiana nazwy kraju jest niedostępna w tej wersji: gra wyświetla tylko nazwy krajów zapisane w plikach lokalizacji. Nazwę i przymiotnik można już wpisać i zachować tutaj."),
-    "RN_COUNTRY_STATUS_DISABLED": ("Status: not available in this version (placeholder).", "Status: niedostępne w tej wersji (zaślepka)."),
+    "RN_COUNTRY_STATUS_DISABLED": ("Status: country renaming is unavailable.", "Status: zmiana nazwy kraju jest niedostępna."),
     "RN_PAGE": ("Page [?ROOT.rn_cpage_disp|0] / [?ROOT.rn_cpages|0]", "Strona [?ROOT.rn_cpage_disp|0] / [?ROOT.rn_cpages|0]"),
     "RN_SPAGE": ("Page [?ROOT.rn_spage_disp|0] / [?ROOT.rn_spages|0]", "Strona [?ROOT.rn_spage_disp|0] / [?ROOT.rn_spages|0]"),
     "RN_BTN_PREV": ("< Prev", "< Wstecz"),
@@ -143,10 +143,10 @@ UI = {
     "RN_KEY_CAPS": ("Caps: [ROOT.RN_CapsLabel]", "Wielkie: [ROOT.RN_CapsLabel]"),
     "RN_BTN_CANCEL": ("Cancel", "Anuluj"),
     "RN_BTN_APPLY": ("Apply", "Zastosuj"),
-    "RN_INPUT_HINT": ("Type on your keyboard: letters, Shift+letter, digits, - and . ; Backspace deletes, Enter applies. "
-                      "Space also pauses/unpauses the game. Polish letters and ' via the buttons. Max 32 characters.",
-                      "Pisz na klawiaturze: litery, Shift+litera, cyfry, - i . ; Backspace kasuje, Enter zatwierdza. "
-                      "Spacja dodatkowo pauzuje/wznawia grę. Polskie litery i ' przyciskami. Maks. 32 znaki."),
+    "RN_INPUT_HINT": ("Type letters, Shift+letter, digits, - and .; Backspace deletes, Enter applies. "
+                      "Game hotkeys also remain active. Polish letters and ' via buttons. Max 32 characters.",
+                      "Pisz litery, Shift+litera, cyfry, - i .; Backspace kasuje, Enter zatwierdza. "
+                      "Skróty gry pozostają aktywne. Polskie litery i ' przyciskami. Maks. 32 znaki."),
     "RN_APPLY_TT": ("Apply the typed name.", "Zatwierdź wpisaną nazwę."),
     # state view panel
     "RN_SV_TITLE": ("Rename Anything", "Rename Anything"),
@@ -300,17 +300,22 @@ def gen_effects(states) -> str:
     out.append("}\n\n")
     # apply
     out.append(f"""# Apply the input buffer to the current target. meta_effect turns the scripted loc into a literal string,
-# so the stored name is plain text (persists in the save, identical on every MP client).
+# so the stored name is plain text. Persistence was observed in stage0 probes; MP still needs a two-client test.
 rn_apply_input = {{
 	if = {{
 		limit = {{ check_variable = {{ rn_len > 0 }} }}
 		if = {{
 			limit = {{ check_variable = {{ rn_ttype = 1 }} }}
+			# Rebuild the player's current characters; a target can transfer/retire while the input stays open.
+			rn_refresh_lists = yes
 			for_each_scope_loop = {{
 				array = rn_tchar
-				meta_effect = {{
-					text = {{ set_character_name = "[N]" }}
-					N = "{n_expr}"
+				if = {{
+					limit = {{ is_in_array = {{ array = ROOT.rn_chars_all value = THIS }} }}
+					meta_effect = {{
+						text = {{ set_character_name = "[N]" }}
+						N = "{n_expr}"
+					}}
 				}}
 			}}
 		}}
@@ -353,7 +358,7 @@ rn_apply_input = {{
 	rn_cancel_input = yes
 }}
 
-# Reset a city (VP province) name: set it back to its vanilla localisation key.
+# Reset a city (VP province) name by clearing the override. This also works for VPs without a loc key.
 rn_reset_vp = {{ # temp rn_k = slot
 	rn_target_vp = yes
 	if = {{
@@ -363,7 +368,7 @@ rn_reset_vp = {{ # temp rn_k = slot
 			if = {{
 				limit = {{ is_owned_by = ROOT }}
 				meta_effect = {{
-					text = {{ set_province_name = {{ id = [P] name = VICTORY_POINTS_[P] }} }}
+					text = {{ reset_province_name = [P] }}
 					P = "{p_expr}"
 				}}
 			}}
@@ -437,6 +442,155 @@ def keyboard_keys():
 # ----------------------------------------------------------------------------- scripted GUI
 
 
+TABS = [(1, "country"), (2, "chars"), (3, "states"), (4, "cities")]
+
+
+def gen_main_scripted_guis(vp_effects: str, vp_triggers: str) -> str:
+    """One complete window per tab (element-level _visible triggers on child containers do not
+    work in 1.19.3 - verified live), so each tab is its own scripted GUI with its own visible."""
+    header_effects = ("\t\t\trn_close_click = { rn_close_all = yes }\n" +
+                      "".join(f"\t\t\trn_tab_{t}_click = {{ set_temp_variable = {{ rn_newtab = {t} }} rn_set_tab = yes }}\n"
+                              for t, _ in TABS))
+    effects = {
+        "country": """			rn_leader_rename_click = { rn_target_leader = yes }
+			rn_cname_edit_click = { set_variable = { rn_ttype = 4 } rn_open_input = yes }
+			rn_cadj_edit_click = { set_variable = { rn_ttype = 5 } rn_open_input = yes }
+			rn_country_apply_click = { rn_apply_country_name = yes }
+			rn_country_reset_click = { rn_reset_country_name = yes }
+""",
+        "chars": """			rn_char_rename_click = { ROOT = { rn_target_character = yes } }
+			rn_cpage_prev_click = { subtract_from_variable = { rn_cpage = 1 } rn_build_char_page = yes }
+			rn_cpage_next_click = { add_to_variable = { rn_cpage = 1 } rn_build_char_page = yes }
+""",
+        "states": """			rn_state_rename_click = {
+				if = {
+					limit = { is_owned_by = ROOT }
+					ROOT = { rn_target_state = yes }
+				}
+			}
+			rn_state_reset_click = {
+				if = {
+					limit = { is_owned_by = ROOT }
+					reset_state_name = yes
+				}
+			}
+			rn_state_cities_click = {
+				ROOT = {
+					set_variable = { rn_sel_state = PREV }
+					set_temp_variable = { rn_newtab = 4 }
+					rn_set_tab = yes
+				}
+			}
+			rn_spage_prev_click = { subtract_from_variable = { rn_spage = 1 } rn_build_state_page = yes }
+			rn_spage_next_click = { add_to_variable = { rn_spage = 1 } rn_build_state_page = yes }
+""",
+        "cities": vp_effects,
+    }
+    triggers = {
+        "country": """			rn_country_apply_click_enabled = {
+				rn_country_rename_enabled = yes # placeholder: always = no in this version
+				check_variable = { rn_cname_len > 0 }
+			}
+			rn_country_reset_click_enabled = { has_country_flag = rn_custom_name }
+""",
+        "chars": """			rn_cpage_prev_click_enabled = { check_variable = { rn_cpage > 0 } }
+			rn_cpage_next_click_enabled = { check_variable = { rn_cpage_disp < rn_cpages } }
+""",
+        "states": """			rn_spage_prev_click_enabled = { check_variable = { rn_spage > 0 } }
+			rn_spage_next_click_enabled = { check_variable = { rn_spage_disp < rn_spages } }
+""",
+        "cities": "\t\t\trn_no_cities_visible = { NOT = { check_variable = { rn_vp_cnt > 0 } } }\n" + vp_triggers,
+    }
+    lists = {
+        "chars": ("rn_chars_grid", "rn_chars_page", "rn_char_entry"),
+        "states": ("rn_states_grid", "rn_states_page", "rn_state_entry"),
+        "cities": ("rn_selstate_grid", "rn_sel_state_arr", "rn_selstate_entry"),
+    }
+    out = []
+    for t, tab in TABS:
+        vis = "NOT = { check_variable = { rn_tab > 1 } }" if t == 1 else f"check_variable = {{ rn_tab = {t} }}"
+        out.append(f"""	rn_main_{tab}_gui = {{
+		context_type = player_context
+		window_name = "rn_main_{tab}_window"
+		visible = {{
+			has_country_flag = rn_open
+			NOT = {{ has_country_flag = rn_input }}
+			{vis}
+		}}
+		ai_enabled = {{ always = no }}
+		effects = {{
+{header_effects}{effects[tab]}		}}
+		triggers = {{
+			rn_tab_{t}_click_enabled = {{ always = no }}
+{triggers[tab]}		}}
+""")
+        if tab in lists:
+            g, arr, entry = lists[tab]
+            out.append(f"""		dynamic_lists = {{
+			{g} = {{
+				array = {arr}
+				change_scope = yes
+				entry_container = "{entry}"
+			}}
+		}}
+""")
+        out.append("\t}\n\n")
+    return "".join(out)
+
+
+def gen_main_windows() -> str:
+    W, H, CY = 560, 520, 86
+    o = []
+    for t, tab in TABS:
+        o.append(f'\tcontainerWindowType = {{\n\t\tname = "rn_main_{tab}_window"\n\t\torientation = center\n'
+                 f'\t\tposition = {{ x = {-W // 2} y = {-H // 2} }}\n\t\tsize = {{ width = {W} height = {H} }}\n\t\tclipping = no\n'
+                 '\t\tbackground = { name = "rn_main_bg" quadTextureSprite = "GFX_tiled_window_2b_border" }\n')
+        o.append(txt("rn_main_title", 20, 12, "RN_MAIN_TITLE", font="hoi_18mbs", w=480))
+        o.append(btn("rn_close", W - 42, 8, "GFX_closebutton", tooltip="RN_CLOSE_TT"))
+        for tt, _ in TABS:
+            o.append(btn(f"rn_tab_{tt}", 20 + (tt - 1) * 132, 42, "GFX_button_123x34", f"RN_TAB_{tt}"))
+        y0 = CY
+        if tab == "country":
+            o += [txt("rn_cur_name", 20, y0 + 8, "RN_CUR_NAME", w=520),
+                  txt("rn_cur_adj", 20, y0 + 32, "RN_CUR_ADJ", w=520),
+                  txt("rn_cur_leader", 20, y0 + 66, "RN_CUR_LEADER", w=380),
+                  btn("rn_leader_rename", 410, y0 + 58, "GFX_button_123x34", "RN_BTN_RENAME"),
+                  txt("rn_country_hdr", 20, y0 + 112, "RN_COUNTRY_HDR", font="hoi_18mbs", w=520),
+                  txt("rn_cname_line", 20, y0 + 148, "RN_CNAME_LINE", w=380),
+                  btn("rn_cname_edit", 410, y0 + 140, "GFX_button_123x34", "RN_BTN_TYPE"),
+                  txt("rn_cadj_line", 20, y0 + 188, "RN_CADJ_LINE", w=380),
+                  btn("rn_cadj_edit", 410, y0 + 180, "GFX_button_123x34", "RN_BTN_TYPE"),
+                  btn("rn_country_apply", 20, y0 + 226, "GFX_button_123x34", "RN_BTN_COUNTRY_APPLY", tooltip="RN_COUNTRY_APPLY_TT"),
+                  btn("rn_country_reset", 152, y0 + 226, "GFX_button_261x34", "RN_BTN_COUNTRY_RESET"),
+                  txt("rn_country_status", 20, y0 + 272, "RN_COUNTRY_STATUS", w=520, h=24),
+                  txt("rn_country_note", 20, y0 + 300, "RN_COUNTRY_NOTE", w=520, h=80)]
+        elif tab in ("chars", "states"):
+            grid, prev, nxt, page = (("rn_chars_grid", "rn_cpage_prev", "rn_cpage_next", "RN_PAGE") if tab == "chars"
+                                     else ("rn_states_grid", "rn_spage_prev", "rn_spage_next", "RN_SPAGE"))
+            o.append(f'\t\tgridBoxType = {{\n\t\t\tname = "{grid}"\n\t\t\tposition = {{ x = 20 y = {y0} }}\n'
+                     f'\t\t\tsize = {{ width = 520 height = {PAGE * 36} }}\n\t\t\tslotsize = {{ width = 520 height = 36 }}\n'
+                     '\t\t\tmax_slots_horizontal = 1\n\t\t\tformat = "UPPER_LEFT"\n\t\t}\n')
+            py = y0 + PAGE * 36 + 8
+            o.append(btn(prev, 20, py, "GFX_button_94x31", "RN_BTN_PREV"))
+            o.append(txt(f"rn_{tab}_page", 130, py + 6, page, w=300, fmt="centre"))
+            o.append(btn(nxt, 446, py, "GFX_button_94x31", "RN_BTN_NEXT"))
+        else:
+            o += [txt("rn_sel_state_lbl", 20, y0 + 8, "RN_SEL_STATE_LBL", w=100),
+                  f'\t\tgridBoxType = {{\n\t\t\tname = "rn_selstate_grid"\n\t\t\tposition = {{ x = 110 y = {y0 + 4} }}\n'
+                  '\t\t\tsize = { width = 420 height = 30 }\n\t\t\tslotsize = { width = 420 height = 30 }\n'
+                  '\t\t\tmax_slots_horizontal = 1\n\t\t\tformat = "UPPER_LEFT"\n\t\t}\n',
+                  txt("rn_cities_hint", 20, y0 + 38, "RN_CITIES_HINT", w=520, h=40),
+                  txt("rn_no_cities", 20, y0 + 90, "RN_NO_CITIES", w=520)]
+            for k in range(VP_SLOTS):
+                y = y0 + 86 + k * 44
+                o.append(txt(f"rn_vp_name_{k}", 20, y + 8, f"RN_VPROW_{k}", w=300))
+                o.append(btn(f"rn_vp_rename_{k}", 330, y + 2, "GFX_button_94x31", "RN_BTN_RENAME"))
+                o.append(btn(f"rn_vp_reset_{k}", 430, y + 2, "GFX_button_94x31", "RN_BTN_RESET"))
+            o.append(txt("rn_cities_note", 20, y0 + 314, "RN_CITIES_NOTE", w=520, h=60))
+        o.append("\t}\n\n")
+    return "".join(o)
+
+
 def gen_scripted_gui() -> str:
     keys = keyboard_keys()
     key_effects = "".join(f"\t\t\t{name}_click = {{ {body} }}\n" for name, *_r, body in keys)
@@ -445,9 +599,14 @@ def gen_scripted_gui() -> str:
         f"\t\t\trn_vp_reset_{k}_click = {{ set_temp_variable = {{ rn_k = {k} }} rn_reset_vp = yes }}\n"
         for k in range(VP_SLOTS))
     vp_triggers = "".join(
-        f"\t\t\trn_vp_row_{k}_visible = {{ check_variable = {{ rn_vp_cnt > {k} }} }}\n" for k in range(VP_SLOTS))
+        f"\t\t\t{el}_{k}_visible = {{ check_variable = {{ rn_vp_cnt > {k} }} }}\n"
+        for k in range(VP_SLOTS) for el in ("rn_vp_name", "rn_vp_rename", "rn_vp_reset"))
+    vp_triggers += "".join(
+        f"\t\t\t{el}_{k}_click_enabled = {{ check_variable = {{ rn_vp_cnt > {k} }} }}\n"
+        for k in range(VP_SLOTS) for el in ("rn_vp_rename", "rn_vp_reset"))
+    main_guis = gen_main_scripted_guis(vp_effects, vp_triggers)
     return GEN_HEADER + f"""# Rename Anything scripted GUIs. Every state change happens in these button effects
-# (synchronised commands in MP) on the clicking player's own country (ROOT).
+# on the clicking player's own country (ROOT). Two-client MP verification is still required.
 
 scripted_gui = {{
 	rn_entry_gui = {{
@@ -468,89 +627,7 @@ scripted_gui = {{
 		}}
 	}}
 
-	rn_main_gui = {{
-		context_type = player_context
-		window_name = "rn_main_window"
-		visible = {{
-			has_country_flag = rn_open
-			NOT = {{ has_country_flag = rn_input }}
-		}}
-		ai_enabled = {{ always = no }}
-		effects = {{
-			rn_close_click = {{ rn_close_all = yes }}
-			rn_tab_1_click = {{ set_temp_variable = {{ rn_newtab = 1 }} rn_set_tab = yes }}
-			rn_tab_2_click = {{ set_temp_variable = {{ rn_newtab = 2 }} rn_set_tab = yes }}
-			rn_tab_3_click = {{ set_temp_variable = {{ rn_newtab = 3 }} rn_set_tab = yes }}
-			rn_tab_4_click = {{ set_temp_variable = {{ rn_newtab = 4 }} rn_set_tab = yes }}
-			# country tab
-			rn_leader_rename_click = {{ rn_target_leader = yes }}
-			rn_cname_edit_click = {{ set_variable = {{ rn_ttype = 4 }} rn_open_input = yes }}
-			rn_cadj_edit_click = {{ set_variable = {{ rn_ttype = 5 }} rn_open_input = yes }}
-			rn_country_apply_click = {{ rn_apply_country_name = yes }}
-			rn_country_reset_click = {{ rn_reset_country_name = yes }}
-			# characters tab (entry scope = character)
-			rn_char_rename_click = {{ ROOT = {{ rn_target_character = yes }} }}
-			rn_cpage_prev_click = {{ subtract_from_variable = {{ rn_cpage = 1 }} rn_build_char_page = yes }}
-			rn_cpage_next_click = {{ add_to_variable = {{ rn_cpage = 1 }} rn_build_char_page = yes }}
-			# states tab (entry scope = state)
-			rn_state_rename_click = {{
-				if = {{
-					limit = {{ is_owned_by = ROOT }}
-					ROOT = {{ rn_target_state = yes }}
-				}}
-			}}
-			rn_state_reset_click = {{
-				if = {{
-					limit = {{ is_owned_by = ROOT }}
-					reset_state_name = yes
-				}}
-			}}
-			rn_state_cities_click = {{
-				ROOT = {{
-					set_variable = {{ rn_sel_state = PREV }}
-					set_temp_variable = {{ rn_newtab = 4 }}
-					rn_set_tab = yes
-				}}
-			}}
-			rn_spage_prev_click = {{ subtract_from_variable = {{ rn_spage = 1 }} rn_build_state_page = yes }}
-			rn_spage_next_click = {{ add_to_variable = {{ rn_spage = 1 }} rn_build_state_page = yes }}
-			# cities tab
-{vp_effects}		}}
-		triggers = {{
-			rn_tab_country_visible = {{ NOT = {{ check_variable = {{ rn_tab > 1 }} }} }}
-			rn_tab_chars_visible = {{ check_variable = {{ rn_tab = 2 }} }}
-			rn_tab_states_visible = {{ check_variable = {{ rn_tab = 3 }} }}
-			rn_tab_cities_visible = {{ check_variable = {{ rn_tab = 4 }} }}
-			rn_country_apply_click_enabled = {{
-				rn_country_rename_enabled = yes # placeholder: always = no in this version
-				check_variable = {{ rn_cname_len > 0 }}
-			}}
-			rn_country_reset_click_enabled = {{ has_country_flag = rn_custom_name }}
-			rn_cpage_prev_click_enabled = {{ check_variable = {{ rn_cpage > 0 }} }}
-			rn_cpage_next_click_enabled = {{ check_variable = {{ rn_cpage_disp < rn_cpages }} }}
-			rn_spage_prev_click_enabled = {{ check_variable = {{ rn_spage > 0 }} }}
-			rn_spage_next_click_enabled = {{ check_variable = {{ rn_spage_disp < rn_spages }} }}
-			rn_no_cities_visible = {{ NOT = {{ check_variable = {{ rn_vp_cnt > 0 }} }} }}
-{vp_triggers}		}}
-		dynamic_lists = {{
-			rn_chars_grid = {{
-				array = rn_chars_page
-				change_scope = yes
-				entry_container = "rn_char_entry"
-			}}
-			rn_states_grid = {{
-				array = rn_states_page
-				change_scope = yes
-				entry_container = "rn_state_entry"
-			}}
-			rn_selstate_grid = {{
-				array = rn_sel_state_arr
-				change_scope = yes
-				entry_container = "rn_selstate_entry"
-			}}
-		}}
-	}}
-
+{main_guis}
 	rn_input_gui = {{
 		context_type = player_context
 		window_name = "rn_input_window"
@@ -650,68 +727,7 @@ def gen_gui() -> str:
     o.append(btn("rn_entry_btn", 0, 0, "GFX_button_123x34", "RN_ENTRY_BTN", tooltip="RN_ENTRY_BTN_TT"))
     o.append("\t}\n\n")
 
-    # main window
-    H = 520
-    o.append(f'\tcontainerWindowType = {{\n\t\tname = "rn_main_window"\n\t\torientation = center\n'
-             f'\t\tposition = {{ x = {-W // 2} y = {-H // 2} }}\n\t\tsize = {{ width = {W} height = {H} }}\n\t\tclipping = no\n'
-             '\t\tbackground = { name = "rn_main_bg" quadTextureSprite = "GFX_tiled_window_2b_border" }\n')
-    o.append(txt("rn_main_title", 20, 12, "RN_MAIN_TITLE", font="hoi_18mbs", w=480))
-    o.append(btn("rn_close", W - 42, 8, "GFX_closebutton", tooltip="RN_CLOSE_TT"))
-    for t in range(1, 5):
-        o.append(btn(f"rn_tab_{t}", 20 + (t - 1) * 132, 42, "GFX_button_123x34", f"RN_TAB_{t}"))
-    CY = 86
-    # country tab
-    c = [txt("rn_cur_name", 20, 8, "RN_CUR_NAME", w=520),
-         txt("rn_cur_adj", 20, 32, "RN_CUR_ADJ", w=520),
-         txt("rn_cur_leader", 20, 66, "RN_CUR_LEADER", w=380),
-         btn("rn_leader_rename", 410, 58, "GFX_button_123x34", "RN_BTN_RENAME"),
-         txt("rn_country_hdr", 20, 112, "RN_COUNTRY_HDR", font="hoi_18mbs", w=520),
-         txt("rn_cname_line", 20, 148, "RN_CNAME_LINE", w=380),
-         btn("rn_cname_edit", 410, 140, "GFX_button_123x34", "RN_BTN_TYPE"),
-         txt("rn_cadj_line", 20, 188, "RN_CADJ_LINE", w=380),
-         btn("rn_cadj_edit", 410, 180, "GFX_button_123x34", "RN_BTN_TYPE"),
-         btn("rn_country_apply", 20, 226, "GFX_button_123x34", "RN_BTN_COUNTRY_APPLY", tooltip="RN_COUNTRY_APPLY_TT"),
-         btn("rn_country_reset", 152, 226, "GFX_button_261x34", "RN_BTN_COUNTRY_RESET"),
-         txt("rn_country_status", 20, 272, "RN_COUNTRY_STATUS", w=520, h=24),
-         txt("rn_country_note", 20, 300, "RN_COUNTRY_NOTE", w=520, h=80)]
-    o.append(f'\t\tcontainerWindowType = {{\n\t\t\tname = "rn_tab_country"\n\t\t\tposition = {{ x = 0 y = {CY} }}\n'
-             f'\t\t\tsize = {{ width = {W} height = {H - CY} }}\n\t\t\tclipping = no\n')
-    o.append(indent("".join(c)))
-    o.append("\t\t}\n")
-    # characters tab
-    for tab, grid, prev, nxt, page in (("rn_tab_chars", "rn_chars_grid", "rn_cpage_prev", "rn_cpage_next", "RN_PAGE"),
-                                       ("rn_tab_states", "rn_states_grid", "rn_spage_prev", "rn_spage_next", "RN_SPAGE")):
-        o.append(f'\t\tcontainerWindowType = {{\n\t\t\tname = "{tab}"\n\t\t\tposition = {{ x = 0 y = {CY} }}\n'
-                 f'\t\t\tsize = {{ width = {W} height = {H - CY} }}\n\t\t\tclipping = no\n')
-        o.append(f'\t\t\tgridBoxType = {{\n\t\t\t\tname = "{grid}"\n\t\t\t\tposition = {{ x = 20 y = 0 }}\n'
-                 f'\t\t\t\tsize = {{ width = 520 height = {PAGE * 36} }}\n\t\t\t\tslotsize = {{ width = 520 height = 36 }}\n'
-                 '\t\t\t\tmax_slots_horizontal = 1\n\t\t\t\tformat = "UPPER_LEFT"\n\t\t\t}\n')
-        py = PAGE * 36 + 8
-        o.append(btn(prev, 20, py, "GFX_button_94x31", "RN_BTN_PREV", indent="\t\t\t"))
-        o.append("\t" + txt(f"{tab}_page", 130, py + 6, page, w=300, fmt="centre"))
-        o.append(btn(nxt, 446, py, "GFX_button_94x31", "RN_BTN_NEXT", indent="\t\t\t"))
-        o.append("\t\t}\n")
-    # cities tab
-    o.append(f'\t\tcontainerWindowType = {{\n\t\t\tname = "rn_tab_cities"\n\t\t\tposition = {{ x = 0 y = {CY} }}\n'
-             f'\t\t\tsize = {{ width = {W} height = {H - CY} }}\n\t\t\tclipping = no\n')
-    cc = [txt("rn_sel_state_lbl", 20, 8, "RN_SEL_STATE_LBL", w=100),
-          '\t\tgridBoxType = {\n\t\t\tname = "rn_selstate_grid"\n\t\t\tposition = { x = 110 y = 4 }\n'
-          '\t\t\tsize = { width = 420 height = 30 }\n\t\t\tslotsize = { width = 420 height = 30 }\n'
-          '\t\t\tmax_slots_horizontal = 1\n\t\t\tformat = "UPPER_LEFT"\n\t\t}\n',
-          txt("rn_cities_hint", 20, 38, "RN_CITIES_HINT", w=520, h=40),
-          txt("rn_no_cities", 20, 90, "RN_NO_CITIES", w=520)]
-    for k in range(VP_SLOTS):
-        y = 86 + k * 44
-        cc.append(f'\t\tcontainerWindowType = {{\n\t\t\tname = "rn_vp_row_{k}"\n\t\t\tposition = {{ x = 0 y = {y} }}\n'
-                  '\t\t\tsize = { width = 560 height = 40 }\n\t\t\tclipping = no\n')
-        cc.append("\t" + txt(f"rn_vp_name_{k}", 20, 8, f"RN_VPROW_{k}", w=300))
-        cc.append(btn(f"rn_vp_rename_{k}", 330, 2, "GFX_button_94x31", "RN_BTN_RENAME", indent="\t\t\t"))
-        cc.append(btn(f"rn_vp_reset_{k}", 430, 2, "GFX_button_94x31", "RN_BTN_RESET", indent="\t\t\t"))
-        cc.append("\t\t}\n")
-    cc.append(txt("rn_cities_note", 20, 314, "RN_CITIES_NOTE", w=520, h=60))
-    o.append(indent("".join(cc)))
-    o.append("\t\t}\n")
-    o.append("\t}\n\n")
+    o.append(gen_main_windows())
 
     # list entries
     o.append('\tcontainerWindowType = {\n\t\tname = "rn_char_entry"\n\t\tsize = { width = 520 height = 36 }\n\t\tclipping = no\n')

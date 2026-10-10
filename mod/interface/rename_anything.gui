@@ -18,7 +18,7 @@ guiTypes = {
 	}
 
 	containerWindowType = {
-		name = "rn_main_window"
+		name = "rn_main_country_window"
 		orientation = center
 		position = { x = -280 y = -260 }
 		size = { width = 560 height = 520 }
@@ -64,256 +64,349 @@ guiTypes = {
 			buttonFont = "hoi_16mbs"
 			clicksound = click_default
 		}
-		containerWindowType = {
-			name = "rn_tab_country"
-			position = { x = 0 y = 86 }
-			size = { width = 560 height = 434 }
-			clipping = no
-			instantTextBoxType = { name = "rn_cur_name" position = { x = 20 y = 8 } font = "hoi_16mbs" text = "RN_CUR_NAME" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
-			instantTextBoxType = { name = "rn_cur_adj" position = { x = 20 y = 32 } font = "hoi_16mbs" text = "RN_CUR_ADJ" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
-			instantTextBoxType = { name = "rn_cur_leader" position = { x = 20 y = 66 } font = "hoi_16mbs" text = "RN_CUR_LEADER" maxWidth = 380 maxHeight = 24 format = left fixedsize = yes }
-			buttonType = {
-				name = "rn_leader_rename"
-				position = { x = 410 y = 58 }
-				spriteType = "GFX_button_123x34"
-				buttonText = "RN_BTN_RENAME"
-				buttonFont = "hoi_16mbs"
-				clicksound = click_default
-			}
-			instantTextBoxType = { name = "rn_country_hdr" position = { x = 20 y = 112 } font = "hoi_18mbs" text = "RN_COUNTRY_HDR" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
-			instantTextBoxType = { name = "rn_cname_line" position = { x = 20 y = 148 } font = "hoi_16mbs" text = "RN_CNAME_LINE" maxWidth = 380 maxHeight = 24 format = left fixedsize = yes }
-			buttonType = {
-				name = "rn_cname_edit"
-				position = { x = 410 y = 140 }
-				spriteType = "GFX_button_123x34"
-				buttonText = "RN_BTN_TYPE"
-				buttonFont = "hoi_16mbs"
-				clicksound = click_default
-			}
-			instantTextBoxType = { name = "rn_cadj_line" position = { x = 20 y = 188 } font = "hoi_16mbs" text = "RN_CADJ_LINE" maxWidth = 380 maxHeight = 24 format = left fixedsize = yes }
-			buttonType = {
-				name = "rn_cadj_edit"
-				position = { x = 410 y = 180 }
-				spriteType = "GFX_button_123x34"
-				buttonText = "RN_BTN_TYPE"
-				buttonFont = "hoi_16mbs"
-				clicksound = click_default
-			}
-			buttonType = {
-				name = "rn_country_apply"
-				position = { x = 20 y = 226 }
-				spriteType = "GFX_button_123x34"
-				buttonText = "RN_BTN_COUNTRY_APPLY"
-				buttonFont = "hoi_16mbs"
-				pdx_tooltip = "RN_COUNTRY_APPLY_TT"
-				clicksound = click_default
-			}
-			buttonType = {
-				name = "rn_country_reset"
-				position = { x = 152 y = 226 }
-				spriteType = "GFX_button_261x34"
-				buttonText = "RN_BTN_COUNTRY_RESET"
-				buttonFont = "hoi_16mbs"
-				clicksound = click_default
-			}
-			instantTextBoxType = { name = "rn_country_status" position = { x = 20 y = 272 } font = "hoi_16mbs" text = "RN_COUNTRY_STATUS" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
-			instantTextBoxType = { name = "rn_country_note" position = { x = 20 y = 300 } font = "hoi_16mbs" text = "RN_COUNTRY_NOTE" maxWidth = 520 maxHeight = 80 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_cur_name" position = { x = 20 y = 94 } font = "hoi_16mbs" text = "RN_CUR_NAME" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_cur_adj" position = { x = 20 y = 118 } font = "hoi_16mbs" text = "RN_CUR_ADJ" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_cur_leader" position = { x = 20 y = 152 } font = "hoi_16mbs" text = "RN_CUR_LEADER" maxWidth = 380 maxHeight = 24 format = left fixedsize = yes }
+		buttonType = {
+			name = "rn_leader_rename"
+			position = { x = 410 y = 144 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_BTN_RENAME"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
 		}
-		containerWindowType = {
-			name = "rn_tab_chars"
-			position = { x = 0 y = 86 }
-			size = { width = 560 height = 434 }
-			clipping = no
-			gridBoxType = {
-				name = "rn_chars_grid"
-				position = { x = 20 y = 0 }
-				size = { width = 520 height = 360 }
-				slotsize = { width = 520 height = 36 }
-				max_slots_horizontal = 1
-				format = "UPPER_LEFT"
-			}
-			buttonType = {
-				name = "rn_cpage_prev"
-				position = { x = 20 y = 368 }
-				spriteType = "GFX_button_94x31"
-				buttonText = "RN_BTN_PREV"
-				buttonFont = "hoi_16mbs"
-				clicksound = click_default
-			}
-			instantTextBoxType = { name = "rn_tab_chars_page" position = { x = 130 y = 374 } font = "hoi_16mbs" text = "RN_PAGE" maxWidth = 300 maxHeight = 24 format = centre fixedsize = yes }
-			buttonType = {
-				name = "rn_cpage_next"
-				position = { x = 446 y = 368 }
-				spriteType = "GFX_button_94x31"
-				buttonText = "RN_BTN_NEXT"
-				buttonFont = "hoi_16mbs"
-				clicksound = click_default
-			}
+		instantTextBoxType = { name = "rn_country_hdr" position = { x = 20 y = 198 } font = "hoi_18mbs" text = "RN_COUNTRY_HDR" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_cname_line" position = { x = 20 y = 234 } font = "hoi_16mbs" text = "RN_CNAME_LINE" maxWidth = 380 maxHeight = 24 format = left fixedsize = yes }
+		buttonType = {
+			name = "rn_cname_edit"
+			position = { x = 410 y = 226 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_BTN_TYPE"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
 		}
-		containerWindowType = {
-			name = "rn_tab_states"
-			position = { x = 0 y = 86 }
-			size = { width = 560 height = 434 }
-			clipping = no
-			gridBoxType = {
-				name = "rn_states_grid"
-				position = { x = 20 y = 0 }
-				size = { width = 520 height = 360 }
-				slotsize = { width = 520 height = 36 }
-				max_slots_horizontal = 1
-				format = "UPPER_LEFT"
-			}
-			buttonType = {
-				name = "rn_spage_prev"
-				position = { x = 20 y = 368 }
-				spriteType = "GFX_button_94x31"
-				buttonText = "RN_BTN_PREV"
-				buttonFont = "hoi_16mbs"
-				clicksound = click_default
-			}
-			instantTextBoxType = { name = "rn_tab_states_page" position = { x = 130 y = 374 } font = "hoi_16mbs" text = "RN_SPAGE" maxWidth = 300 maxHeight = 24 format = centre fixedsize = yes }
-			buttonType = {
-				name = "rn_spage_next"
-				position = { x = 446 y = 368 }
-				spriteType = "GFX_button_94x31"
-				buttonText = "RN_BTN_NEXT"
-				buttonFont = "hoi_16mbs"
-				clicksound = click_default
-			}
+		instantTextBoxType = { name = "rn_cadj_line" position = { x = 20 y = 274 } font = "hoi_16mbs" text = "RN_CADJ_LINE" maxWidth = 380 maxHeight = 24 format = left fixedsize = yes }
+		buttonType = {
+			name = "rn_cadj_edit"
+			position = { x = 410 y = 266 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_BTN_TYPE"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
 		}
-		containerWindowType = {
-			name = "rn_tab_cities"
-			position = { x = 0 y = 86 }
-			size = { width = 560 height = 434 }
-			clipping = no
-			instantTextBoxType = { name = "rn_sel_state_lbl" position = { x = 20 y = 8 } font = "hoi_16mbs" text = "RN_SEL_STATE_LBL" maxWidth = 100 maxHeight = 24 format = left fixedsize = yes }
-			gridBoxType = {
-				name = "rn_selstate_grid"
-				position = { x = 110 y = 4 }
-				size = { width = 420 height = 30 }
-				slotsize = { width = 420 height = 30 }
-				max_slots_horizontal = 1
-				format = "UPPER_LEFT"
-			}
-			instantTextBoxType = { name = "rn_cities_hint" position = { x = 20 y = 38 } font = "hoi_16mbs" text = "RN_CITIES_HINT" maxWidth = 520 maxHeight = 40 format = left fixedsize = yes }
-			instantTextBoxType = { name = "rn_no_cities" position = { x = 20 y = 90 } font = "hoi_16mbs" text = "RN_NO_CITIES" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
-			containerWindowType = {
-				name = "rn_vp_row_0"
-				position = { x = 0 y = 86 }
-				size = { width = 560 height = 40 }
-				clipping = no
-				instantTextBoxType = { name = "rn_vp_name_0" position = { x = 20 y = 8 } font = "hoi_16mbs" text = "RN_VPROW_0" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
-				buttonType = {
-					name = "rn_vp_rename_0"
-					position = { x = 330 y = 2 }
-					spriteType = "GFX_button_94x31"
-					buttonText = "RN_BTN_RENAME"
-					buttonFont = "hoi_16mbs"
-					clicksound = click_default
-				}
-				buttonType = {
-					name = "rn_vp_reset_0"
-					position = { x = 430 y = 2 }
-					spriteType = "GFX_button_94x31"
-					buttonText = "RN_BTN_RESET"
-					buttonFont = "hoi_16mbs"
-					clicksound = click_default
-				}
-			}
-			containerWindowType = {
-				name = "rn_vp_row_1"
-				position = { x = 0 y = 130 }
-				size = { width = 560 height = 40 }
-				clipping = no
-				instantTextBoxType = { name = "rn_vp_name_1" position = { x = 20 y = 8 } font = "hoi_16mbs" text = "RN_VPROW_1" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
-				buttonType = {
-					name = "rn_vp_rename_1"
-					position = { x = 330 y = 2 }
-					spriteType = "GFX_button_94x31"
-					buttonText = "RN_BTN_RENAME"
-					buttonFont = "hoi_16mbs"
-					clicksound = click_default
-				}
-				buttonType = {
-					name = "rn_vp_reset_1"
-					position = { x = 430 y = 2 }
-					spriteType = "GFX_button_94x31"
-					buttonText = "RN_BTN_RESET"
-					buttonFont = "hoi_16mbs"
-					clicksound = click_default
-				}
-			}
-			containerWindowType = {
-				name = "rn_vp_row_2"
-				position = { x = 0 y = 174 }
-				size = { width = 560 height = 40 }
-				clipping = no
-				instantTextBoxType = { name = "rn_vp_name_2" position = { x = 20 y = 8 } font = "hoi_16mbs" text = "RN_VPROW_2" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
-				buttonType = {
-					name = "rn_vp_rename_2"
-					position = { x = 330 y = 2 }
-					spriteType = "GFX_button_94x31"
-					buttonText = "RN_BTN_RENAME"
-					buttonFont = "hoi_16mbs"
-					clicksound = click_default
-				}
-				buttonType = {
-					name = "rn_vp_reset_2"
-					position = { x = 430 y = 2 }
-					spriteType = "GFX_button_94x31"
-					buttonText = "RN_BTN_RESET"
-					buttonFont = "hoi_16mbs"
-					clicksound = click_default
-				}
-			}
-			containerWindowType = {
-				name = "rn_vp_row_3"
-				position = { x = 0 y = 218 }
-				size = { width = 560 height = 40 }
-				clipping = no
-				instantTextBoxType = { name = "rn_vp_name_3" position = { x = 20 y = 8 } font = "hoi_16mbs" text = "RN_VPROW_3" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
-				buttonType = {
-					name = "rn_vp_rename_3"
-					position = { x = 330 y = 2 }
-					spriteType = "GFX_button_94x31"
-					buttonText = "RN_BTN_RENAME"
-					buttonFont = "hoi_16mbs"
-					clicksound = click_default
-				}
-				buttonType = {
-					name = "rn_vp_reset_3"
-					position = { x = 430 y = 2 }
-					spriteType = "GFX_button_94x31"
-					buttonText = "RN_BTN_RESET"
-					buttonFont = "hoi_16mbs"
-					clicksound = click_default
-				}
-			}
-			containerWindowType = {
-				name = "rn_vp_row_4"
-				position = { x = 0 y = 262 }
-				size = { width = 560 height = 40 }
-				clipping = no
-				instantTextBoxType = { name = "rn_vp_name_4" position = { x = 20 y = 8 } font = "hoi_16mbs" text = "RN_VPROW_4" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
-				buttonType = {
-					name = "rn_vp_rename_4"
-					position = { x = 330 y = 2 }
-					spriteType = "GFX_button_94x31"
-					buttonText = "RN_BTN_RENAME"
-					buttonFont = "hoi_16mbs"
-					clicksound = click_default
-				}
-				buttonType = {
-					name = "rn_vp_reset_4"
-					position = { x = 430 y = 2 }
-					spriteType = "GFX_button_94x31"
-					buttonText = "RN_BTN_RESET"
-					buttonFont = "hoi_16mbs"
-					clicksound = click_default
-				}
-			}
-			instantTextBoxType = { name = "rn_cities_note" position = { x = 20 y = 314 } font = "hoi_16mbs" text = "RN_CITIES_NOTE" maxWidth = 520 maxHeight = 60 format = left fixedsize = yes }
+		buttonType = {
+			name = "rn_country_apply"
+			position = { x = 20 y = 312 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_BTN_COUNTRY_APPLY"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_COUNTRY_APPLY_TT"
+			clicksound = click_default
 		}
+		buttonType = {
+			name = "rn_country_reset"
+			position = { x = 152 y = 312 }
+			spriteType = "GFX_button_261x34"
+			buttonText = "RN_BTN_COUNTRY_RESET"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		instantTextBoxType = { name = "rn_country_status" position = { x = 20 y = 358 } font = "hoi_16mbs" text = "RN_COUNTRY_STATUS" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_country_note" position = { x = 20 y = 386 } font = "hoi_16mbs" text = "RN_COUNTRY_NOTE" maxWidth = 520 maxHeight = 80 format = left fixedsize = yes }
+	}
+
+	containerWindowType = {
+		name = "rn_main_chars_window"
+		orientation = center
+		position = { x = -280 y = -260 }
+		size = { width = 560 height = 520 }
+		clipping = no
+		background = { name = "rn_main_bg" quadTextureSprite = "GFX_tiled_window_2b_border" }
+		instantTextBoxType = { name = "rn_main_title" position = { x = 20 y = 12 } font = "hoi_18mbs" text = "RN_MAIN_TITLE" maxWidth = 480 maxHeight = 24 format = left fixedsize = yes }
+		buttonType = {
+			name = "rn_close"
+			position = { x = 518 y = 8 }
+			spriteType = "GFX_closebutton"
+			pdx_tooltip = "RN_CLOSE_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_tab_1"
+			position = { x = 20 y = 42 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_TAB_1"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_tab_2"
+			position = { x = 152 y = 42 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_TAB_2"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_tab_3"
+			position = { x = 284 y = 42 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_TAB_3"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_tab_4"
+			position = { x = 416 y = 42 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_TAB_4"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		gridBoxType = {
+			name = "rn_chars_grid"
+			position = { x = 20 y = 86 }
+			size = { width = 520 height = 360 }
+			slotsize = { width = 520 height = 36 }
+			max_slots_horizontal = 1
+			format = "UPPER_LEFT"
+		}
+		buttonType = {
+			name = "rn_cpage_prev"
+			position = { x = 20 y = 454 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_BTN_PREV"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		instantTextBoxType = { name = "rn_chars_page" position = { x = 130 y = 460 } font = "hoi_16mbs" text = "RN_PAGE" maxWidth = 300 maxHeight = 24 format = centre fixedsize = yes }
+		buttonType = {
+			name = "rn_cpage_next"
+			position = { x = 446 y = 454 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_BTN_NEXT"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+	}
+
+	containerWindowType = {
+		name = "rn_main_states_window"
+		orientation = center
+		position = { x = -280 y = -260 }
+		size = { width = 560 height = 520 }
+		clipping = no
+		background = { name = "rn_main_bg" quadTextureSprite = "GFX_tiled_window_2b_border" }
+		instantTextBoxType = { name = "rn_main_title" position = { x = 20 y = 12 } font = "hoi_18mbs" text = "RN_MAIN_TITLE" maxWidth = 480 maxHeight = 24 format = left fixedsize = yes }
+		buttonType = {
+			name = "rn_close"
+			position = { x = 518 y = 8 }
+			spriteType = "GFX_closebutton"
+			pdx_tooltip = "RN_CLOSE_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_tab_1"
+			position = { x = 20 y = 42 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_TAB_1"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_tab_2"
+			position = { x = 152 y = 42 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_TAB_2"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_tab_3"
+			position = { x = 284 y = 42 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_TAB_3"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_tab_4"
+			position = { x = 416 y = 42 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_TAB_4"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		gridBoxType = {
+			name = "rn_states_grid"
+			position = { x = 20 y = 86 }
+			size = { width = 520 height = 360 }
+			slotsize = { width = 520 height = 36 }
+			max_slots_horizontal = 1
+			format = "UPPER_LEFT"
+		}
+		buttonType = {
+			name = "rn_spage_prev"
+			position = { x = 20 y = 454 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_BTN_PREV"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		instantTextBoxType = { name = "rn_states_page" position = { x = 130 y = 460 } font = "hoi_16mbs" text = "RN_SPAGE" maxWidth = 300 maxHeight = 24 format = centre fixedsize = yes }
+		buttonType = {
+			name = "rn_spage_next"
+			position = { x = 446 y = 454 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_BTN_NEXT"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+	}
+
+	containerWindowType = {
+		name = "rn_main_cities_window"
+		orientation = center
+		position = { x = -280 y = -260 }
+		size = { width = 560 height = 520 }
+		clipping = no
+		background = { name = "rn_main_bg" quadTextureSprite = "GFX_tiled_window_2b_border" }
+		instantTextBoxType = { name = "rn_main_title" position = { x = 20 y = 12 } font = "hoi_18mbs" text = "RN_MAIN_TITLE" maxWidth = 480 maxHeight = 24 format = left fixedsize = yes }
+		buttonType = {
+			name = "rn_close"
+			position = { x = 518 y = 8 }
+			spriteType = "GFX_closebutton"
+			pdx_tooltip = "RN_CLOSE_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_tab_1"
+			position = { x = 20 y = 42 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_TAB_1"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_tab_2"
+			position = { x = 152 y = 42 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_TAB_2"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_tab_3"
+			position = { x = 284 y = 42 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_TAB_3"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_tab_4"
+			position = { x = 416 y = 42 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_TAB_4"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		instantTextBoxType = { name = "rn_sel_state_lbl" position = { x = 20 y = 94 } font = "hoi_16mbs" text = "RN_SEL_STATE_LBL" maxWidth = 100 maxHeight = 24 format = left fixedsize = yes }
+		gridBoxType = {
+			name = "rn_selstate_grid"
+			position = { x = 110 y = 90 }
+			size = { width = 420 height = 30 }
+			slotsize = { width = 420 height = 30 }
+			max_slots_horizontal = 1
+			format = "UPPER_LEFT"
+		}
+		instantTextBoxType = { name = "rn_cities_hint" position = { x = 20 y = 124 } font = "hoi_16mbs" text = "RN_CITIES_HINT" maxWidth = 520 maxHeight = 40 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_no_cities" position = { x = 20 y = 176 } font = "hoi_16mbs" text = "RN_NO_CITIES" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_vp_name_0" position = { x = 20 y = 180 } font = "hoi_16mbs" text = "RN_VPROW_0" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
+		buttonType = {
+			name = "rn_vp_rename_0"
+			position = { x = 330 y = 174 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_BTN_RENAME"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_vp_reset_0"
+			position = { x = 430 y = 174 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_BTN_RESET"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		instantTextBoxType = { name = "rn_vp_name_1" position = { x = 20 y = 224 } font = "hoi_16mbs" text = "RN_VPROW_1" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
+		buttonType = {
+			name = "rn_vp_rename_1"
+			position = { x = 330 y = 218 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_BTN_RENAME"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_vp_reset_1"
+			position = { x = 430 y = 218 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_BTN_RESET"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		instantTextBoxType = { name = "rn_vp_name_2" position = { x = 20 y = 268 } font = "hoi_16mbs" text = "RN_VPROW_2" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
+		buttonType = {
+			name = "rn_vp_rename_2"
+			position = { x = 330 y = 262 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_BTN_RENAME"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_vp_reset_2"
+			position = { x = 430 y = 262 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_BTN_RESET"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		instantTextBoxType = { name = "rn_vp_name_3" position = { x = 20 y = 312 } font = "hoi_16mbs" text = "RN_VPROW_3" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
+		buttonType = {
+			name = "rn_vp_rename_3"
+			position = { x = 330 y = 306 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_BTN_RENAME"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_vp_reset_3"
+			position = { x = 430 y = 306 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_BTN_RESET"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		instantTextBoxType = { name = "rn_vp_name_4" position = { x = 20 y = 356 } font = "hoi_16mbs" text = "RN_VPROW_4" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
+		buttonType = {
+			name = "rn_vp_rename_4"
+			position = { x = 330 y = 350 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_BTN_RENAME"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_vp_reset_4"
+			position = { x = 430 y = 350 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_BTN_RESET"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		instantTextBoxType = { name = "rn_cities_note" position = { x = 20 y = 400 } font = "hoi_16mbs" text = "RN_CITIES_NOTE" maxWidth = 520 maxHeight = 60 format = left fixedsize = yes }
 	}
 
 	containerWindowType = {
