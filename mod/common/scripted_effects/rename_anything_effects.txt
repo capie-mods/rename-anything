@@ -1,0 +1,333 @@
+# Rename Anything - hand-written scripted effects.
+# All effects run in the scope of the player country (ROOT of the scripted GUI) unless noted.
+# Generated companions: rename_anything_generated_effects.txt (tools/gen.py).
+#
+# Per-country state (all on the player's country, so MP players never share a buffer):
+#   rn_buf          array of char codes (see tools/gen.py CHARS), rn_len = its length (max 32)
+#   rn_shift        1 = caps toggle on
+#   rn_ttype        input target: 1 character, 2 state, 3 province (VP), 4 country name, 5 country adjective
+#   rn_tchar        1-element array with the target character
+#   rn_tstate       1-element array with the target state (also owner state of the target province)
+#   rn_tprov        target province id, rn_pd_0..4 its decimal digits
+#   rn_tslot        VP slot (0..4) of the target province in the Cities tab
+#   rn_tab          main window tab: 1 country, 2 characters, 3 states, 4 cities
+#   rn_chars_all / rn_chars_page, rn_cpage, rn_cpages, rn_cpage_disp
+#   rn_states_all / rn_states_page, rn_spage, rn_spages, rn_spage_disp
+#   rn_sel_state, rn_sel_state_arr, rn_vp_cnt, rn_vp_0..4 (Cities tab)
+#   rn_cname / rn_cname_len, rn_cadj / rn_cadj_len (country name / adjective buffers)
+# Country flags: rn_open (main window), rn_input (text input window)
+
+rn_open_main = {
+	set_country_flag = rn_open
+	clr_country_flag = rn_input
+	if = {
+		limit = { NOT = { check_variable = { rn_tab > 0 } } }
+		set_variable = { rn_tab = 1 }
+	}
+	rn_refresh_lists = yes
+	rn_select_state = yes
+}
+
+rn_close_all = {
+	clr_country_flag = rn_open
+	clr_country_flag = rn_input
+	clear_array = rn_buf
+	set_variable = { rn_len = 0 }
+}
+
+rn_set_tab = { # temp rn_newtab
+	set_variable = { rn_tab = rn_newtab }
+	rn_refresh_lists = yes
+	if = {
+		limit = { check_variable = { rn_tab = 4 } }
+		rn_select_state = yes
+	}
+}
+
+rn_refresh_lists = {
+	clear_array = rn_chars_all
+	every_character = {
+		limit = { is_country_leader = yes }
+		ROOT = { add_to_array = { rn_chars_all = PREV } }
+	}
+	every_character = {
+		limit = { is_country_leader = no }
+		ROOT = { add_to_array = { rn_chars_all = PREV } }
+	}
+	clear_array = rn_states_all
+	every_owned_state = {
+		ROOT = { add_to_array = { rn_states_all = PREV } }
+	}
+	rn_build_char_page = yes
+	rn_build_state_page = yes
+}
+
+rn_build_char_page = {
+	set_variable = { rn_cpages = rn_chars_all^num }
+	add_to_variable = { rn_cpages = 9 }
+	set_temp_variable = { rn_m = rn_cpages }
+	modulo_temp_variable = { var = rn_m value = 10 }
+	subtract_from_variable = { rn_cpages = rn_m }
+	divide_variable = { rn_cpages = 10 }
+	if = {
+		limit = { check_variable = { rn_cpages < 1 } }
+		set_variable = { rn_cpages = 1 }
+	}
+	set_temp_variable = { rn_last = rn_cpages }
+	subtract_from_temp_variable = { rn_last = 1 }
+	if = {
+		limit = { check_variable = { rn_cpage > rn_last } }
+		set_variable = { rn_cpage = rn_last }
+	}
+	if = {
+		limit = { check_variable = { rn_cpage < 0 } }
+		set_variable = { rn_cpage = 0 }
+	}
+	set_temp_variable = { rn_lo = rn_cpage }
+	multiply_temp_variable = { rn_lo = 10 }
+	set_temp_variable = { rn_hi = rn_lo }
+	add_to_temp_variable = { rn_hi = 10 }
+	clear_array = rn_chars_page
+	for_each_loop = {
+		array = rn_chars_all
+		value = rn_v
+		index = rn_i
+		if = {
+			limit = {
+				NOT = { check_variable = { rn_i < rn_lo } }
+				check_variable = { rn_i < rn_hi }
+			}
+			add_to_array = { rn_chars_page = rn_v }
+		}
+	}
+	set_variable = { rn_cpage_disp = rn_cpage }
+	add_to_variable = { rn_cpage_disp = 1 }
+}
+
+rn_build_state_page = {
+	set_variable = { rn_spages = rn_states_all^num }
+	add_to_variable = { rn_spages = 9 }
+	set_temp_variable = { rn_m = rn_spages }
+	modulo_temp_variable = { var = rn_m value = 10 }
+	subtract_from_variable = { rn_spages = rn_m }
+	divide_variable = { rn_spages = 10 }
+	if = {
+		limit = { check_variable = { rn_spages < 1 } }
+		set_variable = { rn_spages = 1 }
+	}
+	set_temp_variable = { rn_last = rn_spages }
+	subtract_from_temp_variable = { rn_last = 1 }
+	if = {
+		limit = { check_variable = { rn_spage > rn_last } }
+		set_variable = { rn_spage = rn_last }
+	}
+	if = {
+		limit = { check_variable = { rn_spage < 0 } }
+		set_variable = { rn_spage = 0 }
+	}
+	set_temp_variable = { rn_lo = rn_spage }
+	multiply_temp_variable = { rn_lo = 10 }
+	set_temp_variable = { rn_hi = rn_lo }
+	add_to_temp_variable = { rn_hi = 10 }
+	clear_array = rn_states_page
+	for_each_loop = {
+		array = rn_states_all
+		value = rn_v
+		index = rn_i
+		if = {
+			limit = {
+				NOT = { check_variable = { rn_i < rn_lo } }
+				check_variable = { rn_i < rn_hi }
+			}
+			add_to_array = { rn_states_page = rn_v }
+		}
+	}
+	set_variable = { rn_spage_disp = rn_spage }
+	add_to_variable = { rn_spage_disp = 1 }
+}
+
+# Cities tab: make sure rn_sel_state is an owned state (fallback: capital), then load its VPs.
+rn_select_state = {
+	if = {
+		limit = { check_variable = { rn_sel_state > 0 } }
+		if = {
+			limit = { var:rn_sel_state = { NOT = { is_owned_by = ROOT } } }
+			set_variable = { rn_sel_state = 0 }
+		}
+	}
+	if = {
+		limit = { NOT = { check_variable = { rn_sel_state > 0 } } }
+		capital_scope = {
+			if = {
+				limit = { is_owned_by = ROOT }
+				ROOT = { set_variable = { rn_sel_state = PREV } }
+			}
+		}
+	}
+	clear_array = rn_sel_state_arr
+	set_variable = { rn_vp_cnt = 0 }
+	if = {
+		limit = { check_variable = { rn_sel_state > 0 } }
+		add_to_array = { rn_sel_state_arr = rn_sel_state }
+		rn_load_vps = yes # generated
+	}
+}
+
+# ---------------------------------------------------------------- text input
+
+rn_open_input = { # requires rn_ttype (+ target arrays/variables) set by the caller
+	set_country_flag = rn_open
+	set_country_flag = rn_input
+	clear_array = rn_buf
+	set_variable = { rn_len = 0 }
+	set_variable = { rn_shift = 0 }
+}
+
+rn_cancel_input = {
+	clr_country_flag = rn_input
+	clear_array = rn_buf
+	set_variable = { rn_len = 0 }
+}
+
+rn_add_char = { # temp rn_c = char code
+	if = {
+		limit = {
+			has_country_flag = rn_input
+			check_variable = { rn_len < 32 }
+			check_variable = { rn_c > 0 }
+		}
+		add_to_array = { rn_buf = rn_c }
+		add_to_variable = { rn_len = 1 }
+	}
+}
+
+rn_add_letter = { # temp rn_c = lowercase code 1..26 or Polish lowercase code; caps toggle shifts it
+	if = {
+		limit = { check_variable = { rn_shift = 1 } }
+		if = {
+			limit = { check_variable = { rn_c < 27 } }
+			add_to_temp_variable = { rn_c = 26 }
+		}
+		else = {
+			add_to_temp_variable = { rn_c = 9 }
+		}
+	}
+	rn_add_char = yes
+}
+
+rn_backspace = {
+	if = {
+		limit = { check_variable = { rn_len > 0 } }
+		remove_from_array = { array = rn_buf }
+		subtract_from_variable = { rn_len = 1 }
+	}
+}
+
+rn_clear_buf = {
+	clear_array = rn_buf
+	set_variable = { rn_len = 0 }
+}
+
+rn_toggle_shift = {
+	if = {
+		limit = { check_variable = { rn_shift = 1 } }
+		set_variable = { rn_shift = 0 }
+	}
+	else = {
+		set_variable = { rn_shift = 1 }
+	}
+}
+
+# Target selection helpers (called inside ROOT = { ... } with PREV = target scope)
+rn_target_character = { # PREV = character
+	clear_array = rn_tchar
+	add_to_array = { rn_tchar = PREV }
+	set_variable = { rn_ttype = 1 }
+	rn_open_input = yes
+}
+
+rn_target_state = { # PREV = state
+	clear_array = rn_tstate
+	add_to_array = { rn_tstate = PREV }
+	set_variable = { rn_ttype = 2 }
+	rn_open_input = yes
+}
+
+rn_target_leader = {
+	clear_array = rn_tchar
+	every_character = {
+		limit = { is_country_leader = yes }
+		ROOT = { add_to_array = { rn_tchar = PREV } }
+	}
+	if = {
+		limit = { check_variable = { rn_tchar^num > 0 } }
+		set_variable = { rn_ttype = 1 }
+		rn_open_input = yes
+	}
+}
+
+rn_set_prov_digits = { # rn_tprov -> rn_pd_0 (10000s) .. rn_pd_4 (units)
+	set_temp_variable = { rn_t = rn_tprov }
+	set_variable = { rn_pd_4 = rn_t }
+	modulo_variable = { var = rn_pd_4 value = 10 }
+	subtract_from_temp_variable = { rn_t = rn_pd_4 }
+	divide_temp_variable = { rn_t = 10 }
+	set_variable = { rn_pd_3 = rn_t }
+	modulo_variable = { var = rn_pd_3 value = 10 }
+	subtract_from_temp_variable = { rn_t = rn_pd_3 }
+	divide_temp_variable = { rn_t = 10 }
+	set_variable = { rn_pd_2 = rn_t }
+	modulo_variable = { var = rn_pd_2 value = 10 }
+	subtract_from_temp_variable = { rn_t = rn_pd_2 }
+	divide_temp_variable = { rn_t = 10 }
+	set_variable = { rn_pd_1 = rn_t }
+	modulo_variable = { var = rn_pd_1 value = 10 }
+	subtract_from_temp_variable = { rn_t = rn_pd_1 }
+	divide_temp_variable = { rn_t = 10 }
+	set_variable = { rn_pd_0 = rn_t }
+	modulo_variable = { var = rn_pd_0 value = 10 }
+}
+
+rn_target_vp = { # temp rn_k = slot 0..4 in the Cities tab
+	set_variable = { rn_tslot = rn_k }
+	set_variable = { rn_tprov = 0 }
+	if = { limit = { check_variable = { rn_k = 0 } } set_variable = { rn_tprov = rn_vp_0 } }
+	if = { limit = { check_variable = { rn_k = 1 } } set_variable = { rn_tprov = rn_vp_1 } }
+	if = { limit = { check_variable = { rn_k = 2 } } set_variable = { rn_tprov = rn_vp_2 } }
+	if = { limit = { check_variable = { rn_k = 3 } } set_variable = { rn_tprov = rn_vp_3 } }
+	if = { limit = { check_variable = { rn_k = 4 } } set_variable = { rn_tprov = rn_vp_4 } }
+	rn_set_prov_digits = yes
+	clear_array = rn_tstate
+	add_to_array = { rn_tstate = rn_sel_state }
+	set_variable = { rn_ttype = 3 }
+}
+
+# ---------------------------------------------------------------- country name (experimental)
+# Copy the input buffer into the country name / adjective buffers (rn_ttype 4 / 5).
+rn_store_country_name = {
+	clear_array = rn_cname
+	for_each_loop = {
+		array = rn_buf
+		value = rn_v
+		add_to_array = { rn_cname = rn_v }
+	}
+	set_variable = { rn_cname_len = rn_len }
+}
+
+rn_store_country_adj = {
+	clear_array = rn_cadj
+	for_each_loop = {
+		array = rn_buf
+		value = rn_v
+		add_to_array = { rn_cadj = rn_v }
+	}
+	set_variable = { rn_cadj_len = rn_len }
+}
+
+rn_reset_country_name = {
+	if = {
+		limit = { has_country_flag = rn_custom_name }
+		drop_cosmetic_tag = yes
+		clr_country_flag = rn_custom_name
+	}
+}
