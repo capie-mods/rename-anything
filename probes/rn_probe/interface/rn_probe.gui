@@ -1,0 +1,308 @@
+guiTypes = {
+	containerWindowType = {
+		name = "rn_probe_window"
+		orientation = upper_right
+		position = { x = -980 y = 120 }
+		size = { width = 960 height = 640 }
+		clipping = no
+		background = {
+			name = "rn_probe_bg"
+			quadTextureSprite = "GFX_tiled_window_2b_border"
+		}
+		instantTextBoxType = { name = "rn_title" position = { x = 12 y = 8 } font = "hoi_18mbs" text = "RN_GUI_TITLE" maxWidth = 690 maxHeight = 24 }
+		buttonType = {
+			name = "e1_a"
+			position = { x = 10 y = 40 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e1_a"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e1_b"
+			position = { x = 10 y = 78 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e1_b"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e1_reapply"
+			position = { x = 10 y = 116 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e1_reapply"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e1_drop"
+			position = { x = 10 y = 154 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e1_drop"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "ev"
+			position = { x = 10 y = 192 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_ev"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e2_meta"
+			position = { x = 10 y = 230 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e2_meta"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e2_var2"
+			position = { x = 10 y = 268 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e2_var2"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e2_lit"
+			position = { x = 10 y = 306 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e2_lit"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e2_dyn"
+			position = { x = 10 y = 344 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e2_dyn"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e2_reset"
+			position = { x = 10 y = 382 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e2_reset"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e3_lit"
+			position = { x = 245 y = 40 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e3_lit"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e3_pl"
+			position = { x = 245 y = 78 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e3_pl"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e3_meta"
+			position = { x = 245 y = 116 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e3_meta"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e3_dyn"
+			position = { x = 245 y = 154 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e3_dyn"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e3_var2"
+			position = { x = 245 y = 192 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e3_var2"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e5_s0"
+			position = { x = 245 y = 230 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e5_s0"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e5_s1"
+			position = { x = 245 y = 268 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e5_s1"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e5_s2"
+			position = { x = 245 y = 306 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e5_s2"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e5_commit"
+			position = { x = 245 y = 344 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e5_commit"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e4_a"
+			position = { x = 480 y = 40 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e4_a"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+			shortcut = "a"
+		}
+		buttonType = {
+			name = "e4_sa"
+			position = { x = 480 y = 78 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e4_sa"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+			shortcut = "shift+a"
+		}
+		buttonType = {
+			name = "e4_sp"
+			position = { x = 480 y = 116 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e4_sp"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+			shortcut = "SPACE"
+		}
+		buttonType = {
+			name = "e4_bs"
+			position = { x = 480 y = 154 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e4_bs"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+			shortcut = "BACKSPACE"
+		}
+		buttonType = {
+			name = "e4_pl"
+			position = { x = 480 y = 192 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e4_pl"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+			shortcut = "ą"
+		}
+		instantTextBoxType = { name = "rn_line1" position = { x = 12 y = 430 } font = "hoi_16mbs" text = "RN_GUI_LINE1" maxWidth = 696 maxHeight = 24 fixedsize = yes }
+		instantTextBoxType = { name = "rn_line2" position = { x = 12 y = 455 } font = "hoi_16mbs" text = "RN_GUI_LINE2" maxWidth = 696 maxHeight = 24 fixedsize = yes }
+		instantTextBoxType = { name = "rn_line3" position = { x = 12 y = 480 } font = "hoi_16mbs" text = "RN_GUI_LINE3" maxWidth = 696 maxHeight = 24 fixedsize = yes }
+		instantTextBoxType = { name = "rn_line4" position = { x = 12 y = 505 } font = "hoi_16mbs" text = "RN_GUI_LINE4" maxWidth = 696 maxHeight = 24 fixedsize = yes }
+		instantTextBoxType = { name = "rn_line5" position = { x = 12 y = 530 } font = "hoi_16mbs" text = "RN_GUI_LINE5" maxWidth = 696 maxHeight = 24 fixedsize = yes }
+		instantTextBoxType = { name = "rn_line6" position = { x = 12 y = 555 } font = "hoi_16mbs" text = "RN_GUI_LINE6" maxWidth = 696 maxHeight = 24 fixedsize = yes }
+		instantTextBoxType = { name = "rn_line7" position = { x = 12 y = 580 } font = "hoi_16mbs" text = "RN_GUI_LINE7" maxWidth = 696 maxHeight = 24 fixedsize = yes }
+		instantTextBoxType = { name = "rn_line8" position = { x = 12 y = 605 } font = "hoi_16mbs" text = "RN_GUI_LINE8" maxWidth = 696 maxHeight = 24 fixedsize = yes }
+		buttonType = {
+			name = "e4_bk"
+			position = { x = 480 y = 230 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e4_bk"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+			shortcut = "BACK"
+		}
+		buttonType = {
+			name = "e1_t2"
+			position = { x = 480 y = 268 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e1_t2"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "e1_t3"
+			position = { x = 480 y = 306 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_e1_t3"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "c1_lit"
+			position = { x = 715 y = 40 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_c1_lit"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "c1_meta"
+			position = { x = 715 y = 78 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_c1_meta"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "c2_x"
+			position = { x = 715 y = 116 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_c2_x"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "c2_y"
+			position = { x = 715 y = 154 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_c2_y"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "c3_pl"
+			position = { x = 715 y = 192 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_c3_pl"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "c4_lit"
+			position = { x = 715 y = 230 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_c4_lit"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "c4_meta"
+			position = { x = 715 y = 268 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_c4_meta"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "c4_reset"
+			position = { x = 715 y = 306 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_BTN_c4_reset"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+	}
+}

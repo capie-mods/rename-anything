@@ -1,0 +1,12 @@
+add_namespace = rn_probe
+
+country_event = {
+	id = rn_probe.1
+	title = rn_probe.1.t
+	desc = rn_probe.1.d
+	picture = GFX_report_event_generic_read_write
+	is_triggered_only = yes
+	option = {
+		name = rn_probe.1.a
+	}
+}

@@ -1,0 +1,66 @@
+# RN probe scripted localisation (country scope; always called as [POL.X])
+
+defined_text = {
+	name = RN_CountryName
+	text = { trigger = { check_variable = { rn_name_var = 1 } } localization_key = RN_NAME_A }
+	text = { trigger = { check_variable = { rn_name_var = 2 } } localization_key = RN_NAME_B }
+	text = { localization_key = RN_NAME_UNSET }
+}
+defined_text = {
+	name = RN_CountryNameDef
+	text = { trigger = { check_variable = { rn_name_var = 1 } } localization_key = RN_NAMEDEF_A }
+	text = { trigger = { check_variable = { rn_name_var = 2 } } localization_key = RN_NAMEDEF_B }
+	text = { localization_key = RN_NAME_UNSET }
+}
+defined_text = {
+	name = RN_CountryAdj
+	text = { trigger = { check_variable = { rn_name_var = 1 } } localization_key = RN_ADJ_A }
+	text = { trigger = { check_variable = { rn_name_var = 2 } } localization_key = RN_ADJ_B }
+	text = { localization_key = RN_NAME_UNSET }
+}
+defined_text = {
+	name = RN_StateText
+	text = { trigger = { check_variable = { rn_state_var = 1 } } localization_key = RN_STATE_A }
+	text = { trigger = { check_variable = { rn_state_var = 2 } } localization_key = RN_STATE_B }
+	text = { localization_key = RN_NAME_UNSET }
+}
+defined_text = {
+	name = RN_CharText
+	text = { trigger = { check_variable = { rn_char_var = 1 } } localization_key = RN_CHAR_A }
+	text = { trigger = { check_variable = { rn_char_var = 2 } } localization_key = RN_CHAR_B }
+	text = { localization_key = RN_NAME_UNSET }
+}
+
+# E5: 3-slot char buffer, codes 0..4 -> " ", "A", "ł", "Ż", "ę"
+defined_text = {
+	name = RN_Slot0
+	text = { trigger = { check_variable = { rn_s0 = 1 } } localization_key = RN_CH_1 }
+	text = { trigger = { check_variable = { rn_s0 = 2 } } localization_key = RN_CH_2 }
+	text = { trigger = { check_variable = { rn_s0 = 3 } } localization_key = RN_CH_3 }
+	text = { trigger = { check_variable = { rn_s0 = 4 } } localization_key = RN_CH_4 }
+	text = { localization_key = RN_CH_0 }
+}
+defined_text = {
+	name = RN_Slot1
+	text = { trigger = { check_variable = { rn_s1 = 1 } } localization_key = RN_CH_1 }
+	text = { trigger = { check_variable = { rn_s1 = 2 } } localization_key = RN_CH_2 }
+	text = { trigger = { check_variable = { rn_s1 = 3 } } localization_key = RN_CH_3 }
+	text = { trigger = { check_variable = { rn_s1 = 4 } } localization_key = RN_CH_4 }
+	text = { localization_key = RN_CH_0 }
+}
+defined_text = {
+	name = RN_Slot2
+	text = { trigger = { check_variable = { rn_s2 = 1 } } localization_key = RN_CH_1 }
+	text = { trigger = { check_variable = { rn_s2 = 2 } } localization_key = RN_CH_2 }
+	text = { trigger = { check_variable = { rn_s2 = 3 } } localization_key = RN_CH_3 }
+	text = { trigger = { check_variable = { rn_s2 = 4 } } localization_key = RN_CH_4 }
+	text = { localization_key = RN_CH_0 }
+}
+
+# variant: no scope prefix, explicit POL in trigger
+defined_text = {
+	name = RN_CountryNameG
+	text = { trigger = { POL = { check_variable = { rn_name_var = 1 } } } localization_key = RN_NAME_A }
+	text = { trigger = { POL = { check_variable = { rn_name_var = 2 } } } localization_key = RN_NAME_B }
+	text = { localization_key = RN_NAME_UNSET }
+}

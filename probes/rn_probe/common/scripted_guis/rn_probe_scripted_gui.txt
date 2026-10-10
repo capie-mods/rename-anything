@@ -1,0 +1,129 @@
+scripted_gui = {
+	rn_probe_gui = {
+		context_type = player_context
+		window_name = "rn_probe_window"
+		visible = { always = yes }
+
+		effects = {
+			# ---- probe2: free-text cosmetic tag ----
+			c1_lit_click = { set_cosmetic_tag = "Kraj Literalny" }
+			c1_meta_click = {
+				set_variable = { rn_name_var = 1 }
+				meta_effect = {
+					text = { set_cosmetic_tag = "[N]" }
+					N = "[POL.RN_CountryName]"
+					debug = yes
+				}
+			}
+			c2_x_click = { set_cosmetic_tag = RNX }
+			c2_y_click = { set_cosmetic_tag = RNY }
+			c3_pl_click = { set_cosmetic_tag = "Rzeczpospolita Żółć" }
+			c4_lit_click = { set_province_name = { id = 3544 name = "Warszawa Literalna" } }
+			c4_meta_click = {
+				set_variable = { rn_state_var = 1 }
+				meta_effect = {
+					text = { set_province_name = { id = 3544 name = "[N]" } }
+					N = "[POL.RN_StateText]"
+					debug = yes
+				}
+			}
+			c4_reset_click = { reset_province_name = 3544 }
+			# ---- E1 country name ----
+			e1_a_click = {
+				set_variable = { rn_name_var = 1 }
+				set_cosmetic_tag = RN_TEST
+			}
+			e1_b_click = {
+				set_variable = { rn_name_var = 2 }
+			}
+			e1_reapply_click = {
+				set_cosmetic_tag = RN_TEST
+			}
+			e1_drop_click = {
+				drop_cosmetic_tag = yes
+			}
+			e1_t2_click = { set_cosmetic_tag = RN_TEST2 }
+			e1_t3_click = { set_cosmetic_tag = RN_TEST3 }
+			e4_bk_click = { add_to_variable = { rn_k_bk = 1 } }
+			ev_click = {
+				country_event = { id = rn_probe.1 }
+			}
+			# ---- E2 state name ----
+			e2_meta_click = {
+				set_variable = { rn_state_var = 1 }
+				meta_effect = {
+					text = {
+						10 = { set_state_name = "[N]" }
+					}
+					N = "[POL.RN_StateText]"
+					debug = yes
+				}
+			}
+			e2_var2_click = {
+				set_variable = { rn_state_var = 2 }
+			}
+			e2_lit_click = {
+				10 = { set_state_name = "Warszawa Testowa" }
+			}
+			e2_dyn_click = {
+				88 = { set_state_name = RN_STATE_DYN }
+			}
+			e2_reset_click = {
+				10 = { reset_state_name = yes }
+				88 = { reset_state_name = yes }
+				87 = { reset_state_name = yes }
+			}
+			# ---- E3 character name ----
+			e3_lit_click = {
+				set_character_name = { character = POL_ignacy_moscicki name = "Jan Testowy" }
+			}
+			e3_pl_click = {
+				set_character_name = { character = POL_ignacy_moscicki name = "Łukasz Żółć" }
+			}
+			e3_meta_click = {
+				set_variable = { rn_char_var = 1 }
+				meta_effect = {
+					text = {
+						set_character_name = { character = POL_ignacy_moscicki name = "[N]" }
+					}
+					N = "[POL.RN_CharText]"
+					debug = yes
+				}
+			}
+			e3_dyn_click = {
+				set_character_name = { character = POL_ignacy_moscicki name = RN_CHAR_DYN }
+			}
+			e3_var2_click = {
+				set_variable = { rn_char_var = 2 }
+			}
+			# ---- E4 keyboard shortcuts ----
+			e4_a_click = { add_to_variable = { rn_k_a = 1 } }
+			e4_sa_click = { add_to_variable = { rn_k_sa = 1 } }
+			e4_sp_click = { add_to_variable = { rn_k_sp = 1 } }
+			e4_bs_click = { add_to_variable = { rn_k_bs = 1 } }
+			e4_pl_click = { add_to_variable = { rn_k_pl = 1 } }
+			# ---- E5 char buffer ----
+			e5_s0_click = {
+				add_to_variable = { rn_s0 = 1 }
+				if = { limit = { check_variable = { rn_s0 > 4 } } set_variable = { rn_s0 = 0 } }
+			}
+			e5_s1_click = {
+				add_to_variable = { rn_s1 = 1 }
+				if = { limit = { check_variable = { rn_s1 > 4 } } set_variable = { rn_s1 = 0 } }
+			}
+			e5_s2_click = {
+				add_to_variable = { rn_s2 = 1 }
+				if = { limit = { check_variable = { rn_s2 > 4 } } set_variable = { rn_s2 = 0 } }
+			}
+			e5_commit_click = {
+				meta_effect = {
+					text = {
+						87 = { set_state_name = "[N]" }
+					}
+					N = "([POL.RN_Slot0][POL.RN_Slot1][POL.RN_Slot2])"
+					debug = yes
+				}
+			}
+		}
+	}
+}
