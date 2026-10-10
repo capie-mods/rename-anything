@@ -243,7 +243,7 @@ def gen_scripted_loc(states, keys) -> str:
         out.append(f"defined_text = {{\n\tname = RN_VpName_{k}\n")
         for b in buckets:
             if any(s // STATE_BUCKET == b and len(v) > k for s, v in states.items()):
-                out.append(f"\ttext = {{ trigger = {{ check_variable = {{ rn_sel_state < {(b + 1) * STATE_BUCKET} }} }} localization_key = RN_VPB_{k}_{b} }}\n")
+                out.append(f"\ttext = {{ trigger = {{ check_variable = {{ rn_sel_state_id < {(b + 1) * STATE_BUCKET} }} }} localization_key = RN_VPB_{k}_{b} }}\n")
         out.append("\ttext = { localization_key = RN_CH_0 }\n}\n")
         for b in buckets:
             items = [(s, v[k]) for s, v in states.items() if s // STATE_BUCKET == b and len(v) > k]
@@ -251,7 +251,7 @@ def gen_scripted_loc(states, keys) -> str:
                 continue
             out.append(f"defined_text = {{\n\tname = RN_VpName_{k}_{b}\n")
             for s, p in items:
-                out.append(f"\ttext = {{ trigger = {{ check_variable = {{ rn_sel_state = {s} }} }} localization_key = {vp_key(p, keys)} }}\n")
+                out.append(f"\ttext = {{ trigger = {{ check_variable = {{ rn_sel_state_id = {s} }} }} localization_key = {vp_key(p, keys)} }}\n")
             out.append("\ttext = { localization_key = RN_CH_0 }\n}\n")
     out.append("defined_text = {\n\tname = RN_TProvName\n")
     for k in range(VP_SLOTS):
@@ -287,14 +287,14 @@ def gen_effects(states) -> str:
     p_expr = "".join(f"[ROOT.RN_PD_{k}]" for k in range(5))
     out = [GEN_HEADER, "# Generated scripted effects (country scope = player ROOT).\n\n"]
     # VP loader
-    out.append("# Loads the victory point provinces of rn_sel_state into rn_vp_0..4 / rn_vp_cnt (vanilla map data).\n")
+    out.append("# Loads VPs using numeric rn_sel_state_id; rn_sel_state itself is a typed scope.\n")
     out.append("rn_load_vps = {\n\tset_variable = { rn_vp_cnt = 0 }\n")
     buckets = sorted({s // STATE_BUCKET for s in states})
     first_b = True
     for b in buckets:
         kw = "if" if first_b else "else_if"
         first_b = False
-        out.append(f"\t{kw} = {{\n\t\tlimit = {{ check_variable = {{ rn_sel_state < {(b + 1) * STATE_BUCKET} }} }}\n")
+        out.append(f"\t{kw} = {{\n\t\tlimit = {{ check_variable = {{ rn_sel_state_id < {(b + 1) * STATE_BUCKET} }} }}\n")
         first = True
         for s, vps in states.items():
             if s // STATE_BUCKET != b:
@@ -302,7 +302,7 @@ def gen_effects(states) -> str:
             kw2 = "if" if first else "else_if"
             first = False
             sets = " ".join(f"set_variable = {{ rn_vp_{i} = {p} }}" for i, p in enumerate(vps))
-            out.append(f"\t\t{kw2} = {{ limit = {{ check_variable = {{ rn_sel_state = {s} }} }} set_variable = {{ rn_vp_cnt = {len(vps)} }} {sets} }}\n")
+            out.append(f"\t\t{kw2} = {{ limit = {{ check_variable = {{ rn_sel_state_id = {s} }} }} set_variable = {{ rn_vp_cnt = {len(vps)} }} {sets} }}\n")
         out.append("\t}\n")
     out.append("}\n\n")
     # apply
@@ -682,6 +682,7 @@ scripted_gui = {{
 
 	rn_state_view_gui = {{
 		context_type = selected_state_context
+		parent_window_token = selected_state_view
 		window_name = "rn_state_view_window"
 		visible = {{ is_owned_by = ROOT }}
 		ai_enabled = {{ always = no }}
@@ -799,8 +800,8 @@ def gen_gui() -> str:
     o.append("\t}\n\n")
 
     # state view panel (selected_state_context)
-    o.append('\tcontainerWindowType = {\n\t\tname = "rn_state_view_window"\n\t\torientation = lower_left\n'
-             '\t\tposition = { x = 446 y = -560 }\n\t\tsize = { width = 140 height = 136 }\n\t\tclipping = no\n'
+    o.append('\tcontainerWindowType = {\n\t\tname = "rn_state_view_window"\n\t\torientation = upper_left\n'
+             '\t\tposition = { x = 476 y = 95 }\n\t\tsize = { width = 140 height = 136 }\n\t\tclipping = no\n'
              '\t\tbackground = { name = "rn_sv_bg" quadTextureSprite = "GFX_tiled_window_2b_border" }\n')
     o.append(txt("rn_sv_title", 10, 8, "RN_SV_TITLE", w=120, fmt="centre"))
     o.append(btn("rn_sv_rename", 8, 32, "GFX_button_123x34", "RN_SV_RENAME"))

@@ -1158,8 +1158,8 @@ guiTypes = {
 
 	containerWindowType = {
 		name = "rn_state_view_window"
-		orientation = lower_left
-		position = { x = 446 y = -560 }
+		orientation = upper_left
+		position = { x = 476 y = 95 }
 		size = { width = 140 height = 136 }
 		clipping = no
 		background = { name = "rn_sv_bg" quadTextureSprite = "GFX_tiled_window_2b_border" }

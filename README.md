@@ -6,10 +6,11 @@ Interfejs jest po polsku i angielsku; pozostałe języki gry dostają angielskie
 
 ## Stan projektu
 
-- Po ręcznym smoke teście wykryto nadpisywanie tytułów i opisów decyzji nazwą kraju.
-  Parser natywny został ograniczony do dokładnych kluczy kraju; test regresji przechodzi,
-  lecz poprawka wymaga jeszcze nowego przebiegu w grze. Problem zmiany Danzig jest
-  w diagnozie. Szczegóły i granice potwierdzenia są w raporcie testów.
+- Poprawka nadpisywania decyzji przeszła niezależny test w grze. Pełny restart i wczytanie
+  zapisu zachowały nazwę kraju na mapie, w dyplomacji i tooltipie. Problem pustej listy
+  miast pozostaje otwarty: bieżąca poprawka jest robocza, a konwersja `THIS.id` do
+  liczbowego ID nie została potwierdzona. Nie jest to gotowe wydanie. Szczegóły i granice
+  potwierdzenia są w [raporcie testów](docs/test-report.md) i [handoffie](docs/HANDOFF-20261011.md).
 - `mod/` zawiera implementację skryptową i `descriptor.mod`. Generator oraz kontrola referencji
   przechodzą lokalnie; wynik bieżących testów w grze opisuje [raport testów](docs/test-report.md).
 - Próby na HOI4 1.19.3.0 potwierdziły przyjmowanie dowolnych literałów przez efekty zmiany nazw
@@ -76,8 +77,10 @@ nazwy partii wymagają osobnej lokalizacji. Ten zakres DoD pozostaje ograniczony
   okna lub zmianie zakładki, a strony mieszczą po 10 pozycji. Zakładka „Kraj” ma też skrót do przywódcy.
 - **Stany:** wybierz własny stan i „Zmień”. „Przywróć” usuwa nadpisanie nazwy. Przyciski są też
   w panelu zaznaczonego własnego stanu na mapie.
-- **Miasta:** w zakładce „Stany” kliknij „Miasta”, następnie zmień nazwę wybranego punktu
-  zwycięstwa. Lista pokazuje oryginalne nazwy z lokalizacji, także po zmianie. „Przywróć” usuwa
+- **Miasta:** w zakładce „Stany” kliknij „Miasta” obok wybranego stanu albo użyj „Miasta”
+  w panelu Rename Anything przy otwartym widoku własnego stanu na mapie. Samo kliknięcie
+  mapy nie przełącza listy miast. Następnie zmień nazwę wybranego punktu zwycięstwa.
+  Lista pokazuje oryginalne nazwy z lokalizacji, także po zmianie. „Przywróć” usuwa
   nadpisanie nazwy prowincji. Zwykła podpowiedź terenu pokazuje nazwę stanu, nie nazwę miasta.
 - **Kraj:** wpisz osobno nazwę i przymiotnik, zatwierdź oba pola i kliknij „Zastosuj”. Wymaga
   aktywnej wtyczki opisanej powyżej. Limit 32 znaków dotyczy każdego pola osobno.

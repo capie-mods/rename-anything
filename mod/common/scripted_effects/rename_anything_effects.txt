@@ -13,7 +13,8 @@
 #   rn_tab          main window tab: 1 country, 2 characters, 3 states, 4 cities
 #   rn_chars_all / rn_chars_page, rn_cpage, rn_cpages, rn_cpage_disp
 #   rn_states_all / rn_states_page, rn_spage, rn_spages, rn_spage_disp
-#   rn_sel_state, rn_sel_state_arr, rn_vp_cnt, rn_vp_0..4 (Cities tab)
+#   rn_sel_state    typed state scope; rn_sel_state_id is its numeric map ID
+#   rn_sel_state_arr, rn_vp_cnt, rn_vp_0..4 (Cities tab)
 #   rn_cname / rn_cname_len, rn_cadj / rn_cadj_len (country name / adjective buffers)
 # Country flags: rn_open (main window), rn_input (text input window)
 
@@ -149,14 +150,14 @@ rn_build_state_page = {
 # Cities tab: make sure rn_sel_state is an owned state (fallback: capital), then load its VPs.
 rn_select_state = {
 	if = {
-		limit = { check_variable = { rn_sel_state > 0 } }
+		limit = { has_variable = rn_sel_state }
 		if = {
-			limit = { var:rn_sel_state = { NOT = { is_owned_by = ROOT } } }
-			set_variable = { rn_sel_state = 0 }
+			limit = { NOT = { var:rn_sel_state = { is_owned_by = ROOT } } }
+			clear_variable = rn_sel_state
 		}
 	}
 	if = {
-		limit = { NOT = { check_variable = { rn_sel_state > 0 } } }
+		limit = { NOT = { has_variable = rn_sel_state } }
 		capital_scope = {
 			if = {
 				limit = { is_owned_by = ROOT }
@@ -166,8 +167,13 @@ rn_select_state = {
 	}
 	clear_array = rn_sel_state_arr
 	set_variable = { rn_vp_cnt = 0 }
+	set_variable = { rn_sel_state_id = 0 }
 	if = {
-		limit = { check_variable = { rn_sel_state > 0 } }
+		limit = { has_variable = rn_sel_state }
+		# PREV/THIS stores a typed scope, not a numeric ID. Export the ID separately.
+		# Vanilla 1.19.3: SOV_scripted_effects.txt uses ROOT.temp_target_state = THIS.id.
+		# Resolving here also migrates selections already present in an older save.
+		var:rn_sel_state = { set_variable = { ROOT.rn_sel_state_id = THIS.id } }
 		add_to_array = { rn_sel_state_arr = rn_sel_state }
 		rn_load_vps = yes # generated
 	}

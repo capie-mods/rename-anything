@@ -78,6 +78,11 @@ allfx = rd("common/scripted_effects/rename_anything_effects.txt") + eff
 trig = rd("common/scripted_triggers/rename_anything_triggers.txt")
 fxdefs = set(re.findall(r"^(rn_\w+) = \{", allfx + trig, re.M))
 sg = rd("common/scripted_guis/rename_anything_scripted_gui.txt")
+# rn_sel_state stores a typed state scope (PREV), not the numeric map ID.
+# Vanilla SOV_scripted_effects exports THIS.id; our rn_select_state does the same.
+if any(re.search(r"\brn_sel_state\b", m.group(1))
+       for m in re.finditer(r"check_variable\s*=\s*\{([^{}]*)\}", sg + allfx + sl)):
+    bad.append("typed rn_sel_state compared numerically; use rn_sel_state_id")
 used = set(re.findall(r"\b(rn_\w+) = yes", sg + allfx + sl))
 bad += [f"undefined effect/trigger {u}" for u in sorted(used - fxdefs)]
 btns = set(re.findall(r'buttonType = \{\s*name = "([^"]+)"', gui))

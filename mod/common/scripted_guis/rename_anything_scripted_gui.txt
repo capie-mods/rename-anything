@@ -312,6 +312,7 @@ scripted_gui = {
 
 	rn_state_view_gui = {
 		context_type = selected_state_context
+		parent_window_token = selected_state_view
 		window_name = "rn_state_view_window"
 		visible = { is_owned_by = ROOT }
 		ai_enabled = { always = no }
