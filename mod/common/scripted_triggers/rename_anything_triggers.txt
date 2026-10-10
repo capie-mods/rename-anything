@@ -1,9 +1,8 @@
 # Rename Anything - scripted triggers.
 
-# PLACEHOLDER: free-text country names are not available in this version (pure script cannot make
-# the game display a country name that is not in its localisation files). Keeps the country-tab
-# Apply button disabled. Switch on only together with a working apply mechanism in
-# rn_apply_country_name (common/scripted_effects/rename_anything_generated_effects.txt).
+# Country Apply stores the native RN1 protocol in a cosmetic tag. This trigger enables storing
+# the payload; it does not detect the native plugin. RN_PLUGIN_STATUS in the UI reports that.
+# Without the plugin, the game falls back to its original country name while retaining the tag.
 rn_country_rename_enabled = {
-	always = no
+	always = yes
 }

@@ -85,8 +85,8 @@ def slots_expr(prefix: str) -> str:
 UI = {
     # key: (english, polish)
     "RN_ENTRY_BTN": ("Rename", "Zmień nazwy"),
-    "RN_ENTRY_BTN_TT": ("Open §YRename Anything§!: rename characters, states and cities. Country renaming is unavailable.",
-                        "Otwórz §YRename Anything§!: zmień nazwy postaci, stanów i miast. Zmiana nazwy kraju jest niedostępna."),
+    "RN_ENTRY_BTN_TT": ("Open §YRename Anything§!: rename characters, states and cities. Country renaming needs the native plugin.",
+                        "Otwórz §YRename Anything§!: zmień nazwy postaci, stanów i miast. Nazwa kraju wymaga wtyczki natywnej."),
     "RN_MAIN_TITLE": ("Rename Anything", "Rename Anything – zmiana nazw"),
     "RN_TAB_1": ("Country", "Kraj"),
     "RN_TAB_2": ("Characters", "Postacie"),
@@ -105,10 +105,16 @@ UI = {
     "RN_CADJ_LINE": ("Adjective: §Y" + slots_expr("J") + "§!", "Przymiotnik: §Y" + slots_expr("J") + "§!"),
     "RN_BTN_COUNTRY_APPLY": ("Apply", "Zastosuj"),
     "RN_BTN_COUNTRY_RESET": ("Original name", "Przywróć oryginalną nazwę"),
-    "RN_COUNTRY_APPLY_TT": ("Not available in this version.", "Niedostępne w tej wersji."),
-    "RN_COUNTRY_NOTE": ("Renaming the country is not available in this version: the game only displays country names that exist in its localisation files. You can already type and keep the name and adjective here.",
-                        "Zmiana nazwy kraju jest niedostępna w tej wersji: gra wyświetla tylko nazwy krajów zapisane w plikach lokalizacji. Nazwę i przymiotnik można już wpisać i zachować tutaj."),
-    "RN_COUNTRY_STATUS_DISABLED": ("Status: country renaming is unavailable.", "Status: zmiana nazwy kraju jest niedostępna."),
+    "RN_COUNTRY_APPLY_TT": ("Stores the name and adjective. Load the native plugin first; without it the displayed country name stays unchanged.",
+                            "Zapisuje nazwę i przymiotnik. Najpierw załaduj wtyczkę natywną; bez niej wyświetlana nazwa kraju pozostanie bez zmian."),
+    "RN_COUNTRY_RESET_TT": ("Drops the current cosmetic tag. A previous cosmetic tag is not restored.",
+                            "Usuwa bieżący tag kosmetyczny. Poprzedni tag kosmetyczny nie zostanie przywrócony."),
+    "RN_COUNTRY_NOTE": ("Country names require the native plugin in every game process. Without it, Apply stores text but leaves the displayed name unchanged. Reset removes the cosmetic tag.",
+                        "Nazwa kraju wymaga wtyczki natywnej w każdym procesie gry. Bez niej Zastosuj zapisuje tekst, lecz nie zmienia wyświetlanej nazwy. Reset usuwa tag kosmetyczny."),
+    "RN_COUNTRY_STATUS_READY": ("Enter both fields; native plugin required.", "Wpisz oba pola; wymagana wtyczka natywna."),
+    "RN_COUNTRY_STATUS_STORED": ("Custom text stored. Check the current name above.", "Tekst zapisany. Sprawdź obecną nazwę powyżej."),
+    "RN_PLUGIN_STATUS": ("DLL: INACTIVE (RN1)", "DLL: NIEAKTYWNA (RN1)"),
+    "RN_COUNTRY_PLUGIN": ("$RN_PLUGIN_STATUS$", "$RN_PLUGIN_STATUS$"),
     "RN_PAGE": ("Page [?ROOT.rn_cpage_disp|0] / [?ROOT.rn_cpages|0]", "Strona [?ROOT.rn_cpage_disp|0] / [?ROOT.rn_cpages|0]"),
     "RN_SPAGE": ("Page [?ROOT.rn_spage_disp|0] / [?ROOT.rn_spages|0]", "Strona [?ROOT.rn_spage_disp|0] / [?ROOT.rn_spages|0]"),
     "RN_BTN_PREV": ("< Prev", "< Wstecz"),
@@ -268,7 +274,8 @@ def gen_scripted_loc(states, keys) -> str:
         out.append(f"\ttext = {{ trigger = {{ check_variable = {{ rn_ttype = {t} }} }} localization_key = RN_TTYPE_{t} }}\n")
     out.append("\ttext = { localization_key = RN_TTYPE_0 }\n}\n")
     out.append("defined_text = {\n\tname = RN_CountryStatus\n"
-               "\ttext = { localization_key = RN_COUNTRY_STATUS_DISABLED }\n}\n")
+               "\ttext = { trigger = { has_country_flag = rn_custom_name } localization_key = RN_COUNTRY_STATUS_STORED }\n"
+               "\ttext = { localization_key = RN_COUNTRY_STATUS_READY }\n}\n")
     return "".join(out)
 
 
@@ -376,21 +383,26 @@ rn_reset_vp = {{ # temp rn_k = slot
 	}}
 }}
 
-# ============================================================== COUNTRY NAME - PLACEHOLDER
-# NOT AVAILABLE IN THIS VERSION. Pure script cannot display arbitrary country text: a cosmetic tag
-# without localisation keys silently falls back to the original country name (docs/stage0-probe2-results.md).
-# The name / adjective buffers (rn_cname, rn_cadj; scripted loc RN_N_*, RN_J_*) are kept so a future
-# mechanism can plug in here. The Apply button is disabled by rn_country_rename_enabled (always = no).
+# ============================================================== COUNTRY NAME - NATIVE RN1 PROTOCOL
+# The cosmetic tag is the game's saved/synchronised carrier. The native plugin decodes both fields
+# when looking up country localisation keys. Without it, the tag remains saved but display falls back
+# to the original country name. Never treat rn_custom_name as proof that the plugin is active.
 rn_apply_country_name = {{
 	if = {{
 		limit = {{
 			rn_country_rename_enabled = yes
 			check_variable = {{ rn_cname_len > 0 }}
+			check_variable = {{ rn_cadj_len > 0 }}
 		}}
-		log = "Rename Anything: country rename placeholder - no apply mechanism in this version"
+		meta_effect = {{
+			text = {{ set_cosmetic_tag = "RN1|[N]|[J]|" }}
+			N = "{slots_expr('N')}"
+			J = "{slots_expr('J')}"
+		}}
+		set_country_flag = rn_custom_name
 	}}
 }}
-# ============================================================== END COUNTRY NAME - PLACEHOLDER
+# ============================================================== END COUNTRY NAME - NATIVE RN1 PROTOCOL
 """)
     return "".join(out)
 
@@ -488,8 +500,9 @@ def gen_main_scripted_guis(vp_effects: str, vp_triggers: str) -> str:
     }
     triggers = {
         "country": """			rn_country_apply_click_enabled = {
-				rn_country_rename_enabled = yes # placeholder: always = no in this version
+				rn_country_rename_enabled = yes
 				check_variable = { rn_cname_len > 0 }
+				check_variable = { rn_cadj_len > 0 }
 			}
 			rn_country_reset_click_enabled = { has_country_flag = rn_custom_name }
 """,
@@ -561,9 +574,10 @@ def gen_main_windows() -> str:
                   txt("rn_cadj_line", 20, y0 + 188, "RN_CADJ_LINE", w=380),
                   btn("rn_cadj_edit", 410, y0 + 180, "GFX_button_123x34", "RN_BTN_TYPE"),
                   btn("rn_country_apply", 20, y0 + 226, "GFX_button_123x34", "RN_BTN_COUNTRY_APPLY", tooltip="RN_COUNTRY_APPLY_TT"),
-                  btn("rn_country_reset", 152, y0 + 226, "GFX_button_261x34", "RN_BTN_COUNTRY_RESET"),
+                  btn("rn_country_reset", 152, y0 + 226, "GFX_button_261x34", "RN_BTN_COUNTRY_RESET", tooltip="RN_COUNTRY_RESET_TT"),
                   txt("rn_country_status", 20, y0 + 272, "RN_COUNTRY_STATUS", w=520, h=24),
-                  txt("rn_country_note", 20, y0 + 300, "RN_COUNTRY_NOTE", w=520, h=80)]
+                  txt("rn_country_plugin", 20, y0 + 296, "RN_COUNTRY_PLUGIN", w=520, h=24),
+                  txt("rn_country_note", 20, y0 + 328, "RN_COUNTRY_NOTE", w=520, h=72)]
         elif tab in ("chars", "states"):
             grid, prev, nxt, page = (("rn_chars_grid", "rn_cpage_prev", "rn_cpage_next", "RN_PAGE") if tab == "chars"
                                      else ("rn_states_grid", "rn_spage_prev", "rn_spage_next", "RN_SPAGE"))

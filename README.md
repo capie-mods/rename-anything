@@ -1,6 +1,7 @@
 # Rename Anything (HOI4)
 
-Mod z oknem do wpisywania nazw własnych postaci, stanów i miast (punktów zwycięstwa).
+Mod z oknem do wpisywania nazw własnych postaci, stanów i miast (punktów zwycięstwa),
+z eksperymentalną wtyczką natywną do nazwy i przymiotnika kraju.
 Interfejs jest po polsku i angielsku; pozostałe języki gry dostają angielskie napisy.
 
 ## Stan projektu
@@ -10,9 +11,10 @@ Interfejs jest po polsku i angielsku; pozostałe języki gry dostają angielskie
 - Próby na HOI4 1.19.3.0 potwierdziły przyjmowanie dowolnych literałów przez efekty zmiany nazw
   postaci, stanów i prowincji oraz ich trwałość po zapisie i wczytaniu. To dowód mechanizmu;
   pełny interfejs moda wymaga osobnej weryfikacji opisanej w raporcie.
-- **Nazwa i przymiotnik kraju pozostają niedostępne w modzie skryptowym.** Zakładka „Kraj”
-  zachowuje wpisany tekst, lecz „Zastosuj” jest wyłączone. Przycisk zmiany imienia przywódcy działa
-  osobno. Badany komponent natywny znajduje się w `plugin/`; nie jest wymagany przez `mod/`.
+- **Nazwa i przymiotnik kraju wymagają wtyczki natywnej z `plugin/`.** Zakładka „Kraj” zapisuje
+  oba pola w tagu kosmetycznym gry. Bez załadowanej DLL tag pozostaje zapisany, ale gra
+  wyświetla oryginalną nazwę. Aktualny zakres potwierdzenia na żywo opisuje raport testów.
+  Postacie, stany i miasta korzystają z części skryptowej bez DLL.
 - Multiplayer nie został jeszcze potwierdzony na dwóch klientach. Nie traktuj tej wersji jako
   wydania ze zweryfikowaną zgodnością MP.
 
@@ -39,6 +41,25 @@ natywnych: [naming-internals.md](docs/naming-internals.md).
    Zachowaj własny playset; instalacja nie wymaga podmiany `dlc_load.json` ani plików gry.
 4. Uruchom grę i kampanię. Przycisk „Zmień nazwy” / „Rename” jest w lewym górnym rogu.
 
+## Wtyczka do nazw krajów
+
+Źródła, instrukcja budowania oraz użycia są w [plugin/README.md](plugin/README.md).
+Wtyczka jest przeznaczona wyłącznie dla przypiętego Windows/Steam HOI4 **1.19.3.0**,
+SHA-256 `7DC947BE34970DA1E1C787BCDDBE7F62B610FF258AEBF8F06AA8B348F3A031D5`.
+Injector odmawia pracy z innym EXE. Pliki gry i istniejący `steam_api64.dll` nie są podmieniane.
+
+Uruchom grę z modem, a następnie załaduj zbudowaną DLL do właściwego procesu przez
+`rename_anything_injector.exe PID ABSOLUTNA_ŚCIEŻKA_DLL`. W zakładce „Kraj” sprawdź napis
+**DLL: ACTIVE (RN1)**, wpisz nazwę i przymiotnik, następnie kliknij „Zastosuj”. Oba pola są
+wymagane. Napis „Tekst zapisany” potwierdza jedynie zapisanie danych; sprawdź faktyczną nazwę
+w grze. **INACTIVE / NIEAKTYWNA oznacza, że zmiana nazwy kraju nie będzie wyświetlana.**
+
+DLL trzeba ponownie załadować po każdym uruchomieniu gry, także przed sprawdzaniem zapisu
+z własną nazwą kraju. Nie odłączaj DLL od działającego procesu; zakończ grę, aby ją usunąć.
+Nazwa i przymiotnik są przechowywane w zapisie jako tag kosmetyczny, a nie w pliku lokalizacji.
+„Przywróć oryginalną nazwę” usuwa bieżący tag; **nie odtwarza wcześniejszego tagu kosmetycznego**
+nadawanego np. wydarzeniem lub innym modem.
+
 ## Obsługa
 
 - **Postacie:** wybierz własną postać na liście i kliknij „Zmień”. Lista odświeża się po otwarciu
@@ -48,6 +69,8 @@ natywnych: [naming-internals.md](docs/naming-internals.md).
 - **Miasta:** w zakładce „Stany” kliknij „Miasta”, następnie zmień nazwę wybranego punktu
   zwycięstwa. Lista pokazuje oryginalne nazwy z lokalizacji, także po zmianie. „Przywróć” usuwa
   nadpisanie nazwy prowincji. Zwykła podpowiedź terenu pokazuje nazwę stanu, nie nazwę miasta.
+- **Kraj:** wpisz osobno nazwę i przymiotnik, zatwierdź oba pola i kliknij „Zastosuj”. Wymaga
+  aktywnej wtyczki opisanej powyżej. Limit 32 znaków dotyczy każdego pola osobno.
 - Pole przyjmuje do **32 znaków**: A–Z / a–z, cyfry, spację, `-`, `.`, apostrof oraz
   `ąćęłńóśźż` i ich wielkie odpowiedniki. Litery, Shift+litera, cyfry, `-`, `.`, Backspace,
   Enter i spacja mają skróty; można też klikać klawiaturę ekranową. Polskie litery i apostrof
@@ -68,6 +91,9 @@ Bufory należą do krajów, a tablice kodów znaków mają identyczną zawartoś
 lokalizacjach. To założenie synchronizacji, **nie wynik testu MP**. Gracze kooperacyjni tego
 samego kraju współdzielą bufor. Do weryfikacji potrzebne są dwa klienty z identyczną wersją
 moda i zestawem modów, kontrola nazw u obu graczy, zapis/wczytanie i obserwacja OOS.
+Przy zmianach kraju **każdy proces gry musi mieć tę samą aktywną DLL**; zwykła zgodność checksum
+modów nie dowodzi załadowania ani zgodności wtyczki. Procedurę i blokady testu na jednej maszynie
+opisuje [plan MP](docs/mp-test-plan.md).
 
 Mod zmienia pliki `common/`, więc zmienia checksum gry. Nie jest zgodny z osiągnięciami
 wymagającymi niezmienionej checksumy. Obsługi ironman nie zweryfikowano; do testów używaj
@@ -86,6 +112,8 @@ utworzona wyłącznie dla niego. Pliki instalacji gry nie są zmieniane. Nazwy p
 zapisane w kampanii mogą pozostać po wyłączeniu moda; odinstalowanie nie jest ich cofnięciem.
 Przed odinstalowaniem przywróć nazwy stanów/miast w UI albo zachowaj wcześniejszy zapis.
 Zmienne moda mogą pozostać w istniejącym zapisie. Kontynuację bez moda trzeba sprawdzić na kopii.
+Wtyczkę usuń dopiero po zamknięciu gry. Zapisany tag kraju bez DLL wraca wizualnie do nazwy
+oryginalnej, ale nadal jest częścią zapisu; aby go usunąć, przed odinstalowaniem użyj resetu kraju.
 
 ## Steam Workshop
 

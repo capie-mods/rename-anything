@@ -49,6 +49,8 @@ for lang, table in sorted(locale_tables.items()):
     bad += [f"language-dependent character table {lang}: {k}"
             for k in sorted(reference.keys() | char_tables[lang].keys())
             if reference.get(k) != char_tables[lang].get(k)]
+    dollar_refs = {key for value in table.values() for key in re.findall(r'\$(RN_[A-Za-z0-9_]+)\$', value)}
+    bad += [f"missing nested loc key {lang}: {key}" for key in sorted(dollar_refs - table.keys())]
 keys = set(re.findall(r'(?:buttonText|text|pdx_tooltip)\s*=\s*"([^"]+)"', gui))
 bad += [f"missing loc key {k}" for k in sorted(keys) if not k.startswith("[") and k not in loc]
 sprites = set(re.findall(r'(?:spriteType|quadTextureSprite)\s*=\s*"([^"]+)"', gui))

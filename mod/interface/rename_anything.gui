@@ -109,10 +109,12 @@ guiTypes = {
 			spriteType = "GFX_button_261x34"
 			buttonText = "RN_BTN_COUNTRY_RESET"
 			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_COUNTRY_RESET_TT"
 			clicksound = click_default
 		}
 		instantTextBoxType = { name = "rn_country_status" position = { x = 20 y = 358 } font = "hoi_16mbs" text = "RN_COUNTRY_STATUS" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
-		instantTextBoxType = { name = "rn_country_note" position = { x = 20 y = 386 } font = "hoi_16mbs" text = "RN_COUNTRY_NOTE" maxWidth = 520 maxHeight = 80 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_country_plugin" position = { x = 20 y = 382 } font = "hoi_16mbs" text = "RN_COUNTRY_PLUGIN" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_country_note" position = { x = 20 y = 414 } font = "hoi_16mbs" text = "RN_COUNTRY_NOTE" maxWidth = 520 maxHeight = 72 format = left fixedsize = yes }
 	}
 
 	containerWindowType = {

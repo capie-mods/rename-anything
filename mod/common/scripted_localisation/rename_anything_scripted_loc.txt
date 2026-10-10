@@ -10679,5 +10679,6 @@ defined_text = {
 }
 defined_text = {
 	name = RN_CountryStatus
-	text = { localization_key = RN_COUNTRY_STATUS_DISABLED }
+	text = { trigger = { has_country_flag = rn_custom_name } localization_key = RN_COUNTRY_STATUS_STORED }
+	text = { localization_key = RN_COUNTRY_STATUS_READY }
 }

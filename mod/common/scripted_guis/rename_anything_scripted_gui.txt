@@ -45,8 +45,9 @@ scripted_gui = {
 		triggers = {
 			rn_tab_1_click_enabled = { always = no }
 			rn_country_apply_click_enabled = {
-				rn_country_rename_enabled = yes # placeholder: always = no in this version
+				rn_country_rename_enabled = yes
 				check_variable = { rn_cname_len > 0 }
+				check_variable = { rn_cadj_len > 0 }
 			}
 			rn_country_reset_click_enabled = { has_country_flag = rn_custom_name }
 		}
