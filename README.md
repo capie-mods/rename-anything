@@ -129,8 +129,10 @@ oryginalnej, ale nadal jest częścią zapisu; aby go usunąć, przed odinstalow
 
 `mod/` jest katalogiem zawartości zwykłego moda skryptowego. Repozytorium nie zawiera
 opublikowanego identyfikatora Workshop; publikacja wymaga osobnego przesłania przez launcher.
-Natywny komponent z `plugin/` nie jest automatycznie ładowany przez standardowy system modów HOI4;
-subskrypcja Workshop sama go nie instaluje ani nie uruchamia.
+Steam Workshop jako platforma może dystrybuować pliki DLL, ale przyjmowanie ich przez uploader
+HOI4 nie zostało przetestowane. Sama subskrypcja nie ładuje obecnej DLL z `plugin/` do gry;
+ten komponent wymaga osobnego uruchomienia injectora. Szczegóły i granice ustaleń opisuje
+[research dystrybucji natywnej przez Workshop](docs/workshop-native-research.md).
 
 ## Development
 
@@ -154,6 +156,17 @@ i `debug = yes` w generatorze. Lista miast nadal pokazuje oryginalne nazwy z lok
 Skrót Backspace pozostaje aktywny. Mod dostarcza brakującą w vanilli ikonę `GFX_BACKSPACE`
 dla automatycznej podpowiedzi skrótu, która wcześniej dodawała błąd `Couldnt find texticon: BACKSPACE`.
 Poprawka renderowania podpowiedzi wymaga ponownej kontroli logu po uruchomieniu gry.
+
+`tools/test-session.ps1 -Action Begin -Language polish` przygotowuje lokalną sesję testową
+1720×900; `-Action Restore` przywraca oryginały po ich weryfikacji SHA-256. Helper wymaga
+zamkniętej gry. Zabezpiecza `dlc_load.json`, `settings.txt` i — jeśli istnieje —
+`pdx_settings.txt`: nowsza gra odtwarza ustawienia legacy z tego drugiego formatu, więc
+język, rozdzielczość okna i tryb okienkowy trzeba ustawić w obu. Restore obsługuje również
+starsze manifesty obejmujące tylko dwa pliki. Do prób helpera używaj tymczasowego
+`-UserDirectory`; nie uruchamiaj go na bieżącej konfiguracji podczas pracy gry.
+Powtarzalny test obu formatów i starszego manifestu uruchomisz przy zamkniętej grze poleceniem
+`powershell.exe -NoProfile -File tools/tests/test-session-fixture.ps1`; używa wyłącznie nowego
+katalogu TEMP i pozostawia tam wynik do wglądu.
 
 Struktura: `mod/` — mod skryptowy; `plugin/` — badania komponentu natywnego; `probes/` —
 osobne mody eksperymentalne; `docs/` — dowody i raporty; `tools/` — generator i kontrola statyczna.
