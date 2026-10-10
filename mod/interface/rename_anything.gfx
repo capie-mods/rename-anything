@@ -28,4 +28,9 @@ spriteTypes = {
 		name = "GFX_rn_field"
 		texturefile = "gfx/interface/rename_anything/rn_field.tga"
 	}
+	spriteType = {
+		name = "GFX_BACKSPACE"
+		texturefile = "gfx/interface/rename_anything/rn_backspace_icon.tga"
+		legacy_lazy_load = no
+	}
 }

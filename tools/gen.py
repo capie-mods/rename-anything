@@ -309,6 +309,11 @@ def gen_effects(states) -> str:
     out.append(f"""# Apply the input buffer to the current target. meta_effect turns the scripted loc into a literal string,
 # so the stored name is plain text. Persistence was observed in stage0 probes; MP still needs a two-client test.
 rn_apply_input = {{
+	# Temporary city diagnostics: observe the target without changing Apply conditions.
+	if = {{
+		limit = {{ check_variable = {{ rn_ttype = 3 }} }}
+		log = "Rename Anything city apply: player=[ROOT.GetTag] province=[?ROOT.rn_tprov|0] target_states=[?ROOT.rn_tstate^num|0] input_len=[?ROOT.rn_len|0] digits={p_expr}"
+	}}
 	if = {{
 		limit = {{ check_variable = {{ rn_len > 0 }} }}
 		if = {{
@@ -343,9 +348,12 @@ rn_apply_input = {{
 			limit = {{ check_variable = {{ rn_ttype = 3 }} check_variable = {{ rn_tprov > 0 }} }}
 			for_each_scope_loop = {{
 				array = rn_tstate
+				log = "Rename Anything city ownership check: player=[ROOT.GetTag] state=[THIS.GetName] owner=[THIS.Owner.GetTag] province=[?ROOT.rn_tprov|0] target_states=[?ROOT.rn_tstate^num|0]"
 				if = {{
 					limit = {{ is_owned_by = ROOT }}
+					log = "Rename Anything city owned target accepted: province=[?ROOT.rn_tprov|0] target_states=[?ROOT.rn_tstate^num|0]"
 					meta_effect = {{
+						debug = yes
 						text = {{ set_province_name = {{ id = [P] name = "[N]" }} }}
 						P = "{p_expr}"
 						N = "{n_expr}"
@@ -811,6 +819,8 @@ def gen_gfx() -> str:
         o.append(f'\tspriteType = {{\n\t\tname = "{name}"\n\t\ttexturefile = "gfx/interface/rename_anything/{f}"\n'
                  '\t\tnoOfFrames = 1\n\t\teffectFile = "gfx/FX/buttonstate.lua"\n\t}\n')
     o.append('\tspriteType = {\n\t\tname = "GFX_rn_field"\n\t\ttexturefile = "gfx/interface/rename_anything/rn_field.tga"\n\t}\n')
+    # Shortcut tooltips request GFX_<key name>. Vanilla has no BACKSPACE icon.
+    o.append('\tspriteType = {\n\t\tname = "GFX_BACKSPACE"\n\t\ttexturefile = "gfx/interface/rename_anything/rn_backspace_icon.tga"\n\t\tlegacy_lazy_load = no\n\t}\n')
     o.append("}\n")
     return "".join(o)
 
@@ -842,12 +852,27 @@ def key_px(w, h, fill=(52, 50, 44, 240), border=(176, 156, 104, 255), hi=(96, 92
     return f
 
 
+def backspace_icon_px(x, y):
+    """A 34x16 texticon, matching the height of vanilla shortcut icons."""
+    if not 1 <= y <= 14:
+        return (0, 0, 0, 0)
+    left = 8 - min(y - 1, 14 - y)
+    if not left <= x <= 32:
+        return (0, 0, 0, 0)
+    if x in (left, 32) or y in (1, 14):
+        return (208, 200, 176, 255)
+    if abs(x - 21) <= 3 and abs(y - 7) <= 3 and abs(x - 21) == abs(y - 7):
+        return (208, 200, 176, 255)
+    return (36, 36, 36, 255)
+
+
 def gen_textures() -> dict[str, bytes]:
     return {
         "rn_key.tga": tga(KEY, KEY_H, key_px(KEY, KEY_H)),
         "rn_key_wide.tga": tga(116, KEY_H, key_px(116, KEY_H)),
         "rn_key_space.tga": tga(196, KEY_H, key_px(196, KEY_H)),
         "rn_invisible.tga": tga(4, 4, lambda x, y: (0, 0, 0, 0)),
+        "rn_backspace_icon.tga": tga(34, 16, backspace_icon_px),
         "rn_field.tga": tga(520, 40, key_px(520, 40, fill=(14, 14, 16, 235), border=(200, 180, 120, 255), hi=(14, 14, 16, 235))),
     }
 

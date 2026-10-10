@@ -6,6 +6,10 @@ Interfejs jest po polsku i angielsku; pozostałe języki gry dostają angielskie
 
 ## Stan projektu
 
+- Po ręcznym smoke teście wykryto nadpisywanie tytułów i opisów decyzji nazwą kraju.
+  Parser natywny został ograniczony do dokładnych kluczy kraju; test regresji przechodzi,
+  lecz poprawka wymaga jeszcze nowego przebiegu w grze. Problem zmiany Danzig jest
+  w diagnozie. Szczegóły i granice potwierdzenia są w raporcie testów.
 - `mod/` zawiera implementację skryptową i `descriptor.mod`. Generator oraz kontrola referencji
   przechodzą lokalnie; wynik bieżących testów w grze opisuje [raport testów](docs/test-report.md).
 - Próby na HOI4 1.19.3.0 potwierdziły przyjmowanie dowolnych literałów przez efekty zmiany nazw
@@ -59,6 +63,12 @@ z własną nazwą kraju. Nie odłączaj DLL od działającego procesu; zakończ 
 Nazwa i przymiotnik są przechowywane w zapisie jako tag kosmetyczny, a nie w pliku lokalizacji.
 „Przywróć oryginalną nazwę” usuwa bieżący tag; **nie odtwarza wcześniejszego tagu kosmetycznego**
 nadawanego np. wydarzeniem lub innym modem.
+
+Przymiotnik jest dostępny w tekstach gry odwołujących się do `GetAdjective`.
+Istniejące dosłowne nazwy dywizji, szablonów i partii nie są z niego tworzone:
+vanilla POL używa m.in. `Dywizja Piechoty` i `Sanacja`. Mod nie przepisuje tych tekstów.
+Nazwy jednostek i szablonów można zmienić osobno w standardowym interfejsie gry;
+nazwy partii wymagają osobnej lokalizacji. Ten zakres DoD pozostaje ograniczony.
 
 ## Obsługa
 
@@ -134,6 +144,16 @@ Generator czyta instalację gry bez jej modyfikowania; inną ścieżkę podaj pr
 `python tools/check.py "D:/Steam/steamapps/common/Hearts of Iron IV"`.
 Edytuj generator, nie pliki oznaczone `GENERATED`. `tools/check.py` sprawdza referencje, strukturę
 oraz lokalizacje; nie zastępuje parsera gry, testu zapisu/wczytania ani testu multiplayer.
+
+Diagnostyka zgłoszenia miasta jest obecnie włączona: Apply zapisuje w `logs/game.log`
+wiersze `Rename Anything city ...` z ID prowincji, tablicą celu i kontrolą własności oraz
+rozwinięty `meta_effect` (`debug = yes`) z ID i wpisaną nazwą. Pozwala to rozróżnić pusty cel,
+odrzuconą własność i wykonany efekt; nie zmienia warunków Apply. Po diagnozie usuń te logi
+i `debug = yes` w generatorze. Lista miast nadal pokazuje oryginalne nazwy z lokalizacji.
+
+Skrót Backspace pozostaje aktywny. Mod dostarcza brakującą w vanilli ikonę `GFX_BACKSPACE`
+dla automatycznej podpowiedzi skrótu, która wcześniej dodawała błąd `Couldnt find texticon: BACKSPACE`.
+Poprawka renderowania podpowiedzi wymaga ponownej kontroli logu po uruchomieniu gry.
 
 Struktura: `mod/` — mod skryptowy; `plugin/` — badania komponentu natywnego; `probes/` —
 osobne mody eksperymentalne; `docs/` — dowody i raporty; `tools/` — generator i kontrola statyczna.
