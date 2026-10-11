@@ -89,3 +89,17 @@ nie oznacza akceptacji parsera HOI4. Nowa fixture nie zalicza prefill, keyboard,
 Open/Cancel/draft, menu/load, actual Apply, save/restart ani multiplayer.
 `expected-input.json` zachowuje przykładowe kody Jan Żółć z bazowego transportu;
 carriery zawsze odczytują rzeczywiste aktualne nazwy, nie ten przykład.
+
+## Revision after PID42200 Exit
+
+The preceding source-only notes describe the original fixture. Its live35/69/70
+transport, all five native prefills, draft/hide, Cancel and explicit same-epoch
+menu/load passed in PID42200; initial rendering remained blank until focus.
+Enter delivery was NOT established: Return produced no diagnostic callback.
+No name setter or game save ran. See TENTH-RUN-NOTES and PROGRESS.
+
+This new unloaded revision changes exactly two leader/party background references
+to native GFX_generic_bg2 (8px corners). Country has no frame; all geometry, fields,
+carriers, helpers and selectors remain unchanged. The separate renderB20 candidate
+calls22F4D80 once per opening. Fresh-process pre-focus pixels, black-block removal
+and transport regression remain pending; no Enter/focus change is included.

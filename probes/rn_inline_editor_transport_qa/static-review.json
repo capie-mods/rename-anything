@@ -1,7 +1,7 @@
 {
   "date": "2026-10-11",
-  "status": "SOURCE ONLY READY; unloaded and unregistered; no HOI4 parser/runtime acceptance",
-  "checks_passed": 92,
+  "status": "SOURCE READY: two-frame revision after PID42200 Exit; new native render runtime pending",
+  "checks_passed": 93,
   "checks": [
     "Nine PDX descriptor/GUI/SG/effect sources consumed by local grammar (not HOI4 parser acceptance)",
     "All 33 recorded read-only source fixture files unchanged",
@@ -94,7 +94,8 @@
     "UTF8-BOM, unique locale keys and every button reference resolves: polish",
     "English/Polish key parity",
     "Inherited expected observation Jan Żółć unchanged; never installed as synthetic field input",
-    "All fixture JSON parses and all text files have no trailing whitespace"
+    "All fixture JSON parses and all text files have no trailing whitespace",
+    "Exactly two native background references changed, byte inverse equals previous GUI; no geometry, fields or behavior delta"
   ],
   "models": [
     "rn_ilqa_guard_gui",
@@ -337,7 +338,7 @@
     ]
   },
   "button_extent_evidence": {
-    "status": "NEW unified fixture source candidate only; no runtime visibility/hit-testing proof",
+    "status": "Previous identical controls rendered and clicked in PID42200; joint size/font/no-scale change, no isolated causal claim",
     "pencils": "all 3 named *_open buttons size={x=14 y=14}, no scale, buttonFont=hoi_18mbs",
     "save": "all 3 named *_apply buttons size={x=16 y=16}, no scale, buttonFont=hoi_18mbs",
     "cancel": "all 3 named *_cancel buttons size={x=16 y=16}, no scale; native closebutton_16 asset",
@@ -351,10 +352,9 @@
     "causal_limit": "Vanilla notes/save buttons above omit size; static evidence validates syntax/font but does not establish that missing extent caused PID43444 invisible pencil."
   },
   "runtime_limits": [
-    "New fixture not parsed/activated/exercised.",
-    "No rename, setter, buffer copy, synthetic text/payload, auto-Apply or Enter dispatch.",
-    "No party/country clipping, keyboard, draft/Cancel, menu/load, save/restart or multiplayer acceptance.",
-    "Logs/validator output are actual observations, not PASS assertions."
+    "New two-frame/native-render combination has not been exercised.",
+    "Prior35/69/70 log-only acceptance does not establish this revision rendered pixels.",
+    "No real rename, Enter dispatch, autofocus or multiplayer acceptance."
   ],
   "inventory_sha256": {
     "common/scripted_effects/rn_ieqa_diagnostics.txt": "10b93bc3a22b754b239dadfc7b78f54e97b003fdfc2932079b9257fafc139e63",
@@ -366,15 +366,40 @@
     "descriptor.mod": "119e396e8997f8bd442b249967f9e49453122100dea12b206e05947bf936ac78",
     "expected-input.json": "16b6a644bcf1c670bb86cac550b977d144c633897b80a665db58df4d9b9380fd",
     "interface/rn_country_inline_ui.gui": "74f15f972aea2acab18dcfb87a24fa9b4d90d49d732efe0d6d0c38509d3fa8f1",
-    "interface/rn_in_place_ui.gui": "9977c5c844b50fc57461c78cd378ba82048eab19cfcc436a62438d5c0881f946",
+    "interface/rn_in_place_ui.gui": "f29d139437c60df34a56178a9d3e5d0dce68c6847f0b28554aa13e2a3fb4f0a6",
     "localisation/english/rn_country_inline_ui_l_english.yml": "36304caf8c0a3c26093add78bc21fd7a0b1c0cd792e2a9720c3afab006fe17e8",
     "localisation/english/rn_ieqa_l_english.yml": "9fc7f4e4c536f78fee95dfcff5470b88495628df2d3857cf6737252ccc5660f3",
     "localisation/english/rn_in_place_ui_l_english.yml": "a087cc01606fc47b776fbf54cc4f674abeb154e129500268eae48e7a5ae6d498",
     "localisation/polish/rn_country_inline_ui_l_polish.yml": "e2f4c81a5ed5f2ed8866a7b39aa892eb98ed79e44a22c44821dc109257566783",
     "localisation/polish/rn_ieqa_l_polish.yml": "a20734f78473b6250c437e6d440b8dc79805093d3c6568d66ff7ce9c0c4ecf88",
     "localisation/polish/rn_in_place_ui_l_polish.yml": "b24cd86a0db0e8d9fa17bf3b5d5bad83f95a7f6bc38c8dd570c91ee32a2fd71b",
-    "native-contract.json": "9979e9b8f12bb0194e5caeb5b70a8d4efa4736fa3faeb039e29441315b871bd0",
-    "README.md": "75d28a094d06fde5c4840566d644d93628e951a9dfc59c3d89d31d9848afc03e",
+    "native-contract.json": "fc053b0f84f172443c693ec215ffca2cc4c0c9ea86f7cad7884dbf7fb192b49b",
+    "README.md": "8abc9a6626e484aefc51b921888648948801d0beffd2439eb94a1ce70bf9444c",
     "source-baseline.json": "d5f0c76edf098f951b12eac04eef1f9b779f27e54abc91f7e939a894cf9aa72b"
+  },
+  "opening_render_revision": {
+    "date": "2026-10-11",
+    "status": "New unloaded background revision; pre-focus rendering still pending fresh-process QA",
+    "previous_pid": 42200,
+    "previous_hashes": {
+      "rn_in_place_ui.gui": "9977C5C844B50FC57461C78CD378BA82048EAB19CFCC436A62438D5C0881F946",
+      "README.md": "75D28A094D06FDE5C4840566D644D93628E951A9DFC59C3D89D31D9848AFC03E",
+      "native-contract.json": "9979E9B8F12BB0194E5CAEB5B70A8D4EFA4736FA3FAEB039E29441315B871BD0",
+      "static-review.json": "BAD5E47BBBFCEE09CD2913B26B528B60B18F4F9F0F708716958DAF06208CD4BC"
+    },
+    "gui_delta": "Only two existing leader/party background asset references; no country background added",
+    "native_candidate_cpp_sha256": "104F5C572496D610E5A395129BC2CCAA57B162B61BD88F0FF88B82AD99219517",
+    "native_candidate_dll_sha256": "B20FBE88756F7F22D989230D6D51953D82BCCD2349CD00BDCC545C382DF8BAF6",
+    "asset": "GFX_generic_bg2",
+    "corners_px": [
+      8,
+      8
+    ],
+    "geometry_fields_carriers_helpers_unchanged": true,
+    "limits": [
+      "No real Apply or Enter dispatch",
+      "No autofocus/select-all",
+      "Rendered pixels still require QA"
+    ]
   }
 }

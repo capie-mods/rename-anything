@@ -1,7 +1,7 @@
 {
   "date": "2026-10-11",
-  "status": "new unloaded unified 5-field log-only transport QA; not registered or activated",
-  "activation": "Only root may select fresh process after current PID43444 proof and source review; this task does not change config/process/DLL",
+  "status": "LOG ONLY; new background revision unloaded, previous revision exercised in PID42200",
+  "activation": "Only root, after confirmed Exit of PID42200; same exact dev+unified mod allowlist, fresh country188 plus renderB20 DLLs",
   "context": "own player_context POL / politics_tab / is_ai=no; party additionally current neutrality",
   "bridge": "rename_anything_inline_editor_bridge.dll exact model/selector whitelist; Enter remains diagnostic only",
   "country_component": "Fresh RNCountryCapabilities()==0x524e4301 queried by bridge before preparation and again before native dispatch. Expected transport marker rn_native_cap=1 is logged, never treated here as proof of target or successful rename.",
@@ -223,5 +223,30 @@
       "vanilla interface/core.gfx:1851-1862: both assets textSpriteType, 4 frames"
     ],
     "causal_limit": "Vanilla notes/save buttons above omit size; static evidence validates syntax/font but does not establish that missing extent caused PID43444 invisible pencil."
+  },
+  "opening_render_revision": {
+    "date": "2026-10-11",
+    "status": "New unloaded background revision; pre-focus rendering still pending fresh-process QA",
+    "previous_pid": 42200,
+    "previous_hashes": {
+      "rn_in_place_ui.gui": "9977C5C844B50FC57461C78CD378BA82048EAB19CFCC436A62438D5C0881F946",
+      "README.md": "75D28A094D06FDE5C4840566D644D93628E951A9DFC59C3D89D31D9848AFC03E",
+      "native-contract.json": "9979E9B8F12BB0194E5CAEB5B70A8D4EFA4736FA3FAEB039E29441315B871BD0",
+      "static-review.json": "BAD5E47BBBFCEE09CD2913B26B528B60B18F4F9F0F708716958DAF06208CD4BC"
+    },
+    "gui_delta": "Only two existing leader/party background asset references; no country background added",
+    "native_candidate_cpp_sha256": "104F5C572496D610E5A395129BC2CCAA57B162B61BD88F0FF88B82AD99219517",
+    "native_candidate_dll_sha256": "B20FBE88756F7F22D989230D6D51953D82BCCD2349CD00BDCC545C382DF8BAF6",
+    "asset": "GFX_generic_bg2",
+    "corners_px": [
+      8,
+      8
+    ],
+    "geometry_fields_carriers_helpers_unchanged": true,
+    "limits": [
+      "No real Apply or Enter dispatch",
+      "No autofocus/select-all",
+      "Rendered pixels still require QA"
+    ]
   }
 }
