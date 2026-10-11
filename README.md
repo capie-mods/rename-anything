@@ -147,6 +147,12 @@ HOI4 nie zostało przetestowane. Sama subskrypcja nie ładuje obecnej DLL z `plu
 ten komponent wymaga osobnego uruchomienia injectora. Szczegóły i granice ustaleń opisuje
 [research dystrybucji natywnej przez Workshop](docs/workshop-native-research.md).
 
+Sprawdzony [hoi4-globe-prototype](docs/globe-reference-assessment.md) pokazuje przydatny
+wzorzec osobnego launchera dla tej samej wersji gry. Taki launcher mógłby ograniczyć
+obsługę do skrótu „Uruchom z Rename Anything”, zachowując zwykły playset i zapisy.
+Nie jest jeszcze zaimplementowany; repo referencyjne także wymaga uruchomienia
+zewnętrznego programu i nie zapewnia ładowania DLL przez sam Workshop.
+
 ## Development
 
 ```powershell
