@@ -1,6 +1,6 @@
 ﻿l_french:
  RN_IP_EDIT_LEADER: "Rename leader[ROOT.RN_IP_CD_LEADER]"
  RN_IP_EDIT_PARTY: "Rename parties[ROOT.RN_IP_CD_PARTY]"
- RN_IP_APPLY_UNAVAILABLE: "Apply — saving is not connected in this review sketch."
  RN_IP_CANCEL: "Cancel"
- RN_IP_LONG_NAME: "Long name"
+ RN_IPP_LABEL_SHORT: "§LShort name§!"
+ RN_IPP_LABEL_LONG: "§LFull name§!"

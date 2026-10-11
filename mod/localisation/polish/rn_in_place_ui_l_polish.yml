@@ -1,6 +1,6 @@
 ﻿l_polish:
  RN_IP_EDIT_LEADER: "Zmień nazwę przywódcy[ROOT.RN_IP_CD_LEADER]"
  RN_IP_EDIT_PARTY: "Zmień nazwy partii[ROOT.RN_IP_CD_PARTY]"
- RN_IP_APPLY_UNAVAILABLE: "Zastosuj — zapis nie jest podłączony w tym szkicu."
  RN_IP_CANCEL: "Anuluj"
- RN_IP_LONG_NAME: "Pełna nazwa"
+ RN_IPP_LABEL_SHORT: "§LKrótka nazwa§!"
+ RN_IPP_LABEL_LONG: "§LPełna nazwa§!"

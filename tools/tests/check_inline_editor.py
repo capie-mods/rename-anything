@@ -25,12 +25,16 @@ What it checks:
   expected parse trees.
 * Geometry. Rectangles taken from the GUI tree: Apply and Cancel do not overlap,
   fields sit inside their frames and are wide enough for 32 of the widest glyphs,
-  windows stay inside the politics panel, only the Apply buttons have a
-  shortcut and none of them is ESCAPE.
+  every field of a two-field editor has a visible label 12 px above its frame,
+  the status line sits under the last field, windows stay inside the politics
+  panel, only the Apply buttons have a shortcut and none of them is ESCAPE.
+* Wording. The design system's voice rules: no dashes, straight quotes in
+  English, no internal words such as DLL or bridge, no "okres karencji".
 * Limited execution. The ApplyVM from ``probes/rn_inline_pair_apply_source``
   runs the real party and country Apply paths: all four groups under every
   government, the I4-M1 placeholder, the tabs, the cooldown, the missing-bridge
-  status, the caption counters and a set of rejection mutations. Contract
+  status, the reason of a rejected field (empty, too long, character), the
+  stale-editor sentinel, the caption counters and a set of rejection mutations. Contract
   mutations of the parse trees must each be caught by the structural checks.
 
 This is a static, offline test. It is not the HOI4 parser and it does not
@@ -125,6 +129,26 @@ VM_EPOCH = 7
 
 REV_CAP = 999
 """Highest caption revision counter value; the native bridge refuses Apply at it."""
+
+REASONS = ["EMPTY", "LONG", "CHAR"]
+"""Status-line reasons in ``rn_ip_status_why`` order (1 empty, 2 too long, 3 character)."""
+
+FIELD_LABELS = {
+    "rn_ipc_name_label": "RN_IPC_LABEL_NAME",
+    "rn_ipc_adj_label": "RN_IPC_LABEL_ADJ",
+    "rn_ip_party_neutrality_short_label": "RN_IPP_LABEL_SHORT",
+    "rn_ip_party_neutrality_long_label": "RN_IPP_LABEL_LONG",
+}
+"""Visible field labels of the two-field editors (design system) and their keys."""
+
+LABEL_PITCH = 12
+"""Height a field label adds above its frame (design-system editor grid)."""
+
+STATUS_HEIGHT = 14
+"""Height of the one-line status under the last field."""
+
+STALE_SENTINEL = -1
+"""Command epoch a bridge can send for an editor widget it did not open (proposal)."""
 
 ERR_CLOSED = 7
 """Guard error: editor closed, legacy editor open or wrong country."""
@@ -634,16 +658,20 @@ def check_status(
     assert [get(t[2], "localization_key") for t in party_status] == [
         "RN_IP_ERR_NO_BRIDGE",
         "RN_IP_ERR_CD_PARTY",
+        *(f"RN_IP_ERR_PARTY_SHORT_{r}" for r in REASONS),
         "RN_IP_ERR_PARTY_SHORT",
+        "RN_IP_ERR_PARTY_LONG_EMPTY",
+        "RN_IP_ERR_PARTY_LONG_LONG",
         "RN_IP_ERR_PARTY_LONG_UNKNOWN",
+        "RN_IP_ERR_PARTY_LONG_CHAR",
         "RN_IP_ERR_PARTY_LONG",
-        "RN_IP_LONG_NAME",
+        "RN_IP_HINT",
         "RN_IPP_LONG_UNKNOWN",
         "RN_IPP_TARGET_CHANGED",
     ]
     assert all(
         ("rn_ipp_party_target_matches", "=", "yes") in get(t[2], "trigger")
-        for t in party_status[1:7]
+        for t in party_status[1:-1]
     )
     assert [get(t[2], "localization_key") for t in locs["RN_IP_STATUS"] if t[0] == "text"] == [
         "RN_IP_HINT",
@@ -651,8 +679,11 @@ def check_status(
         "RN_IP_ERR_CD_LEADER",
         "RN_IP_ERR_CD_COUNTRY",
         "RN_IP_ERR_STALE",
+        *(f"RN_IP_ERR_LEADER_{r}" for r in REASONS),
         "RN_IP_ERR_LEADER",
+        *(f"RN_IP_ERR_COUNTRY_ADJ_{r}" for r in REASONS),
         "RN_IP_ERR_COUNTRY_ADJ",
+        *(f"RN_IP_ERR_COUNTRY_NAME_{r}" for r in REASONS),
         "RN_IP_ERR_COUNTRY_NAME",
     ]
     for name, body in effects.items():
@@ -818,10 +849,17 @@ def check_widgets(gui: list[Any]) -> None:
         assert get(widgets[f"rn_ip_{kind}_epoch"], "text") == "[?ROOT.rn_ip_epoch|0]"
     assert get(widgets["rn_ip_party_neutrality_prefill"], "text") == "[ROOT.RN_IPP_PARTY_SHORT]"
     assert get(widgets["rn_ip_party_neutrality_long_prefill"], "text") == "[ROOT.RN_IPP_PARTY_LONG]"
-    assert get(widgets["rn_ip_party_neutrality_long_label"], "text") == "[ROOT.RN_IPP_PARTY_STATUS]"
-    for status in ("rn_ip_leader_status", "rn_ip_country_status"):
-        assert get(widgets[status], "text") == "[ROOT.RN_IP_STATUS]"
+    statuses = {
+        "rn_ip_leader_status": "[ROOT.RN_IP_STATUS]",
+        "rn_ip_country_status": "[ROOT.RN_IP_STATUS]",
+        "rn_ip_party_neutrality_status": "[ROOT.RN_IPP_PARTY_STATUS]",
+    }
+    for status, text in statuses.items():
+        assert get(widgets[status], "text") == text
         assert get(widgets[status], "font") == "Arial12"
+    for label, text in FIELD_LABELS.items():
+        assert get(widgets[label], "text") == text, label
+        assert get(widgets[label], "font") == "Arial12", label
     revs = [
         b for k, _, b in walk(gui) if k == "instantTextboxType" and get(b, "name").endswith("_rev")
     ]
@@ -943,6 +981,75 @@ def rectangles(gui: list[Any]) -> dict[str, Rect]:
     return rects
 
 
+def text_rects(gui: list[Any]) -> dict[str, Rect]:
+    """Collect the rectangles of the text boxes placed directly in the editor windows.
+
+    Args:
+        gui: Parsed source GUI files.
+
+    Returns:
+        Text box name to rectangle (panel coordinates).
+    """
+    rects: dict[str, Rect] = {}
+    for kind, _, win in walk(gui):
+        if kind != "containerWindowType" or not get(win, "name").endswith("_window"):
+            continue
+        ox, oy = xy(win)
+        for k, _, body in win:
+            if k == "instantTextboxType" and any(key == "maxWidth" for key, _, _ in body):
+                x, y = xy(body)
+                w, h = int(get(body, "maxWidth")), int(get(body, "maxHeight"))
+                rects[get(body, "name")] = (ox + x, oy + y, ox + x + w, oy + y + h)
+    return rects
+
+
+def label_audit(gui: list[Any], rects: dict[str, Rect]) -> None:
+    """Check the field labels and status lines against the design-system grid.
+
+    Every field of a two-field editor has a visible label 12 px above its frame,
+    labelled rows repeat every 42 px, and one 14 px status line sits under the
+    last field, inside the editor.
+
+    Args:
+        gui: Parsed source GUI files.
+        rects: Rectangles from :func:`rectangles`.
+    """
+    texts = text_rects(gui)
+    row_pitch = 30
+    for editor, pairs in (
+        (
+            "country",
+            [("rn_ipc_name_label", "rn_ipc_name_frame"), ("rn_ipc_adj_label", "rn_ipc_adj_frame")],
+        ),
+        (
+            "party_neutrality",
+            [
+                ("rn_ip_party_neutrality_short_label", "rn_ipp_short_frame"),
+                ("rn_ip_party_neutrality_long_label", "rn_ipp_long_frame"),
+            ],
+        ),
+    ):
+        win = rects[f"rn_ip_{editor}_window"]
+        for label, frame in pairs:
+            assert texts[label][1] + LABEL_PITCH == rects[frame][1], (editor, label)
+            assert inside(texts[label], win), (editor, label)
+            assert rects[frame][0] <= texts[label][0], (editor, label)
+        first, second = (rects[frame] for _, frame in pairs)
+        assert second[1] - first[1] == row_pitch + LABEL_PITCH, editor
+    for editor, last in (
+        ("leader", "rn_ipl_frame"),
+        ("country", "rn_ipc_adj_frame"),
+        ("party_neutrality", "rn_ipp_long_frame"),
+    ):
+        status = texts[f"rn_ip_{editor}_status"]
+        assert status[3] - status[1] == STATUS_HEIGHT, editor
+        assert status[1] >= rects[last][3], editor
+        assert inside(status, rects[f"rn_ip_{editor}_window"]), editor
+    tabs = [rects[f"rn_ipp_tab_{i}"] for i, _ in GROUPS]
+    short_label = texts["rn_ip_party_neutrality_short_label"]
+    assert all(disjoint(tab, short_label) for tab in tabs)
+
+
 def geometry_audit(gui: list[Any]) -> None:
     """Check editor layouts, shortcuts, tabs and pencil positions.
 
@@ -994,6 +1101,7 @@ def geometry_audit(gui: list[Any]) -> None:
     for i, tab in enumerate(tabs):
         assert inside(tab, rects["rn_ip_party_neutrality_window"])
         assert all(disjoint(tab, other) for other in tabs[i + 1 :] + party_parts)
+    label_audit(gui, rects)
     leader_pencil = rects["rn_ip_leader_open"]
     assert disjoint(leader_pencil, LEADER_NAME)
     assert leader_pencil[3] <= LEADER_NAME[1]
@@ -1147,6 +1255,33 @@ def check_decision() -> None:
         "rn_ip_country_open",
     ):
         assert ("NOT", "=", [("has_country_flag", "=", flag)]) in get(effect, "limit")
+
+
+def check_voice() -> None:
+    """Check the player-facing wording against the design system's voice rules.
+
+    No dash used as punctuation, straight quotes in English, no internal words
+    (DLL, bridge, epoch, payload, hook, RN1, plugin, extension) and no
+    "okres karencji" in the in-place editor strings and the legacy UI strings.
+    """
+    words = r"\b(DLL|bridge|epoch|payload|hook|RN1|plugin|extension)\b"
+    internal = re.compile(words, re.IGNORECASE)
+    texts: dict[str, str] = {}
+    for lang in ("english", "polish"):
+        for path in (SOURCE / "localisation" / lang).glob("*.yml"):
+            for key, value in re.findall(
+                r'^ (\S+?):\d* "(.*)"$', path.read_text(encoding="utf-8-sig"), re.MULTILINE
+            ):
+                texts[f"{lang}:{key}"] = value
+    for key, (english, polish) in GEN.UI.items():
+        texts[f"english:{key}"] = english
+        texts[f"polish:{key}"] = polish
+    for key, value in texts.items():
+        assert not re.search("[\u2012-\u2015]", value), ("dash", key)
+        assert not internal.search(value), ("internal word", key)
+        assert "karencj" not in value.lower(), ("officialese", key)
+        if key.startswith("english:"):
+            assert not re.search("[\u2018\u2019\u201c\u201d\u201e]", value), ("quotes", key)
 
 
 def check_native_names() -> None:
@@ -1310,7 +1445,7 @@ def run_party_groups(ctx: Context) -> int:
             ruling.persistent["rn_ip_party_group"] = Decimal(group)
             assert ruling.localized("RN_IPP_PARTY_SHORT") == ctx.chars["RN_IPP_PARTY_SHORT_CURRENT"]
             assert ruling.localized("RN_IPP_PARTY_LONG") == ctx.chars["RN_IPP_PARTY_LONG_CURRENT"]
-            assert ruling.localized("RN_IPP_PARTY_STATUS") == ctx.chars["RN_IP_LONG_NAME"]
+            assert ruling.localized("RN_IPP_PARTY_STATUS") == ctx.chars["RN_IP_HINT"]
             cases += 1 + run_non_ruling(ctx, tag, group, government)
             cases += run_placeholder(ctx, tag, group)
             bad = ctx.vm("party", tag)
@@ -1475,6 +1610,130 @@ def run_no_bridge(ctx: Context) -> int:
         stale.run("rn_ip_status_record_pair")
         assert stale.persistent["rn_ip_status_err"] == ERR_EPOCH, "a real stale epoch stays stale"
     return 4
+
+
+def _reject_field(vm: ProductVM, field: int, code: int | None) -> None:
+    """Make the native encoder reject one field, optionally with its reason.
+
+    Args:
+        vm: VM to change.
+        field: 1 (``rn_native_*``) or 2 (``rn_nativeb_*``).
+        code: Encoder ``InputError`` sent as ``rn_native_err`` / ``rn_nativeb_err``,
+            or None for a bridge that sends no reason.
+    """
+    prefix = "rn_native" if field == 1 else "rn_nativeb"
+    vm.temp[f"{prefix}_ok"] = Decimal(0)
+    vm.temp[f"{prefix}_len"] = Decimal(0)
+    for i in range(MAX_NAME):
+        vm.temp[f"{prefix}_{i}"] = Decimal(0)
+    if code is not None:
+        vm.temp[f"{prefix}_err"] = Decimal(code)
+
+
+def run_error_reasons(ctx: Context) -> int:
+    """Run rejected fields through the real Apply and check the one-line reason.
+
+    The encoder's ``InputError`` (1 empty, 2 too long, 3..6 character classes)
+    picks the reference string; no reason or an unknown one keeps the generic
+    line. A non-ruling party's full name keeps the "type it in place of ?" line
+    for a character error, because that is the untouched placeholder.
+
+    Args:
+        ctx: Shared VM inputs.
+
+    Returns:
+        Number of cases.
+    """
+    reasons: dict[int | None, str] = {
+        1: "_EMPTY",
+        2: "_LONG",
+        3: "_CHAR",
+        4: "_CHAR",
+        5: "_CHAR",
+        6: "_CHAR",
+        7: "",
+        None: "",
+    }
+    fields = {
+        ("country", 1): "RN_IP_ERR_COUNTRY_NAME",
+        ("country", 2): "RN_IP_ERR_COUNTRY_ADJ",
+        ("party", 1): "RN_IP_ERR_PARTY_SHORT",
+        ("party", 2): "RN_IP_ERR_PARTY_LONG",
+    }
+    cases = 0
+    for (kind, field), base in fields.items():
+        for code, suffix in reasons.items():
+            vm = ctx.vm(kind)
+            vm.government = "democratic"
+            vm.persistent["rn_ip_party_group"] = Decimal(1)
+            _reject_field(vm, field, code)
+            state = vm.state()
+            vm.run("rn_inline_pair_apply_" + kind)
+            assert vm.state() == state, (kind, field, code)
+            assert not vm.requests, (kind, field, code)
+            assert vm.temp["rn_pair_err"] == ERR_NATIVE, (kind, field, code)
+            assert vm.temp["rn_pair_field"] == field, (kind, field, code)
+            vm.enforce = False
+            vm.run("rn_ip_status_record_pair")
+            status = "RN_IP_STATUS" if kind == "country" else "RN_IPP_PARTY_STATUS"
+            assert vm.localized(status) == ctx.chars[base + suffix], (kind, field, code)
+            cases += 1
+    for code, want in ((1, "RN_IP_ERR_PARTY_LONG_EMPTY"), (6, "RN_IP_ERR_PARTY_LONG_UNKNOWN")):
+        vm = ctx.vm("party")
+        vm.government = "custom_ideology"
+        _reject_field(vm, 2, code)
+        vm.run("rn_inline_pair_apply_party")
+        vm.enforce = False
+        vm.run("rn_ip_status_record_pair")
+        assert vm.localized("RN_IPP_PARTY_STATUS") == ctx.chars[want], code
+        cases += 1
+    for code, suffix in reasons.items():
+        vm = ctx.vm("country")
+        vm.enforce = False
+        vm.flags.add("rn_ip_leader_open")
+        vm.temp["rn_ip_leader_error"] = Decimal(ERR_NATIVE)
+        if code is not None:
+            vm.temp["rn_native_err"] = Decimal(code)
+        vm.run("rn_ip_status_record_leader")
+        assert vm.localized("RN_IP_STATUS") == ctx.chars["RN_IP_ERR_LEADER" + suffix], code
+        cases += 1
+    vm = ctx.vm("country")
+    vm.enforce = False
+    vm.temp["rn_native_err"] = Decimal(2)
+    vm.run("rn_ip_status_clear")
+    assert "rn_ip_status_why" not in vm.persistent
+    assert vm.localized("RN_IP_STATUS") == ctx.chars["RN_IP_HINT"]
+    return cases + 1
+
+
+def run_stale_sentinel(ctx: Context) -> int:
+    """A command epoch of -1 (editor widget the bridge did not open) shows the stale line.
+
+    This is the script half of the proposed fix for an editor that was left open
+    when the politics panel closed: nothing is written and the player reads
+    "This editor is out of date. Cancel and open it again."
+
+    Args:
+        ctx: Shared VM inputs.
+
+    Returns:
+        Number of cases.
+    """
+    assert ctx.chars["RN_IPP_TARGET_CHANGED"] == ctx.chars["RN_IP_ERR_STALE"]
+    for kind in ("party", "country"):
+        vm = ctx.vm(kind)
+        vm.temp["rn_ip_cmd_epoch"] = Decimal(STALE_SENTINEL)
+        state = vm.state()
+        vm.run("rn_inline_pair_apply_" + kind)
+        assert vm.state() == state, kind
+        assert not vm.requests, kind
+        assert vm.temp["rn_pair_err"] == ERR_EPOCH, kind
+        vm.enforce = False
+        vm.run("rn_ip_status_record_pair")
+        assert vm.persistent["rn_ip_status_err"] == ERR_EPOCH, kind
+        status = "RN_IP_STATUS" if kind == "country" else "RN_IPP_PARTY_STATUS"
+        assert vm.localized(status) == ctx.chars["RN_IP_ERR_STALE"], kind
+    return 2
 
 
 def run_caption_counter(ctx: Context, models: dict[str, Any]) -> int:
@@ -1935,6 +2194,7 @@ def main() -> int:
     check_generated_mod()
     check_legacy_editor()
     check_native_names()
+    check_voice()
     effects, own, models, gui, triggers, locs = load_source()
     structural(effects, models, gui, triggers, locs)
     ctx = load_context(effects, triggers, locs)
@@ -1943,6 +2203,8 @@ def main() -> int:
         "party_group_cases": run_party_groups(ctx),
         "tab_cases": run_tabs(ctx),
         "no_bridge_cases": run_no_bridge(ctx),
+        "error_reason_cases": run_error_reasons(ctx),
+        "stale_sentinel_cases": run_stale_sentinel(ctx),
         "caption_counter_cases": run_caption_counter(ctx, politics),
         "cooldown_cases": run_cooldown(ctx),
         "rejection_cases": run_rejections(ctx),

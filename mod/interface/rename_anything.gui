@@ -306,7 +306,7 @@ guiTypes = {
 		}
 		instantTextBoxType = { name = "rn_cities_hint" position = { x = 20 y = 124 } font = "hoi_16mbs" text = "RN_CITIES_HINT" maxWidth = 520 maxHeight = 40 format = left fixedsize = yes }
 		instantTextBoxType = { name = "rn_no_cities" position = { x = 20 y = 176 } font = "hoi_16mbs" text = "RN_NO_CITIES" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
-		instantTextBoxType = { name = "rn_vp_name_0" position = { x = 20 y = 180 } font = "hoi_16mbs" text = "RN_VPROW_0" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_vp_name_0" position = { x = 20 y = 174 } font = "hoi_16mbs" text = "RN_VPROW_0" maxWidth = 300 maxHeight = 40 format = left fixedsize = yes vertical_alignment = center }
 		buttonType = {
 			name = "rn_vp_rename_0"
 			position = { x = 330 y = 174 }
@@ -324,7 +324,7 @@ guiTypes = {
 			buttonFont = "hoi_16mbs"
 			clicksound = click_default
 		}
-		instantTextBoxType = { name = "rn_vp_name_1" position = { x = 20 y = 224 } font = "hoi_16mbs" text = "RN_VPROW_1" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_vp_name_1" position = { x = 20 y = 218 } font = "hoi_16mbs" text = "RN_VPROW_1" maxWidth = 300 maxHeight = 40 format = left fixedsize = yes vertical_alignment = center }
 		buttonType = {
 			name = "rn_vp_rename_1"
 			position = { x = 330 y = 218 }
@@ -342,7 +342,7 @@ guiTypes = {
 			buttonFont = "hoi_16mbs"
 			clicksound = click_default
 		}
-		instantTextBoxType = { name = "rn_vp_name_2" position = { x = 20 y = 268 } font = "hoi_16mbs" text = "RN_VPROW_2" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_vp_name_2" position = { x = 20 y = 262 } font = "hoi_16mbs" text = "RN_VPROW_2" maxWidth = 300 maxHeight = 40 format = left fixedsize = yes vertical_alignment = center }
 		buttonType = {
 			name = "rn_vp_rename_2"
 			position = { x = 330 y = 262 }
@@ -360,7 +360,7 @@ guiTypes = {
 			buttonFont = "hoi_16mbs"
 			clicksound = click_default
 		}
-		instantTextBoxType = { name = "rn_vp_name_3" position = { x = 20 y = 312 } font = "hoi_16mbs" text = "RN_VPROW_3" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_vp_name_3" position = { x = 20 y = 306 } font = "hoi_16mbs" text = "RN_VPROW_3" maxWidth = 300 maxHeight = 40 format = left fixedsize = yes vertical_alignment = center }
 		buttonType = {
 			name = "rn_vp_rename_3"
 			position = { x = 330 y = 306 }
@@ -378,7 +378,7 @@ guiTypes = {
 			buttonFont = "hoi_16mbs"
 			clicksound = click_default
 		}
-		instantTextBoxType = { name = "rn_vp_name_4" position = { x = 20 y = 356 } font = "hoi_16mbs" text = "RN_VPROW_4" maxWidth = 300 maxHeight = 24 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_vp_name_4" position = { x = 20 y = 350 } font = "hoi_16mbs" text = "RN_VPROW_4" maxWidth = 300 maxHeight = 40 format = left fixedsize = yes vertical_alignment = center }
 		buttonType = {
 			name = "rn_vp_rename_4"
 			position = { x = 330 y = 350 }

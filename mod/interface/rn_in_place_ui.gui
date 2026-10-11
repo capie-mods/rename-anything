@@ -153,10 +153,12 @@ guiTypes = {
 	}
 	containerWindowType = {
 		name = "rn_ip_party_neutrality_window"
-		# Iteration 4: party tabs (any base group). Opened editor 18..438 x 266..368 temporarily covers
-		# the leader name plate, the faction row, ruling_party_info and the pie chart; ends above y383.
-		position = { x = 18 y = 266 }
-		size = { width = 420 height = 102 }
+		# Iteration 4: party tabs (any base group). Opened editor 18..438 x 253..383 temporarily covers
+		# the bottom of the portrait, the leader name plate, the faction row, ruling_party_info and the
+		# pie chart; ends at y383. Design-system grid: tabs, then two labelled rows 42 px apart, then
+		# the status line. The leader pencil (154,242) is hidden while this editor is open.
+		position = { x = 18 y = 253 }
+		size = { width = 420 height = 130 }
 		orientation = upper_left
 		clipping = no
 		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
@@ -241,21 +243,21 @@ guiTypes = {
 		# Visible field frames: vanilla corneredTile from social.gfx (as social_view editbox_search).
 		containerWindowType = {
 			name = "rn_ipp_short_frame"
-			position = { x = 0 y = 34 }
+			position = { x = 0 y = 46 }
 			size = { width = 364 height = 26 }
 			clipping = no
 			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
 		}
 		containerWindowType = {
 			name = "rn_ipp_long_frame"
-			position = { x = 0 y = 76 }
+			position = { x = 0 y = 88 }
 			size = { width = 364 height = 26 }
 			clipping = no
 			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
 		}
 		editBoxType = {
 			name = "rn_ip_party_neutrality_edit"
-			position = { x = 4 y = 37 }
+			position = { x = 4 y = 49 }
 			size = { x = 356 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
@@ -264,7 +266,7 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_ip_party_neutrality_apply"
-			position = { x = 370 y = 37 }
+			position = { x = 370 y = 49 }
 			scale = 0.67 # 20x20
 			quadTextureSprite = "GFX_preset_button_save"
 			buttonFont = "hoi_18mbs"
@@ -274,29 +276,50 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_ip_party_neutrality_cancel"
-			position = { x = 396 y = 39 }
+			position = { x = 396 y = 51 }
 			quadTextureSprite = "GFX_closebutton_16"
 			clicksound = click_close
 			pdx_tooltip = "RN_IP_CANCEL"
 		}
+		# Visible field labels (design system: a tooltip alone is not enough).
+		instantTextboxType = {
+			name = "rn_ip_party_neutrality_short_label"
+			position = { x = 6 y = 34 }
+			font = "Arial12"
+			text = "RN_IPP_LABEL_SHORT"
+			maxWidth = 356
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
 		instantTextboxType = {
 			name = "rn_ip_party_neutrality_long_label"
-			position = { x = 6 y = 61 }
+			position = { x = 6 y = 76 }
 			font = "Arial12"
-			text = "[ROOT.RN_IPP_PARTY_STATUS]"
-			maxWidth = 408
+			text = "RN_IPP_LABEL_LONG"
+			maxWidth = 356
 			maxHeight = 14
 			fixedsize = yes
 			alwaystransparent = yes
 		}
 		editBoxType = {
 			name = "rn_ip_party_neutrality_long_edit"
-			position = { x = 4 y = 79 }
+			position = { x = 4 y = 91 }
 			size = { x = 356 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
 			text = ""
 			ignore_enter = yes
+		}
+		instantTextboxType = {
+			name = "rn_ip_party_neutrality_status"
+			position = { x = 6 y = 116 }
+			font = "Arial12"
+			text = "[ROOT.RN_IPP_PARTY_STATUS]"
+			maxWidth = 408
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
 		}
 	}
 
