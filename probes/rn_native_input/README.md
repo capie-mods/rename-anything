@@ -10,7 +10,8 @@ window to its right. It contains a real vanilla `editBoxType` named
 This fixed value is a constructor/text-layout control; it is not evidence of
 typing or of reading a player's edit.
 
-The first button logs three proposed command temporary variables. Until a
+The first button logs the proposed ok marker, length and all32 character slots.
+Until a
 verified bridge supplies them, their values do not represent the editor text.
 It changes no name. The second button deliberately tests `set_party_name` on
 POL's neutral ruling party, using two literal strings without matching loc keys.
@@ -30,6 +31,11 @@ length, active integer CHARS codes and zero padding before copying to the existi
 the buffer and target intact. The explicit engine namespace is `temp_var:`.
 No current GUI button calls this candidate. Parser/runtime, command freshness
 and actual Apply remain separate checks after the observational field test.
+
+The separately built observer reads text without supplying any payload. A
+different-process bridge prototype supplies the proposed payload but still uses
+the log-only commit effect. Both prototypes remain separate from the production
+country DLL. Never load the observer and bridge into the same process.
 
 The coordinator must archive own QA saves before any overwrite, keep user saves
 untouched, record descriptor/config hashes on activation, and restore the original
