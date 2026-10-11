@@ -22,7 +22,7 @@ guiTypes = {
 		buttonType = {
 			name = "rn_ip_country_open"
 			position = { x = 379 y = 0 }
-			size = { x = 14 y = 14 }
+			scale = 0.5 # 30x30 frame -> 15x15; size{} is not applied to this textSprite
 			quadTextureSprite = "GFX_edit_designer_notes_button"
 			buttonFont = "hoi_18mbs"
 			clicksound = click_default
@@ -86,7 +86,7 @@ guiTypes = {
 		buttonType = {
 			name = "rn_ip_country_apply"
 			position = { x = 369 y = 0 }
-			size = { x = 16 y = 16 }
+			scale = 0.5 # 30x30 frame -> 15x15; avoids covering the 16px Cancel
 			quadTextureSprite = "GFX_preset_button_save"
 			buttonFont = "hoi_18mbs"
 			clicksound = click_default

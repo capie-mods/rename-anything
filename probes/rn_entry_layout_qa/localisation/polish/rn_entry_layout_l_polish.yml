@@ -3,3 +3,4 @@
  rn_entry_layout_desc:0 "Zmieniaj nazwy własnego kraju, postaci, stanów i miast."
  rn_open_name_editor:0 "Otwórz edytor nazw"
  rn_open_name_editor_desc:0 "Otwórz Rename Anything. Przed otwarciem zamknij bieżący edytor nazw."
+ rn_open_name_editor_blocked_tt:0 "Najpierw zamknij otwarty edytor nazw."

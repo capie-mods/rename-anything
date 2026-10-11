@@ -148,12 +148,26 @@ def structural(effects, models, gui, triggers, locs):
     assert get(widgets['rn_ip_party_neutrality_prefill'],'text')=='[ROOT.RN_IPP_PARTY_SHORT]'
     assert get(widgets['rn_ip_party_neutrality_long_prefill'],'text')=='[ROOT.RN_IPP_PARTY_LONG]'
     assert get(widgets['rn_ip_party_neutrality_long_label'],'text')=='[ROOT.RN_IPP_PARTY_STATUS]'
-    assert get(widgets['rn_ip_party_neutrality_launcher_window'],'position')==[('x','=','18'),('y','=','368')]
-    assert get(widgets['rn_ip_party_neutrality_window'],'position')==[('x','=','18'),('y','=','304')]
-    assert get(widgets['rn_ip_party_neutrality_window'],'size')==[('width','=','196'),('height','=','62')]
-    assert get(widgets['rn_ip_party_neutrality_launcher_window'],'size')==[('width','=','236'),('height','=','14')]
-    assert get(widgets['rn_ip_party_neutrality_open'],'position')==[('x','=','220'),('y','=','0')]
+    # Party launcher inside ruling_party_info (88..343 x 305..365), left of the pie chart (x270).
+    assert get(widgets['rn_ip_party_neutrality_launcher_window'],'position')==[('x','=','228'),('y','=','310')]
+    assert get(widgets['rn_ip_party_neutrality_launcher_window'],'size')==[('width','=','20'),('height','=','20')]
+    # Opened party editor 18..268 x 300..366: left of the pie chart, above y383 bottom/y390 actions.
+    assert get(widgets['rn_ip_party_neutrality_window'],'position')==[('x','=','18'),('y','=','300')]
+    assert get(widgets['rn_ip_party_neutrality_window'],'size')==[('width','=','250'),('height','=','66')]
+    assert get(widgets['rn_ip_party_neutrality_edit'],'size')==[('x','=','176'),('y','=','20')] and get(widgets['rn_ip_party_neutrality_edit'],'font')=='hoi_18'
+    assert get(widgets['rn_ip_party_neutrality_long_edit'],'size')==[('x','=','238'),('y','=','20')]
+    for frame in ('rn_ipp_short_frame','rn_ipp_long_frame'): assert get(get(widgets[frame],'background'),'spriteType')=='GFX_tiles_dark_area_cut_8'
+    assert get(widgets['rn_ip_party_neutrality_open'],'position')==[('x','=','0'),('y','=','0')]
     assert get(widgets['rn_ip_party_neutrality_long_label'],'font')=='Arial12'
+    # 30x30-frame designer sprites ignore size{}; the visible footprint must be scaled to 15px.
+    big={'GFX_edit_designer_notes_button','GFX_preset_button_save'}
+    scaled=[body for kind,_,body in walk(gui) if kind=='buttonType' and any(k=='quadTextureSprite' and v in big for k,_,v in body)]
+    want={'rn_ip_leader_open':'0.67','rn_ip_leader_apply':'0.67','rn_ip_party_neutrality_open':'0.67','rn_ip_party_neutrality_apply':'0.67','rn_ip_country_open':'0.5','rn_ip_country_apply':'0.5'}
+    assert len(scaled)==6 and all([v for k,_,v in b if k=='scale']==[want[get(b,'name')]] and not any(k=='size' for k,_,_ in b) for b in scaled), 'unscaled 30px icon button'
+    assert get(widgets['rn_ip_leader_launcher_window'],'position')==[('x','=','152'),('y','=','270')]
+    # Party pencil bottom stays above vanilla action buttons (y390) and leader pencil inside leader_name 18..173 x 262..298.
+    # 20px leader pencil inside leader_name 18..173 x 262..298; Apply/Cancel disjoint in both editors.
+    assert 18<=152 and 152+20<=173 and 262<=270 and 270+20<=298 and 117+20<=139 and 194+20<=222 and 18+250<270 and 300+66<383
 
 class ProductVM(ApplyVM):
     def __init__(self,*args,**kwargs):
@@ -194,6 +208,9 @@ def main():
     old=named(original)
     for key,font in [('rn_ip_country_label','Arial12'),('rn_ip_country_name_edit','hoi_16mbs'),('rn_ip_country_adj_edit','hoi_16mbs')]:
         old[key][:]=[(k,op,font if k=='font' else value) for k,op,value in old[key]]
+    # Second allowed delta: size{} of the two 30px-frame icon buttons becomes scale=0.5; positions unchanged.
+    for key in ('rn_ip_country_open','rn_ip_country_apply'):
+        old[key][:]=[('scale','=','0.5') if k=='size' else (k,op,value) for k,op,value in old[key]]
     assert original==candidate, 'country geometry/nonfont delta'
     # No virtual path, model, scripted-loc or trigger collisions with the main dev mod.
     gamefiles=[p for folder in ('common','interface','localisation') for p in (HERE/folder).rglob('*') if p.is_file()]
@@ -279,18 +296,19 @@ def main():
     else: raise AssertionError('negative fixture missing late guard survived')
     # Other contract mutations are rejected by the independent structural checks.
     rejected=1
-    for mutate in ('partial group gate','ctor temp enabled','country geometry','raw party carrier'):
+    for mutate in ('partial group gate','ctor temp enabled','country geometry','raw party carrier','unscaled icon'):
         ee,mm,gg,tt,ll=map(copy.deepcopy,( {k:effects[k] for k in own_effects},models,gui,TRIGGERS,locs))
         if mutate=='partial group gate': get(tt['rn_ipp_party_target_matches'],'OR').pop()
         elif mutate=='ctor temp enabled': get(get(mm['rn_ip_country_gui'],'triggers'),'rn_ip_country_apply_click_enabled').append(('check_variable','=',[('temp_var:rn_native_cap','=','1')]))
-        elif mutate=='country geometry': named(gg)['rn_ip_party_neutrality_window'].remove(('size','=',[('width','=','196'),('height','=','62')]))
+        elif mutate=='country geometry': named(gg)['rn_ip_party_neutrality_window'].remove(('size','=',[('width','=','250'),('height','=','66')]))
+        elif mutate=='unscaled icon': named(gg)['rn_ip_party_neutrality_open'].remove(('scale','=','0.67'))
         else:
             node=named(gg)['rn_ip_party_neutrality_prefill'];node[:]=[(k,op,'[ROOT.GetRulingParty]' if k=='text' else v) for k,op,v in node]
         try: structural(ee,mm,gg,tt,ll)
         except AssertionError: rejected+=1
         else: raise AssertionError(('negative contract mutation survived',mutate))
     files={p.relative_to(HERE).as_posix():sha(p) for p in sorted(HERE.rglob('*')) if p.is_file() and p.name!='static-review.json'}
-    report={'date':'2026-10-11','scope':'Inactive source-only product QA; limited VM records setter requests, no engine/UI/native/MP acceptance','activated':False,'blockers':[], 'protected_files_unchanged':len(protected),'game_files':len(gamefiles),'models':len(models),'native_fields':5,'actual_pair_source_cases':cases,'negative_contract_mutations_rejected':rejected,'pure_helpers_byte_identical':True,'country_geometry_unchanged':True,'party_base_groups':dict(GROUPS),'cancel_after_government_change':True,'empty_prefill_on_target_mismatch':True,'runtime_open':['new 4-group script parser/branches and generic own-country leader guard','conditional empty carriers and target-mismatch label','party launcher/editor overlap, country fonts/16px clipping','native vanilla leader/party caption refresh currently requires panel reopen','local player lifecycle/menu-load/draft/Enter/focus and multiplayer not accepted here'],'files':files}
+    report={'date':'2026-10-11','scope':'Inactive source-only product QA; limited VM records setter requests, no engine/UI/native/MP acceptance','activated':False,'blockers':[], 'protected_files_unchanged':len(protected),'game_files':len(gamefiles),'models':len(models),'native_fields':5,'actual_pair_source_cases':cases,'negative_contract_mutations_rejected':rejected,'pure_helpers_byte_identical':True,'country_geometry_unchanged':True,'country_allowed_delta':'fonts (2 edits+label) and 30px icon buttons size->scale0.5; positions unchanged','party_layout':'launcher 228,310 20px in ruling_party_info; editor 18,300 250x66, framed hoi_18 short 176x20 + hoi_16mbs long 238x20','icon_buttons_scaled':sum(1 for kind,_,body in walk(gui) if kind=='buttonType' and any(k=='scale' for k,_,_ in body)),'party_base_groups':dict(GROUPS),'cancel_after_government_change':True,'empty_prefill_on_target_mismatch':True,'runtime_open':['new 4-group script parser/branches and generic own-country leader guard','conditional empty carriers and target-mismatch label','party launcher/editor overlap, country fonts/16px clipping','native vanilla leader/party caption refresh currently requires panel reopen','scale=0.5 render and hit area of 30px icon buttons; leader pencil inside name plate vs long names','local player lifecycle/menu-load/draft/Enter/focus and multiplayer not accepted here'],'files':files}
     if '--write-report' in sys.argv: (HERE/'static-review.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({k:v for k,v in report.items() if k!='files'},ensure_ascii=False,indent=2))
 

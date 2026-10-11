@@ -23,7 +23,7 @@
       ],
       "target": "Generic own every_character active is_country_leader; typed singleton rn_ip_leader_target and typed rn_ip_leader_identity. No POL-specific character IDs.",
       "actual_apply": "Pure full current/ROOT/open/legacy/epoch/own-ruler-pin guard -> strict full single validation -> repeat complete pure guard -> generic roster refresh/singleton+scope guards -> strict copy -> one literal set_character_name. No first persistent Apply write before both guards and validation.",
-      "geometry": {"launcher": [154,299,14,14], "editor": [18,262,155,36], "edit_local": [4,8,110,20]}
+      "geometry": {"launcher": [152,270,20,20], "editor": [18,262,155,36], "edit_local": [4,8,110,20], "icon_buttons": "GFX_edit_designer_notes_button/GFX_preset_button_save are 30x30 frames; leader/party scale=0.67 (20px), country 0.5 (15px). Launcher sits inside vanilla leader_name 18,262 155x36; old 154,299 covered ruling_party_info ideology text in run42556 screenshot141."}
     },
     {
       "model": "rn_ip_party_neutrality_gui",
@@ -42,7 +42,7 @@
       "logical_group_mapping": {"1": "democratic", "2": "communism", "3": "fascism", "4": "neutrality"},
       "actual_apply": "Full context/epoch/typed country/current group guard -> unchanged strict pair validation -> same complete guard -> matching group branch before first buffer write -> common private two-buffer copy -> one fixed ideology literal setter of both names -> clear opening/pins and advance epoch.",
       "mismatch": "Error9 field0 before buffer writes; own editor/Cancel survive government change. Conditional carriers return empty and status label says Target changed: Cancel. No silent repin or history-token claim if government later returns to the same group.",
-      "geometry": {"launcher": [18,368,236,14], "pencil_local": [220,0,14,14], "editor": [18,304,196,62], "short_edit_local": [6,0,138,18], "long_edit_local": [6,42,176,18], "status_font": "Arial12"},
+      "geometry": {"launcher": [228,310,20,20], "pencil_local": [0,0,20,20], "editor": [18,300,250,66], "short_edit_local": [6,3,176,20], "short_font": "hoi_18", "long_edit_local": [6,43,238,20], "frames": "GFX_tiles_dark_area_cut_8 188x26 at 0,0 and 250x26 at 0,40", "status_local": [6,26,238,14], "status_font": "Arial12"},
       "geometry_limit": "One explicitly labelled common ruling-party area, source candidate only. Open editor temporarily overlays read-only faction/ruling info; native text may extend beyond it. Action buttons y390 are clear. Runtime layering, tooltip and clipping remain open. No inferred row index, four-row mapping or direct-name hotspot."
     },
     {

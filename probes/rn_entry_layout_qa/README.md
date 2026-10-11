@@ -22,3 +22,11 @@ Przed wdrożeniem: świeży proces z dev modem oraz tym kandydatem; portret i pe
 panel decyzji bez pływającego przycisku, otwarcie/Close/reopen decyzją na pauzie,
 brak kosztu/cooldownu, block podczas draftu, nadal działające ścieżki stanu/miast,
 PL/EN i porównanie error.log z bazą tego samego procesu. Niezależny review potrzebny.
+
+Poprawka Claude script/UI 2026-10-11 (po review 915A493C): ikona decyzji to
+`generic_political_discourse`, bo vanilla 1.19.3 nie definiuje
+`GFX_decision_generic_political_actions` (istnieje tylko sprite kategorii). Pięć
+flag w `available` jest w jednym `custom_trigger_tooltip` z kluczem
+`rn_open_name_editor_blocked_tt` (EN/PL), zamiast pięciu surowych nazw flag.
+Guard w `complete_effect` bez zmian. Statyczny check:
+`docs/evidence/session-20261011/claude-script-ui/layout_check.py`.

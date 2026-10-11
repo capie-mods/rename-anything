@@ -3,3 +3,4 @@
  rn_entry_layout_desc:0 "Edit names of your country, characters, states and cities."
  rn_open_name_editor:0 "Open name editor"
  rn_open_name_editor_desc:0 "Open Rename Anything. Close an existing name editor before opening another."
+ rn_open_name_editor_blocked_tt:0 "Close the name editor that is already open."

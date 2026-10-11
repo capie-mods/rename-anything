@@ -53,21 +53,35 @@ obcięcie tekstu wymaga QA. Fonty pochodzą z vanilla `core.gfx`: hoi_16mbs
 1093–1111, Arial12 1733–1753. Rozmiar nazwy zasłoniętej pod polem nie jest
 naprawiany lokalnym fałszywym odczytem ani automatycznym zamykaniem polityki.
 
-Partia ma jedno podpisane wspólne miejsce „Partia rządząca”, zamiast ołówka
-przypisanego na stałe do czwartego wiersza. Zamknięty launcher jest lokalnie
-18,368 / 236×14; ołówek w nim 220,0 / 14×14. Otwarty editor 18,304 / 196×62
-tymczasowo nakłada się na read-only informacje o rządzie i ikonę frakcji.
-Wspólne pola zachowują lokalne pozycje i wielkości z bazowego fixture. Status
-celu używa `Arial12` w dotychczasowym wierszu etykiety, bez powiększenia okna.
-To świadomy kompromis szkicu do QA, nie zatwierdzony wygląd produktu.
+Partia ma jeden ołówek 20×20 (scale 0.67) w prawym górnym rogu natywnego
+ruling_party_info, lokalnie 228,310, obok nazwy ideologii rządzącej; tooltip pokazuje
+nazwę partii rządzącej. (Wersja v1: pasek „Partia rządząca” 18,368 z ołówkiem 15 px —
+PID36204: użytkownik ocenił go jako „ledwo widoczny”.) Otwarty editor 18,300 / 250×66
+(do x268, przed pie chart x270; do y366, przed y383/y390) tymczasowo zakrywa emblemat
+ideologii i ruling_party_info. Pola mają ramki `GFX_tiles_dark_area_cut_8` (vanilla
+social.gfx, wzór social_view editbox_search): krótka nazwa `hoi_18` 176×20 (jak
+`group_name` armii: hoi_18 135×23), długa `hoi_16mbs` 238×20; status `Arial12`
+6,26 /238×14. (v1: 138×18 i 176×18 bez ramek — „malusieńkie”.)
 
 Primary `interface/countrypoliticsview.gui`: ruling_party_info jest 88,305 /255×60
 (95–126), elections kończy się na y366; pie chart zaczyna x270 (75–94).
 Manage occupied/subjects/collaborations są na y390 (656–735), więc oba nowe
 prostokąty partii kończą się przed nimi. Native informacje mogą wystawać poza
 nasz frame; hit testing, warstwy, tooltips i czytelność wymagają zrzutu w grze.
-Nie dodajemy hotspotu na samej nazwie ani nowych assetów. Lider zachowuje
-154,299 launcher i 18,262 /155×36 editor. Read-only „QA guards” nadal jest
+Nie dodajemy hotspotu na samej nazwie ani nowych assetów. Lider ma launcher
+152,270 /20×20 wewnątrz natywnej tabliczki leader_name i editor 18,262 /155×36.
+
+Poprawka Claude script/UI 2026-10-11: `GFX_edit_designer_notes_button` i
+`GFX_preset_button_save` to klatki 30×30 (DDS 120×30, 4 klatki); `size{}` na
+buttonType nie zmniejszał ich w grze (zrzut run42556 #141: ołówek ~25 px nad
+tekstem ideologii „Bez powiązań”, Zapisz nachodził na Anuluj). Sześć takich
+przycisków ma `scale` zamiast `size`: lider i partia 0.67 (20 px), kraj 0.5 (15 px,
+pozycje kraju bez zmian). Launcher lidera 154,299 → 152,270, partii 18,368 → 228,310,
+editor partii 18,304 196×62 → 18,300 250×66 z ramkami. Render i hit area po skalowaniu
+wymagają runtime QA. Zmiana unieważnia hashe review D5D9C80F (dwa .gui, check.py,
+native-contract.json, README, lokalizacja rn_in_place_ui, static-review.json).
+
+Read-only „QA guards” nadal jest
 diagnostyką tego kandydata, nie testem tekstu ani elementem docelowego produktu.
 
 W obecnym runtime QA bazowego wariantu GetLeader/GetRulingParty i tooltips
