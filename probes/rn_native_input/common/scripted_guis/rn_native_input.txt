@@ -8,7 +8,11 @@ scripted_gui = {
 		ai_enabled = { always = no }
 		effects = {
 			rn_native_probe_commit_click = {
-				log = "RN native input probe: len=[?rn_native_len], first=[?rn_native_0], last=[?rn_native_31]"
+				log = "RN native input probe: ok=[?rn_native_ok], len=[?rn_native_len]"
+				log = "RN native input slots 00-07: [?rn_native_0],[?rn_native_1],[?rn_native_2],[?rn_native_3],[?rn_native_4],[?rn_native_5],[?rn_native_6],[?rn_native_7]"
+				log = "RN native input slots 08-15: [?rn_native_8],[?rn_native_9],[?rn_native_10],[?rn_native_11],[?rn_native_12],[?rn_native_13],[?rn_native_14],[?rn_native_15]"
+				log = "RN native input slots 16-23: [?rn_native_16],[?rn_native_17],[?rn_native_18],[?rn_native_19],[?rn_native_20],[?rn_native_21],[?rn_native_22],[?rn_native_23]"
+				log = "RN native input slots 24-31: [?rn_native_24],[?rn_native_25],[?rn_native_26],[?rn_native_27],[?rn_native_28],[?rn_native_29],[?rn_native_30],[?rn_native_31]"
 			}
 			rn_native_probe_party_click = {
 				if = {
