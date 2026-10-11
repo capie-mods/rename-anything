@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-11",
+  "kind": "static source inventory only; not game parser/runtime or native bridge proof",
+  "findings": [],
+  "checks_passed": 335,
+  "inventory": {
+    "models": [
+      "rn_ip_country_gui",
+      "rn_ip_country_launcher_gui"
+    ],
+    "windows": [
+      "rn_ip_country_launcher_window",
+      "rn_ip_country_window"
+    ],
+    "native_fields": [
+      "rn_ip_country_adj_edit",
+      "rn_ip_country_name_edit"
+    ],
+    "hidden_carriers": [
+      "rn_ip_country_adj_prefill",
+      "rn_ip_country_epoch",
+      "rn_ip_country_name_prefill"
+    ],
+    "visible_label": "rn_ip_country_label",
+    "buttons": [
+      "rn_ip_country_apply",
+      "rn_ip_country_cancel",
+      "rn_ip_country_open"
+    ],
+    "locale_keys": [
+      "RN_IPC_APPLY_UNAVAILABLE",
+      "RN_IPC_CANCEL",
+      "RN_IPC_EDIT_COUNTRY"
+    ],
+    "Apply_enabled": false,
+    "epoch_expression": "[?ROOT.rn_ip_epoch|0]",
+    "launcher_bounds": [
+      45,
+      29,
+      393,
+      14
+    ],
+    "editor_bounds": [
+      45,
+      28,
+      405,
+      16
+    ],
+    "shared_country_flag": "rn_ip_country_open"
+  },
+  "verified": [
+    "balanced assignments/braces and model/window/control references",
+    "exact accepted geometry; field/button rectangles fit and do not overlap",
+    "Open repeats own POL, no rn_input, no leader/party/country-open guards in effect and enabled",
+    "Cancel changes only own open flag and shared epoch",
+    "Apply always disabled and effect is log-only; no foreign helpers or rename/buffer/target writes",
+    "exact resolved carrier expressions and explicit hidden triggers",
+    "EN/PL BOM, key parity and tooltip resolution",
+    "vanilla Main_14 and all three sprite names exist",
+    "Reciprocal country-open gates statically present in rn_in_place_ui; leader/party switch behavior preserved"
+  ],
+  "limits": [
+    "unregistered, unactivated and no UI/process/config/DLL changes",
+    "game parser and own player_context behavior still require runtime",
+    "16px height, glyph clipping, icon hitboxes, long names, title localization and UI scaling await QA",
+    "native whitelist has no country models/fields; prefill/focus/Enter/two-field payload are not implemented",
+    "shared flag/epoch reset across politics close/menu/load/player changes is unresolved",
+    "epoch |0 exact digits-only rendering is a candidate until runtime",
+    "no production, save/load or multiplayer rename claim",
+    "Shared country-open guards are prepared only in unloaded source; parser/runtime and lifecycle reset still require QA."
+  ],
+  "sha256": {
+    "common/scripted_guis/rn_country_inline_ui.txt": "f5498f60f1299405aafbae7e5f52e9f5aa103f0e53f21eaacff9ad45b919570b",
+    "descriptor.mod": "8c870bbb7e14cf443c1d0900c29665ef0ad1cacc89cb5c21c170268b98823d52",
+    "interface/rn_country_inline_ui.gui": "1f87c132eea21a1d92f7727810e399baeeae3a93f710c0a448193061aeed5e17",
+    "localisation/english/rn_country_inline_ui_l_english.yml": "36304caf8c0a3c26093add78bc21fd7a0b1c0cd792e2a9720c3afab006fe17e8",
+    "localisation/polish/rn_country_inline_ui_l_polish.yml": "e2f4c81a5ed5f2ed8866a7b39aa892eb98ed79e44a22c44821dc109257566783",
+    "native-contract.json": "83c3b0b895aeb2f3b49a633043322236a38caa981e75f8a34fa24eefe9c8c78d",
+    "README.md": "27622ba864ddb814950527d1a3465c3d16c5be412426afc2f35e482ef5d919df"
+  },
+  "shared_fixture_review": {
+    "status": "source-only candidate; no activation or game parser/runtime proof",
+    "findings": [],
+    "verified": [
+      "Leader Open enabled/helper and Apply context reject country-open",
+      "Party Open enabled/effect reject country-open and old rn_input",
+      "Country Open enabled/effect reject leader/party/country-open and old rn_input",
+      "Existing leader/party mutual switch, typed pin cleanup and epoch increment are preserved",
+      "All three Apply buttons remain always=no",
+      "Pdx assignments/comparisons/braces and JSON remain structurally valid"
+    ],
+    "native_scope": "country models/fields not added to any native whitelist"
+  },
+  "review_note": " Root-approved unloaded shared-fixture follow-up adds only country-open gates (plus old rn_input on party Open), documentation and manifest metadata. No native or active fixture change. Disposable inventory parser was corrected for comparison operators and repeated if blocks without altering game sources."
+}

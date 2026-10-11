@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-11",
+  "status": "unloaded own-country header sketch; no native integration",
+  "activation": "not_registered",
+  "qa_scope": "own player_context country, disposable POL, is_ai=no",
+  "parent_window_token": "politics_tab",
+  "launcher_model": "rn_ip_country_launcher_gui",
+  "launcher_window": "rn_ip_country_launcher_window",
+  "editor_model": "rn_ip_country_gui",
+  "editor_window": "rn_ip_country_window",
+  "visible_label": "rn_ip_country_label",
+  "visible_label_expression": "[ROOT.GetName]",
+  "open_flag": "rn_ip_country_open",
+  "epoch_variable": "rn_ip_epoch",
+  "epoch_carrier": "rn_ip_country_epoch",
+  "epoch_expression": "[?ROOT.rn_ip_epoch|0]",
+  "open_selector": "rn_ip_country_open_click",
+  "apply_selector": "rn_ip_country_apply_click",
+  "cancel_selector": "rn_ip_country_cancel_click",
+  "apply_enabled": false,
+  "apply_behavior": "log-only placeholder; no payload, country rename or adjective rename",
+  "open_rejects_flags": [
+    "rn_ip_country_open",
+    "rn_ip_leader_open",
+    "rn_ip_party_neutrality_open",
+    "rn_input"
+  ],
+  "open_cancel_behavior": "Open and Cancel each increment shared rn_ip_epoch; only own country-open flag changes",
+  "launcher_bounds_local_to_politics": [
+    45,
+    29,
+    393,
+    14
+  ],
+  "editor_bounds_local_to_politics": [
+    45,
+    28,
+    405,
+    16
+  ],
+  "fields": [
+    {
+      "edit": "rn_ip_country_name_edit",
+      "carrier": "rn_ip_country_name_prefill",
+      "expression": "[ROOT.GetName]",
+      "bounds_local_to_editor": [
+        0,
+        0,
+        210,
+        16
+      ]
+    },
+    {
+      "edit": "rn_ip_country_adj_edit",
+      "carrier": "rn_ip_country_adj_prefill",
+      "expression": "[ROOT.GetAdjective]",
+      "bounds_local_to_editor": [
+        218,
+        0,
+        145,
+        16
+      ]
+    }
+  ],
+  "native_support": "country models/fields are not in the current native whitelist; prefill/Enter/transport are not implemented here",
+  "dependencies": "No foreign scripted helper calls. Shares rn_ip_epoch and reads existing open flags. Reciprocal country-open guards are prepared in unloaded rn_in_place_ui leader Open/Apply and party Open; joint runtime remains untested.",
+  "future_target_requirement": "Fresh own player-context country identity plus opening epoch; do not derive ownership from is_ai=no or a diplomacy selection",
+  "runtime_status": "unobserved: parser, resolved carriers, epoch formatting, glyph clipping, focus, keyboard, native prefill, Enter and save/load lifecycle",
+  "shared_fixture_guard_status": "source-only integrated candidate; neither fixture activated"
+}

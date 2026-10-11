@@ -76,7 +76,15 @@ potwierdzone działanie GUI/zmiana nazwy. Apply pozostaje disabled do osobnego
 review i transport/runtime proof. `rn_ip_epoch` sam nie dowodzi świeżości natywnego
 odczytu ani poprawnej obsługi restartu/save/load.
 
-Obie flagi otwarcia są wzajemnie wykluczane. Trzeba jeszcze określić reset przy
+Obie flagi otwarcia są wzajemnie wykluczane. Niewłączony wspólny kandydat z
+`../rn_country_inline_ui` ma teraz wzajemne blokady: Open lidera (enabled/helper)
+oraz kontekst Apply lidera odrzucają `rn_ip_country_open`, a Open partii
+(enabled/efekt) odrzuca tę flagę oraz stare `rn_input`. Dotychczasowe przełączanie
+lider/partia przez usunięcie flagi, pina i zmianę epoki pozostaje. Country Open
+odrzuca lidera, partię i `rn_input`; nie wywołuje helperów tego katalogu. Ta
+integracja jest oceniona tylko statycznie. Country modele nadal nie należą do
+natywnej whitelist; żaden z katalogów nie jest przez tę zmianę aktywowany.
+Trzeba jeszcze określić reset przy
 zamknięciu polityki, menu/load, zmianie gracza i odbudowie GUI. Flagi/epoka są
 zwykłym stanem skryptowym kraju, więc nie należy zakładać automatycznego resetu.
 Native integration ma rozwiązywać kontrolki świeżo, bez zachowywania wskaźników

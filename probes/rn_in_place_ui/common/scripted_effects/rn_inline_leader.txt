@@ -31,6 +31,7 @@ rn_inline_leader_open = {
 			is_ai = no
 			NOT = { has_country_flag = rn_input }
 			NOT = { has_country_flag = rn_ip_leader_open }
+			NOT = { has_country_flag = rn_ip_country_open }
 		}
 		rn_inline_leader_clear_target = yes
 		rn_inline_leader_refresh = yes
@@ -64,6 +65,7 @@ rn_inline_leader_apply = {
 			is_ai = no
 			has_country_flag = rn_ip_leader_open
 			NOT = { has_country_flag = rn_ip_party_neutrality_open }
+			NOT = { has_country_flag = rn_ip_country_open }
 			NOT = { has_country_flag = rn_input }
 		}
 		set_temp_variable = { rn_ip_leader_error = 8 }

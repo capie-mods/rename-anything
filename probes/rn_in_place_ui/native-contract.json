@@ -59,5 +59,15 @@
   "existing_hook_model": "rn_native_probe_gui only; this sketch does not extend hook filters",
   "command_epoch_temp": "rn_ip_cmd_epoch",
   "command_epoch_status": "future only; 15 ASCII bytes, ordinary fixed-point numeric, exact sanitation required",
-  "payload_contract": "34 rn_native_* records + rn_ip_cmd_epoch, all captured from same fresh opening snapshot"
+  "payload_contract": "34 rn_native_* records + rn_ip_cmd_epoch, all captured from same fresh opening snapshot",
+  "shared_country_fixture": {
+    "path": "../rn_country_inline_ui",
+    "open_flag": "rn_ip_country_open",
+    "guard_status": "source-only integrated candidate; not activated or tested in game",
+    "leader": "Open enabled/helper and Apply context reject country-open",
+    "party": "Open enabled/effect reject country-open and old rn_input",
+    "country": "Open enabled/effect reject leader-open, party-open, old rn_input and own country-open",
+    "switch_behavior": "Existing leader/party flag+pin+epoch switching is preserved",
+    "native_support": "country models/fields are not added to the whitelist"
+  }
 }
