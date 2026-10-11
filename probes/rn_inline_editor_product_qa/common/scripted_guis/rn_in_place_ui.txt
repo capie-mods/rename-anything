@@ -113,6 +113,26 @@ scripted_gui = {
 				rn_inline_pair_cancel_party = yes
 				rn_ip_status_clear = yes
 			}
+			rn_ipp_tab_1_click = {
+				set_temp_variable = { rn_ip_party_tab = 1 }
+				rn_inline_pair_switch_party = yes
+				rn_ip_status_clear = yes
+			}
+			rn_ipp_tab_2_click = {
+				set_temp_variable = { rn_ip_party_tab = 2 }
+				rn_inline_pair_switch_party = yes
+				rn_ip_status_clear = yes
+			}
+			rn_ipp_tab_3_click = {
+				set_temp_variable = { rn_ip_party_tab = 3 }
+				rn_inline_pair_switch_party = yes
+				rn_ip_status_clear = yes
+			}
+			rn_ipp_tab_4_click = {
+				set_temp_variable = { rn_ip_party_tab = 4 }
+				rn_inline_pair_switch_party = yes
+				rn_ip_status_clear = yes
+			}
 		}
 		triggers = {
 			rn_ip_party_neutrality_epoch_visible = { always = no }
@@ -124,6 +144,11 @@ scripted_gui = {
 				is_ai = no
 				has_country_flag = rn_ip_party_neutrality_open
 			}
+			# Tabs: the selected group is the disabled tab (same pattern as the main editor tabs).
+			rn_ipp_tab_1_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 1 } } NOT = { rn_ip_cooldown_active_party = yes } }
+			rn_ipp_tab_2_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 2 } } NOT = { rn_ip_cooldown_active_party = yes } }
+			rn_ipp_tab_3_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 3 } } NOT = { rn_ip_cooldown_active_party = yes } }
+			rn_ipp_tab_4_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 4 } } NOT = { rn_ip_cooldown_active_party = yes } }
 		}
 	}
 

@@ -173,3 +173,29 @@ edytor kraju, pojemność pól i globalny przycisk do poprawy) oraz review M1–
   QA musi odpauzować grę na ≥5 dni. Decyzje vanilla (`days_re_enable`) pokazują pozostały
   czas tylko w panelu decyzji, więc nie nadają się do ołówków scripted GUI.
 
+## Iteracja 4 (po PID49352)
+
+- **Esc:** z Anuluj usunięto `shortcut = "ESCAPE"`. W panelu polityki Esc należy do vanilla
+  `close_button` (`countrypoliticsview.gui:634`) i w PID49352 zamknął panel, zanim zadziałał
+  nasz przycisk. Wszystkie modele edytorów nadal mają `parent_window_token = politics_tab`.
+  To, że edytor został na ekranie po zamknięciu panelu, jest **otwartym defektem runtime**
+  (hipoteza: fokus CEditBox). Flaga, pin i epoka zostają, więc po ponownym otwarciu panelu
+  edytor wraca z draftem bez zmiany nazwy, a Anuluj działa. Podpowiedź: „Enter: zatwierdź ·
+  maks. 32 znaki”.
+- **Kraj:** nazwa i ołówek są w linii tytułu panelu (150,8): nazwa `hoi_18mbs`,
+  `format = right`, kończy się przy ołówku 20 px (434..454), więc dłuższa rośnie w lewo; przed
+  ikoną zasad (x460). Vanilla nie ma tu tekstu nazwy kraju (tylko `political_title`), więc
+  dawny podpis 45,29 był nasz — nic nie nadpisujemy w vanilla `.gui`.
+- **Partie:** edytor 18,266 420×102 ma 4 zakładki (vanilla `GFX_button_94x31`, jak zakładki
+  głównego edytora; wybrana jest wyłączona). Zakładka = `rn_inline_pair_switch_party`:
+  nowy pin THIS, grupa, epoka +1. Bridge prefilluje ponownie przy nowej epoce (render bridge:
+  `state.epoch!=epoch` → nowe `attempted`), chyba że pole ma fokus (wtedy zachowuje draft).
+  Grupa nie musi rządzić: `set_party_name` z dowolną ideologią jest używany przez vanilla
+  (np. `national_focus/poland.txt:11717`). Krótka nazwa nierządzącej partii z
+  `Get<Grupa>Party`; długiej gra nie podaje, więc pole długie dostaje krótką nazwę, a status
+  mówi „wpisz pełną nazwę”. Każdy kraj ma partie 4 bazowych grup (także przy 0% poparcia).
+  Cooldown partii pozostaje jeden dla wszystkich partii (prostszy, spójny z kategoriami).
+- **Podmioty:** ukryty placeholder `rn_ip_subject_gui` (`diplomacy_target_context`) z trzema
+  ołówkami; przełączniki `rn_ip_subject_rename_enabled` i `rn_ip_subject_country_capability`
+  są `always = no`, efekty tylko logują. Wymaga nowych modeli native.
+

@@ -1,9 +1,10 @@
 # INACTIVE real Apply candidate; requires isolated inline_editor_bridge DLL.
 # Geometry is local to vanilla politics_tab in exact HOI4 1.19.3 (countrypoliticsview).
 # Iteration 3 (after PID42644): framed hoi_18 fields 356px (32 x widest 'm'/'W' = 352px by .fnt),
-# Enter/Esc without DLL: editBox ignore_enter = yes + Apply shortcut RETURN + Cancel shortcut ESCAPE
-# (vanilla frontendmultiplayerview.gui:85-94/222-241). Only one *_open flag can be set at a time,
-# so at most one RETURN/ESCAPE pair of ours is visible.
+# Enter without DLL: editBox ignore_enter = yes + Apply shortcut RETURN (vanilla
+# frontendmultiplayerview.gui:85-94/222-241). Only one *_open flag can be set at a time, so at most
+# one RETURN button of ours is visible. Iteration 4: no ESCAPE on Cancel - the vanilla politics
+# close_button owns Esc and closes the panel first (PID49352).
 guiTypes = {
 	containerWindowType = {
 		name = "rn_ip_leader_launcher_window"
@@ -85,7 +86,6 @@ guiTypes = {
 			quadTextureSprite = "GFX_closebutton_16"
 			clicksound = click_close
 			pdx_tooltip = "RN_IP_CANCEL"
-			shortcut = "ESCAPE"
 		}
 		instantTextboxType = {
 			name = "rn_ip_leader_status"
@@ -119,10 +119,10 @@ guiTypes = {
 	}
 	containerWindowType = {
 		name = "rn_ip_party_neutrality_window"
-		# Opened editor 18..438 x 300..368 temporarily covers the ideology emblem, ruling_party_info,
-		# the pie chart (270..370) and the left part of parties_grid; ends above y383/y390.
-		position = { x = 18 y = 300 }
-		size = { width = 420 height = 68 }
+		# Iteration 4: party tabs (any base group). Opened editor 18..438 x 266..368 temporarily covers
+		# the leader name plate, the faction row, ruling_party_info and the pie chart; ends above y383.
+		position = { x = 18 y = 266 }
+		size = { width = 420 height = 102 }
 		orientation = upper_left
 		clipping = no
 		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
@@ -156,24 +156,61 @@ guiTypes = {
 			fixedsize = yes
 			alwaystransparent = yes
 		}
+		# Group tabs, vanilla GFX_button_94x31 (as the main editor tabs); the pinned group is disabled.
+		buttonType = {
+			name = "rn_ipp_tab_1"
+			position = { x = 0 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_IPP_TAB_1"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_IPP_TAB_1_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_ipp_tab_2"
+			position = { x = 96 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_IPP_TAB_2"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_IPP_TAB_2_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_ipp_tab_3"
+			position = { x = 192 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_IPP_TAB_3"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_IPP_TAB_3_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_ipp_tab_4"
+			position = { x = 288 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_IPP_TAB_4"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_IPP_TAB_4_TT"
+			clicksound = click_default
+		}
 		# Visible field frames: vanilla corneredTile from social.gfx (as social_view editbox_search).
 		containerWindowType = {
 			name = "rn_ipp_short_frame"
-			position = { x = 0 y = 0 }
+			position = { x = 0 y = 34 }
 			size = { width = 364 height = 26 }
 			clipping = no
 			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
 		}
 		containerWindowType = {
 			name = "rn_ipp_long_frame"
-			position = { x = 0 y = 42 }
+			position = { x = 0 y = 76 }
 			size = { width = 364 height = 26 }
 			clipping = no
 			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
 		}
 		editBoxType = {
 			name = "rn_ip_party_neutrality_edit"
-			position = { x = 4 y = 3 }
+			position = { x = 4 y = 37 }
 			size = { x = 356 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
@@ -182,7 +219,7 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_ip_party_neutrality_apply"
-			position = { x = 370 y = 3 }
+			position = { x = 370 y = 37 }
 			scale = 0.67 # 20x20
 			quadTextureSprite = "GFX_preset_button_save"
 			buttonFont = "hoi_18mbs"
@@ -192,15 +229,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_ip_party_neutrality_cancel"
-			position = { x = 396 y = 5 }
+			position = { x = 396 y = 39 }
 			quadTextureSprite = "GFX_closebutton_16"
 			clicksound = click_close
 			pdx_tooltip = "RN_IP_CANCEL"
-			shortcut = "ESCAPE"
 		}
 		instantTextboxType = {
 			name = "rn_ip_party_neutrality_long_label"
-			position = { x = 6 y = 27 }
+			position = { x = 6 y = 61 }
 			font = "Arial12"
 			text = "[ROOT.RN_IPP_PARTY_STATUS]"
 			maxWidth = 408
@@ -210,7 +246,7 @@ guiTypes = {
 		}
 		editBoxType = {
 			name = "rn_ip_party_neutrality_long_edit"
-			position = { x = 4 y = 45 }
+			position = { x = 4 y = 79 }
 			size = { x = 356 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }

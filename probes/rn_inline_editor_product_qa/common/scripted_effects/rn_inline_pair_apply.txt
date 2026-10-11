@@ -202,7 +202,7 @@ rn_inline_pair_guard_party = {
 				limit = {
 					check_variable = { rn_ip_party_target^num = 1 }
 					is_in_array = { array = rn_ip_party_target value = THIS }
-					OR = { AND = { check_variable = { rn_ip_party_group = 1 } has_government = democratic } AND = { check_variable = { rn_ip_party_group = 2 } has_government = communism } AND = { check_variable = { rn_ip_party_group = 3 } has_government = fascism } AND = { check_variable = { rn_ip_party_group = 4 } has_government = neutrality } }
+					OR = { check_variable = { rn_ip_party_group = 1 } check_variable = { rn_ip_party_group = 2 } check_variable = { rn_ip_party_group = 3 } check_variable = { rn_ip_party_group = 4 } }
 				}
 				set_temp_variable = { rn_pair_err = 0 }
 			}
@@ -259,6 +259,29 @@ rn_inline_pair_open_party = {
    add_to_variable = { rn_ip_epoch = 1 }
    set_country_flag = rn_ip_party_neutrality_open
   }
+ }
+}
+
+# Iteration 4: party tabs. Switch the open party editor to base group temp rn_ip_party_tab (1..4):
+# re-pin THIS, set the group, advance the epoch (the native bridge re-prefills on a new epoch).
+# No name, buffer or cooldown write. Any ideology group may be renamed, not only the ruling one.
+rn_inline_pair_switch_party = {
+ if = {
+  limit = {
+   tag = ROOT is_ai = no
+   has_country_flag = rn_ip_party_neutrality_open
+   NOT = { has_country_flag = rn_open }
+   NOT = { has_country_flag = rn_input }
+   NOT = { has_country_flag = rn_ip_leader_open }
+   NOT = { has_country_flag = rn_ip_country_open }
+   NOT = { rn_ip_cooldown_active_party = yes }
+   OR = { check_variable = { temp_var:rn_ip_party_tab = 1 } check_variable = { temp_var:rn_ip_party_tab = 2 } check_variable = { temp_var:rn_ip_party_tab = 3 } check_variable = { temp_var:rn_ip_party_tab = 4 } }
+   NOT = { check_variable = { rn_ip_party_group = temp_var:rn_ip_party_tab } }
+  }
+  clear_array = rn_ip_party_target
+  add_to_array = { rn_ip_party_target = THIS }
+  set_variable = { rn_ip_party_group = temp_var:rn_ip_party_tab }
+  add_to_variable = { rn_ip_epoch = 1 }
  }
 }
 
@@ -363,7 +386,7 @@ rn_inline_pair_apply_party = {
    if = {
     limit = { check_variable = { temp_var:rn_pair_err = 0 } }
     if = {
-     limit = { check_variable = { rn_ip_party_group = 1 } has_government = democratic }
+     limit = { check_variable = { rn_ip_party_group = 1 } }
      rn_inline_party_copy_validated = yes
      meta_effect = {
       text = { set_party_name = { ideology = democratic name = "[S]" long_name = "[L]" } }
@@ -373,7 +396,7 @@ rn_inline_pair_apply_party = {
      rn_inline_party_finish = yes
     }
     else_if = {
-     limit = { check_variable = { rn_ip_party_group = 2 } has_government = communism }
+     limit = { check_variable = { rn_ip_party_group = 2 } }
      rn_inline_party_copy_validated = yes
      meta_effect = {
       text = { set_party_name = { ideology = communism name = "[S]" long_name = "[L]" } }
@@ -383,7 +406,7 @@ rn_inline_pair_apply_party = {
      rn_inline_party_finish = yes
     }
     else_if = {
-     limit = { check_variable = { rn_ip_party_group = 3 } has_government = fascism }
+     limit = { check_variable = { rn_ip_party_group = 3 } }
      rn_inline_party_copy_validated = yes
      meta_effect = {
       text = { set_party_name = { ideology = fascism name = "[S]" long_name = "[L]" } }
@@ -393,7 +416,7 @@ rn_inline_pair_apply_party = {
      rn_inline_party_finish = yes
     }
     else_if = {
-     limit = { check_variable = { rn_ip_party_group = 4 } has_government = neutrality }
+     limit = { check_variable = { rn_ip_party_group = 4 } }
      rn_inline_party_copy_validated = yes
      meta_effect = {
       text = { set_party_name = { ideology = neutrality name = "[S]" long_name = "[L]" } }

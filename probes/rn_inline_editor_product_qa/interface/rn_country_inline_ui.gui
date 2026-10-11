@@ -1,29 +1,34 @@
 # INACTIVE product candidate. Exact vanilla 1.19.3 politics_tab local coordinates.
 # Iteration 3 (after PID42644 "very tight" country editor): closed label/pencil unchanged;
 # opened editor is a framed two-row overlay with hoi_18 356px fields (32 x widest glyph by .fnt),
-# a status line, Enter (Apply shortcut RETURN, fields ignore_enter) and Esc (Cancel shortcut ESCAPE).
+# a status line and Enter (Apply shortcut RETURN, fields ignore_enter). Iteration 4: no ESCAPE shortcut
+# (vanilla politics close_button owns Esc and wins; PID49352).
 guiTypes = {
 	containerWindowType = {
 		name = "rn_ip_country_launcher_window"
-		position = { x = 45 y = 29 }
-		size = { width = 393 height = 14 }
+		# Iteration 4: on the title line of the politics panel. Vanilla has no country-name text
+		# here (only political_title 45,8 "Polityka"); the former subtitle at 45,29 was ours.
+		# Name right-aligned ending at the pencil, so a longer name grows to the left.
+		# Rules icon (rules_sum_icon 34x40) starts at x460, close button at x508.
+		position = { x = 150 y = 8 }
+		size = { width = 306 height = 22 }
 		orientation = upper_left
 		clipping = no
 		instantTextboxType = {
 			name = "rn_ip_country_label"
-			position = { x = 0 y = 0 }
-			font = "Arial12"
+			position = { x = 0 y = 2 }
+			font = "hoi_18mbs"
 			text = "[ROOT.GetName]"
-			maxWidth = 365
-			maxHeight = 14
+			maxWidth = 278
+			maxHeight = 20
 			fixedsize = yes
-			format = left
+			format = right
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_ip_country_open"
-			position = { x = 379 y = 0 }
-			scale = 0.5 # 30x30 frame -> 15x15 (render/hit confirmed PID42644)
+			position = { x = 284 y = 1 }
+			scale = 0.67 # 30x30 frame -> 20x20, same size as the leader/party pencils
 			quadTextureSprite = "GFX_edit_designer_notes_button"
 			buttonFont = "hoi_18mbs"
 			clicksound = click_default
@@ -119,7 +124,6 @@ guiTypes = {
 			quadTextureSprite = "GFX_closebutton_16"
 			clicksound = click_close
 			pdx_tooltip = "RN_IPC_CANCEL"
-			shortcut = "ESCAPE"
 		}
 		instantTextboxType = {
 			name = "rn_ip_country_status"

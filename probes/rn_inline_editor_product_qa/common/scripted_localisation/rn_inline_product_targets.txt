@@ -1,23 +1,40 @@
-# INACTIVE party target carriers. Empty fallback blocks native prefill on a stale target.
+# INACTIVE party target carriers (iteration 4: any base group via tabs). Empty fallback blocks
+# native prefill on a stale target. The game has no long-name getter for a non-ruling party, so
+# its long carrier falls back to the short name and the status line says so.
 
 defined_text = {
 	name = RN_IPP_PARTY_SHORT
-	text = { trigger = { rn_ipp_party_target_matches = yes } localization_key = RN_IPP_PARTY_SHORT_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 1 } has_government = democratic } localization_key = RN_IPP_PARTY_SHORT_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 2 } has_government = communism } localization_key = RN_IPP_PARTY_SHORT_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 3 } has_government = fascism } localization_key = RN_IPP_PARTY_SHORT_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 4 } has_government = neutrality } localization_key = RN_IPP_PARTY_SHORT_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 1 } } localization_key = RN_IPP_PARTY_SHORT_DEMOCRATIC }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 2 } } localization_key = RN_IPP_PARTY_SHORT_COMMUNISM }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 3 } } localization_key = RN_IPP_PARTY_SHORT_FASCISM }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 4 } } localization_key = RN_IPP_PARTY_SHORT_NEUTRALITY }
 	text = { localization_key = RN_IPP_EMPTY }
 }
 
 defined_text = {
 	name = RN_IPP_PARTY_LONG
-	text = { trigger = { rn_ipp_party_target_matches = yes } localization_key = RN_IPP_PARTY_LONG_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 1 } has_government = democratic } localization_key = RN_IPP_PARTY_LONG_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 2 } has_government = communism } localization_key = RN_IPP_PARTY_LONG_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 3 } has_government = fascism } localization_key = RN_IPP_PARTY_LONG_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 4 } has_government = neutrality } localization_key = RN_IPP_PARTY_LONG_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 1 } } localization_key = RN_IPP_PARTY_SHORT_DEMOCRATIC }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 2 } } localization_key = RN_IPP_PARTY_SHORT_COMMUNISM }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 3 } } localization_key = RN_IPP_PARTY_SHORT_FASCISM }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 4 } } localization_key = RN_IPP_PARTY_SHORT_NEUTRALITY }
 	text = { localization_key = RN_IPP_EMPTY }
 }
 
 defined_text = {
 	name = RN_IPP_PARTY_STATUS
-	text = { trigger = { rn_ipp_party_target_matches = yes NOT = { has_variable = rn_ip_status_err } } localization_key = RN_IP_LONG_NAME }
 	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_status_err = 11 } } localization_key = RN_IP_ERR_CD_PARTY }
-	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_status_err < 7 } check_variable = { rn_ip_status_field = 1 } } localization_key = RN_IP_ERR_PARTY_SHORT }
-	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_status_err < 7 } } localization_key = RN_IP_ERR_PARTY_LONG }
+	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } check_variable = { rn_ip_status_field = 1 } } localization_key = RN_IP_ERR_PARTY_SHORT }
+	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } } localization_key = RN_IP_ERR_PARTY_LONG }
+	text = { trigger = { rn_ipp_party_target_matches = yes NOT = { has_variable = rn_ip_status_err } rn_ipp_party_pinned_rules = yes } localization_key = RN_IP_LONG_NAME }
+	text = { trigger = { rn_ipp_party_target_matches = yes NOT = { has_variable = rn_ip_status_err } } localization_key = RN_IPP_LONG_UNKNOWN }
 	text = { localization_key = RN_IPP_TARGET_CHANGED }
 }
 

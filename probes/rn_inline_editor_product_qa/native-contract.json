@@ -1,6 +1,6 @@
 {
   "date": "2026-10-11",
-  "status": "INACTIVE script-only product candidate; no registration or runtime acceptance",
+  "status": "rn_ip_status_err/field are UI-only variables written by rn_ip_status_record_* after the guarded helper and cleared on Open/Cancel/success; no guard, trigger, validator or setter reads them.",
   "authority": "All seven SG models use player_context/politics_tab. tag=ROOT checks CURRENT==ROOT; is_ai=no controls availability. Neither independently grants local-player authority. No foreign-country/MP claim.",
   "native_change": "NONE: exact model/window/field/carrier/selector names retained; no new native module/build/config/process",
   "epoch_variable": "rn_ip_epoch",
@@ -19,11 +19,60 @@
       "records": 35,
       "epoch_carrier": "rn_ip_leader_epoch",
       "fields": [
-        {"edit": "rn_ip_leader_edit", "carrier": "rn_ip_leader_prefill", "expression": "[?ROOT.rn_ip_leader_identity.GetName]"}
+        {
+          "edit": "rn_ip_leader_edit",
+          "carrier": "rn_ip_leader_prefill",
+          "expression": "[?ROOT.rn_ip_leader_identity.GetName]"
+        }
       ],
       "target": "Generic own every_character active is_country_leader; typed singleton rn_ip_leader_target and typed rn_ip_leader_identity. No POL-specific character IDs.",
       "actual_apply": "Pure full current/ROOT/open/legacy/epoch/own-ruler-pin guard -> strict full single validation -> repeat complete pure guard -> generic roster refresh/singleton+scope guards -> strict copy -> one literal set_character_name. No first persistent Apply write before both guards and validation.",
-      "geometry": {"launcher": [154,242,20,20], "editor": [18,262,420,46], "frame_local": [0,0,364,26], "edit_local": [4,3,356,20], "edit_font": "hoi_18", "apply_local": [370,3,20,20], "cancel_local": [396,5,16,16], "status_local": [6,29,408,14], "icon_buttons": "30x30-frame sprites use scale (0.67 = 20px; render/hit confirmed PID42644). Launcher above leader_name (18,262 155x36), never over the name text (M1)."}
+      "geometry": {
+        "launcher": [
+          154,
+          242,
+          20,
+          20
+        ],
+        "editor": [
+          18,
+          262,
+          420,
+          46
+        ],
+        "frame_local": [
+          0,
+          0,
+          364,
+          26
+        ],
+        "edit_local": [
+          4,
+          3,
+          356,
+          20
+        ],
+        "edit_font": "hoi_18",
+        "apply_local": [
+          370,
+          3,
+          20,
+          20
+        ],
+        "cancel_local": [
+          396,
+          5,
+          16,
+          16
+        ],
+        "status_local": [
+          6,
+          29,
+          408,
+          14
+        ],
+        "icon_buttons": "30x30-frame sprites use scale (0.67 = 20px; render/hit confirmed PID42644). Launcher above leader_name (18,262 155x36), never over the name text (M1)."
+      }
     },
     {
       "model": "rn_ip_party_neutrality_gui",
@@ -35,15 +84,113 @@
       "records": 69,
       "epoch_carrier": "rn_ip_party_neutrality_epoch",
       "fields": [
-        {"edit": "rn_ip_party_neutrality_edit", "carrier": "rn_ip_party_neutrality_prefill", "expression": "[ROOT.RN_IPP_PARTY_SHORT]", "payload": "A"},
-        {"edit": "rn_ip_party_neutrality_long_edit", "carrier": "rn_ip_party_neutrality_long_prefill", "expression": "[ROOT.RN_IPP_PARTY_LONG]", "payload": "B"}
+        {
+          "edit": "rn_ip_party_neutrality_edit",
+          "carrier": "rn_ip_party_neutrality_prefill",
+          "expression": "[ROOT.RN_IPP_PARTY_SHORT]",
+          "payload": "A"
+        },
+        {
+          "edit": "rn_ip_party_neutrality_long_edit",
+          "carrier": "rn_ip_party_neutrality_long_prefill",
+          "expression": "[ROOT.RN_IPP_PARTY_LONG]",
+          "payload": "B"
+        }
       ],
-      "target": "Typed rn_ip_party_target singleton THIS country + exact rn_ip_party_group + global opening epoch. Protocol suffix neutrality retained; not a target restriction.",
-      "logical_group_mapping": {"1": "democratic", "2": "communism", "3": "fascism", "4": "neutrality"},
+      "target": "Typed rn_ip_party_target singleton THIS country + rn_ip_party_group 1..4 (any base group, ruling or not; tabs) + global opening epoch. Protocol suffix neutrality retained.",
+      "logical_group_mapping": {
+        "1": "democratic",
+        "2": "communism",
+        "3": "fascism",
+        "4": "neutrality"
+      },
       "actual_apply": "Full context/epoch/typed country/current group guard -> unchanged strict pair validation -> same complete guard -> matching group branch before first buffer write -> common private two-buffer copy -> one fixed ideology literal setter of both names -> clear opening/pins and advance epoch.",
-      "mismatch": "Error9 field0 before buffer writes; own editor/Cancel survive government change. Conditional carriers return empty and status label says Target changed: Cancel. No silent repin or history-token claim if government later returns to the same group.",
-      "geometry": {"launcher": [228,310,20,20], "pencil_local": [0,0,20,20], "editor": [18,300,420,68], "short_frame_local": [0,0,364,26], "short_edit_local": [4,3,356,20], "long_frame_local": [0,42,364,26], "long_edit_local": [4,45,356,20], "edit_font": "hoi_18", "apply_local": [370,3,20,20], "cancel_local": [396,5,16,16], "status_local": [6,27,408,14], "status_font": "Arial12"},
-      "geometry_limit": "Iteration 3: the closed launcher is a single 20px pencil inside vanilla ruling_party_info (228..248 x 310..330, left of the pie chart x270); the former labelled strip at 18,368 was removed. The opened editor 18..438 x 300..368 temporarily covers the ideology emblem, ruling_party_info, the pie chart and the left part of parties_grid; it ends above y383/y390. No inferred row index or direct-name hotspot. Runtime layering/tooltip still open."
+      "mismatch": "Error 9 field 0 before buffer writes when the pin/group is invalid. Government no longer gates the pinned group. Non-ruling long carrier = short name (no game getter); status says so.",
+      "geometry": {
+        "launcher": [
+          228,
+          310,
+          20,
+          20
+        ],
+        "editor": [
+          18,
+          266,
+          420,
+          102
+        ],
+        "tabs_local": [
+          [
+            0,
+            0,
+            94,
+            31
+          ],
+          [
+            96,
+            0,
+            94,
+            31
+          ],
+          [
+            192,
+            0,
+            94,
+            31
+          ],
+          [
+            288,
+            0,
+            94,
+            31
+          ]
+        ],
+        "short_frame_local": [
+          0,
+          34,
+          364,
+          26
+        ],
+        "short_edit_local": [
+          4,
+          37,
+          356,
+          20
+        ],
+        "long_frame_local": [
+          0,
+          76,
+          364,
+          26
+        ],
+        "long_edit_local": [
+          4,
+          79,
+          356,
+          20
+        ],
+        "edit_font": "hoi_18",
+        "apply_local": [
+          370,
+          37,
+          20,
+          20
+        ],
+        "cancel_local": [
+          396,
+          39,
+          16,
+          16
+        ],
+        "status_local": [
+          6,
+          61,
+          408,
+          14
+        ]
+      },
+      "geometry_limit": "Iteration 4: opened editor 18..438 x 266..368 temporarily covers the leader plate, faction row, ruling_party_info and pie chart; ends above y383/y390.",
+      "tabs": "rn_ipp_tab_1..4_click -> rn_inline_pair_switch_party: re-pin THIS, set group, epoch+1 (bridge re-prefills on a new epoch). Not an Apply selector; no name/buffer/cooldown write."
     },
     {
       "model": "rn_ip_country_gui",
@@ -55,20 +202,96 @@
       "records": 70,
       "epoch_carrier": "rn_ip_country_epoch",
       "fields": [
-        {"edit": "rn_ip_country_name_edit", "carrier": "rn_ip_country_name_prefill", "expression": "[ROOT.GetName]", "payload": "A"},
-        {"edit": "rn_ip_country_adj_edit", "carrier": "rn_ip_country_adj_prefill", "expression": "[ROOT.GetAdjective]", "payload": "B"}
+        {
+          "edit": "rn_ip_country_name_edit",
+          "carrier": "rn_ip_country_name_prefill",
+          "expression": "[ROOT.GetName]",
+          "payload": "A"
+        },
+        {
+          "edit": "rn_ip_country_adj_edit",
+          "carrier": "rn_ip_country_adj_prefill",
+          "expression": "[ROOT.GetAdjective]",
+          "payload": "B"
+        }
       ],
       "target": "Typed rn_ip_country_target singleton THIS country and global opening epoch",
       "actual_apply": "Complete own context/epoch/pin/fresh country cap guard -> strict pair validation -> same complete guard -> both persistent buffers -> existing one rn_apply_country_name cosmetic carrier.",
-      "geometry": {"launcher": [45,29,393,14], "pencil_local": [379,0,15,15], "editor": [18,28,420,74], "name_frame_local": [0,0,364,26], "name_edit_local": [4,3,356,20], "adj_frame_local": [0,30,364,26], "adj_edit_local": [4,33,356,20], "apply_local": [370,3,20,20], "cancel_local": [396,5,16,16], "status_local": [6,58,408,14]},
-      "fonts": {"name_edit": "hoi_18", "adjective_edit": "hoi_18", "closed_label": "Arial12", "status": "Arial12"},
+      "geometry": {
+        "launcher": [
+          150,
+          8,
+          306,
+          22
+        ],
+        "pencil_local": [
+          284,
+          1,
+          20,
+          20
+        ],
+        "editor": [
+          18,
+          28,
+          420,
+          74
+        ],
+        "name_frame_local": [
+          0,
+          0,
+          364,
+          26
+        ],
+        "name_edit_local": [
+          4,
+          3,
+          356,
+          20
+        ],
+        "adj_frame_local": [
+          0,
+          30,
+          364,
+          26
+        ],
+        "adj_edit_local": [
+          4,
+          33,
+          356,
+          20
+        ],
+        "apply_local": [
+          370,
+          3,
+          20,
+          20
+        ],
+        "cancel_local": [
+          396,
+          5,
+          16,
+          16
+        ],
+        "status_local": [
+          6,
+          58,
+          408,
+          14
+        ],
+        "launcher_note": "Title line of the politics panel: name hoi_18mbs format=right ending at the pencil; vanilla has no country-name text there (own former subtitle removed)."
+      },
+      "fonts": {
+        "name_edit": "hoi_18",
+        "adjective_edit": "hoi_18",
+        "closed_label": "Arial12",
+        "status": "Arial12"
+      },
       "geometry_limit": "Iteration 3 (PID42644: editor too tight): framed two-row overlay 18..438 x 28..102 temporarily covers the subtitle row, the top of the portrait and of the national-focus box. Carrier positions/fonts unchanged and hidden."
     }
   ],
   "legacy": "rn_open/rn_input block launcher/editor visible, Open and Apply; Cancel intentionally remains available. Existing leader switch, singleton/ambiguity checks and epoch lifecycle retained.",
   "diagnostics": "SG Apply records actual Get* before/after and actual errors, without PASS assertions. Existing QA guards is read-only flag diagnostics, not native input/transport acceptance or shipping UX.",
-  "enter_escape": "No native Enter path: all five editBoxType have ignore_enter = yes; each Apply has shortcut RETURN, each Cancel shortcut ESCAPE (vanilla frontendmultiplayerview pattern). Shortcut buttons exist only inside editor windows whose visible requires the *_open flag; Open helpers allow only one *_open flag at a time. A shortcut press must reach the same scripted GUI Apply selector, so the native ctor/epoch/dedup path is unchanged; unverified at runtime.",
-  "status": "rn_ip_status_err/field are UI-only variables written by rn_ip_status_record_* after the guarded helper and cleared on Open/Cancel/success; no guard, trigger, validator or setter reads them.",
+  "enter_escape": "Enter: all five editBoxType ignore_enter = yes, each Apply shortcut RETURN (same selector/command, epoch, dedup, cooldown). Esc: NO shortcut on Cancel (iteration 4) - the vanilla politics close_button owns ESCAPE and closed the panel in PID49352. All editor models keep parent_window_token = politics_tab; the editor surviving the panel close is an OPEN runtime defect (focus hypothesis).",
   "override": "common/scripted_guis/rename_anything_scripted_gui.txt is an exact copy of the dev mod file except rn_entry_gui visible always=no; descriptor.template declares dependencies on Rename Anything so it loads after the dev mod.",
   "cooldown": "Per type (country, leader, party): rn_ip_cd_<type>_until = global.num_days + rn_ip_cooldown_days (5) set only in the successful Apply branch; launcher Open disabled, Open helper refuses and both guard rounds return error 11 while active. Display-only date rn_ip_cd_<type>_date. Native protocol unchanged.",
   "co_load": "ONLY main dev mod + this candidate (rn_entry_layout_qa must NOT be co-loaded: same override path). Forbid every other probe mod with overlapping models/helper/localisation keys. Exactly one compatible native variant in one fresh process; this fixture cannot enforce DLL co-load policy.",
@@ -85,5 +308,6 @@
     "Generic own-player authority and leader selection beyond POL",
     "Menu/load/target epoch/draft lifecycle; Enter/focus/select-all remain native-variant dependent",
     "Native caption refresh and multiplayer deferred"
-  ]
+  ],
+  "subjects": "rn_ip_subject_gui (diplomacy_target_context) hidden placeholder: rn_ip_subject_rename_enabled and rn_ip_subject_country_capability are always = no; effects only log. Not a native model; needs new native models before use."
 }
