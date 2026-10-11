@@ -1145,7 +1145,7 @@ guiTypes = {
 		size = { width = 140 height = 136 }
 		clipping = no
 		background = { name = "rn_sv_bg" quadTextureSprite = "GFX_tiled_window_2b_border" }
-		instantTextBoxType = { name = "rn_sv_title" position = { x = 10 y = 8 } font = "hoi_16mbs" text = "RN_SV_TITLE" maxWidth = 120 maxHeight = 24 format = centre fixedsize = yes }
+		instantTextBoxType = { name = "rn_sv_title" position = { x = 10 y = 8 } font = "hoi_16mbs" text = "RN_SV_TITLE" maxWidth = 120 maxHeight = 24 format = left fixedsize = yes }
 		buttonType = {
 			name = "rn_sv_rename"
 			position = { x = 8 y = 32 }

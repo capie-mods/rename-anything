@@ -1,6 +1,6 @@
 # Rename Anything
 
-<img src="docs/assets/readme/badges.svg" alt="HOI4 1.19.3.0 only. Status: pre-release. Multiplayer: not supported. Built on CAPIE. License: MIT, planned." width="848">
+<img src="docs/assets/readme/badges.svg" alt="HOI4 1.19.3.0 only. Status: pre-release. Multiplayer: not supported. Built on CAPIE. License: MIT, planned." width="834">
 
 **Click the pencil next to a name, type a new one, press Enter.** Rename Anything lets you rename
 your country, its leader, its parties, its states and its cities in Hearts of Iron IV, right in

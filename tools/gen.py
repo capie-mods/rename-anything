@@ -232,24 +232,24 @@ def slots_expr(prefix: str) -> str:
 UI = {
     # Each value holds the English text first, then the Polish text. Wording follows
     # docs/design/DESIGN-SYSTEM.md (Voice and Tone): no dashes, no internal words.
-    "RN_MAIN_TITLE": ("Rename Anything", "Rename Anything"),
+    "RN_MAIN_TITLE": ("Rename", "Zmiana nazw"),
     "RN_TAB_1": ("Country", "Kraj"),
     "RN_TAB_2": ("Characters", "Postacie"),
     "RN_TAB_3": ("States", "Stany"),
     "RN_TAB_4": ("Cities", "Miasta"),
-    "RN_CUR_NAME": ("Current name: §Y[ROOT.GetName]§!", "Obecna nazwa: §Y[ROOT.GetName]§!"),
-    "RN_CUR_ADJ": ("Adjective: §Y[ROOT.GetAdjective]§!", "Przymiotnik: §Y[ROOT.GetAdjective]§!"),
-    "RN_CUR_LEADER": ("Leader: §Y[ROOT.GetLeader]§!", "Przywódca: §Y[ROOT.GetLeader]§!"),
+    "RN_CUR_NAME": ("§LCurrent name:§! [ROOT.GetName]", "§LObecna nazwa:§! [ROOT.GetName]"),
+    "RN_CUR_ADJ": ("§LAdjective:§! [ROOT.GetAdjective]", "§LPrzymiotnik:§! [ROOT.GetAdjective]"),
+    "RN_CUR_LEADER": ("§LLeader:§! [ROOT.GetLeader]", "§LPrzywódca:§! [ROOT.GetLeader]"),
     "RN_BTN_RENAME": ("Rename", "Zmień"),
     "RN_BTN_RESET": ("Reset", "Przywróć"),
     "RN_BTN_CITIES": ("Cities", "Miasta"),
     "RN_BTN_TYPE": ("Type...", "Wpisz..."),
     "RN_COUNTRY_HDR": ("Country name and adjective", "Nazwa i przymiotnik kraju"),
     "RN_COUNTRY_STATUS": ("[ROOT.RN_CountryStatus]", "[ROOT.RN_CountryStatus]"),
-    "RN_CNAME_LINE": ("Name: §Y" + slots_expr("N") + "§!", "Nazwa: §Y" + slots_expr("N") + "§!"),
+    "RN_CNAME_LINE": ("§LName:§! " + slots_expr("N"), "§LNazwa:§! " + slots_expr("N")),
     "RN_CADJ_LINE": (
-        "Adjective: §Y" + slots_expr("J") + "§!",
-        "Przymiotnik: §Y" + slots_expr("J") + "§!",
+        "§LAdjective:§! " + slots_expr("J"),
+        "§LPrzymiotnik:§! " + slots_expr("J"),
     ),
     "RN_BTN_COUNTRY_APPLY": ("Apply", "Zastosuj"),
     "RN_BTN_COUNTRY_RESET": ("Original name", "Przywróć oryginalną nazwę"),
@@ -368,7 +368,7 @@ UI = {
     ),
     "RN_APPLY_TT": ("Apply the typed name.", "Zatwierdź wpisaną nazwę."),
     # state view panel
-    "RN_SV_TITLE": ("Rename Anything", "Rename Anything"),
+    "RN_SV_TITLE": ("Rename", "Zmiana nazw"),
     "RN_SV_RENAME": ("Rename state", "Zmień nazwę"),
     "RN_SV_CITIES": ("Cities", "Miasta"),
     "RN_SV_RESET": ("Reset", "Przywróć"),
@@ -1647,7 +1647,7 @@ def gen_gui() -> str:
         '\t\tbackground = { name = "rn_sv_bg"'
         ' quadTextureSprite = "GFX_tiled_window_2b_border" }\n'
     )
-    o.append(txt("rn_sv_title", 10, 8, "RN_SV_TITLE", w=120, fmt="centre"))
+    o.append(txt("rn_sv_title", 10, 8, "RN_SV_TITLE", w=120))
     o.append(
         btn(
             "rn_sv_rename",
@@ -1753,7 +1753,7 @@ def key_px(
     w: int,
     h: int,
     fill: Rgba = (52, 50, 44, 240),
-    border: Rgba = (176, 156, 104, 255),
+    border: Rgba = (118, 119, 107, 255),
     hi: Rgba = (96, 92, 80, 255),
 ) -> Callable[[int, int], Rgba]:
     """Return a pixel function for a key-like rectangle.
@@ -1856,7 +1856,7 @@ def gen_textures() -> dict[str, bytes]:
             520,
             40,
             key_px(
-                520, 40, fill=(14, 14, 16, 235), border=(200, 180, 120, 255), hi=(14, 14, 16, 235)
+                520, 40, fill=(22, 20, 18, 235), border=(118, 119, 107, 255), hi=(22, 20, 18, 235)
             ),
         ),
     }

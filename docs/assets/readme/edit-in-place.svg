@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 330" width="880" height="330" role="img" aria-labelledby="t d">
   <title id="t">Renaming a leader in place</title>
-  <desc id="d">A politics panel shows the leader Ignacy Mościcki with a small pencil. The player clicks the pencil and a native text field opens in the same spot, prefilled with the current name. The player types Jan Żółć and presses Enter. The panel then shows Jan Żółć; the pencil is greyed out and its tooltip says the next rename is possible in 5 days. On the right, three steps light up in turn: native text field, game command, stored in your save.</desc>
-  <!-- Tokens: docs/design/tokens.json v1.1.0 -->
+  <desc id="d">A politics panel shows the leader Ignacy Mościcki with a small pencil. The player clicks the pencil and a native text field opens in the same spot, prefilled with the current name. The player types Jan Żółć and presses Enter. The panel then shows Jan Żółć; the pencil is greyed out and its tooltip says the next rename is possible in 5 days. On the right, three numbered steps light up in turn: native text field, game command, stored in your save.</desc>
+  <!-- Tokens: docs/design/tokens.json v1.2.0 -->
   <style>
     .canvas{fill:#272421}
     .rim{fill:none;stroke:#3c3936;stroke-width:1}
@@ -23,8 +23,8 @@
     .icon{fill:#3c3b38;stroke:#76776b;stroke-width:1}
     .key{fill:#2e3627;stroke:#424e38;stroke-width:1}
     .tip{fill:#161412;stroke:#3c3936}
-    .step{fill:#161412;stroke:#76776b;stroke-width:1.25}
-    .mark{fill:#507040}
+    .num{font:700 15px Ubuntu,'Segoe UI','DejaVu Sans',Verdana,sans-serif;fill:#a39a86}
+    .div{stroke:#3c3936;stroke-width:1}
     .old,.edit,.cursor{opacity:0}
     @media (prefers-reduced-motion:no-preference){
       .old{animation:old 10s linear infinite}
@@ -54,8 +54,6 @@
 
   <rect class="canvas" width="880" height="330" rx="6"/>
   <rect class="rim" x="8.5" y="8.5" width="863" height="313" rx="4"/>
-
-  <text class="caps" x="32" y="38">EDIT WHERE YOU SEE IT</text>
 
   <!-- Simplified politics panel (illustration, not a game asset) -->
   <rect class="window" x="32" y="52" width="440" height="246" rx="2"/>
@@ -117,24 +115,23 @@
 
   <text class="body" x="164" y="272">Click the pencil, type, press Enter.</text>
 
-  <!-- Steps -->
+  <!-- Steps: a numbered list, because the order is the point -->
   <text class="caps" x="508" y="38">WHAT HAPPENS</text>
   <g class="s1">
-    <rect class="step" x="508" y="52" width="340" height="72" rx="2"/>
-    <rect class="mark" x="524" y="70" width="10" height="10"/>
-    <text class="title" x="546" y="80">Native text field</text>
-    <text class="body" x="546" y="104">The game's own input box. Polish letters work.</text>
+    <text class="num" x="508" y="80">1</text>
+    <text class="title" x="532" y="80">Native text field</text>
+    <text class="body" x="532" y="104">The game's own input box. Polish letters work.</text>
   </g>
+  <line class="div" x1="508" y1="138.5" x2="848" y2="138.5"/>
   <g class="s2">
-    <rect class="step" x="508" y="139" width="340" height="72" rx="2"/>
-    <rect class="mark" x="524" y="157" width="10" height="10"/>
-    <text class="title" x="546" y="167">Game command</text>
-    <text class="body" x="546" y="191">Enter runs the same command as Apply.</text>
+    <text class="num" x="508" y="167">2</text>
+    <text class="title" x="532" y="167">Game command</text>
+    <text class="body" x="532" y="191">Enter runs the same command as Apply.</text>
   </g>
+  <line class="div" x1="508" y1="225.5" x2="848" y2="225.5"/>
   <g class="s3">
-    <rect class="step" x="508" y="226" width="340" height="72" rx="2"/>
-    <rect class="mark" x="524" y="244" width="10" height="10"/>
-    <text class="title" x="546" y="254">Stored in your save</text>
-    <text class="body" x="546" y="278">Survives save, load and a full restart.</text>
+    <text class="num" x="508" y="254">3</text>
+    <text class="title" x="532" y="254">Stored in your save</text>
+    <text class="body" x="532" y="278">Survives save, load and a full restart.</text>
   </g>
 </svg>
