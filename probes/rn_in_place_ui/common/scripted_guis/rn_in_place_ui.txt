@@ -1,0 +1,84 @@
+# UNLOADED QA sketch. player_context scopes the GUI to the local player.
+# POL/is_ai/neutrality are disposable QA gates, not product or MP authorization.
+# Apply is disabled; the leader effect is a guarded, unverified rename candidate.
+scripted_gui = {
+	rn_ip_leader_launcher_gui = {
+		context_type = player_context
+		parent_window_token = politics_tab
+		window_name = "rn_ip_leader_launcher_window"
+		visible = { tag = POL is_ai = no NOT = { has_country_flag = rn_ip_leader_open } }
+		ai_enabled = { always = no }
+		effects = {
+			rn_ip_leader_open_click = {
+				rn_inline_leader_open = yes
+			}
+		}
+		triggers = {
+			rn_ip_leader_open_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_ip_leader_open } NOT = { has_country_flag = rn_input } }
+		}
+	}
+	rn_ip_leader_gui = {
+		context_type = player_context
+		parent_window_token = politics_tab
+		window_name = "rn_ip_leader_window"
+		visible = { tag = POL is_ai = no has_country_flag = rn_ip_leader_open }
+		ai_enabled = { always = no }
+		effects = {
+			# Still disabled below. Candidate requires fresh payload + copied opening epoch.
+			rn_ip_leader_apply_click = { rn_inline_leader_apply = yes }
+			rn_ip_leader_cancel_click = { rn_inline_leader_cancel = yes }
+		}
+		triggers = {
+			rn_ip_leader_epoch_visible = { always = no }
+			rn_ip_leader_prefill_visible = { always = no }
+			rn_ip_leader_apply_click_enabled = { always = no }
+			rn_ip_leader_cancel_click_enabled = { tag = POL is_ai = no has_country_flag = rn_ip_leader_open }
+		}
+	}
+	rn_ip_party_neutrality_launcher_gui = {
+		context_type = player_context
+		parent_window_token = politics_tab
+		window_name = "rn_ip_party_neutrality_launcher_window"
+		visible = { tag = POL is_ai = no has_government = neutrality NOT = { has_country_flag = rn_ip_party_neutrality_open } }
+		ai_enabled = { always = no }
+		effects = {
+			rn_ip_party_neutrality_open_click = {
+				if = {
+					limit = { tag = POL is_ai = no has_government = neutrality NOT = { has_country_flag = rn_ip_party_neutrality_open } }
+					clr_country_flag = rn_ip_leader_open
+					rn_inline_leader_clear_target = yes
+					set_country_flag = rn_ip_party_neutrality_open
+					add_to_variable = { rn_ip_epoch = 1 }
+				}
+			}
+		}
+		triggers = {
+			rn_ip_party_neutrality_open_click_enabled = { tag = POL is_ai = no has_government = neutrality NOT = { has_country_flag = rn_ip_party_neutrality_open } }
+		}
+	}
+	rn_ip_party_neutrality_gui = {
+		context_type = player_context
+		parent_window_token = politics_tab
+		window_name = "rn_ip_party_neutrality_window"
+		visible = { tag = POL is_ai = no has_government = neutrality has_country_flag = rn_ip_party_neutrality_open }
+		ai_enabled = { always = no }
+		effects = {
+			# Disabled below. This placeholder never calls rn_apply_input/set_party_name.
+			rn_ip_party_neutrality_apply_click = { log = "RN in-place UI sketch: Apply is disconnected" }
+			rn_ip_party_neutrality_cancel_click = {
+				if = {
+					limit = { tag = POL is_ai = no has_government = neutrality has_country_flag = rn_ip_party_neutrality_open }
+					clr_country_flag = rn_ip_party_neutrality_open
+					add_to_variable = { rn_ip_epoch = 1 }
+				}
+			}
+		}
+		triggers = {
+			rn_ip_party_neutrality_epoch_visible = { always = no }
+			rn_ip_party_neutrality_prefill_visible = { always = no }
+			rn_ip_party_neutrality_long_prefill_visible = { always = no }
+			rn_ip_party_neutrality_apply_click_enabled = { always = no }
+			rn_ip_party_neutrality_cancel_click_enabled = { tag = POL is_ai = no has_government = neutrality has_country_flag = rn_ip_party_neutrality_open }
+		}
+	}
+}

@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-11",
+  "kind": "static inventory and source review only; not game parser/runtime",
+  "findings": [],
+  "inventory": {
+    "models": [
+      "rn_ip_leader_gui",
+      "rn_ip_leader_launcher_gui",
+      "rn_ip_party_neutrality_gui",
+      "rn_ip_party_neutrality_launcher_gui"
+    ],
+    "buttons": [
+      "rn_ip_leader_apply",
+      "rn_ip_leader_cancel",
+      "rn_ip_leader_open",
+      "rn_ip_party_neutrality_apply",
+      "rn_ip_party_neutrality_cancel",
+      "rn_ip_party_neutrality_open"
+    ],
+    "native_fields": [
+      "rn_ip_leader_edit",
+      "rn_ip_party_neutrality_edit",
+      "rn_ip_party_neutrality_long_edit"
+    ],
+    "hidden_carriers": [
+      "rn_ip_leader_epoch",
+      "rn_ip_leader_prefill",
+      "rn_ip_party_neutrality_epoch",
+      "rn_ip_party_neutrality_long_prefill",
+      "rn_ip_party_neutrality_prefill"
+    ],
+    "locale_keys": [
+      "RN_IP_APPLY_UNAVAILABLE",
+      "RN_IP_CANCEL",
+      "RN_IP_EDIT_LEADER",
+      "RN_IP_EDIT_PARTY",
+      "RN_IP_LONG_NAME"
+    ],
+    "epoch_key_ascii_bytes": 15,
+    "Apply_enabled": false,
+    "epoch_expression": "[?ROOT.rn_ip_epoch|0]"
+  },
+  "limits": [
+    "unactivated; no game UI or native bridge exercised",
+    "active ruler semantics statically proven; typed pin and own membership flow require runtime",
+    "temp_var exact trigger/effect caller parser/semantics open",
+    "carrier hidden evaluation and widget clipping/scaling require runtime",
+    "fresh epoch/sentinel transport not implemented; absent payload rejects",
+    "typed Character membership RHS caller requires parser/runtime validation",
+    "party literal/save and custom ideology rows unproven",
+    "Explicit |0 epoch carrier is a candidate integer format; actual engine output requires runtime confirmation."
+  ],
+  "sha256": {
+    "descriptor.mod": "a80aa796964449643f58856d3cfc0ac58e9987515b776b2ef9a8b03e7d46f1bd",
+    "native-contract.json": "e499cde6d3d2bf3e469633df7127acdd7361ed4c48177ebeee5662b7ede94025",
+    "README.md": "966b9d187f401dd8383e06e07a2ab6ffdf7e2e7ad669a52806c9b10006286dec",
+    "interface/rn_in_place_ui.gui": "462853b6e168b9f6de9c5bd0610e7363d7445db8c62fb2cbda7f2c6ab8b7a967",
+    "localisation/english/rn_in_place_ui_l_english.yml": "6ae57118ec03987ee5e53cb8b5ae0ebfc0fa96c21e5f33e3e5070d00ccf0321e",
+    "localisation/polish/rn_in_place_ui_l_polish.yml": "4388b661799852dc32d1fbc85ad18f7ae1d86412142b503dbbd6c98233ecc7d6",
+    "common/scripted_effects/rn_inline_leader.txt": "02a3f2f534cbbb745043aa284023672ab23971c885f5370f7e3a8753a59028d6",
+    "common/scripted_effects/rn_inline_payload.txt": "7e87635824c11e266f6f5b016e1630002c307309f3af117fd0704208f9adf0f7",
+    "common/scripted_guis/rn_in_place_ui.txt": "c2bcfdf1e839cd97a33c70117a56fe0dd360f4103a8e95b069f0edb417f1538f"
+  },
+  "review_note": "Initial disposable inventory regex mishandled CRLF localisation bytes; corrected by splitlines. Source files required no localisation change. Root-approved follow-up changes ONLY the two unloaded epoch carriers and manifest to explicit |0 for the digits-only native parser; candidate static review, rendering/runtime still unobserved."
+}

@@ -1,0 +1,63 @@
+{
+  "status": "unloaded_ui_sketch_candidate_leader_apply_no_native_bridge",
+  "qa_scope": "player_context; own POL; party also current neutrality",
+  "parent_window_token": "politics_tab",
+  "epoch_variable": "rn_ip_epoch",
+  "activation": "not_registered",
+  "fields": [
+    {
+      "model": "rn_ip_leader_gui",
+      "window": "rn_ip_leader_window",
+      "edit": "rn_ip_leader_edit",
+      "carrier": "rn_ip_leader_prefill",
+      "expression": "[?ROOT.rn_ip_leader_identity.GetName]",
+      "flag": "rn_ip_leader_open",
+      "selector": "rn_ip_leader_apply_click",
+      "bounds": [
+        18,
+        262,
+        178,
+        36
+      ],
+      "target_pin": "typed singleton rn_ip_leader_target and rn_ip_leader_identity at Open; refresh own roster and unique current is_country_leader at Apply; active ruler semantics statically proven, pin flow runtime open",
+      "open_selector": "rn_ip_leader_open_click",
+      "cancel_selector": "rn_ip_leader_cancel_click",
+      "epoch_carrier": "rn_ip_leader_epoch",
+      "epoch_expression": "[?ROOT.rn_ip_epoch|0]",
+      "candidate_effect": "rn_inline_leader_apply (SG Apply disabled)"
+    },
+    {
+      "model": "rn_ip_party_neutrality_gui",
+      "window": "rn_ip_party_neutrality_window",
+      "edit": "rn_ip_party_neutrality_edit",
+      "carrier": "rn_ip_party_neutrality_prefill",
+      "expression": "[ROOT.GetRulingParty]",
+      "long_edit": "rn_ip_party_neutrality_long_edit",
+      "long_carrier": "rn_ip_party_neutrality_long_prefill",
+      "long_expression": "[ROOT.GetRulingPartyLong]",
+      "flag": "rn_ip_party_neutrality_open",
+      "selector": "rn_ip_party_neutrality_apply_click",
+      "bounds": [
+        354,
+        352,
+        196,
+        62
+      ],
+      "ideology": "neutrality",
+      "target_pin": "country + ideology + opening epoch must be revalidated; custom ideology rows not mapped",
+      "open_selector": "rn_ip_party_neutrality_open_click",
+      "cancel_selector": "rn_ip_party_neutrality_cancel_click",
+      "epoch_carrier": "rn_ip_party_neutrality_epoch",
+      "epoch_expression": "[?ROOT.rn_ip_epoch|0]"
+    }
+  ],
+  "launcher_models": [
+    "rn_ip_leader_launcher_gui",
+    "rn_ip_party_neutrality_launcher_gui"
+  ],
+  "apply_enabled": false,
+  "existing_hook_model": "rn_native_probe_gui only; this sketch does not extend hook filters",
+  "command_epoch_temp": "rn_ip_cmd_epoch",
+  "command_epoch_status": "future only; 15 ASCII bytes, ordinary fixed-point numeric, exact sanitation required",
+  "payload_contract": "34 rn_native_* records + rn_ip_cmd_epoch, all captured from same fresh opening snapshot"
+}
