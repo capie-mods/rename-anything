@@ -233,10 +233,15 @@ uv run ruff check
 uv run ruff format --check
 uv run ty check
 uv run python tools/check_constant_docstrings.py
+uv run pytest
 ```
 
-The last command requires a docstring under every module-level `UPPER_CASE` constant, which ruff
-does not check. Exclusions (archived `docs/evidence/`, pinned tools in
+`tools/check_constant_docstrings.py` requires a docstring under every module-level `UPPER_CASE`
+constant and `Args:`/`Returns:` sections in every function docstring, which ruff does not check
+on its own (ruff's preview `DOC` rules check the `Returns`/`Yields`/`Raises` sections against the
+code). `uv run pytest` runs the unit tests in `tools/tests/test_*.py`. The generator code lives in
+`tools/modgen/` (one module per feature, `tools/gen.py` is only the command line) and the helpers
+it shares with `tools/check.py` in `tools/rncommon/`. Exclusions (archived `docs/evidence/`, pinned tools in
 `probes/rn_inline_pair_qa/tools/`, files other agents are working on) are listed in
 `pyproject.toml`. The scripts themselves still run with plain `python`, as above.
 
