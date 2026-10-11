@@ -73,11 +73,25 @@ UI: dict[str, tuple[str, str]] = {
         "Tekst zapisany. Sprawdź obecną nazwę powyżej.",
     ),
     # Fallback text; the native library overrides this key while it is loaded.
+    # Kept for compatibility: older country DLLs override only this bare key.
     "RN_PLUGIN_STATUS": (
         "CAPIE missing: Rename Anything needs it",
         "Brak CAPIE: wymaga go Rename Anything",
     ),
-    "RN_COUNTRY_PLUGIN": ("$RN_PLUGIN_STATUS$", "$RN_PLUGIN_STATUS$"),
+    # CAPIE status (capie_core.dll): the DLL overrides the BARE key with the English text,
+    # so the language is chosen here, not by redefining the bare key: Polish references the
+    # _PL key, every other language the _EN key. The values below are the fallbacks shown
+    # when the DLL is not loaded. Ship together with capie_core.dll (older DLLs do not
+    # override _EN/_PL, so they would show the "missing" fallback).
+    "RN_PLUGIN_STATUS_EN": (
+        "CAPIE missing: Rename Anything needs it",
+        "CAPIE missing: Rename Anything needs it",
+    ),
+    "RN_PLUGIN_STATUS_PL": (
+        "Brak CAPIE: wymaga go Rename Anything",
+        "Brak CAPIE: wymaga go Rename Anything",
+    ),
+    "RN_COUNTRY_PLUGIN": ("$RN_PLUGIN_STATUS_EN$", "$RN_PLUGIN_STATUS_PL$"),
     "RN_PAGE": (
         "Page [?ROOT.rn_cpage_disp|0] / [?ROOT.rn_cpages|0]",
         "Strona [?ROOT.rn_cpage_disp|0] / [?ROOT.rn_cpages|0]",
