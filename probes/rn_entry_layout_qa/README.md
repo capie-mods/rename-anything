@@ -30,3 +30,8 @@ flag w `available` jest w jednym `custom_trigger_tooltip` z kluczem
 `rn_open_name_editor_blocked_tt` (EN/PL), zamiast pięciu surowych nazw flag.
 Guard w `complete_effect` bez zmian. Statyczny check:
 `docs/evidence/session-20261011/claude-script-ui/layout_check.py`.
+
+Iteracja 3 (product): ten sam override `rn_entry_gui` jest teraz także w
+`probes/rn_inline_editor_product_qa` (bajtowo identyczny plik, `dependencies` na dev mod).
+Nie ładuj tego fixture razem z product: dwa mody nadpisywałyby tę samą ścieżkę.
+

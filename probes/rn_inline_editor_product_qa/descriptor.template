@@ -2,4 +2,7 @@
 name="Rename Anything own-country inline product QA (inactive)"
 version="0.0.1"
 supported_version="1.19.*"
+# Load AFTER the dev mod: this candidate overrides exactly one of its files
+# (common/scripted_guis/rename_anything_scripted_gui.txt, rn_entry_gui hidden).
+dependencies={ "Rename Anything (dev)" }
 # path="<absolute path to this candidate>" — root must materialize after review.

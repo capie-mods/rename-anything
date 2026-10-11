@@ -1,6 +1,7 @@
-# INACTIVE product candidate. Country geometry unchanged; native font QA pending.
-# Exact vanilla 1.19.3 politics_tab local coordinates; 16px row awaits visual QA.
-# Explicit button sizes/font are a source candidate; runtime hit testing is not accepted yet.
+# INACTIVE product candidate. Exact vanilla 1.19.3 politics_tab local coordinates.
+# Iteration 3 (after PID42644 "very tight" country editor): closed label/pencil unchanged;
+# opened editor is a framed two-row overlay with hoi_18 356px fields (32 x widest glyph by .fnt),
+# a status line, Enter (Apply shortcut RETURN, fields ignore_enter) and Esc (Cancel shortcut ESCAPE).
 guiTypes = {
 	containerWindowType = {
 		name = "rn_ip_country_launcher_window"
@@ -22,7 +23,7 @@ guiTypes = {
 		buttonType = {
 			name = "rn_ip_country_open"
 			position = { x = 379 y = 0 }
-			scale = 0.5 # 30x30 frame -> 15x15; size{} is not applied to this textSprite
+			scale = 0.5 # 30x30 frame -> 15x15 (render/hit confirmed PID42644)
 			quadTextureSprite = "GFX_edit_designer_notes_button"
 			buttonFont = "hoi_18mbs"
 			clicksound = click_default
@@ -31,10 +32,13 @@ guiTypes = {
 	}
 	containerWindowType = {
 		name = "rn_ip_country_window"
-		position = { x = 45 y = 28 }
-		size = { width = 405 height = 16 }
+		# Opened overlay 18..438 x 28..102 temporarily covers the title subtitle row, the top of the
+		# portrait (from y58) and the top of the national-focus box.
+		position = { x = 18 y = 28 }
+		size = { width = 420 height = 74 }
 		orientation = upper_left
 		clipping = no
+		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
 		# Resolved carriers in the SAME player/country context as the native fields.
 		# Native integration must copy once at opening; these are not editbox bindings.
 		instantTextboxType = {
@@ -67,38 +71,65 @@ guiTypes = {
 			fixedsize = yes
 			alwaystransparent = yes
 		}
+		containerWindowType = {
+			name = "rn_ipc_name_frame"
+			position = { x = 0 y = 0 }
+			size = { width = 364 height = 26 }
+			clipping = no
+			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
+		}
+		containerWindowType = {
+			name = "rn_ipc_adj_frame"
+			position = { x = 0 y = 30 }
+			size = { width = 364 height = 26 }
+			clipping = no
+			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
+		}
 		editBoxType = {
 			name = "rn_ip_country_name_edit"
-			position = { x = 0 y = 0 }
-			size = { x = 210 y = 16 }
-			font = "hoi_16mbs"
+			position = { x = 4 y = 3 }
+			size = { x = 356 y = 20 }
+			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
 			text = ""
+			ignore_enter = yes
 		}
 		editBoxType = {
 			name = "rn_ip_country_adj_edit"
-			position = { x = 218 y = 0 }
-			size = { x = 145 y = 16 }
-			font = "hoi_16mbs"
+			position = { x = 4 y = 33 }
+			size = { x = 356 y = 20 }
+			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
 			text = ""
+			ignore_enter = yes
 		}
 		buttonType = {
 			name = "rn_ip_country_apply"
-			position = { x = 369 y = 0 }
-			scale = 0.5 # 30x30 frame -> 15x15; avoids covering the 16px Cancel
+			position = { x = 370 y = 3 }
+			scale = 0.67 # 20x20
 			quadTextureSprite = "GFX_preset_button_save"
 			buttonFont = "hoi_18mbs"
 			clicksound = click_default
 			pdx_tooltip = "RN_IEAQA_APPLY_COUNTRY"
+			shortcut = "RETURN"
 		}
 		buttonType = {
 			name = "rn_ip_country_cancel"
-			position = { x = 389 y = 0 }
-			size = { x = 16 y = 16 }
+			position = { x = 396 y = 5 }
 			quadTextureSprite = "GFX_closebutton_16"
 			clicksound = click_close
 			pdx_tooltip = "RN_IPC_CANCEL"
+			shortcut = "ESCAPE"
+		}
+		instantTextboxType = {
+			name = "rn_ip_country_status"
+			position = { x = 6 y = 58 }
+			font = "Arial12"
+			text = "[ROOT.RN_IP_STATUS]"
+			maxWidth = 408
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
 		}
 	}
 }

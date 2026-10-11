@@ -23,7 +23,7 @@
       ],
       "target": "Generic own every_character active is_country_leader; typed singleton rn_ip_leader_target and typed rn_ip_leader_identity. No POL-specific character IDs.",
       "actual_apply": "Pure full current/ROOT/open/legacy/epoch/own-ruler-pin guard -> strict full single validation -> repeat complete pure guard -> generic roster refresh/singleton+scope guards -> strict copy -> one literal set_character_name. No first persistent Apply write before both guards and validation.",
-      "geometry": {"launcher": [152,270,20,20], "editor": [18,262,155,36], "edit_local": [4,8,110,20], "icon_buttons": "GFX_edit_designer_notes_button/GFX_preset_button_save are 30x30 frames; leader/party scale=0.67 (20px), country 0.5 (15px). Launcher sits inside vanilla leader_name 18,262 155x36; old 154,299 covered ruling_party_info ideology text in run42556 screenshot141."}
+      "geometry": {"launcher": [154,242,20,20], "editor": [18,262,420,46], "frame_local": [0,0,364,26], "edit_local": [4,3,356,20], "edit_font": "hoi_18", "apply_local": [370,3,20,20], "cancel_local": [396,5,16,16], "status_local": [6,29,408,14], "icon_buttons": "30x30-frame sprites use scale (0.67 = 20px; render/hit confirmed PID42644). Launcher above leader_name (18,262 155x36), never over the name text (M1)."}
     },
     {
       "model": "rn_ip_party_neutrality_gui",
@@ -42,8 +42,8 @@
       "logical_group_mapping": {"1": "democratic", "2": "communism", "3": "fascism", "4": "neutrality"},
       "actual_apply": "Full context/epoch/typed country/current group guard -> unchanged strict pair validation -> same complete guard -> matching group branch before first buffer write -> common private two-buffer copy -> one fixed ideology literal setter of both names -> clear opening/pins and advance epoch.",
       "mismatch": "Error9 field0 before buffer writes; own editor/Cancel survive government change. Conditional carriers return empty and status label says Target changed: Cancel. No silent repin or history-token claim if government later returns to the same group.",
-      "geometry": {"launcher": [228,310,20,20], "pencil_local": [0,0,20,20], "editor": [18,300,250,66], "short_edit_local": [6,3,176,20], "short_font": "hoi_18", "long_edit_local": [6,43,238,20], "frames": "GFX_tiles_dark_area_cut_8 188x26 at 0,0 and 250x26 at 0,40", "status_local": [6,26,238,14], "status_font": "Arial12"},
-      "geometry_limit": "One explicitly labelled common ruling-party area, source candidate only. Open editor temporarily overlays read-only faction/ruling info; native text may extend beyond it. Action buttons y390 are clear. Runtime layering, tooltip and clipping remain open. No inferred row index, four-row mapping or direct-name hotspot."
+      "geometry": {"launcher": [228,310,20,20], "pencil_local": [0,0,20,20], "editor": [18,300,420,68], "short_frame_local": [0,0,364,26], "short_edit_local": [4,3,356,20], "long_frame_local": [0,42,364,26], "long_edit_local": [4,45,356,20], "edit_font": "hoi_18", "apply_local": [370,3,20,20], "cancel_local": [396,5,16,16], "status_local": [6,27,408,14], "status_font": "Arial12"},
+      "geometry_limit": "Iteration 3: the closed launcher is a single 20px pencil inside vanilla ruling_party_info (228..248 x 310..330, left of the pie chart x270); the former labelled strip at 18,368 was removed. The opened editor 18..438 x 300..368 temporarily covers the ideology emblem, ruling_party_info, the pie chart and the left part of parties_grid; it ends above y383/y390. No inferred row index or direct-name hotspot. Runtime layering/tooltip still open."
     },
     {
       "model": "rn_ip_country_gui",
@@ -60,14 +60,18 @@
       ],
       "target": "Typed rn_ip_country_target singleton THIS country and global opening epoch",
       "actual_apply": "Complete own context/epoch/pin/fresh country cap guard -> strict pair validation -> same complete guard -> both persistent buffers -> existing one rn_apply_country_name cosmetic carrier.",
-      "geometry": {"launcher": [45,29,393,14], "editor": [45,28,405,16], "name_edit_local": [0,0,210,16], "adj_edit_local": [218,0,145,16]},
-      "fonts": {"name_edit": "hoi_16mbs", "adjective_edit": "hoi_16mbs", "closed_label": "Arial12"},
-      "geometry_limit": "Exactly the base country geometry; 16px fields require visual font/clipping QA. Carrier fonts unchanged."
+      "geometry": {"launcher": [45,29,393,14], "pencil_local": [379,0,15,15], "editor": [18,28,420,74], "name_frame_local": [0,0,364,26], "name_edit_local": [4,3,356,20], "adj_frame_local": [0,30,364,26], "adj_edit_local": [4,33,356,20], "apply_local": [370,3,20,20], "cancel_local": [396,5,16,16], "status_local": [6,58,408,14]},
+      "fonts": {"name_edit": "hoi_18", "adjective_edit": "hoi_18", "closed_label": "Arial12", "status": "Arial12"},
+      "geometry_limit": "Iteration 3 (PID42644: editor too tight): framed two-row overlay 18..438 x 28..102 temporarily covers the subtitle row, the top of the portrait and of the national-focus box. Carrier positions/fonts unchanged and hidden."
     }
   ],
   "legacy": "rn_open/rn_input block launcher/editor visible, Open and Apply; Cancel intentionally remains available. Existing leader switch, singleton/ambiguity checks and epoch lifecycle retained.",
   "diagnostics": "SG Apply records actual Get* before/after and actual errors, without PASS assertions. Existing QA guards is read-only flag diagnostics, not native input/transport acceptance or shipping UX.",
-  "co_load": "ONLY main dev mod + this candidate. Forbid every other probe mod with overlapping models/helper/localisation keys. Exactly one compatible native variant in one fresh process; this fixture cannot enforce DLL co-load policy.",
+  "enter_escape": "No native Enter path: all five editBoxType have ignore_enter = yes; each Apply has shortcut RETURN, each Cancel shortcut ESCAPE (vanilla frontendmultiplayerview pattern). Shortcut buttons exist only inside editor windows whose visible requires the *_open flag; Open helpers allow only one *_open flag at a time. A shortcut press must reach the same scripted GUI Apply selector, so the native ctor/epoch/dedup path is unchanged; unverified at runtime.",
+  "status": "rn_ip_status_err/field are UI-only variables written by rn_ip_status_record_* after the guarded helper and cleared on Open/Cancel/success; no guard, trigger, validator or setter reads them.",
+  "override": "common/scripted_guis/rename_anything_scripted_gui.txt is an exact copy of the dev mod file except rn_entry_gui visible always=no; descriptor.template declares dependencies on Rename Anything so it loads after the dev mod.",
+  "cooldown": "Per type (country, leader, party): rn_ip_cd_<type>_until = global.num_days + rn_ip_cooldown_days (5) set only in the successful Apply branch; launcher Open disabled, Open helper refuses and both guard rounds return error 11 while active. Display-only date rn_ip_cd_<type>_date. Native protocol unchanged.",
+  "co_load": "ONLY main dev mod + this candidate (rn_entry_layout_qa must NOT be co-loaded: same override path). Forbid every other probe mod with overlapping models/helper/localisation keys. Exactly one compatible native variant in one fresh process; this fixture cannot enforce DLL co-load policy.",
   "known_runtime_issue": "Baseline real Apply GetLeader/GetRulingParty and tooltips update; vanilla leader/party captions require politics panel reopen. Separate native refresh research; no auto-close or fake replacement caption here.",
   "unchanged_helpers": {
     "rn_inline_payload.txt": "CD171D6203BD66DC7905C7C3D0E1A2750C4B8EABAB45F0540D75D3AF2CE10800",

@@ -98,7 +98,8 @@ Dozwolony przyszły co-load: **wyłącznie główny dev mod + ten jeden fixture*
 Zabronione jest współwłączenie dowolnego innego probe moda, szczególnie
 rn_in_place_ui, rn_country_inline_ui, rn_inline_leader_transport_qa,
 rn_inline_leader_apply_qa, rn_inline_editor_transport_qa, rn_inline_editor_apply_qa,
-rn_inline_pair_qa i rn_inline_payload_qa: współdzielą modele, helpery lub klucze.
+rn_inline_pair_qa, rn_inline_payload_qa i rn_entry_layout_qa: współdzielą modele, helpery,
+klucze albo (layout) tę samą ścieżkę override.
 Proces musi używać dokładnie jednego zgodnego wariantu native bridge. Ten katalog
 nie zmienia whitelisty ani zasad co-load DLL.
 
@@ -116,3 +117,59 @@ każdej bazowej grupy: prefill obu pól, różne nazwy Unicode, jedno Apply, sav
 zmiana grupy przed prefill i przy otwartym drafcie; invalid B; Cancel; granice
 player_context; menu/load i draft lifecycle. Statyka nie zalicza parsera HOI4,
 działania GUI, setterów, serializacji nowych gałęzi, native focus ani multiplayer.
+
+## Iteracja 3 (po PID42644)
+
+Źródło: SIXTEENTH-RUN-NOTES (realny rename, ołówki 20 px i dedup działają; M1, ciasny
+edytor kraju, pojemność pól i globalny przycisk do poprawy) oraz review M1–M3, m1, m2.
+
+- **Enter/Esc bez DLL** (wzorzec vanilla `frontendmultiplayerview.gui:85-94,222-241`):
+  wszystkie pięć `editBoxType` ma `ignore_enter = yes`, każde Zastosuj `shortcut = "RETURN"`,
+  każde Anuluj `shortcut = "ESCAPE"`. Przyciski leżą wyłącznie w oknach edytorów, których
+  `visible` wymaga flagi `*_open`, a ich `_enabled` też jej wymaga. Open kraju/partii wymaga
+  braku wszystkich trzech flag, Open lidera zamyka partię, więc otwarty jest najwyżej jeden
+  edytor i jedna para skrótów. Enter wywołuje ten sam selektor `*_apply_click`, a więc tę samą
+  komendę, guardy epoki i dedup. Ryzyka: politics `close_button` też ma ESCAPE (Esc może
+  zamknąć panel zamiast lub oprócz Anuluj; flaga i draft zostają, po ponownym otwarciu edytor
+  wraca); semantyka `ignore_enter` w HOI4 i przejście shortcutu przez natywny ctor to runtime.
+- **M1:** ołówek lidera 154,242 20×20 — prawy dolny róg portretu, bezpośrednio NAD tabliczką
+  `leader_name` (18,262), nigdy nad tekstem nazwy. Zakrywa narożnik portretu (20×20), nie twarz.
+- **Edytory** (lider, partia, kraj): nakładki 420 px na `GFX_generic_bg2`, pola w ramkach
+  `GFX_tiles_dark_area_cut_8` 364×26, pola `hoi_18` 356×20 (32 × najszerszy glif `m`/`W`
+  11 px = 352 px wg `.fnt`), Zastosuj 20 px, Anuluj 16 px, linia statusu `Arial12`.
+  Kraj: 18,28 420×74, dwa wiersze (nazwa, przymiotnik). Lider: 18,262 420×46. Partia:
+  18,300 420×68. Otwarte nakładki czasowo zakrywają frakcję / pie chart / część listy partii /
+  górę portretu; wszystkie kończą się przed y383 i w szerokości panelu 550.
+- **Pojemność pól:** xadvance przewiduje 32 najszersze znaki w 356 px, ale PID42644 pokazał
+  19 „a” w 176 px (hoi_18) i 16 w 238 px (hoi_16mbs), czyli mniej niż sama szerokość. Limit
+  CEditBox jest więc runtime OPEN; test: 32×„W” i 32×„a” w każdym z pięciu pól.
+- **M3:** odrzucone Apply zapisuje UI-only `rn_ip_status_err/field` (efekty
+  `rn_ip_status_record_*` po helperze; `rn_ip_status_clear` przy Open/Cancel/sukcesie).
+  Linia statusu pokazuje podpowiedź „Enter/Esc/maks. 32 znaki” albo czerwony błąd pola
+  (pusto, ponad 32 znaki, niedozwolony znak — natywne ok=0 nie rozróżnia przyczyny) lub
+  „edytor nieaktualny”. Żaden guard/trigger/setter nie czyta tych zmiennych (check.py).
+  Kontrakt SG Apply to teraz: log, helper, status, log.
+- **Globalny „Zmień nazwy”:** jedyny celowy override tej samej ścieżki co dev mod:
+  `common/scripted_guis/rename_anything_scripted_gui.txt` = bajtowa kopia pliku dev moda z
+  `rn_entry_gui` `visible = { always = no }` (identyczna z layout fixture).
+  `descriptor.template` ma `dependencies={ "Rename Anything" }`, żeby ładował się po dev
+  modzie. Layout fixture nie może być wtedy ładowany. Bez decyzji z layoutu stary edytor
+  główny nie ma wejścia; ścieżki stanu/miast działają przez widok stanu. Zmiana generatora
+  dev moda wymaga odświeżenia tej kopii (check.py porównuje bajty).
+- **check.py:** geometria liczona z drzewa GUI (prostokąty z position/scale, rozłączność
+  Zastosuj/Anuluj/pól, pola w ramkach, okna w panelu, ołówek lidera poza `leader_name`,
+  ołówek partii w `ruling_party_info`), szerokość ≥ 32×najszerszy glif, skróty tylko na 6
+  przyciskach, wyłączność Open, status tylko w UI, dokładny override; 10 odrzuconych mutacji.
+- **Cooldown zmiany nazwy (5 dni gry, osobno: państwo+przymiotnik, lider, partia):**
+  jedyna stała `rn_ip_cooldown_days` (`common/scripted_effects/rn_inline_cooldown.txt`).
+  Udane Apply (tylko gałąź err=0) zapisuje na kraju `rn_ip_cd_<typ>_until = global.num_days + 5`
+  oraz `rn_ip_cd_<typ>_date = global.date` (zmienne kraju są w save). Trigger
+  `rn_ip_cooldown_active_<typ>` liczy różnicę temp-zmiennymi w triggerze (wzorzec vanilla
+  `ai_strategy/ENG.txt:1729-1731`). W cooldownie ołówek jest widoczny, ale wyłączony
+  (`*_open_click_enabled`), Open odmawia, a obie rundy guardu Apply dają błąd 11 (komenda z
+  kolejki). Tooltip ołówka pokazuje dokładną liczbę dni (1–30, potem „ponad 30”) i datę
+  ostatniej zmiany (`GetDateStringNoHourLong`, jak vanilla BUL). Odrzucone Apply, Cancel i
+  błąd walidacji nie startują cooldownu. Typy są niezależne. Czas płynie tylko bez pauzy:
+  QA musi odpauzować grę na ≥5 dni. Decyzje vanilla (`days_re_enable`) pokazują pozostały
+  czas tylko w panelu decyzji, więc nie nadają się do ołówków scripted GUI.
+

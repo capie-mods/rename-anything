@@ -28,7 +28,8 @@
     "descriptor.template": "F91641EED473729EC906ECC93DD2FF6FA361BB310CC121649668344405787E94",
     "localisation/english/rn_entry_layout_l_english.yml": "3DBAF8361B704561B9FA966DC5EB4A6C783757CC1D65202CB065863A77E3710A",
     "localisation/polish/rn_entry_layout_l_polish.yml": "9B5A776882CB850844A62AA74BDA66D16DB925B473B32DDA404DFCB8561C7F98",
-    "README.md": "2F92177F336E39D5F4417E246D3ED4D34C8D01180E5B97D1531996A4BF797163"
+    "README.md": "554CBD66B054BE70401774195046EAA08F074B2F9E46228E00F04FAF0FA17DD2"
   },
-  "post_review_delta": "Claude script/UI 2026-10-11: decision icon generic_political_actions->generic_political_discourse (missing GFX_decision_ sprite), available flags wrapped in custom_trigger_tooltip rn_open_name_editor_blocked_tt (+EN/PL key). SG override unchanged. Independent review 915A493C predates this delta."
+  "post_review_delta": "Claude script/UI 2026-10-11: decision icon generic_political_actions->generic_political_discourse (missing GFX_decision_ sprite), available flags wrapped in custom_trigger_tooltip rn_open_name_editor_blocked_tt (+EN/PL key). SG override unchanged. Independent review 915A493C predates this delta.",
+  "post_review_delta_iter3": "README: do not co-load with rn_inline_editor_product_qa (same rn_entry_gui override now in product)."
 }

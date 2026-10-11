@@ -44,6 +44,11 @@ rn_inline_pair_guard_country = {
 			}
 		}
 	}
+	# Iteration 3: per-type rename cooldown (error 11), re-checked by BOTH guard rounds.
+	if = {
+		limit = { check_variable = { temp_var:rn_pair_err = 0 } rn_ip_cooldown_active_country = yes }
+		set_temp_variable = { rn_pair_err = 11 }
+	}
 }
 
 rn_inline_pair_open_country = {
@@ -56,6 +61,7 @@ rn_inline_pair_open_country = {
 			NOT = { has_country_flag = rn_ip_leader_open }
 			NOT = { has_country_flag = rn_ip_country_open }
 			NOT = { has_country_flag = rn_ip_party_neutrality_open }
+			NOT = { rn_ip_cooldown_active_country = yes }
 		}
 		clear_array = rn_ip_country_target
 		add_to_array = { rn_ip_country_target = THIS }
@@ -158,6 +164,7 @@ rn_inline_pair_apply_country = {
 				clr_country_flag = rn_ip_country_open
 				clear_array = rn_ip_country_target
 				add_to_variable = { rn_ip_epoch = 1 }
+				rn_ip_cooldown_start_country = yes
 			}
 		}
 	}
@@ -201,6 +208,11 @@ rn_inline_pair_guard_party = {
 			}
 		}
 	}
+	# Iteration 3: per-type rename cooldown (error 11), re-checked by BOTH guard rounds.
+	if = {
+		limit = { check_variable = { temp_var:rn_pair_err = 0 } rn_ip_cooldown_active_party = yes }
+		set_temp_variable = { rn_pair_err = 11 }
+	}
 }
 
 rn_inline_pair_open_party = {
@@ -212,6 +224,7 @@ rn_inline_pair_open_party = {
    NOT = { has_country_flag = rn_ip_leader_open }
    NOT = { has_country_flag = rn_ip_country_open }
    NOT = { has_country_flag = rn_ip_party_neutrality_open }
+   NOT = { rn_ip_cooldown_active_party = yes }
    OR = { has_government = democratic has_government = communism has_government = fascism has_government = neutrality }
   }
   if = {
@@ -336,6 +349,7 @@ rn_inline_party_finish = {
  clear_array = rn_ip_party_target
  clear_variable = rn_ip_party_group
  add_to_variable = { rn_ip_epoch = 1 }
+ rn_ip_cooldown_start_party = yes
 }
 
 rn_inline_pair_apply_party = {

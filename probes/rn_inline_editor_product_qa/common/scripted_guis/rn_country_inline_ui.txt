@@ -12,6 +12,7 @@ scripted_gui = {
 		effects = {
 			rn_ip_country_open_click = {
 				rn_inline_pair_open_country = yes
+				rn_ip_status_clear = yes
 			}
 		}
 		triggers = {
@@ -23,6 +24,7 @@ scripted_gui = {
 				NOT = { has_country_flag = rn_ip_party_neutrality_open }
 				NOT = { has_country_flag = rn_open }
 				NOT = { has_country_flag = rn_input }
+				NOT = { rn_ip_cooldown_active_country = yes }
 			}
 		}
 	}
@@ -37,10 +39,12 @@ scripted_gui = {
 			rn_ip_country_apply_click = {
 				log = "RN_IPP country before name=[ROOT.GetName] adjective=[ROOT.GetAdjective] cap=[?temp_var:rn_native_cap] cmd_epoch=[?temp_var:rn_ip_cmd_epoch|0] epoch=[?ROOT.rn_ip_epoch|0] pin_count=[?ROOT.rn_ip_country_target^num|0]"
 				rn_inline_pair_apply_country = yes
+				rn_ip_status_record_pair = yes
 				log = "RN_IPP country after err=[?temp_var:rn_pair_err] field=[?temp_var:rn_pair_field] bad=[?temp_var:rn_pair_bad] name=[ROOT.GetName] adjective=[ROOT.GetAdjective] cap=[?temp_var:rn_native_cap] cmd_epoch=[?temp_var:rn_ip_cmd_epoch|0] epoch=[?ROOT.rn_ip_epoch|0] pin_count=[?ROOT.rn_ip_country_target^num|0]"
 			}
 			rn_ip_country_cancel_click = {
 				rn_inline_pair_cancel_country = yes
+				rn_ip_status_clear = yes
 			}
 		}
 		triggers = {

@@ -79,15 +79,23 @@ def structural(effects, models, gui, triggers, locs):
         cancel_helper={'leader':'rn_inline_leader_cancel','party':'rn_inline_pair_cancel_party','country':'rn_inline_pair_cancel_country'}[kind]
         launcher=models[prefix+'_launcher_gui']
         assert get(launcher,'window_name')==prefix+'_launcher_window'
-        assert get(get(launcher,'effects'),prefix+'_open_click')==[(open_helper,'=','yes')]
-        assert get(get(models[model_name],'effects'),prefix+'_cancel_click')==[(cancel_helper,'=','yes')]
+        assert get(get(launcher,'effects'),prefix+'_open_click')==[(open_helper,'=','yes'),('rn_ip_status_clear','=','yes')]
+        assert get(get(models[model_name],'effects'),prefix+'_cancel_click')==[(cancel_helper,'=','yes'),('rn_ip_status_clear','=','yes')]
         for flag in ('rn_open','rn_input'):
             assert ('NOT','=',[('has_country_flag','=',flag)]) in get(get(launcher,'triggers'),prefix+'_open_click_enabled')
         block=get(get(models[model_name],'effects'),key)
-        assert [k for k,_,_ in block]==['log',helper,'log']
-        assert 'before' in block[0][2] and 'after' in block[2][2] and 'PASS' not in block[2][2]
+        status='rn_ip_status_record_leader' if kind=='leader' else 'rn_ip_status_record_pair'
+        assert [k for k,_,_ in block]==['log',helper,status,'log'], 'Apply = log, guarded helper, UI status, log'
+        assert 'before' in block[0][2] and 'after' in block[3][2] and 'PASS' not in block[3][2]
         cancel=get(get(models[model_name],'triggers'),key.replace('apply_click','cancel_click_enabled'))
         assert not any(k=='has_government' for k,_,_ in walk(cancel)), 'Cancel must survive government change'
+    # Enter/Esc: at most one editor (one RETURN/ESCAPE pair) can be open. Country/party Open require all
+    # three inline flags clear; leader Open requires leader/country clear and closes the party editor.
+    flags=['rn_ip_leader_open','rn_ip_country_open','rn_ip_party_neutrality_open']
+    for helper,need in [('rn_inline_pair_open_country',flags),('rn_inline_pair_open_party',flags),('rn_inline_leader_open',flags[:2])]:
+        lim=get(get(effects[helper],'if'),'limit')
+        assert all(('NOT','=',[('has_country_flag','=',f)]) in lim for f in need), ('open not exclusive',helper)
+    assert ('clr_country_flag','=','rn_ip_party_neutrality_open') in list(walk(effects['rn_inline_leader_open']))
     party=models['rn_ip_party_neutrality_gui']
     assert not any(k=='has_government' for k,_,_ in walk(get(party,'visible')))
     group_gate(triggers['rn_ipp_party_target_matches'])
@@ -136,49 +144,129 @@ def structural(effects, models, gui, triggers, locs):
     # Private buffer writer has no exposed SG entry; all calls are four selected branches.
     assert sum(n[0]=='rn_inline_party_copy_validated' for body in effects.values() for n in walk(body))==4
     assert not any(n[0]=='rn_inline_party_copy_validated' for body in models.values() for n in walk(body))
-    for name,key,fallback in [('RN_IPP_PARTY_SHORT','RN_IPP_PARTY_SHORT_CURRENT','RN_IPP_EMPTY'),('RN_IPP_PARTY_LONG','RN_IPP_PARTY_LONG_CURRENT','RN_IPP_EMPTY'),('RN_IPP_PARTY_STATUS','RN_IP_LONG_NAME','RN_IPP_TARGET_CHANGED')]:
+    status_texts=[n for n in locs['RN_IPP_PARTY_STATUS'] if n[0]=='text']
+    assert [get(t[2],'localization_key') for t in status_texts]==['RN_IP_LONG_NAME','RN_IP_ERR_CD_PARTY','RN_IP_ERR_PARTY_SHORT','RN_IP_ERR_PARTY_LONG','RN_IPP_TARGET_CHANGED']
+    assert all(('rn_ipp_party_target_matches','=','yes') in get(t[2],'trigger') for t in status_texts[:4])
+    assert [get(t[2],'localization_key') for t in locs['RN_IP_STATUS'] if t[0]=='text']==['RN_IP_HINT','RN_IP_ERR_CD_LEADER','RN_IP_ERR_CD_COUNTRY','RN_IP_ERR_STALE','RN_IP_ERR_LEADER','RN_IP_ERR_COUNTRY_ADJ','RN_IP_ERR_COUNTRY_NAME']
+    cooldown_audit(effects,models,triggers,locs)
+    # Status variables are display-only: written only by rn_ip_status_*, never read by guards/triggers/other effects.
+    for name,body in effects.items():
+        if not name.startswith('rn_ip_status_'):
+            assert not any(isinstance(v,str) and 'rn_ip_status_' in v for _,_,v in walk(body)) and not any('rn_ip_status_' in k for k,_,_ in walk(body)), ('status read outside UI',name)
+    for name,body in triggers.items(): assert not any('rn_ip_status_' in str(n) for n in walk(body)), name
+    for name,body in models.items():
+        for key,_,trig in get(body,'triggers'): assert not any('rn_ip_status_' in str(n) for n in walk(trig)), (name,key)
+    for name,key,fallback in [('RN_IPP_PARTY_SHORT','RN_IPP_PARTY_SHORT_CURRENT','RN_IPP_EMPTY'),('RN_IPP_PARTY_LONG','RN_IPP_PARTY_LONG_CURRENT','RN_IPP_EMPTY')]:
         body=locs[name]
         assert [n for n in body if n[0]=='text']==[('text','=',[('trigger','=',[('rn_ipp_party_target_matches','=','yes')]),('localization_key','=',key)]),('text','=',[('localization_key','=',fallback)])]
     fields={'rn_ip_leader_edit','rn_ip_party_neutrality_edit','rn_ip_party_neutrality_long_edit','rn_ip_country_name_edit','rn_ip_country_adj_edit'}
     actual={get(body,'name') for kind,_,body in walk(gui) if kind=='editBoxType'}
     assert actual==fields
     widgets=named(gui)
-    for field,font in [('rn_ip_country_label','Arial12'),('rn_ip_country_name_edit','hoi_16mbs'),('rn_ip_country_adj_edit','hoi_16mbs')]: assert get(widgets[field],'font')==font
+    assert get(widgets['rn_ip_country_label'],'font')=='Arial12'
     for kind in ('leader','party_neutrality','country'): assert get(widgets['rn_ip_'+kind+'_epoch'],'text')=='[?ROOT.rn_ip_epoch|0]'
     assert get(widgets['rn_ip_party_neutrality_prefill'],'text')=='[ROOT.RN_IPP_PARTY_SHORT]'
     assert get(widgets['rn_ip_party_neutrality_long_prefill'],'text')=='[ROOT.RN_IPP_PARTY_LONG]'
     assert get(widgets['rn_ip_party_neutrality_long_label'],'text')=='[ROOT.RN_IPP_PARTY_STATUS]'
-    # Party launcher inside ruling_party_info (88..343 x 305..365), left of the pie chart (x270).
-    assert get(widgets['rn_ip_party_neutrality_launcher_window'],'position')==[('x','=','228'),('y','=','310')]
-    assert get(widgets['rn_ip_party_neutrality_launcher_window'],'size')==[('width','=','20'),('height','=','20')]
-    # Opened party editor 18..268 x 300..366: left of the pie chart, above y383 bottom/y390 actions.
-    assert get(widgets['rn_ip_party_neutrality_window'],'position')==[('x','=','18'),('y','=','300')]
-    assert get(widgets['rn_ip_party_neutrality_window'],'size')==[('width','=','250'),('height','=','66')]
-    assert get(widgets['rn_ip_party_neutrality_edit'],'size')==[('x','=','176'),('y','=','20')] and get(widgets['rn_ip_party_neutrality_edit'],'font')=='hoi_18'
-    assert get(widgets['rn_ip_party_neutrality_long_edit'],'size')==[('x','=','238'),('y','=','20')]
-    for frame in ('rn_ipp_short_frame','rn_ipp_long_frame'): assert get(get(widgets[frame],'background'),'spriteType')=='GFX_tiles_dark_area_cut_8'
-    assert get(widgets['rn_ip_party_neutrality_open'],'position')==[('x','=','0'),('y','=','0')]
-    assert get(widgets['rn_ip_party_neutrality_long_label'],'font')=='Arial12'
-    # 30x30-frame designer sprites ignore size{}; the visible footprint must be scaled to 15px.
-    big={'GFX_edit_designer_notes_button','GFX_preset_button_save'}
-    scaled=[body for kind,_,body in walk(gui) if kind=='buttonType' and any(k=='quadTextureSprite' and v in big for k,_,v in body)]
-    want={'rn_ip_leader_open':'0.67','rn_ip_leader_apply':'0.67','rn_ip_party_neutrality_open':'0.67','rn_ip_party_neutrality_apply':'0.67','rn_ip_country_open':'0.5','rn_ip_country_apply':'0.5'}
-    assert len(scaled)==6 and all([v for k,_,v in b if k=='scale']==[want[get(b,'name')]] and not any(k=='size' for k,_,_ in b) for b in scaled), 'unscaled 30px icon button'
-    assert get(widgets['rn_ip_leader_launcher_window'],'position')==[('x','=','152'),('y','=','270')]
-    # Party pencil bottom stays above vanilla action buttons (y390) and leader pencil inside leader_name 18..173 x 262..298.
-    # 20px leader pencil inside leader_name 18..173 x 262..298; Apply/Cancel disjoint in both editors.
-    assert 18<=152 and 152+20<=173 and 262<=270 and 270+20<=298 and 117+20<=139 and 194+20<=222 and 18+250<270 and 300+66<383
+    for status in ('rn_ip_leader_status','rn_ip_country_status'): assert get(widgets[status],'text')=='[ROOT.RN_IP_STATUS]' and get(widgets[status],'font')=='Arial12'
+    geometry_audit(gui,widgets)
+
+def xy(node,key='position'):
+    d=dict((k,v) for k,_,v in get(node,key))
+    return int(d.get('x',d.get('width'))),int(d.get('y',d.get('height')))
+BIG={'GFX_edit_designer_notes_button','GFX_preset_button_save'}
+def button_rect(body,ox,oy):
+    x,y=xy(body)
+    sprite=[v for k,_,v in body if k=='quadTextureSprite']
+    scale=[float(v) for k,_,v in body if k=='scale']
+    if sprite and sprite[0] in BIG:
+        assert scale and not any(k=='size' for k,_,_ in body), ('30px icon button needs scale, not size',get(body,'name'))
+        side=round(30*scale[0])
+    else:
+        assert sprite==['GFX_closebutton_16'] and not scale, get(body,'name'); side=16
+    return (ox+x,oy+y,ox+x+side,oy+y+side)
+def disjoint(a,b): return a[2]<=b[0] or b[2]<=a[0] or a[3]<=b[1] or b[3]<=a[1]
+def inside(a,b): return b[0]<=a[0] and b[1]<=a[1] and a[2]<=b[2] and a[3]<=b[3]
+FONT_WIDEST={'hoi_18':11,'hoi_16mbs':12}  # max xadvance over the 84-code alphabet (font_width_audit.py)
+LEADER_NAME=(18,262,173,298); RULING=(88,305,343,365); PIE_X=270; ACTIONS_Y=383; PANEL_W=550
+def geometry_audit(gui,widgets):
+    rects={}
+    for kind,_,win in walk(gui):
+        if kind!='containerWindowType' or not get(win,'name').startswith('rn_ip'): continue
+        ox,oy=xy(win); w,h=xy(win,'size')
+        if not get(win,'name').startswith(('rn_ipc_','rn_ipl_','rn_ipp_')): rects[get(win,'name')]=(ox,oy,ox+w,oy+h)
+        for k,_,body in win:
+            if k=='buttonType': rects[get(body,'name')]=button_rect(body,ox,oy)
+            elif k=='editBoxType':
+                x,y=xy(body); ew,eh=xy(body,'size')
+                rects[get(body,'name')]=(ox+x,oy+y,ox+x+ew,oy+y+eh)
+                assert get(body,'font')=='hoi_18' and ('ignore_enter','=','yes') in body, get(body,'name')
+                assert ew>=32*FONT_WIDEST[get(body,'font')], ('field narrower than 32 widest glyphs',get(body,'name'),ew)
+            elif k=='containerWindowType':
+                x,y=xy(body); fw,fh=xy(body,'size')
+                assert get(get(body,'background'),'spriteType')=='GFX_tiles_dark_area_cut_8'
+                rects[get(body,'name')]=(ox+x,oy+y,ox+x+fw,oy+y+fh)
+    for editor,fields,frames in [('leader',['rn_ip_leader_edit'],['rn_ipl_frame']),
+                                 ('party_neutrality',['rn_ip_party_neutrality_edit','rn_ip_party_neutrality_long_edit'],['rn_ipp_short_frame','rn_ipp_long_frame']),
+                                 ('country',['rn_ip_country_name_edit','rn_ip_country_adj_edit'],['rn_ipc_name_frame','rn_ipc_adj_frame'])]:
+        win=rects['rn_ip_'+editor+'_window']; apply_=rects['rn_ip_'+editor+'_apply']; cancel=rects['rn_ip_'+editor+'_cancel']
+        assert disjoint(apply_,cancel), ('Apply/Cancel overlap',editor)
+        for f,fr in zip(fields,frames):
+            assert inside(rects[f],rects[fr]) and disjoint(rects[f],apply_) and disjoint(rects[f],cancel), (editor,f)
+        for r in [apply_,cancel,*[rects[f] for f in fields]]: assert inside(r,win), (editor,r)
+        assert win[2]<=PANEL_W and win[3]<=ACTIONS_Y, ('editor leaves panel / reaches y383',editor,win)
+        btn={get(b,'name'):b for k,_,b in walk(gui) if k=='buttonType'}
+        assert get(btn['rn_ip_'+editor+'_apply'],'shortcut')=='RETURN' and get(btn['rn_ip_'+editor+'_cancel'],'shortcut')=='ESCAPE'
+    assert sum(1 for k,_,b in walk(gui) if k=='buttonType' and any(kk=='shortcut' for kk,_,_ in b))==6, 'only Apply/Cancel carry shortcuts'
+    # M1: leader pencil never over the leader_name text box; party pencil inside ruling_party_info, left of the pie.
+    assert disjoint(rects['rn_ip_leader_open'],LEADER_NAME) and rects['rn_ip_leader_open'][2]<=174 and rects['rn_ip_leader_open'][3]<=LEADER_NAME[1]
+    assert inside(rects['rn_ip_party_neutrality_open'],RULING) and rects['rn_ip_party_neutrality_open'][2]<PIE_X
+    assert inside(rects['rn_ip_leader_open'],rects['rn_ip_leader_launcher_window'])
+    assert inside(rects['rn_ip_party_neutrality_open'],rects['rn_ip_party_neutrality_launcher_window'])
+
+def cooldown_audit(effects,models,triggers,locs):
+    # One constant; per-type expiry variables; guard (error 11) in every guard round; start only on success.
+    consts=[n for body in effects.values() for n in walk(body) if n[0]=='set_temp_variable' and n[2][0][0]=='rn_ip_cd_days']
+    assert len(consts)==1 and list(effects['rn_ip_cooldown_days'])==[('set_temp_variable','=',[('rn_ip_cd_days','=','5')])], 'single cooldown constant'
+    for k in ('country','leader','party'):
+        t=triggers['rn_ip_cooldown_active_'+k]
+        assert t==[('set_temp_variable','=',[('rn_ip_cd_left','=','rn_ip_cd_'+k+'_until')]),('subtract_from_temp_variable','=',[('rn_ip_cd_left','=','global.num_days')]),('check_variable','=',[('rn_ip_cd_left','>','0')])]
+        start=effects['rn_ip_cooldown_start_'+k]
+        assert ('set_variable','=',[('rn_ip_cd_'+k+'_until','=','global.num_days')]) in start and ('add_to_variable','=',[('rn_ip_cd_'+k+'_until','=','temp_var:rn_ip_cd_days')]) in start
+        assert not any('rn_ip_cd_' in str(n) and 'rn_ip_cd_'+k not in str(n) and 'rn_ip_cd_days' not in str(n) for n in walk(start)), ('cross-type write',k)
+        guard=effects['rn_inline_leader_guard' if k=='leader' else 'rn_inline_pair_guard_'+k]
+        err='rn_ip_leader_error' if k=='leader' else 'rn_pair_err'
+        assert guard[-1]==('if','=',[('limit','=',[('check_variable','=',[('temp_var:'+err,'=','0')]),('rn_ip_cooldown_active_'+k,'=','yes')]),('set_temp_variable','=',[(err,'=','11')])]), ('cooldown guard',k)
+        callers=[name for name,body in effects.items() if any(n[0]=='rn_ip_cooldown_start_'+k for n in walk(body))]
+        assert callers==[{'country':'rn_inline_pair_apply_country','leader':'rn_inline_leader_apply','party':'rn_inline_party_finish'}[k]], ('start callers',k,callers)
+        opener={'country':'rn_inline_pair_open_country','leader':'rn_inline_leader_open','party':'rn_inline_pair_open_party'}[k]
+        assert ('NOT','=',[('rn_ip_cooldown_active_'+k,'=','yes')]) in get(get(effects[opener],'if'),'limit')
+        prefix={'country':'rn_ip_country','leader':'rn_ip_leader','party':'rn_ip_party_neutrality'}[k]
+        assert ('NOT','=',[('rn_ip_cooldown_active_'+k,'=','yes')]) in get(get(models[prefix+'_launcher_gui'],'triggers'),prefix+'_open_click_enabled'), ('pencil not disabled',k)
+        assert 'rn_ip_cooldown_active_'+k not in str(get(models[prefix+'_launcher_gui'],'visible')), 'pencil must stay visible'
+        assert [get(x[2],'localization_key') for x in locs['RN_IP_CD_LEFT_'+k.upper()] if x[0]=='text']==['RN_IP_CD_DAYS_%d'%n for n in range(1,31)]+['RN_IP_CD_DAYS_MORE']
+    leader=effects['rn_inline_leader_apply']
+    tail=next(v for kk,_,v in reversed(leader) if kk=='if')
+    assert get(tail,'limit')==[('check_variable','=',[('temp_var:rn_ip_leader_error','=','0')])] and ('rn_ip_cooldown_start_leader','=','yes') in tail, 'leader cooldown only on success'
 
 class ProductVM(ApplyVM):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
         self.root_tag=self.tag
+        self.persistent['global.num_days']=Decimal(1000)
     def condition(self,nodes):
         for key,op,value in nodes:
             if key=='tag' and value=='ROOT':
                 answer=self.tag==self.root_tag
             elif key=='rn_ipp_party_target_matches':
                 answer=self.condition(TRIGGERS[key]) == (value=='yes')
+            elif key in ('set_temp_variable','subtract_from_temp_variable'):
+                # HOI4 allows temp-variable arithmetic inside triggers (vanilla ai_strategy/ENG.txt:1729).
+                name,_,src=value[0]; prior=self.temp.get(name,Decimal(0)) if key.startswith('subtract') else Decimal(0)
+                self.temp[name]=prior-self.value(src) if key.startswith('subtract') else self.value(src); answer=True
+            elif key.startswith('rn_ip_cooldown_active_'):
+                left=self.persistent.get('rn_ip_cd_'+key[len('rn_ip_cooldown_active_'):]+'_until',Decimal(0))-self.value('global.num_days')
+                answer=(left>0)==(value=='yes')
             else: answer=super().condition([(key,op,value)])
             if not answer: return False
         return True
@@ -195,26 +283,21 @@ def main():
     assert not effects.keys() & native_effects.keys(), 'main mod effect declaration collision'
     own_effects=set(effects)
     effects.update(native_effects)
-    models={name:body for p in (HERE/'common/scripted_guis').glob('*.txt') for _,_,outer in parse(p.read_text()) for name,_,body in outer}
+    OVERRIDE='common/scripted_guis/rename_anything_scripted_gui.txt'
+    models={name:body for p in (HERE/'common/scripted_guis').glob('*.txt') if p.name!='rename_anything_scripted_gui.txt' for _,_,outer in parse(p.read_text()) for name,_,body in outer}
+    # Task 5: exactly one intentional same-path override of the dev mod: rn_entry_gui hidden, all other bytes equal.
+    src=(REPO/'mod'/OVERRIDE).read_bytes(); cand=(HERE/OVERRIDE).read_bytes()
+    i=src.index(b'rn_entry_gui = {'); j=src.index(b'visible = { always = yes }',i)
+    assert src.count(b'rn_entry_gui = {')==1 and cand==src[:j]+b'visible = { always = no }'+src[j+len(b'visible = { always = yes }'):], 'override is not the exact rn_entry_gui visibility flip'
+    assert 'dependencies={ "Rename Anything (dev)" }' in (HERE/'descriptor.template').read_text(encoding='utf-8'), 'override must load after the dev mod'
     gui=[n for p in (HERE/'interface').glob('*.gui') for n in parse(p.read_text())]
     TRIGGERS=declarations(HERE/'common/scripted_triggers')
     locs={get(body,'name'):body for p in (HERE/'common/scripted_localisation').glob('*.txt') for _,_,body in parse(p.read_text(encoding='utf-8-sig'))}
     structural({k:effects[k] for k in own_effects},models,gui,TRIGGERS,locs)
     for p in (HERE/'common').rglob('*.txt'): assert not re.search(r'\btag\s*=\s*POL\b',re.sub(r'#[^\n]*','',p.read_text(encoding='utf-8-sig')))
-    # Only the requested typography changes are allowed in country GUI.
-    country_path='interface/rn_country_inline_ui.gui'
-    original=parse((BASE/country_path).read_text())
-    candidate=parse((HERE/country_path).read_text())
-    old=named(original)
-    for key,font in [('rn_ip_country_label','Arial12'),('rn_ip_country_name_edit','hoi_16mbs'),('rn_ip_country_adj_edit','hoi_16mbs')]:
-        old[key][:]=[(k,op,font if k=='font' else value) for k,op,value in old[key]]
-    # Second allowed delta: size{} of the two 30px-frame icon buttons becomes scale=0.5; positions unchanged.
-    for key in ('rn_ip_country_open','rn_ip_country_apply'):
-        old[key][:]=[('scale','=','0.5') if k=='size' else (k,op,value) for k,op,value in old[key]]
-    assert original==candidate, 'country geometry/nonfont delta'
     # No virtual path, model, scripted-loc or trigger collisions with the main dev mod.
     gamefiles=[p for folder in ('common','interface','localisation') for p in (HERE/folder).rglob('*') if p.is_file()]
-    assert all(not (REPO/'mod'/p.relative_to(HERE)).exists() for p in gamefiles)
+    assert [p.relative_to(HERE).as_posix() for p in gamefiles if (REPO/'mod'/p.relative_to(HERE)).exists()]==[OVERRIDE], 'only the declared override may share a dev-mod path'
     modmodels={name for p in (REPO/'mod/common/scripted_guis').glob('*.txt') for _,_,outer in parse(p.read_text(encoding='utf-8-sig')) for name,_,_ in outer}
     assert not models.keys() & modmodels
     mainlocs={get(body,'name') for p in (REPO/'mod/common/scripted_localisation').glob('*.txt') for _,_,body in parse(p.read_text(encoding='utf-8-sig'))}
@@ -258,6 +341,48 @@ def main():
                 bad.enforce=False; bad.run('rn_inline_pair_cancel_party')
                 assert 'rn_ip_party_neutrality_open' not in bad.flags and bad.arrays['rn_ip_party_target']==[]
                 cases+=1
+    # Cooldown (iteration 3): starts only after success, blocks only its own type, survives as variables.
+    cooldown_cases=0
+    for kind in ('party','country'):
+        other='country' if kind=='party' else 'party'
+        ok=ProductVM(effects,locmap,chars,kind,tag='FRA'); ok.run('rn_inline_pair_apply_'+kind)
+        assert len(ok.requests)==1 and ok.persistent['rn_ip_cd_'+kind+'_until']==Decimal(1005), ('start after success',kind)
+        assert 'rn_ip_cd_'+other+'_until' not in ok.persistent and 'rn_ip_cd_leader_until' not in ok.persistent, 'cross-type start'
+        assert ok.condition([('rn_ip_cooldown_active_'+kind,'=','yes')]) and not ok.condition([('rn_ip_cooldown_active_'+other,'=','yes')])
+        cooldown_cases+=1
+        rej=ProductVM(effects,locmap,chars,kind,tag='FRA'); rej.temp['rn_ip_cmd_epoch']=Decimal(6)
+        before=rej.state(); rej.run('rn_inline_pair_apply_'+kind)
+        assert rej.state()==before and 'rn_ip_cd_'+kind+'_until' not in rej.persistent, ('rejected Apply must not start cooldown',kind)
+        cooldown_cases+=1
+        for until,blocked in ((1001,True),(1005,True),(1000,False),(999,False)):
+            vm=ProductVM(effects,locmap,chars,kind,tag='FRA'); vm.persistent['rn_ip_cd_'+kind+'_until']=Decimal(until)
+            before=vm.state(); vm.run('rn_inline_pair_apply_'+kind)
+            if blocked: assert vm.state()==before and not vm.requests and vm.temp['rn_pair_err']==11, ('cooldown guard',kind,until)
+            else: assert len(vm.requests)==1 and vm.persistent['rn_ip_cd_'+kind+'_until']==Decimal(1005), ('expired cooldown',kind,until)
+            cooldown_cases+=1
+        # Independence: the OTHER type's and the leader's active cooldown do not block this type.
+        vm=ProductVM(effects,locmap,chars,kind,tag='FRA'); vm.persistent['rn_ip_cd_'+other+'_until']=Decimal(1003); vm.persistent['rn_ip_cd_leader_until']=Decimal(1003)
+        vm.run('rn_inline_pair_apply_'+kind); assert len(vm.requests)==1 and vm.temp['rn_pair_err']==0, ('types independent',kind)
+        cooldown_cases+=1
+        # Late cooldown (queued command after another success): second guard round rejects without writes.
+        vm=ProductVM(effects,locmap,chars,kind,tag='FRA'); observed=[]
+        def late(v,k=kind): v.persistent['rn_ip_cd_'+k+'_until']=Decimal(1002); observed.append(v.state())
+        vm.late_mutation=late; vm.run('rn_inline_pair_apply_'+kind)
+        assert vm.state()==observed[0] and not vm.requests and vm.temp['rn_pair_err']==11, ('late cooldown',kind)
+        cooldown_cases+=1
+    # Open is refused during the cooldown of the same type only.
+    for blocked_kind,until in (('party',1003),('country',1003)):
+        vm=ProductVM(effects,locmap,chars,'party',tag='FRA'); vm.flags.clear(); vm.enforce=False
+        vm.persistent['rn_ip_cd_'+blocked_kind+'_until']=Decimal(until); before=vm.state(); vm.run('rn_inline_pair_open_party')
+        assert (vm.state()==before) if blocked_kind=='party' else ('rn_ip_party_neutrality_open' in vm.flags)
+        cooldown_cases+=1
+    for k in ('country','leader','party'):
+        vm=ProductVM(effects,locmap,chars,'party',tag='FRA'); vm.persistent['rn_ip_cd_'+k+'_until']=Decimal(1003)
+        assert vm.localized('RN_IP_CD_LEFT_'+k.upper())==chars['RN_IP_CD_DAYS_3'] and vm.localized('RN_IP_CD_'+k.upper())==chars['RN_IP_CD_'+k.upper()+'_ACTIVE']
+        vm.persistent['rn_ip_cd_'+k+'_until']=Decimal(1000); assert vm.localized('RN_IP_CD_'+k.upper())==''
+        vm.persistent['rn_ip_cd_'+k+'_until']=Decimal(1045); assert vm.localized('RN_IP_CD_LEFT_'+k.upper())==chars['RN_IP_CD_DAYS_MORE']
+        cooldown_cases+=1
+    cases+=cooldown_cases
     # Source-driven rejection barrier, before and after validation; zero writes on each.
     mutations=[('epoch',lambda v:v.temp.update(rn_ip_cmd_epoch=Decimal(6)),8),('fractional epoch',lambda v:v.persistent.update(rn_ip_epoch=Decimal('7.25')),8),('root mismatch',lambda v:setattr(v,'root_tag','GER'),7),('foreign pin',lambda v:v.arrays.update(rn_ip_party_target=[Country('GER')]),9),('duplicate pin',lambda v:v.arrays.update(rn_ip_party_target=[Country('FRA'),Country('FRA')]),9),('legacy',lambda v:v.flags.add('rn_input'),7),('legacy-open',lambda v:v.flags.add('rn_open'),7),('group changed',lambda v:setattr(v,'government','fascism'),9),('invalid B',lambda v:v.temp.update(rn_nativeb_31=Decimal('1.5')),5)]
     for late in (False,True):
@@ -296,11 +421,17 @@ def main():
     else: raise AssertionError('negative fixture missing late guard survived')
     # Other contract mutations are rejected by the independent structural checks.
     rejected=1
-    for mutate in ('partial group gate','ctor temp enabled','country geometry','raw party carrier','unscaled icon'):
+    for mutate in ('partial group gate','ctor temp enabled','country geometry','raw party carrier','unscaled icon','cancel under apply','missing enter','narrow field','status in guard','pencil ignores cooldown','cooldown on reject'):
         ee,mm,gg,tt,ll=map(copy.deepcopy,( {k:effects[k] for k in own_effects},models,gui,TRIGGERS,locs))
         if mutate=='partial group gate': get(tt['rn_ipp_party_target_matches'],'OR').pop()
         elif mutate=='ctor temp enabled': get(get(mm['rn_ip_country_gui'],'triggers'),'rn_ip_country_apply_click_enabled').append(('check_variable','=',[('temp_var:rn_native_cap','=','1')]))
-        elif mutate=='country geometry': named(gg)['rn_ip_party_neutrality_window'].remove(('size','=',[('width','=','250'),('height','=','66')]))
+        elif mutate=='country geometry': node=named(gg)['rn_ip_country_window']; node[:]=[(k,op,[('width','=','420'),('height','=','40')] if k=='size' else v) for k,op,v in node]
+        elif mutate=='cancel under apply': node=named(gg)['rn_ip_leader_cancel']; node[:]=[(k,op,[('x','=','380'),('y','=','5')] if k=='position' else v) for k,op,v in node]
+        elif mutate=='missing enter': named(gg)['rn_ip_party_neutrality_apply'].remove(('shortcut','=','RETURN'))
+        elif mutate=='narrow field': node=named(gg)['rn_ip_country_adj_edit']; node[:]=[(k,op,[('x','=','176'),('y','=','20')] if k=='size' else v) for k,op,v in node]
+        elif mutate=='status in guard': tt['rn_ipp_party_target_matches'].append(('has_variable','=','rn_ip_status_err'))
+        elif mutate=='pencil ignores cooldown': get(get(mm['rn_ip_party_neutrality_launcher_gui'],'triggers'),'rn_ip_party_neutrality_open_click_enabled').remove(('NOT','=',[('rn_ip_cooldown_active_party','=','yes')]))
+        elif mutate=='cooldown on reject': ee['rn_inline_pair_cancel_party']=ee['rn_inline_pair_cancel_party']+[('rn_ip_cooldown_start_party','=','yes')]
         elif mutate=='unscaled icon': named(gg)['rn_ip_party_neutrality_open'].remove(('scale','=','0.67'))
         else:
             node=named(gg)['rn_ip_party_neutrality_prefill'];node[:]=[(k,op,'[ROOT.GetRulingParty]' if k=='text' else v) for k,op,v in node]
@@ -308,7 +439,7 @@ def main():
         except AssertionError: rejected+=1
         else: raise AssertionError(('negative contract mutation survived',mutate))
     files={p.relative_to(HERE).as_posix():sha(p) for p in sorted(HERE.rglob('*')) if p.is_file() and p.name!='static-review.json'}
-    report={'date':'2026-10-11','scope':'Inactive source-only product QA; limited VM records setter requests, no engine/UI/native/MP acceptance','activated':False,'blockers':[], 'protected_files_unchanged':len(protected),'game_files':len(gamefiles),'models':len(models),'native_fields':5,'actual_pair_source_cases':cases,'negative_contract_mutations_rejected':rejected,'pure_helpers_byte_identical':True,'country_geometry_unchanged':True,'country_allowed_delta':'fonts (2 edits+label) and 30px icon buttons size->scale0.5; positions unchanged','party_layout':'launcher 228,310 20px in ruling_party_info; editor 18,300 250x66, framed hoi_18 short 176x20 + hoi_16mbs long 238x20','icon_buttons_scaled':sum(1 for kind,_,body in walk(gui) if kind=='buttonType' and any(k=='scale' for k,_,_ in body)),'party_base_groups':dict(GROUPS),'cancel_after_government_change':True,'empty_prefill_on_target_mismatch':True,'runtime_open':['new 4-group script parser/branches and generic own-country leader guard','conditional empty carriers and target-mismatch label','party launcher/editor overlap, country fonts/16px clipping','native vanilla leader/party caption refresh currently requires panel reopen','scale=0.5 render and hit area of 30px icon buttons; leader pencil inside name plate vs long names','local player lifecycle/menu-load/draft/Enter/focus and multiplayer not accepted here'],'files':files}
+    report={'date':'2026-10-11','scope':'Inactive source-only product QA; limited VM records setter requests, no engine/UI/native/MP acceptance','activated':False,'blockers':[], 'protected_files_unchanged':len(protected),'game_files':len(gamefiles),'models':len(models),'native_fields':5,'actual_pair_source_cases':cases,'negative_contract_mutations_rejected':rejected,'pure_helpers_byte_identical':True,'iteration':3,'editors':'framed overlays 420px wide, five hoi_18 fields 356x20 (>=32x11px widest glyph), ignore_enter, Apply RETURN, Cancel ESCAPE, status line','leader_pencil':'154,242 20px above leader_name, outside its text box','party_pencil':'228,310 20px in ruling_party_info','country_editor':'18,28 420x74 two framed rows','global_entry_override':OVERRIDE,'shortcut_buttons':6,'cooldown':'5 game days per type (rn_ip_cooldown_days), expiry day = global.num_days+5 on success, error 11, pencils disabled with remaining-day tooltip','cooldown_vm_cases':cooldown_cases,'icon_buttons_scaled':sum(1 for kind,_,body in walk(gui) if kind=='buttonType' and any(k=='scale' for k,_,_ in body)),'party_base_groups':dict(GROUPS),'cancel_after_government_change':True,'empty_prefill_on_target_mismatch':True,'runtime_open':['new 4-group script parser/branches and generic own-country leader guard','conditional empty carriers and target-mismatch label','ignore_enter + RETURN/ESCAPE shortcuts in scripted GUI (Enter path through the same Apply command, Esc vs politics close_button)','CEditBox character capacity vs field width (PID42644: 19/16 chars)','editor overlays covering faction/pie/portrait while open','status line after rejected Apply','cooldown: subtract_from_temp_variable inside scripted trigger/loc, global.num_days/global.date, GetDateStringNoHourLong on a stored date, disabled-pencil tooltip; needs unpaused time','dependencies-based load order of the rn_entry_gui override','native vanilla leader/party caption refresh currently requires panel reopen','local player lifecycle/menu-load/draft/Enter/focus and multiplayer not accepted here'],'files':files}
     if '--write-report' in sys.argv: (HERE/'static-review.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({k:v for k,v in report.items() if k!='files'},ensure_ascii=False,indent=2))
 
