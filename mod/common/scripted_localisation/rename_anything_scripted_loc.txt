@@ -24947,14 +24947,6 @@ defined_text = {
 	text = { trigger = { check_variable = { rn_vpc_4_len > 0 } } localization_key = RN_VPROW_NOW_4 }
 	text = { localization_key = RN_VPROW_ORIG_4 }
 }
-defined_text = {
-	name = RN_CharRoleIcon
-	text = { trigger = { var:rn_row_character = { is_country_leader = yes } } localization_key = RN_CHAR_ICON_LEADER }
-	text = { trigger = { var:rn_row_character = { is_army_leader = yes } } localization_key = RN_CHAR_ICON_ARMY }
-	text = { trigger = { var:rn_row_character = { is_navy_leader = yes } } localization_key = RN_CHAR_ICON_NAVY }
-	text = { trigger = { var:rn_row_character = { is_advisor = yes } } localization_key = RN_CHAR_ICON_ADVISER }
-	text = { localization_key = RN_CH_0 }
-}
 
 # Rename cooldown tooltips (country variables rn_cd_state_until / rn_cd_vp_until).
 defined_text = {
