@@ -1,0 +1,94 @@
+# Zensical configuration for the Rename Anything user documentation.
+# Build:  uv run zensical build -f sites/rename-anything/zensical.toml --clean --strict
+# Serve:  uv run zensical serve -f sites/rename-anything/zensical.toml
+# Paths below are relative to this file, so the folder can move to its own repository unchanged.
+
+[project]
+site_name = "Rename Anything"
+site_description = "Rename Anything: rename your country, its leader, parties, states and cities in Hearts of Iron IV, right where the name is shown."
+site_author = "Cyprian Gburek"
+# Placeholder until the GitHub organisation exists; change before the first deployment.
+site_url = "https://example.invalid/rename-anything/"
+docs_dir = "docs"
+site_dir = "site"
+copyright = "Rename Anything is pre-release software. Hearts of Iron IV is a trademark of Paradox Interactive; this project is not affiliated with or endorsed by Paradox Interactive."
+
+extra_css = [
+  "assets/shared/stylesheets/tokens.css",
+  "assets/shared/stylesheets/theme.css",
+]
+
+nav = [
+  { "Overview" = "index.md" },
+  { "How to use" = "how-to-use.md" },
+  { "Install" = "install.md" },
+  { "Known issues" = "known-issues.md" },
+  { "FAQ" = "faq.md" },
+]
+[project.theme]
+language = "en"
+logo = "assets/shared/marks/rename-anything-mark.svg"
+favicon = "assets/shared/marks/rename-anything-mark.svg"
+features = [
+  "content.code.annotate",
+  "content.code.copy",
+  "content.tabs.link",
+  "content.tooltips",
+  "navigation.footer",
+  "navigation.indexes",
+  "navigation.instant",
+  "navigation.path",
+  "navigation.sections",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+  "toc.follow",
+]
+
+[project.theme.font]
+text = "Ubuntu"
+code = "Ubuntu Mono"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+primary = "custom"
+accent = "custom"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Switch to light mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "custom"
+accent = "custom"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "custom"
+accent = "custom"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to system preference"
+
+[project.markdown_extensions]
+abbr = {}
+admonition = {}
+attr_list = {}
+def_list = {}
+footnotes = {}
+md_in_html = {}
+tables = {}
+toc.permalink = true
+pymdownx.betterem = {}
+pymdownx.details = {}
+pymdownx.highlight.anchor_linenums = true
+pymdownx.highlight.line_spans = "__span"
+pymdownx.highlight.pygments_lang_class = true
+pymdownx.inlinehilite = {}
+pymdownx.keys = {}
+pymdownx.superfences = {}
+pymdownx.tabbed.alternate_style = true
+pymdownx.tabbed.combine_header_slug = true
+pymdownx.tasklist.custom_checkbox = true
