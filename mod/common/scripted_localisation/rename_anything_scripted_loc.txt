@@ -24925,27 +24925,27 @@ defined_text = {
 defined_text = {
 	name = RN_VpRow_0
 	text = { trigger = { check_variable = { rn_vpc_0_len > 0 } } localization_key = RN_VPROW_NOW_0 }
-	text = { localization_key = RN_VPROW_ORIG_0 }
+	text = { localization_key = RN_TPROV_0 }
 }
 defined_text = {
 	name = RN_VpRow_1
 	text = { trigger = { check_variable = { rn_vpc_1_len > 0 } } localization_key = RN_VPROW_NOW_1 }
-	text = { localization_key = RN_VPROW_ORIG_1 }
+	text = { localization_key = RN_TPROV_1 }
 }
 defined_text = {
 	name = RN_VpRow_2
 	text = { trigger = { check_variable = { rn_vpc_2_len > 0 } } localization_key = RN_VPROW_NOW_2 }
-	text = { localization_key = RN_VPROW_ORIG_2 }
+	text = { localization_key = RN_TPROV_2 }
 }
 defined_text = {
 	name = RN_VpRow_3
 	text = { trigger = { check_variable = { rn_vpc_3_len > 0 } } localization_key = RN_VPROW_NOW_3 }
-	text = { localization_key = RN_VPROW_ORIG_3 }
+	text = { localization_key = RN_TPROV_3 }
 }
 defined_text = {
 	name = RN_VpRow_4
 	text = { trigger = { check_variable = { rn_vpc_4_len > 0 } } localization_key = RN_VPROW_NOW_4 }
-	text = { localization_key = RN_VPROW_ORIG_4 }
+	text = { localization_key = RN_TPROV_4 }
 }
 
 # Rename cooldown tooltips (country variables rn_cd_state_until / rn_cd_vp_until).

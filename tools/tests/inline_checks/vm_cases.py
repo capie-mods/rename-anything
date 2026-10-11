@@ -515,6 +515,98 @@ def run_refused_sentinels(ctx: Context) -> int:
     return cases
 
 
+PARTY_LOCS = ("RN_IPP_PARTY_SHORT", "RN_IPP_PARTY_LONG", "RN_IPP_PARTY_STATUS")
+"""Party scripted localisation evaluated every frame while the party editor is open."""
+
+
+def _repeated_target_check(locmap: dict[str, Any]) -> dict[str, Any]:
+    """Rebuild the earlier form of the party texts: the target check in every branch.
+
+    The current form checks ``rn_ipp_party_target_matches`` once, as the first
+    branch (empty carrier or stale line when it fails). The earlier form put the
+    check into each target-dependent branch instead.
+
+    Args:
+        locmap: Scripted localisation name to its ``text`` entries.
+
+    Returns:
+        A copy with the three party texts in the earlier form.
+    """
+    matches = ("rn_ipp_party_target_matches", "=", "yes")
+    guard = ("trigger", "=", [("NOT", "=", [matches])])
+    old = copy.deepcopy(locmap)
+    for name in PARTY_LOCS:
+        texts = old[name]
+        at = next(i for i, (_, _, body) in enumerate(texts) if guard in body)
+        kept = texts[:at]
+        for _, op, body in texts[at + 1 : -1]:
+            trigger = get(body, "trigger")
+            rest = [n for n in body if n[0] != "trigger"]
+            kept.append(("text", op, [("trigger", "=", [matches, *trigger]), *rest]))
+        kept.append(texts[-1])
+        old[name] = kept
+    return old
+
+
+def _render_party(ctx: Context, locmap: dict[str, Any], state: tuple[Any, ...]) -> tuple[Any, ...]:
+    """Render the three party texts for one editor state.
+
+    Args:
+        ctx: Shared VM inputs.
+        locmap: Scripted localisation to render with.
+        state: Target kind, group, government, status code, field and reason.
+
+    Returns:
+        The short carrier, long carrier and status line.
+    """
+    target, group, government, status, field, why = state
+    vm = ProductVM(ctx.effects, locmap, ctx.chars, "party", tag="FRA", triggers=ctx.triggers)
+    vm.government = government
+    vm.persistent["rn_ip_party_group"] = Decimal(group or 1)
+    if target == "closed":
+        vm.flags.discard("rn_ip_party_neutrality_open")
+    elif target == "foreign":
+        vm.arrays["rn_ip_party_target"] = [Country("GER")]
+    elif target == "group":
+        vm.persistent["rn_ip_party_group"] = Decimal(len(GROUPS) + 1)
+    if status is not None:
+        vm.persistent["rn_ip_status_err"] = Decimal(status)
+        vm.persistent["rn_ip_status_field"] = Decimal(field)
+        if why is not None:
+            vm.persistent["rn_ip_status_why"] = Decimal(why)
+    return tuple(vm.localized(name) for name in PARTY_LOCS)
+
+
+def run_party_loc_equivalence(ctx: Context) -> int:
+    """Prove the single target check gives the same party texts as the repeated one.
+
+    Every combination of target state (matching, editor closed, foreign pin,
+    group out of range), government, group, status code, field and reason is
+    rendered with both forms and must give the same text.
+
+    Args:
+        ctx: Shared VM inputs.
+
+    Returns:
+        Number of compared states.
+    """
+    old = _repeated_target_check(ctx.locmap)
+    assert old != ctx.locmap
+    targets = ("match", "closed", "foreign", "group")
+    statuses: list[int | None] = [None, ERR_NATIVE, ERR_CODE, ERR_CLOSED, ERR_EPOCH, ERR_TARGET]
+    statuses += [ERR_COOLDOWN, STATUS_NO_BRIDGE, *REFUSED_KEYS]
+    cases = 0
+    for target in targets:
+        for group, government in [*GROUPS, (0, "custom_ideology")]:
+            for status in statuses:
+                for field, why in ((1, None), (1, 1), (2, None), (2, 2), (2, 3)):
+                    state = (target, group, government, status, field, why)
+                    renders = [_render_party(ctx, locmap, state) for locmap in (ctx.locmap, old)]
+                    assert renders[0] == renders[1], state
+                    cases += 1
+    return cases
+
+
 def run_caption_counter(ctx: Context, models: dict[str, Any]) -> int:
     """Run the real party Apply callback and check the caption revision counter.
 
