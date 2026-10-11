@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-11",
+  "status": "INACTIVE script-only product candidate; no registration or runtime acceptance",
+  "authority": "All seven SG models use player_context/politics_tab. tag=ROOT checks CURRENT==ROOT; is_ai=no controls availability. Neither independently grants local-player authority. No foreign-country/MP claim.",
+  "native_change": "NONE: exact model/window/field/carrier/selector names retained; no new native module/build/config/process",
+  "epoch_variable": "rn_ip_epoch",
+  "command_epoch_temp": "rn_ip_cmd_epoch",
+  "epoch_carrier_expression": "[?ROOT.rn_ip_epoch|0]",
+  "payload": "Full fresh rn_native_ok/len/0..31 and, for a pair, rn_nativeb_ok/len/0..31; logical integer CHARS1..84, active length1..32, zero tails. Prefill native bounds remain1..128 and need not pass Apply alphabet/length yet.",
+  "country_capability": "Bridge must freshly verify versioned RNCountryCapabilities()==0x524e4301 before preparation and dispatch; script rechecks ordinary temp rn_native_cap=1 before and after pair validation. Enabled does not depend on this ctor-only temp.",
+  "models": [
+    {
+      "model": "rn_ip_leader_gui",
+      "launcher_model": "rn_ip_leader_launcher_gui",
+      "window": "rn_ip_leader_window",
+      "apply_selector": "rn_ip_leader_apply_click",
+      "cancel_selector": "rn_ip_leader_cancel_click",
+      "open_flag": "rn_ip_leader_open",
+      "records": 35,
+      "epoch_carrier": "rn_ip_leader_epoch",
+      "fields": [
+        {"edit": "rn_ip_leader_edit", "carrier": "rn_ip_leader_prefill", "expression": "[?ROOT.rn_ip_leader_identity.GetName]"}
+      ],
+      "target": "Generic own every_character active is_country_leader; typed singleton rn_ip_leader_target and typed rn_ip_leader_identity. No POL-specific character IDs.",
+      "actual_apply": "Pure full current/ROOT/open/legacy/epoch/own-ruler-pin guard -> strict full single validation -> repeat complete pure guard -> generic roster refresh/singleton+scope guards -> strict copy -> one literal set_character_name. No first persistent Apply write before both guards and validation.",
+      "geometry": {"launcher": [154,299,14,14], "editor": [18,262,155,36], "edit_local": [4,8,110,20]}
+    },
+    {
+      "model": "rn_ip_party_neutrality_gui",
+      "launcher_model": "rn_ip_party_neutrality_launcher_gui",
+      "window": "rn_ip_party_neutrality_window",
+      "apply_selector": "rn_ip_party_neutrality_apply_click",
+      "cancel_selector": "rn_ip_party_neutrality_cancel_click",
+      "open_flag": "rn_ip_party_neutrality_open",
+      "records": 69,
+      "epoch_carrier": "rn_ip_party_neutrality_epoch",
+      "fields": [
+        {"edit": "rn_ip_party_neutrality_edit", "carrier": "rn_ip_party_neutrality_prefill", "expression": "[ROOT.RN_IPP_PARTY_SHORT]", "payload": "A"},
+        {"edit": "rn_ip_party_neutrality_long_edit", "carrier": "rn_ip_party_neutrality_long_prefill", "expression": "[ROOT.RN_IPP_PARTY_LONG]", "payload": "B"}
+      ],
+      "target": "Typed rn_ip_party_target singleton THIS country + exact rn_ip_party_group + global opening epoch. Protocol suffix neutrality retained; not a target restriction.",
+      "logical_group_mapping": {"1": "democratic", "2": "communism", "3": "fascism", "4": "neutrality"},
+      "actual_apply": "Full context/epoch/typed country/current group guard -> unchanged strict pair validation -> same complete guard -> matching group branch before first buffer write -> common private two-buffer copy -> one fixed ideology literal setter of both names -> clear opening/pins and advance epoch.",
+      "mismatch": "Error9 field0 before buffer writes; own editor/Cancel survive government change. Conditional carriers return empty and status label says Target changed: Cancel. No silent repin or history-token claim if government later returns to the same group.",
+      "geometry": {"launcher": [18,368,236,14], "pencil_local": [220,0,14,14], "editor": [18,304,196,62], "short_edit_local": [6,0,138,18], "long_edit_local": [6,42,176,18], "status_font": "Arial12"},
+      "geometry_limit": "One explicitly labelled common ruling-party area, source candidate only. Open editor temporarily overlays read-only faction/ruling info; native text may extend beyond it. Action buttons y390 are clear. Runtime layering, tooltip and clipping remain open. No inferred row index, four-row mapping or direct-name hotspot."
+    },
+    {
+      "model": "rn_ip_country_gui",
+      "launcher_model": "rn_ip_country_launcher_gui",
+      "window": "rn_ip_country_window",
+      "apply_selector": "rn_ip_country_apply_click",
+      "cancel_selector": "rn_ip_country_cancel_click",
+      "open_flag": "rn_ip_country_open",
+      "records": 70,
+      "epoch_carrier": "rn_ip_country_epoch",
+      "fields": [
+        {"edit": "rn_ip_country_name_edit", "carrier": "rn_ip_country_name_prefill", "expression": "[ROOT.GetName]", "payload": "A"},
+        {"edit": "rn_ip_country_adj_edit", "carrier": "rn_ip_country_adj_prefill", "expression": "[ROOT.GetAdjective]", "payload": "B"}
+      ],
+      "target": "Typed rn_ip_country_target singleton THIS country and global opening epoch",
+      "actual_apply": "Complete own context/epoch/pin/fresh country cap guard -> strict pair validation -> same complete guard -> both persistent buffers -> existing one rn_apply_country_name cosmetic carrier.",
+      "geometry": {"launcher": [45,29,393,14], "editor": [45,28,405,16], "name_edit_local": [0,0,210,16], "adj_edit_local": [218,0,145,16]},
+      "fonts": {"name_edit": "hoi_16mbs", "adjective_edit": "hoi_16mbs", "closed_label": "Arial12"},
+      "geometry_limit": "Exactly the base country geometry; 16px fields require visual font/clipping QA. Carrier fonts unchanged."
+    }
+  ],
+  "legacy": "rn_open/rn_input block launcher/editor visible, Open and Apply; Cancel intentionally remains available. Existing leader switch, singleton/ambiguity checks and epoch lifecycle retained.",
+  "diagnostics": "SG Apply records actual Get* before/after and actual errors, without PASS assertions. Existing QA guards is read-only flag diagnostics, not native input/transport acceptance or shipping UX.",
+  "co_load": "ONLY main dev mod + this candidate. Forbid every other probe mod with overlapping models/helper/localisation keys. Exactly one compatible native variant in one fresh process; this fixture cannot enforce DLL co-load policy.",
+  "known_runtime_issue": "Baseline real Apply GetLeader/GetRulingParty and tooltips update; vanilla leader/party captions require politics panel reopen. Separate native refresh research; no auto-close or fake replacement caption here.",
+  "unchanged_helpers": {
+    "rn_inline_payload.txt": "CD171D6203BD66DC7905C7C3D0E1A2750C4B8EABAB45F0540D75D3AF2CE10800",
+    "rn_inline_pair_payload.txt": "E278DFAC3A4E3AC5CCCA7D7CF74DA9D87F0DE728D30BCA875D543F24956F6FC7",
+    "rn_inline_party_buffers.txt": "FB02349D4F658BA49666262E3BC701FF54FC4B341FF9123F7903E1FA8E6225C9"
+  },
+  "acceptance_open": [
+    "HOI4 parser and new four-group dispatch/save-reload in separate own campaigns",
+    "Conditional empty prefill/readiness and visible target-mismatch status before/after first native tick",
+    "Common party area layering and country font/16px clipping",
+    "Generic own-player authority and leader selection beyond POL",
+    "Menu/load/target epoch/draft lifecycle; Enter/focus/select-all remain native-variant dependent",
+    "Native caption refresh and multiplayer deferred"
+  ]
+}

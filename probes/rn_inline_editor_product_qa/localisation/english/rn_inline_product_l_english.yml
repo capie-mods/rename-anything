@@ -1,0 +1,6 @@
+﻿l_english:
+ RN_IPP_RULING_PARTY:0 "Ruling party"
+ RN_IPP_TARGET_CHANGED:0 "Target changed: Cancel"
+ RN_IPP_PARTY_SHORT_CURRENT:0 "[ROOT.GetRulingParty]"
+ RN_IPP_PARTY_LONG_CURRENT:0 "[ROOT.GetRulingPartyLong]"
+ RN_IPP_EMPTY:0 ""

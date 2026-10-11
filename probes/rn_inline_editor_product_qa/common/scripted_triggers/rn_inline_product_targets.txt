@@ -1,0 +1,15 @@
+# INACTIVE candidate. player_context remains the authority boundary.
+# tag=ROOT only verifies CURRENT==ROOT; these logical group numbers are not engine IDs.
+rn_ipp_party_target_matches = {
+tag = ROOT
+is_ai = no
+has_country_flag = rn_ip_party_neutrality_open
+NOT = { has_country_flag = rn_ip_leader_open }
+NOT = { has_country_flag = rn_ip_country_open }
+NOT = { has_country_flag = rn_open }
+NOT = { has_country_flag = rn_input }
+check_variable = { rn_ip_epoch > 0 }
+check_variable = { rn_ip_party_target^num = 1 }
+is_in_array = { array = rn_ip_party_target value = THIS }
+OR = { AND = { check_variable = { rn_ip_party_group = 1 } has_government = democratic } AND = { check_variable = { rn_ip_party_group = 2 } has_government = communism } AND = { check_variable = { rn_ip_party_group = 3 } has_government = fascism } AND = { check_variable = { rn_ip_party_group = 4 } has_government = neutrality } }
+}

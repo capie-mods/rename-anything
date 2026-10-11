@@ -1,0 +1,5 @@
+# TEMPLATE ONLY. No external descriptor/config registration has been performed.
+name="Rename Anything own-country inline product QA (inactive)"
+version="0.0.1"
+supported_version="1.19.*"
+# path="<absolute path to this candidate>" — root must materialize after review.

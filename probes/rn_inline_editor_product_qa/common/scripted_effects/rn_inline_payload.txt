@@ -1,0 +1,172 @@
+# Inline-editor payload helpers. Fractional check repaired after failed QA;
+# the round-and-compare revision still requires parser/runtime verification.
+# Inputs: complete fresh command rn_native_ok/len/0..31, logical integer CHARS codes.
+# Native producer replaces the exact34 reserved records; fixed-point scale100000.
+# Validate every active code and zero padding BEFORE persistent writes.
+# Explicit temp_var: is supported by generic resolver; these exact effect/trigger
+# call paths still require parser and live semantic validation.
+# Caller must first verify own COUNTRY, its inline open flag and current target.
+# It must reject simultaneous old rn_input, and never call rn_open_input here.
+# Copy only changes rn_buf/rn_len, never target selection, flags or a name.
+# Error0 means complete payload, not proof of Apply. Reject preserves old buffer.
+# Error1 ok marker; error4 length; error5 active code; error6 nonzero padding.
+
+rn_inline_validate_slot = {
+	if = {
+		limit = { check_variable = { temp_var:rn_inline_error = 0 } }
+		if = {
+			limit = { check_variable = { temp_var:rn_inline_index < temp_var:rn_native_len } }
+			# Engine modulo did not detect fractional values in live QA. Compare
+			# a rounded private copy with the untouched command value instead.
+			set_temp_variable = { rn_inline_rounded = temp_var:rn_inline_char }
+			round_temp_variable = rn_inline_rounded
+			if = {
+				limit = {
+					NOT = {
+						AND = {
+							check_variable = { temp_var:rn_inline_char > 0 }
+							check_variable = { temp_var:rn_inline_char < 85 }
+							check_variable = { temp_var:rn_inline_rounded = temp_var:rn_inline_char }
+						}
+					}
+				}
+				set_temp_variable = { rn_inline_error = 5 }
+				set_temp_variable = { rn_inline_bad_index = temp_var:rn_inline_index }
+			}
+		}
+		else_if = {
+			limit = { NOT = { check_variable = { temp_var:rn_inline_char = 0 } } }
+			set_temp_variable = { rn_inline_error = 6 }
+			set_temp_variable = { rn_inline_bad_index = temp_var:rn_inline_index }
+		}
+	}
+	add_to_temp_variable = { rn_inline_index = 1 }
+}
+
+rn_inline_validate_payload = {
+	set_temp_variable = { rn_inline_error = 0 }
+	set_temp_variable = { rn_inline_bad_index = -1 }
+	if = {
+		limit = { NOT = { check_variable = { temp_var:rn_native_ok = 1 } } }
+		set_temp_variable = { rn_inline_error = 1 }
+	}
+	else = {
+		set_temp_variable = { rn_inline_rounded = temp_var:rn_native_len }
+		round_temp_variable = rn_inline_rounded
+		if = {
+			limit = {
+				check_variable = { temp_var:rn_native_len > 0 }
+				check_variable = { temp_var:rn_native_len < 33 }
+				check_variable = { temp_var:rn_inline_rounded = temp_var:rn_native_len }
+			}
+			set_temp_variable = { rn_inline_index = 0 }
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_0 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_1 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_2 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_3 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_4 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_5 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_6 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_7 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_8 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_9 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_10 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_11 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_12 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_13 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_14 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_15 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_16 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_17 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_18 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_19 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_20 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_21 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_22 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_23 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_24 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_25 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_26 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_27 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_28 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_29 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_30 }
+			rn_inline_validate_slot = yes
+			set_temp_variable = { rn_inline_char = temp_var:rn_native_31 }
+			rn_inline_validate_slot = yes
+		}
+		else = { set_temp_variable = { rn_inline_error = 4 } }
+	}
+}
+
+# Revalidate in this entry point, so no unchecked caller can copy a stale result.
+rn_inline_copy_payload = {
+	rn_inline_validate_payload = yes
+	if = {
+		limit = { check_variable = { temp_var:rn_inline_error = 0 } }
+		clear_array = rn_buf
+		if = { limit = { check_variable = { temp_var:rn_native_len > 0 } } add_to_array = { rn_buf = temp_var:rn_native_0 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 1 } } add_to_array = { rn_buf = temp_var:rn_native_1 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 2 } } add_to_array = { rn_buf = temp_var:rn_native_2 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 3 } } add_to_array = { rn_buf = temp_var:rn_native_3 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 4 } } add_to_array = { rn_buf = temp_var:rn_native_4 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 5 } } add_to_array = { rn_buf = temp_var:rn_native_5 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 6 } } add_to_array = { rn_buf = temp_var:rn_native_6 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 7 } } add_to_array = { rn_buf = temp_var:rn_native_7 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 8 } } add_to_array = { rn_buf = temp_var:rn_native_8 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 9 } } add_to_array = { rn_buf = temp_var:rn_native_9 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 10 } } add_to_array = { rn_buf = temp_var:rn_native_10 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 11 } } add_to_array = { rn_buf = temp_var:rn_native_11 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 12 } } add_to_array = { rn_buf = temp_var:rn_native_12 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 13 } } add_to_array = { rn_buf = temp_var:rn_native_13 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 14 } } add_to_array = { rn_buf = temp_var:rn_native_14 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 15 } } add_to_array = { rn_buf = temp_var:rn_native_15 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 16 } } add_to_array = { rn_buf = temp_var:rn_native_16 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 17 } } add_to_array = { rn_buf = temp_var:rn_native_17 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 18 } } add_to_array = { rn_buf = temp_var:rn_native_18 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 19 } } add_to_array = { rn_buf = temp_var:rn_native_19 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 20 } } add_to_array = { rn_buf = temp_var:rn_native_20 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 21 } } add_to_array = { rn_buf = temp_var:rn_native_21 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 22 } } add_to_array = { rn_buf = temp_var:rn_native_22 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 23 } } add_to_array = { rn_buf = temp_var:rn_native_23 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 24 } } add_to_array = { rn_buf = temp_var:rn_native_24 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 25 } } add_to_array = { rn_buf = temp_var:rn_native_25 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 26 } } add_to_array = { rn_buf = temp_var:rn_native_26 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 27 } } add_to_array = { rn_buf = temp_var:rn_native_27 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 28 } } add_to_array = { rn_buf = temp_var:rn_native_28 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 29 } } add_to_array = { rn_buf = temp_var:rn_native_29 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 30 } } add_to_array = { rn_buf = temp_var:rn_native_30 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 31 } } add_to_array = { rn_buf = temp_var:rn_native_31 } }
+		set_variable = { rn_len = temp_var:rn_native_len }
+	}
+}

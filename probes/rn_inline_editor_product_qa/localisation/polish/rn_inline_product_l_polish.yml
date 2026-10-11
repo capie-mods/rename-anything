@@ -1,0 +1,6 @@
+﻿l_polish:
+ RN_IPP_RULING_PARTY:0 "Partia rządząca"
+ RN_IPP_TARGET_CHANGED:0 "Zmieniony cel: Anuluj"
+ RN_IPP_PARTY_SHORT_CURRENT:0 "[ROOT.GetRulingParty]"
+ RN_IPP_PARTY_LONG_CURRENT:0 "[ROOT.GetRulingPartyLong]"
+ RN_IPP_EMPTY:0 ""

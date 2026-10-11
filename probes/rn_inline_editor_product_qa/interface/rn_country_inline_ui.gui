@@ -1,0 +1,104 @@
+# INACTIVE product candidate. Country geometry unchanged; native font QA pending.
+# Exact vanilla 1.19.3 politics_tab local coordinates; 16px row awaits visual QA.
+# Explicit button sizes/font are a source candidate; runtime hit testing is not accepted yet.
+guiTypes = {
+	containerWindowType = {
+		name = "rn_ip_country_launcher_window"
+		position = { x = 45 y = 29 }
+		size = { width = 393 height = 14 }
+		orientation = upper_left
+		clipping = no
+		instantTextboxType = {
+			name = "rn_ip_country_label"
+			position = { x = 0 y = 0 }
+			font = "Arial12"
+			text = "[ROOT.GetName]"
+			maxWidth = 365
+			maxHeight = 14
+			fixedsize = yes
+			format = left
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_ip_country_open"
+			position = { x = 379 y = 0 }
+			size = { x = 14 y = 14 }
+			quadTextureSprite = "GFX_edit_designer_notes_button"
+			buttonFont = "hoi_18mbs"
+			clicksound = click_default
+			pdx_tooltip = "RN_IPC_EDIT_COUNTRY"
+		}
+	}
+	containerWindowType = {
+		name = "rn_ip_country_window"
+		position = { x = 45 y = 28 }
+		size = { width = 405 height = 16 }
+		orientation = upper_left
+		clipping = no
+		# Resolved carriers in the SAME player/country context as the native fields.
+		# Native integration must copy once at opening; these are not editbox bindings.
+		instantTextboxType = {
+			name = "rn_ip_country_name_prefill"
+			position = { x = 0 y = 0 }
+			font = "Main_14"
+			text = "[ROOT.GetName]"
+			maxWidth = 210
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextboxType = {
+			name = "rn_ip_country_adj_prefill"
+			position = { x = 218 y = 0 }
+			font = "Main_14"
+			text = "[ROOT.GetAdjective]"
+			maxWidth = 145
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextboxType = {
+			name = "rn_ip_country_epoch"
+			position = { x = 0 y = 0 }
+			font = "Main_14"
+			text = "[?ROOT.rn_ip_epoch|0]"
+			maxWidth = 210
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		editBoxType = {
+			name = "rn_ip_country_name_edit"
+			position = { x = 0 y = 0 }
+			size = { x = 210 y = 16 }
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = ""
+		}
+		editBoxType = {
+			name = "rn_ip_country_adj_edit"
+			position = { x = 218 y = 0 }
+			size = { x = 145 y = 16 }
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = ""
+		}
+		buttonType = {
+			name = "rn_ip_country_apply"
+			position = { x = 369 y = 0 }
+			size = { x = 16 y = 16 }
+			quadTextureSprite = "GFX_preset_button_save"
+			buttonFont = "hoi_18mbs"
+			clicksound = click_default
+			pdx_tooltip = "RN_IEAQA_APPLY_COUNTRY"
+		}
+		buttonType = {
+			name = "rn_ip_country_cancel"
+			position = { x = 389 y = 0 }
+			size = { x = 16 y = 16 }
+			quadTextureSprite = "GFX_closebutton_16"
+			clicksound = click_close
+			pdx_tooltip = "RN_IPC_CANCEL"
+		}
+	}
+}

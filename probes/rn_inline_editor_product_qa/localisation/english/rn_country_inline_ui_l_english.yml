@@ -1,0 +1,4 @@
+﻿l_english:
+ RN_IPC_EDIT_COUNTRY:0 "Edit country name and adjective. Left field: country name. Right field: adjective."
+ RN_IPC_APPLY_UNAVAILABLE:0 "Apply is unavailable in this UI preview."
+ RN_IPC_CANCEL:0 "Cancel editing."

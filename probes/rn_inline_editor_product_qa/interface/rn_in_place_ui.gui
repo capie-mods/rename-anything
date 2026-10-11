@@ -1,0 +1,204 @@
+# INACTIVE real Apply candidate; requires isolated inline_editor_bridge DLL.
+# Geometry is local to vanilla politics_tab in exact HOI4 1.19.3.
+# Explicit button sizes/font are a source candidate; runtime hit testing is not accepted yet.
+guiTypes = {
+	containerWindowType = {
+		name = "rn_ip_leader_launcher_window"
+		position = { x = 154 y = 299 }
+		size = { width = 14 height = 14 }
+		orientation = upper_left
+		clipping = no
+		buttonType = {
+			name = "rn_ip_leader_open"
+			position = { x = 0 y = 0 }
+			size = { x = 14 y = 14 }
+			quadTextureSprite = "GFX_edit_designer_notes_button"
+			buttonFont = "hoi_18mbs"
+			clicksound = click_default
+			pdx_tooltip = "RN_IP_EDIT_LEADER"
+		}
+	}
+	containerWindowType = {
+		name = "rn_ip_leader_window"
+		position = { x = 18 y = 262 }
+		size = { width = 155 height = 36 }
+		orientation = upper_left
+		clipping = no
+		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
+		# Read-only dynamic carrier in the SAME player/country context.
+		# Hidden state is a scripted-GUI trigger; candidate bridge copies this at opening.
+		instantTextboxType = {
+			name = "rn_ip_leader_epoch"
+			position = { x = 0 y = 0 }
+			font = "hoi_18mbs"
+			text = "[?ROOT.rn_ip_epoch|0]"
+			maxWidth = 176
+			maxHeight = 18
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextboxType = {
+			name = "rn_ip_leader_prefill"
+			position = { x = 0 y = 0 }
+			font = "hoi_18mbs"
+			text = "[?ROOT.rn_ip_leader_identity.GetName]"
+			maxWidth = 130
+			maxHeight = 20
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		editBoxType = {
+			name = "rn_ip_leader_edit"
+			position = { x = 4 y = 8 }
+			size = { x = 110 y = 20 }
+			font = "hoi_18"
+			borderSize = { x = 0 y = 0 }
+			text = ""
+		}
+		buttonType = {
+			name = "rn_ip_leader_apply"
+			position = { x = 117 y = 10 }
+			size = { x = 16 y = 16 }
+			quadTextureSprite = "GFX_preset_button_save"
+			buttonFont = "hoi_18mbs"
+			clicksound = click_default
+			pdx_tooltip = "RN_IEAQA_APPLY_LEADER"
+		}
+		buttonType = {
+			name = "rn_ip_leader_cancel"
+			position = { x = 135 y = 10 }
+			size = { x = 16 y = 16 }
+			quadTextureSprite = "GFX_closebutton_16"
+			clicksound = click_close
+			pdx_tooltip = "RN_IP_CANCEL"
+		}
+	}
+	# Closed launcher in the gap below elections. Open editor temporarily replaces
+	# read-only ruling-party information; occupation/subjects/collaboration actions stay clear.
+	# Neutrality in control names is an immutable native protocol key, not a group gate.
+	containerWindowType = {
+		name = "rn_ip_party_neutrality_launcher_window"
+		position = { x = 18 y = 368 }
+		size = { width = 236 height = 14 }
+		orientation = upper_left
+		clipping = no
+		instantTextboxType = {
+			name = "rn_ipp_party_launcher_label"
+			position = { x = 0 y = 0 }
+			font = "Arial12"
+			text = "RN_IPP_RULING_PARTY"
+			maxWidth = 216
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_ip_party_neutrality_open"
+			position = { x = 220 y = 0 }
+			size = { x = 14 y = 14 }
+			quadTextureSprite = "GFX_edit_designer_notes_button"
+			buttonFont = "hoi_18mbs"
+			clicksound = click_default
+			pdx_tooltip = "RN_IP_EDIT_PARTY"
+		}
+	}
+	containerWindowType = {
+		name = "rn_ip_party_neutrality_window"
+		position = { x = 18 y = 304 }
+		size = { width = 196 height = 62 }
+		orientation = upper_left
+		clipping = no
+		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
+		instantTextboxType = {
+			name = "rn_ip_party_neutrality_epoch"
+			position = { x = 0 y = 0 }
+			font = "hoi_16mbs"
+			text = "[?ROOT.rn_ip_epoch|0]"
+			maxWidth = 176
+			maxHeight = 18
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextboxType = {
+			name = "rn_ip_party_neutrality_prefill"
+			position = { x = 0 y = 0 }
+			font = "hoi_16mbs"
+			text = "[ROOT.RN_IPP_PARTY_SHORT]"
+			maxWidth = 176
+			maxHeight = 18
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextboxType = {
+			name = "rn_ip_party_neutrality_long_prefill"
+			position = { x = 0 y = 0 }
+			font = "hoi_16mbs"
+			text = "[ROOT.RN_IPP_PARTY_LONG]"
+			maxWidth = 176
+			maxHeight = 18
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		editBoxType = {
+			name = "rn_ip_party_neutrality_edit"
+			position = { x = 6 y = 0 }
+			size = { x = 138 y = 18 }
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = ""
+		}
+		buttonType = {
+			name = "rn_ip_party_neutrality_apply"
+			position = { x = 148 y = 1 }
+			size = { x = 16 y = 16 }
+			quadTextureSprite = "GFX_preset_button_save"
+			buttonFont = "hoi_18mbs"
+			clicksound = click_default
+			pdx_tooltip = "RN_IEAQA_APPLY_PARTY"
+		}
+		buttonType = {
+			name = "rn_ip_party_neutrality_cancel"
+			position = { x = 168 y = 1 }
+			size = { x = 16 y = 16 }
+			quadTextureSprite = "GFX_closebutton_16"
+			clicksound = click_close
+			pdx_tooltip = "RN_IP_CANCEL"
+		}
+		instantTextboxType = {
+			name = "rn_ip_party_neutrality_long_label"
+			position = { x = 6 y = 22 }
+			font = "Arial12"
+			text = "[ROOT.RN_IPP_PARTY_STATUS]"
+			maxWidth = 176
+			maxHeight = 18
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		editBoxType = {
+			name = "rn_ip_party_neutrality_long_edit"
+			position = { x = 6 y = 42 }
+			size = { x = 176 y = 18 }
+			font = "hoi_16mbs"
+			borderSize = { x = 0 y = 0 }
+			text = ""
+		}
+	}
+
+	# Independent read-only QA diagnostic; intentionally visible during legacy flags.
+	containerWindowType = {
+		name = "rn_ilqa_guard_window"
+		position = { x = 375 y = 760 }
+		size = { width = 148 height = 36 }
+		orientation = upper_left
+		clipping = no
+		buttonType = {
+			name = "rn_ilqa_guards"
+			position = { x = 0 y = 0 }
+			spriteType = "GFX_button_148x34"
+			buttonText = "RN_ILQA_GUARDS"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_ILQA_GUARDS_TT"
+			clicksound = click_default
+		}
+	}
+}

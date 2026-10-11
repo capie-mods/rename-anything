@@ -1,0 +1,19 @@
+# INACTIVE party target carriers. Empty fallback blocks native prefill on a stale target.
+
+defined_text = {
+	name = RN_IPP_PARTY_SHORT
+	text = { trigger = { rn_ipp_party_target_matches = yes } localization_key = RN_IPP_PARTY_SHORT_CURRENT }
+	text = { localization_key = RN_IPP_EMPTY }
+}
+
+defined_text = {
+	name = RN_IPP_PARTY_LONG
+	text = { trigger = { rn_ipp_party_target_matches = yes } localization_key = RN_IPP_PARTY_LONG_CURRENT }
+	text = { localization_key = RN_IPP_EMPTY }
+}
+
+defined_text = {
+	name = RN_IPP_PARTY_STATUS
+	text = { trigger = { rn_ipp_party_target_matches = yes } localization_key = RN_IP_LONG_NAME }
+	text = { localization_key = RN_IPP_TARGET_CHANGED }
+}
