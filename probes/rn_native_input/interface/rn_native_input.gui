@@ -1,0 +1,70 @@
+guiTypes = {
+	containerWindowType = {
+		name = "rn_native_probe_window"
+		orientation = upper_left
+		position = { x = 560 y = 240 }
+		size = { width = 340 height = 224 }
+		clipping = no
+		background = { name = "Background" quadTextureSprite = "GFX_tiled_window_2b_border" }
+		instantTextBoxType = {
+			name = "rn_native_probe_title"
+			position = { x = 12 y = 10 }
+			font = "hoi_18mbs"
+			text = "RN_NATIVE_PROBE_TITLE"
+			maxWidth = 316
+			maxHeight = 24
+			fixedsize = yes
+		}
+		editBoxType = {
+			name = "rn_native_edit_unique"
+			position = { x = 12 y = 42 }
+			size = { x = 316 y = 24 }
+			font = "hoi_18"
+			text = "Zażółć QA"
+			borderSize = { x = 0 y = 0 }
+		}
+		buttonType = {
+			name = "rn_native_probe_commit"
+			position = { x = 12 y = 78 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_NATIVE_PROBE_COMMIT"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_native_probe_party"
+			position = { x = 148 y = 78 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_NATIVE_PROBE_PARTY"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		instantTextBoxType = {
+			name = "rn_native_probe_note"
+			position = { x = 12 y = 120 }
+			font = "hoi_16mbs"
+			text = "RN_NATIVE_PROBE_NOTE"
+			maxWidth = 316
+			maxHeight = 38
+			fixedsize = yes
+		}
+		instantTextBoxType = {
+			name = "rn_native_probe_party_short"
+			position = { x = 12 y = 164 }
+			font = "hoi_16mbs"
+			text = "RN_NATIVE_PROBE_PARTY_SHORT"
+			maxWidth = 316
+			maxHeight = 24
+			fixedsize = yes
+		}
+		instantTextBoxType = {
+			name = "rn_native_probe_party_long"
+			position = { x = 12 y = 190 }
+			font = "hoi_16mbs"
+			text = "RN_NATIVE_PROBE_PARTY_LONG"
+			maxWidth = 316
+			maxHeight = 24
+			fixedsize = yes
+		}
+	}
+}

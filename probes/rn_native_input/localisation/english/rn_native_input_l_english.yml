@@ -1,0 +1,7 @@
+﻿l_english:
+ RN_NATIVE_PROBE_TITLE: "QA: native text field"
+ RN_NATIVE_PROBE_COMMIT: "Log input"
+ RN_NATIVE_PROBE_PARTY: "Party test"
+ RN_NATIVE_PROBE_NOTE: "QA field: typing does not rename the leader. Party test changes the party."
+ RN_NATIVE_PROBE_PARTY_SHORT: "Short: [ROOT.GetRulingParty]"
+ RN_NATIVE_PROBE_PARTY_LONG: "Long: [ROOT.GetRulingPartyLong]"

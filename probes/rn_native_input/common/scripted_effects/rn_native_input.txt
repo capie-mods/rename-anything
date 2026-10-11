@@ -1,0 +1,216 @@
+# UNLOADED QA transport candidate. No GUI button calls this effect yet.
+# Requires the main Rename Anything mod and COUNTRY current scope == player ROOT.
+# Do not enable/connect it until the read-only native observer contract passes.
+#
+# Input contract: a FRESH command contains all 34 ordinary numeric temp variables:
+# rn_native_ok = 1; rn_native_len = 1..32; rn_native_0..31 = CHARS codes.
+# Active slots are whole numbers 1..84; slots >= len are exactly 0.
+# The native producer supplies 0/0/32 zeros on any read/validation failure.
+# Logical numbers use engine fixed-point scale 100000: e.g. code 63 = 6300000.
+# Preserve current ROOT target variables; this effect never selects a target.
+#
+# Important: the spelling is temp_var:, NOT tempvar:.
+# PRIMARY: vanilla events/LaR_Portugal.txt:951-962 and
+# common/on_actions/05_lar_on_actions.txt:45-56. Exact 1.19.3 EXE has
+# temp_var: at RVA 0x27D5090 (9 bytes), parsed by ScopedVariable_Resolve
+# 0x546530; retained typed-state-variable-decompile.txt:436-444.
+# Explicit reads request the command temp namespace, not country variables.
+# Freshness itself is a native producer/lifetime requirement, not proved here:
+# replace reserved keys rather than appending duplicate or stale records.
+#
+# Scratch tempvars, not extra inputs: rn_native_probe_error/index/bad_index/char/remainder.
+# Error 0 means delegated to EXISTING Apply, not proof that a name was changed.
+# 1 missing/false ok; 2 no rn_input; 3 unknown target type; 4 invalid length;
+# 5 invalid active code; 6 nonzero padding. bad_index=-1 unless a slot failed.
+# Rejection changes only scratch tempvars/logs, never rn_buf/rn_len/targets/flags.
+#
+# CHARS/MAXLEN source: tools/gen.py:35-65 (84 consecutive logical codes, max 32).
+# Generic syntax primary: documentation/effects_documentation.md
+# add_to_array:2278-2291, modulo_temp_variable:4986-4997,
+# set_temp_variable:7820ff; triggers_documentation.md check_variable:2110-2134.
+# Existing rn_apply_input (tools/gen.py:305-359) retains ownership/target guards
+# and calls rn_cancel_input after consumption. Types 4/5 store country field
+# buffers; they do not apply the country's cosmetic tag by themselves.
+
+# Internal preflight helper. Caller assigns char and starts index at 0.
+# It never mutates persistent text or target state.
+rn_native_probe_validate_slot = {
+	if = {
+		limit = { check_variable = { temp_var:rn_native_probe_error = 0 } }
+		if = {
+			limit = { check_variable = { temp_var:rn_native_probe_index < temp_var:rn_native_len } }
+			set_temp_variable = { rn_native_probe_remainder = temp_var:rn_native_probe_char }
+			modulo_temp_variable = { var = rn_native_probe_remainder value = 1 }
+			if = {
+				limit = {
+					NOT = {
+						AND = {
+							check_variable = { temp_var:rn_native_probe_char > 0 }
+							check_variable = { temp_var:rn_native_probe_char < 85 }
+							check_variable = { temp_var:rn_native_probe_remainder = 0 }
+						}
+					}
+				}
+				set_temp_variable = { rn_native_probe_error = 5 }
+				set_temp_variable = { rn_native_probe_bad_index = temp_var:rn_native_probe_index }
+			}
+		}
+		else_if = {
+			limit = { NOT = { check_variable = { temp_var:rn_native_probe_char = 0 } } }
+			set_temp_variable = { rn_native_probe_error = 6 }
+			set_temp_variable = { rn_native_probe_bad_index = temp_var:rn_native_probe_index }
+		}
+	}
+	add_to_temp_variable = { rn_native_probe_index = 1 }
+}
+
+# Candidate entry point. Intentionally unwired in rn_native_input scripted GUI.
+rn_native_probe_apply_input = {
+	set_temp_variable = { rn_native_probe_error = 0 }
+	set_temp_variable = { rn_native_probe_bad_index = -1 }
+	if = {
+		limit = { NOT = { check_variable = { temp_var:rn_native_ok = 1 } } }
+		set_temp_variable = { rn_native_probe_error = 1 }
+	}
+	else_if = {
+		limit = { NOT = { has_country_flag = rn_input } }
+		set_temp_variable = { rn_native_probe_error = 2 }
+	}
+	else_if = {
+		limit = {
+			NOT = {
+				OR = {
+					check_variable = { rn_ttype = 1 }
+					check_variable = { rn_ttype = 2 }
+					check_variable = { rn_ttype = 3 }
+					check_variable = { rn_ttype = 4 }
+					check_variable = { rn_ttype = 5 }
+				}
+			}
+		}
+		set_temp_variable = { rn_native_probe_error = 3 }
+	}
+	else = {
+		set_temp_variable = { rn_native_probe_remainder = temp_var:rn_native_len }
+		modulo_temp_variable = { var = rn_native_probe_remainder value = 1 }
+		if = {
+			limit = {
+				check_variable = { temp_var:rn_native_len > 0 }
+				check_variable = { temp_var:rn_native_len < 33 }
+				check_variable = { temp_var:rn_native_probe_remainder = 0 }
+			}
+			set_temp_variable = { rn_native_probe_index = 0 }
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_0 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_1 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_2 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_3 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_4 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_5 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_6 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_7 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_8 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_9 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_10 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_11 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_12 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_13 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_14 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_15 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_16 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_17 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_18 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_19 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_20 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_21 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_22 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_23 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_24 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_25 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_26 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_27 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_28 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_29 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_30 }
+			rn_native_probe_validate_slot = yes
+			set_temp_variable = { rn_native_probe_char = temp_var:rn_native_31 }
+			rn_native_probe_validate_slot = yes
+		}
+		else = {
+			set_temp_variable = { rn_native_probe_error = 4 }
+		}
+	}
+
+	if = {
+		limit = { check_variable = { temp_var:rn_native_probe_error = 0 } }
+		# First persistent write occurs only after the complete preflight.
+		clear_array = rn_buf
+		if = { limit = { check_variable = { temp_var:rn_native_len > 0 } } add_to_array = { rn_buf = temp_var:rn_native_0 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 1 } } add_to_array = { rn_buf = temp_var:rn_native_1 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 2 } } add_to_array = { rn_buf = temp_var:rn_native_2 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 3 } } add_to_array = { rn_buf = temp_var:rn_native_3 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 4 } } add_to_array = { rn_buf = temp_var:rn_native_4 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 5 } } add_to_array = { rn_buf = temp_var:rn_native_5 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 6 } } add_to_array = { rn_buf = temp_var:rn_native_6 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 7 } } add_to_array = { rn_buf = temp_var:rn_native_7 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 8 } } add_to_array = { rn_buf = temp_var:rn_native_8 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 9 } } add_to_array = { rn_buf = temp_var:rn_native_9 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 10 } } add_to_array = { rn_buf = temp_var:rn_native_10 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 11 } } add_to_array = { rn_buf = temp_var:rn_native_11 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 12 } } add_to_array = { rn_buf = temp_var:rn_native_12 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 13 } } add_to_array = { rn_buf = temp_var:rn_native_13 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 14 } } add_to_array = { rn_buf = temp_var:rn_native_14 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 15 } } add_to_array = { rn_buf = temp_var:rn_native_15 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 16 } } add_to_array = { rn_buf = temp_var:rn_native_16 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 17 } } add_to_array = { rn_buf = temp_var:rn_native_17 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 18 } } add_to_array = { rn_buf = temp_var:rn_native_18 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 19 } } add_to_array = { rn_buf = temp_var:rn_native_19 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 20 } } add_to_array = { rn_buf = temp_var:rn_native_20 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 21 } } add_to_array = { rn_buf = temp_var:rn_native_21 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 22 } } add_to_array = { rn_buf = temp_var:rn_native_22 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 23 } } add_to_array = { rn_buf = temp_var:rn_native_23 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 24 } } add_to_array = { rn_buf = temp_var:rn_native_24 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 25 } } add_to_array = { rn_buf = temp_var:rn_native_25 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 26 } } add_to_array = { rn_buf = temp_var:rn_native_26 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 27 } } add_to_array = { rn_buf = temp_var:rn_native_27 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 28 } } add_to_array = { rn_buf = temp_var:rn_native_28 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 29 } } add_to_array = { rn_buf = temp_var:rn_native_29 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 30 } } add_to_array = { rn_buf = temp_var:rn_native_30 } }
+		if = { limit = { check_variable = { temp_var:rn_native_len > 31 } } add_to_array = { rn_buf = temp_var:rn_native_31 } }
+		set_variable = { rn_len = temp_var:rn_native_len }
+		log = "RN native transport: validated full payload; delegating to existing Apply"
+		rn_apply_input = yes
+	}
+	else = {
+		log = "RN native transport rejected: error=[?rn_native_probe_error], index=[?rn_native_probe_bad_index]"
+	}
+}

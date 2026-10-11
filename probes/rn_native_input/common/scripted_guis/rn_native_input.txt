@@ -1,0 +1,28 @@
+# Separate QA probe, excluded from mod/. No text bridge is assumed to work.
+scripted_gui = {
+	rn_native_probe_gui = {
+		context_type = player_context
+		parent_window_token = politics_tab
+		window_name = "rn_native_probe_window"
+		visible = { tag = POL }
+		ai_enabled = { always = no }
+		effects = {
+			rn_native_probe_commit_click = {
+				log = "RN native input probe: len=[?rn_native_len], first=[?rn_native_0], last=[?rn_native_31]"
+			}
+			rn_native_probe_party_click = {
+				if = {
+					limit = { tag = POL has_government = neutrality }
+					set_party_name = {
+						ideology = neutrality
+						name = "Partia QA Żółć"
+						long_name = "Partia QA Żółć długa"
+					}
+				}
+			}
+		}
+		triggers = {
+			rn_native_probe_party_click_enabled = { tag = POL has_government = neutrality }
+		}
+	}
+}

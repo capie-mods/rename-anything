@@ -1,0 +1,7 @@
+﻿l_polish:
+ RN_NATIVE_PROBE_TITLE: "QA: natywne pole tekstowe"
+ RN_NATIVE_PROBE_COMMIT: "Zapisz do logu"
+ RN_NATIVE_PROBE_PARTY: "Próba partii"
+ RN_NATIVE_PROBE_NOTE: "Pole QA nie zmienia lidera. Próba partii zmienia nazwę partii."
+ RN_NATIVE_PROBE_PARTY_SHORT: "Krótka: [ROOT.GetRulingParty]"
+ RN_NATIVE_PROBE_PARTY_LONG: "Pełna: [ROOT.GetRulingPartyLong]"
