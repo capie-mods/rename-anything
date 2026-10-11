@@ -108,8 +108,8 @@ nie do ekranu. Parent animuje swój origin: vanilla plik ma `show_position=(-6,7
 
 | Element | x,y | w,h | Powiązanie vanilla |
 |---|---|---|---|
-| Przycisk przywódcy | 177,273 | 14,14 | obok `leader_name` 18,262 / 155x36 |
-| Otwarty edytor przywódcy | 18,262 | 178,36 | pod portretem, pole 130x20 |
+| Przycisk przywódcy | 154,299 | 14,14 | obok `leader_name` 18,262 / 155x36 |
+| Otwarty edytor przywódcy | 18,262 | 155,36 | pod portretem, pole 110x20 |
 | Przycisk partii neutralnej | 536,352 | 14,14 | za prawym końcem nazwy x535 |
 | Otwarty edytor partii | 354,352 | 196,62 | short 138x18, long 176x18 poniżej |
 
@@ -166,3 +166,20 @@ osobne świadome aktywowanie disposable fixture przez root, native prefill/fokus
 bez rename, Cancel/reopen/zmiana celu, potem pełne payload validation i pin-target
 Apply. Krótka/długa nazwa partii i trwałość wymagają osobnej próby literal/save.
 Aktualna DLL, aktywne pliki moda, config launchera i procesy nie zostały zmienione.
+
+
+## Korekta geometrii po zakończonym PID3188
+
+Zmieniono wyłącznie geometrię lidera, bez zmiany parenta lub origin:
+launcher `(154,299)` 14×14, editor `(18,262)` 155×36, natywne pole lokalnie
+`(4,8)` 110×20, save `(117,10)` 16×16, Cancel `(135,10)` 16×16.
+Pole i przyciski kończą się przed lokalnym x173, w obrębie natywnego wiersza
+`leader_name`. Launcher leży tuż pod nazwą, przed tekstem ideologii od y313.
+
+Vanilla `countrypoliticsview.gui:94–141` składa pozycję Create faction do
+`(180,243)`; `interface/factions/factions.gfx:740–742` wskazuje DDS573×57
+z trzema klatkami, czyli 191×57 na klatkę. Poprzednie `(177,273)` oraz prawy
+Cancel nachodziły na ten przycisk. Na screenshot89–91 źródłowy overlap wyjaśnia
+natywne tooltipy, ale nie stanowi dowodu wykonania callbacka inline. Nowa
+geometria, z-order, hitbox, widoczność i Open/Cancel wymagają świeżego QA.
+Nie zmieniono modelu, named controls, carrierów, epoki, guardów ani helperów.

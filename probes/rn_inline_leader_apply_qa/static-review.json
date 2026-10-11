@@ -1,0 +1,229 @@
+{
+  "date": "2026-10-11",
+  "kind": "unactivated guarded leader Apply QA; static source inventory/delta verification only",
+  "findings": [],
+  "verified": [
+    "no trailing whitespace: descriptor.mod",
+    "no trailing whitespace: native-contract.json",
+    "no trailing whitespace: README.md",
+    "no trailing whitespace: interface\\rn_in_place_ui.gui",
+    "no trailing whitespace: localisation\\english\\rn_in_place_ui_l_english.yml",
+    "no trailing whitespace: localisation\\polish\\rn_in_place_ui_l_polish.yml",
+    "no trailing whitespace: common\\scripted_effects\\rn_inline_leader.txt",
+    "no trailing whitespace: common\\scripted_effects\\rn_inline_payload.txt",
+    "no trailing whitespace: common\\scripted_guis\\rn_in_place_ui.txt",
+    "all Pdx files structurally parsed by disposable assignment/comparison parser",
+    "four exact inherited model names",
+    "enabled guard equals log-only transport QA guard exactly",
+    "enabled is independent of native payload and command epoch injection",
+    "Apply effect contains only before log, unchanged guarded helper call, after log",
+    "after log reads actual GetLeader and helper error after call",
+    "logs contain no manufactured PASS claim",
+    "entire SG differs only in leader enabled guard and observational log wrapper",
+    "party Apply still always=no",
+    "all contexts remain own player_context/politics_tab",
+    "rn_ip_leader_launcher_gui visible rejects rn_open",
+    "rn_ip_leader_launcher_gui visible rejects rn_input",
+    "rn_ip_leader_gui visible rejects rn_open",
+    "rn_ip_leader_gui visible rejects rn_input",
+    "rn_ip_party_neutrality_launcher_gui visible rejects rn_open",
+    "rn_ip_party_neutrality_launcher_gui visible rejects rn_input",
+    "rn_ip_party_neutrality_gui visible rejects rn_open",
+    "rn_ip_party_neutrality_gui visible rejects rn_input",
+    "rn_inline_leader.txt byte-identical to reviewed source",
+    "rn_inline_payload.txt byte-identical to reviewed source",
+    "payload SHA matches runtime-tested CD171D helper",
+    "four exact inherited window names",
+    "entire GUI geometry and control identity unchanged except leader tooltip",
+    "three native edit fields and no extra rename buttons",
+    "all native fields have empty initial text",
+    "leader prefill uses pinned actual character",
+    "both epoch carriers preserve explicit integer formatting",
+    "english localisation preserves UTF-8 BOM",
+    "english locale only appends leader Apply tooltip",
+    "polish localisation preserves UTF-8 BOM",
+    "polish locale only appends leader Apply tooltip",
+    "PL/EN locale keys agree",
+    "co-load exclusions explicit",
+    "descriptor is distinct from source and active diagnostic fixture"
+  ],
+  "checks_passed": 43,
+  "inventory": {
+    "models": [
+      "rn_ip_leader_gui",
+      "rn_ip_leader_launcher_gui",
+      "rn_ip_party_neutrality_gui",
+      "rn_ip_party_neutrality_launcher_gui"
+    ],
+    "windows": [
+      "rn_ip_leader_launcher_window",
+      "rn_ip_leader_window",
+      "rn_ip_party_neutrality_launcher_window",
+      "rn_ip_party_neutrality_window"
+    ],
+    "buttons": [
+      "rn_ip_leader_apply",
+      "rn_ip_leader_cancel",
+      "rn_ip_leader_open",
+      "rn_ip_party_neutrality_apply",
+      "rn_ip_party_neutrality_cancel",
+      "rn_ip_party_neutrality_open"
+    ],
+    "native_fields": [
+      "rn_ip_leader_edit",
+      "rn_ip_party_neutrality_edit",
+      "rn_ip_party_neutrality_long_edit"
+    ],
+    "hidden_carriers": [
+      "rn_ip_leader_epoch",
+      "rn_ip_leader_prefill",
+      "rn_ip_party_neutrality_epoch",
+      "rn_ip_party_neutrality_long_prefill",
+      "rn_ip_party_neutrality_prefill"
+    ],
+    "locale_keys": [
+      "RN_ILAQA_APPLY_LEADER",
+      "RN_IP_APPLY_UNAVAILABLE",
+      "RN_IP_CANCEL",
+      "RN_IP_EDIT_LEADER",
+      "RN_IP_EDIT_PARTY",
+      "RN_IP_LONG_NAME"
+    ],
+    "leader_apply": "guarded real helper, enabled without payload precheck",
+    "party_apply": "always=no",
+    "command_epoch_key": "rn_ip_cmd_epoch",
+    "command_epoch_ascii_bytes": 15,
+    "observational_logs": [
+      "RN_ILAQA before",
+      "RN_ILAQA after"
+    ],
+    "leader_geometry": {
+      "status": "post-PID3188 source-only correction; no runtime acceptance",
+      "parent": "politics_tab unchanged; coordinates local to native countrypoliticsview",
+      "launcher": [
+        154,
+        299,
+        14,
+        14
+      ],
+      "editor": [
+        18,
+        262,
+        155,
+        36
+      ],
+      "edit_local": [
+        4,
+        8,
+        110,
+        20
+      ],
+      "save_local": [
+        117,
+        10,
+        16,
+        16
+      ],
+      "cancel_local": [
+        135,
+        10,
+        16,
+        16
+      ],
+      "native_name_row": [
+        18,
+        262,
+        155,
+        36
+      ],
+      "native_faction_button": [
+        180,
+        243,
+        191,
+        57
+      ],
+      "reason": "old launcher177,273 and Cancel176..192 overlapped native Create faction. New leader controls end before local x173; launcher sits below leader_name and before ideology text y313.",
+      "runtime_limits": "clipping/draw order/hitboxes at actual UI scale and fresh callback still require QA; no parent/origin workaround"
+    }
+  },
+  "baseline": {
+    "path": "../rn_in_place_ui",
+    "helper_bytes_unchanged": true,
+    "payload_sha256": "cd171d6203bd66dc7905c7c3d0e1a2750c4b8eabab45f0540d75d3af2ce10800",
+    "leader_sha256": "4acaaf9e2b1d2c41b165bb9a82c85ed880937c55f1ead696037b17bb74cdbe7a"
+  },
+  "limits": [
+    "No activation, registration, process, UI, DLL or configuration change.",
+    "Disposable syntax parser is not the engine parser.",
+    "Root-reported 17 script-only payload cases PASS apply to the byte-identical helper, not this caller or GUI.",
+    "Actual native transport/prefill/Cancel/draft QA must pass separately before activation.",
+    "No observed Apply/name/save/load/MP result for this new fixture.",
+    "Error=0 is delegated rename, not an emitted PASS; actual GetLeader/native name must match entered text.",
+    "No menu/load/player-change/draft-across-tab acceptance claim."
+  ],
+  "sha256": {
+    "common/scripted_effects/rn_inline_leader.txt": "4acaaf9e2b1d2c41b165bb9a82c85ed880937c55f1ead696037b17bb74cdbe7a",
+    "common/scripted_effects/rn_inline_payload.txt": "cd171d6203bd66dc7905c7c3d0e1a2750c4b8eabab45f0540d75d3af2ce10800",
+    "common/scripted_guis/rn_in_place_ui.txt": "4d15166a9d19220d5c78f395e1fc5460dd62f4ae6a4d0bb0d15282a819e752f3",
+    "descriptor.mod": "cd8f9f7d414dbdc42ee8eafbc33a43b102071f96d22192b717f6087e632345d6",
+    "interface/rn_in_place_ui.gui": "6911bc3194bbc4dec12b107b66c6d49f41bc8fb8673116550026085f991a88d6",
+    "localisation/english/rn_in_place_ui_l_english.yml": "58dac26b149cf6a05586bc49a9c844f5c97048002c113f3a737f1f79e465cb41",
+    "localisation/polish/rn_in_place_ui_l_polish.yml": "c5194dd1a11603cb979686876b09c7e019165c3128739dc2c6b06b88536864b0",
+    "native-contract.json": "83b73e6c67dbb2d40bd6e0f0281c972c0c04af7f5ca45d53c139df6842448c87",
+    "README.md": "26b4346a7fd36a7e7c5e4717c7b5b1e867adb348ed88c49e549374529b237419"
+  },
+  "leader_geometry_guard_review": {
+    "date": "2026-10-11",
+    "status": "source-only candidate after closed PID3188; no activation/runtime",
+    "findings": [],
+    "verified": [
+      "transport inherited SG unchanged",
+      "rn_inline_leader_apply_qa clean whitespace descriptor.mod",
+      "rn_inline_leader_apply_qa clean whitespace native-contract.json",
+      "rn_inline_leader_apply_qa clean whitespace README.md",
+      "rn_inline_leader_apply_qa clean whitespace static-review.json",
+      "rn_inline_leader_apply_qa clean whitespace interface\\rn_in_place_ui.gui",
+      "rn_inline_leader_apply_qa clean whitespace localisation\\english\\rn_in_place_ui_l_english.yml",
+      "rn_inline_leader_apply_qa clean whitespace localisation\\polish\\rn_in_place_ui_l_polish.yml",
+      "rn_inline_leader_apply_qa clean whitespace common\\scripted_effects\\rn_inline_leader.txt",
+      "rn_inline_leader_apply_qa clean whitespace common\\scripted_effects\\rn_inline_payload.txt",
+      "rn_inline_leader_apply_qa clean whitespace common\\scripted_guis\\rn_in_place_ui.txt",
+      "rn_inline_leader_apply_qa frozen helper common/scripted_effects/rn_inline_leader.txt",
+      "rn_inline_leader_apply_qa frozen helper common/scripted_effects/rn_inline_payload.txt",
+      "rn_inline_leader_apply_qa exact launcher154,299 14x14",
+      "rn_inline_leader_apply_qa exact editor18,262 155x36",
+      "rn_inline_leader_apply_qa exact field4,8 110x20",
+      "rn_inline_leader_apply_qa exact save117,10 16px",
+      "rn_inline_leader_apply_qa exact Cancel135,10 16px",
+      "rn_inline_leader_apply_qa interactive controls inside x173 portrait row",
+      "rn_inline_leader_apply_qa inherited GUI only requested leader geometry delta",
+      "rn_inline_leader_apply_qa party geometry untouched",
+      "rn_inline_leader_apply_qa SG bytes unchanged",
+      "rn_inline_leader_apply_qa party Apply disabled",
+      "rn_inline_leader_apply_qa player_context politics_tab unchanged",
+      "rn_inline_leader_apply_qa english UTF8 BOM",
+      "rn_inline_leader_apply_qa polish UTF8 BOM",
+      "rn_inline_leader_apply_qa PL EN keys agree",
+      "rn_inline_leader_apply_qa manifest bounds agree",
+      "diagnostic visible own POL even under legacy flags",
+      "diagnostic enabled repeats own POL",
+      "diagnostic effect repeats own POL",
+      "diagnostic only conditions and log commands",
+      "diagnostic actual tag and ordinary epoch pin reads",
+      "diagnostic true false rn_open",
+      "diagnostic true false rn_input",
+      "diagnostic true false rn_ip_leader_open",
+      "diagnostic true false rn_ip_party_neutrality_open",
+      "diagnostic true false rn_ip_country_open",
+      "diagnostic no payload or PASS log",
+      "source says flags are not transport test",
+      "diagnostic375,760 148x36",
+      "diagnostic only one button no native field",
+      "vanilla diagnostic DDS actual148x36",
+      "native whitelist explicitly unchanged"
+    ],
+    "party_geometry_unchanged": true,
+    "strict_helpers_unchanged": true,
+    "diagnostic_present": false
+  }
+}

@@ -53,10 +53,11 @@
   ],
   "inventory": {
     "models": [
-      "rn_ip_leader_launcher_gui",
+      "rn_ilqa_guard_gui",
       "rn_ip_leader_gui",
-      "rn_ip_party_neutrality_launcher_gui",
-      "rn_ip_party_neutrality_gui"
+      "rn_ip_leader_launcher_gui",
+      "rn_ip_party_neutrality_gui",
+      "rn_ip_party_neutrality_launcher_gui"
     ],
     "native_fields": [
       "rn_ip_leader_edit",
@@ -64,11 +65,11 @@
       "rn_ip_party_neutrality_long_edit"
     ],
     "hidden_carriers": [
-      "rn_ip_leader_prefill",
       "rn_ip_leader_epoch",
-      "rn_ip_party_neutrality_prefill",
+      "rn_ip_leader_prefill",
+      "rn_ip_party_neutrality_epoch",
       "rn_ip_party_neutrality_long_prefill",
-      "rn_ip_party_neutrality_epoch"
+      "rn_ip_party_neutrality_prefill"
     ],
     "leader_selector": "rn_ip_leader_apply_click",
     "leader_apply": "conditionally enabled, LOG ONLY",
@@ -76,6 +77,8 @@
     "observed_records": 35,
     "epoch_key": "rn_ip_cmd_epoch",
     "locale_keys": [
+      "RN_ILQA_GUARDS",
+      "RN_ILQA_GUARDS_TT",
       "RN_ILQA_LOG_PAYLOAD",
       "RN_IP_APPLY_UNAVAILABLE",
       "RN_IP_CANCEL",
@@ -89,7 +92,71 @@
       "rn_inline_leader_open",
       "rn_inline_leader_cancel",
       "rn_inline_leader_apply"
-    ]
+    ],
+    "windows": [
+      "rn_ilqa_guard_window",
+      "rn_ip_leader_launcher_window",
+      "rn_ip_leader_window",
+      "rn_ip_party_neutrality_launcher_window",
+      "rn_ip_party_neutrality_window"
+    ],
+    "buttons": [
+      "rn_ilqa_guards",
+      "rn_ip_leader_apply",
+      "rn_ip_leader_cancel",
+      "rn_ip_leader_open",
+      "rn_ip_party_neutrality_apply",
+      "rn_ip_party_neutrality_cancel",
+      "rn_ip_party_neutrality_open"
+    ],
+    "leader_geometry": {
+      "status": "post-PID3188 source-only correction; no runtime acceptance",
+      "parent": "politics_tab unchanged; coordinates local to native countrypoliticsview",
+      "launcher": [
+        154,
+        299,
+        14,
+        14
+      ],
+      "editor": [
+        18,
+        262,
+        155,
+        36
+      ],
+      "edit_local": [
+        4,
+        8,
+        110,
+        20
+      ],
+      "save_local": [
+        117,
+        10,
+        16,
+        16
+      ],
+      "cancel_local": [
+        135,
+        10,
+        16,
+        16
+      ],
+      "native_name_row": [
+        18,
+        262,
+        155,
+        36
+      ],
+      "native_faction_button": [
+        180,
+        243,
+        191,
+        57
+      ],
+      "reason": "old launcher177,273 and Cancel176..192 overlapped native Create faction. New leader controls end before local x173; launcher sits below leader_name and before ideology text y313.",
+      "runtime_limits": "clipping/draw order/hitboxes at actual UI scale and fresh callback still require QA; no parent/origin workaround"
+    }
   },
   "changes_from_source": [
     "separate descriptor/readme/manifest/static inventory/expected input",
@@ -109,14 +176,14 @@
   ],
   "sha256": {
     "common/scripted_effects/rn_inline_leader.txt": "6a44bb8db13cff63e6c818ff4c7c6556d5f7b4d1d176c8a450516dea8f804827",
-    "common/scripted_guis/rn_in_place_ui.txt": "cc209453b0bb233c46cc536fdc82d68fa43138f4060b0fda4581c01c74cedaa9",
+    "common/scripted_guis/rn_in_place_ui.txt": "847a2396bbd4b650f8f41010dde72cf145ef8763b608505aec90411c247290d1",
     "descriptor.mod": "1f8b6937084c5836977e9d2a40b796e6ea982d9c9ce995f84c929672fd232dd8",
     "expected-input.json": "16b6a644bcf1c670bb86cac550b977d144c633897b80a665db58df4d9b9380fd",
-    "interface/rn_in_place_ui.gui": "6d21da89defaa7a29716b7e6eeec1339ee705fb80df800afb0156d76c7eed14d",
-    "localisation/english/rn_in_place_ui_l_english.yml": "775f9bc7e2144d96a82cbb7deed80ab84e940e6a73e05515bb922234f51ff04e",
-    "localisation/polish/rn_in_place_ui_l_polish.yml": "aac493eee41eeae98ab2c708d1bbe04aa6d20e7bdd24b00d7cf97af2c46dc0e4",
-    "native-contract.json": "90bf72b21877772ccaa37ce07ad03cc559be5f5ac889917e4d41e5ba22725c3d",
-    "README.md": "a4f0ba360689236adaf7b8525972db5ffcc2b0b4b0b78662bd82d844ef753003"
+    "interface/rn_in_place_ui.gui": "4050a46fdcf25db91330934b9b882d908243b4e021d2962fa0334e199451ca3b",
+    "localisation/english/rn_in_place_ui_l_english.yml": "a087cc01606fc47b776fbf54cc4f674abeb154e129500268eae48e7a5ae6d498",
+    "localisation/polish/rn_in_place_ui_l_polish.yml": "b24cd86a0db0e8d9fa17bf3b5d5bad83f95a7f6bc38c8dd570c91ee32a2fd71b",
+    "native-contract.json": "d066fd269434e977bdc6fb4aaf3b89afb5256467d194a9af301542df26a6c1dc",
+    "README.md": "3f079bafac0d4b01e48be3d531d533c2b854e70759cc69f9a69db6d030a8856e"
   },
   "legacy_isolation_review": {
     "date": "2026-10-11",
@@ -132,5 +199,57 @@
       "GUI/descriptor/localisation/expected input unchanged",
       "frozen payload SHA CD171D6203BD66DC7905C7C3D0E1A2750C4B8EABAB45F0540D75D3AF2CE10800 unchanged"
     ]
+  },
+  "leader_geometry_guard_review": {
+    "date": "2026-10-11",
+    "status": "source-only candidate after closed PID3188; no activation/runtime",
+    "findings": [],
+    "verified": [
+      "rn_inline_leader_transport_qa clean whitespace descriptor.mod",
+      "rn_inline_leader_transport_qa clean whitespace expected-input.json",
+      "rn_inline_leader_transport_qa clean whitespace native-contract.json",
+      "rn_inline_leader_transport_qa clean whitespace README.md",
+      "rn_inline_leader_transport_qa clean whitespace static-review.json",
+      "rn_inline_leader_transport_qa clean whitespace interface\\rn_in_place_ui.gui",
+      "rn_inline_leader_transport_qa clean whitespace localisation\\english\\rn_in_place_ui_l_english.yml",
+      "rn_inline_leader_transport_qa clean whitespace localisation\\polish\\rn_in_place_ui_l_polish.yml",
+      "rn_inline_leader_transport_qa clean whitespace common\\scripted_effects\\rn_inline_leader.txt",
+      "rn_inline_leader_transport_qa clean whitespace common\\scripted_guis\\rn_in_place_ui.txt",
+      "rn_inline_leader_transport_qa frozen helper common/scripted_effects/rn_inline_leader.txt",
+      "rn_inline_leader_transport_qa exact launcher154,299 14x14",
+      "rn_inline_leader_transport_qa exact editor18,262 155x36",
+      "rn_inline_leader_transport_qa exact field4,8 110x20",
+      "rn_inline_leader_transport_qa exact save117,10 16px",
+      "rn_inline_leader_transport_qa exact Cancel135,10 16px",
+      "rn_inline_leader_transport_qa interactive controls inside x173 portrait row",
+      "rn_inline_leader_transport_qa inherited GUI only requested leader geometry delta",
+      "rn_inline_leader_transport_qa party geometry untouched",
+      "transport inherited SG unchanged",
+      "rn_inline_leader_transport_qa party Apply disabled",
+      "rn_inline_leader_transport_qa player_context politics_tab unchanged",
+      "rn_inline_leader_transport_qa english UTF8 BOM",
+      "rn_inline_leader_transport_qa polish UTF8 BOM",
+      "rn_inline_leader_transport_qa PL EN keys agree",
+      "rn_inline_leader_transport_qa manifest bounds agree",
+      "diagnostic visible own POL even under legacy flags",
+      "diagnostic enabled repeats own POL",
+      "diagnostic effect repeats own POL",
+      "diagnostic only conditions and log commands",
+      "diagnostic actual tag and ordinary epoch pin reads",
+      "diagnostic true false rn_open",
+      "diagnostic true false rn_input",
+      "diagnostic true false rn_ip_leader_open",
+      "diagnostic true false rn_ip_party_neutrality_open",
+      "diagnostic true false rn_ip_country_open",
+      "diagnostic no payload or PASS log",
+      "source says flags are not transport test",
+      "diagnostic375,760 148x36",
+      "diagnostic only one button no native field",
+      "vanilla diagnostic DDS actual148x36",
+      "native whitelist explicitly unchanged"
+    ],
+    "party_geometry_unchanged": true,
+    "strict_helpers_unchanged": true,
+    "diagnostic_present": true
   }
 }

@@ -1,0 +1,18 @@
+guiTypes = {
+	containerWindowType = {
+		name = "rn_prq_window"
+		orientation = upper_left
+		position = { x = 900 y = 80 }
+		size = { width = 290 height = 208 }
+		clipping = no
+		background = { name = "Background" quadTextureSprite = "GFX_tiled_window_2b_border" }
+		instantTextboxType = { name = "rn_prq_title" position = { x = 12 y = 10 } font = "hoi_18mbs" text = "RN_PRQ_TITLE" maxWidth = 266 maxHeight = 24 fixedsize = yes }
+		buttonType = { name = "rn_prq_valid" position = { x = 12 y = 42 } spriteType = "GFX_button_123x34" buttonText = "RN_PRQ_VALID" buttonFont = "hoi_16mbs" clicksound = click_default }
+		buttonType = { name = "rn_prq_invalid_a" position = { x = 149 y = 42 } spriteType = "GFX_button_123x34" buttonText = "RN_PRQ_INVALID_A" buttonFont = "hoi_16mbs" clicksound = click_default }
+		buttonType = { name = "rn_prq_invalid_b" position = { x = 12 y = 84 } spriteType = "GFX_button_123x34" buttonText = "RN_PRQ_INVALID_B" buttonFont = "hoi_16mbs" clicksound = click_default }
+		buttonType = { name = "rn_prq_priority" position = { x = 149 y = 84 } spriteType = "GFX_button_123x34" buttonText = "RN_PRQ_PRIORITY" buttonFont = "hoi_16mbs" clicksound = click_default }
+		buttonType = { name = "rn_prq_missing_a" position = { x = 12 y = 126 } spriteType = "GFX_button_123x34" buttonText = "RN_PRQ_MISSING_A" buttonFont = "hoi_16mbs" clicksound = click_default }
+		buttonType = { name = "rn_prq_missing_b" position = { x = 149 y = 126 } spriteType = "GFX_button_123x34" buttonText = "RN_PRQ_MISSING_B" buttonFont = "hoi_16mbs" clicksound = click_default }
+		instantTextboxType = { name = "rn_prq_note" position = { x = 12 y = 172 } font = "hoi_16mbs" text = "RN_PRQ_NOTE" maxWidth = 266 maxHeight = 28 fixedsize = yes }
+	}
+}

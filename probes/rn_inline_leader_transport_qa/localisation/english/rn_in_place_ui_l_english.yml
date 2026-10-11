@@ -5,3 +5,5 @@
  RN_IP_CANCEL: "Cancel"
  RN_IP_LONG_NAME: "Long name"
  RN_ILQA_LOG_PAYLOAD: "Log leader input only. This QA button never saves a name."
+ RN_ILQA_GUARDS: "QA guards"
+ RN_ILQA_GUARDS_TT: "Read-only QA: log own country, legacy/inline flags, opening epoch and leader pin count."

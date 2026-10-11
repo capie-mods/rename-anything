@@ -1,0 +1,25 @@
+# UNLOADED script-only QA, outside every native whitelist.
+scripted_gui = {
+	rn_prq_gui = {
+		context_type = player_context
+		window_name = "rn_prq_window"
+		visible = { tag = POL is_ai = no }
+		ai_enabled = { always = no }
+		effects = {
+			rn_prq_valid_click = { if = { limit = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_open } } rn_prq_valid = yes } }
+			rn_prq_invalid_a_click = { if = { limit = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_open } } rn_prq_invalid_a = yes } }
+			rn_prq_invalid_b_click = { if = { limit = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_open } } rn_prq_invalid_b = yes } }
+			rn_prq_priority_click = { if = { limit = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_open } } rn_prq_priority = yes } }
+			rn_prq_missing_a_click = { if = { limit = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_open } } rn_prq_missing_a = yes } }
+			rn_prq_missing_b_click = { if = { limit = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_open } } rn_prq_missing_b = yes } }
+		}
+		triggers = {
+			rn_prq_valid_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_open } }
+			rn_prq_invalid_a_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_open } }
+			rn_prq_invalid_b_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_open } }
+			rn_prq_priority_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_open } }
+			rn_prq_missing_a_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_open } }
+			rn_prq_missing_b_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_open } }
+		}
+	}
+}

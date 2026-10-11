@@ -1,9 +1,9 @@
 {
-  "status": "unloaded log-only leader transport QA; not registered or activated",
+  "status": "unloaded source revision after closed PID3188; log-only transport QA plus read-only own-country guard diagnostic",
   "qa_scope": "own player_context POL; party current neutrality; visible/Open/Apply reject legacy rn_open and rn_input",
   "parent_window_token": "politics_tab",
   "epoch_variable": "rn_ip_epoch",
-  "activation": "not_registered; root owns fresh-process activation with only isolated bridge, no other editor hook DLL",
+  "activation": "PID3188 closed by root; this geometry/guard-diagnostic revision not activated; root owns next fresh-process activation",
   "fields": [
     {
       "model": "rn_ip_leader_gui",
@@ -16,7 +16,7 @@
       "bounds": [
         18,
         262,
-        178,
+        155,
         36
       ],
       "target_pin": "Open pins typed own active ruler; enabled/effect require singleton identity membership and fresh own any_character active-ruler match",
@@ -74,7 +74,8 @@
     "native_support": "country models/fields are not added to the whitelist"
   },
   "cannot_co_load_with": [
-    "probes/rn_in_place_ui (duplicate model/control/helper definitions)"
+    "probes/rn_in_place_ui (duplicate model/control/helper definitions)",
+    "probes/rn_inline_leader_apply_qa (duplicate model/control/helper definitions)"
   ],
   "effects_included": [
     "rn_inline_leader_clear_target",
@@ -109,11 +110,86 @@
       "rn_open",
       "rn_input"
     ],
-    "visible": "every inline launcher/editor rejects both flags",
+    "visible": "Every inline launcher/editor rejects both legacy flags; separate read-only guard diagnostic deliberately does not",
     "open": "enabled and effect/guarded helper reject both flags",
     "apply": "disabled Apply stays always=no; diagnostic Apply and all effects/guarded helpers reject both flags",
     "cancel": "unchanged; no legacy rejection",
     "state": "no flag/pin/epoch reset added; leader-party switching preserved",
     "runtime": "source-only unactivated candidate; game parser, cached visibility timing and lifecycle untested"
+  },
+  "leader_geometry": {
+    "status": "post-PID3188 source-only correction; no runtime acceptance",
+    "parent": "politics_tab unchanged; coordinates local to native countrypoliticsview",
+    "launcher": [
+      154,
+      299,
+      14,
+      14
+    ],
+    "editor": [
+      18,
+      262,
+      155,
+      36
+    ],
+    "edit_local": [
+      4,
+      8,
+      110,
+      20
+    ],
+    "save_local": [
+      117,
+      10,
+      16,
+      16
+    ],
+    "cancel_local": [
+      135,
+      10,
+      16,
+      16
+    ],
+    "native_name_row": [
+      18,
+      262,
+      155,
+      36
+    ],
+    "native_faction_button": [
+      180,
+      243,
+      191,
+      57
+    ],
+    "reason": "old launcher177,273 and Cancel176..192 overlapped native Create faction. New leader controls end before local x173; launcher sits below leader_name and before ideology text y313.",
+    "runtime_limits": "clipping/draw order/hitboxes at actual UI scale and fresh callback still require QA; no parent/origin workaround"
+  },
+  "guard_diagnostic": {
+    "model": "rn_ilqa_guard_gui",
+    "window": "rn_ilqa_guard_window",
+    "button": "rn_ilqa_guards",
+    "selector": "rn_ilqa_guards_click",
+    "context": "player_context / politics_tab / own POL / is_ai=no; deliberately visible even when legacy or inline flags are set",
+    "bounds": [
+      375,
+      760,
+      148,
+      36
+    ],
+    "read_only": true,
+    "logs": [
+      "actual ROOT.GetTag",
+      "rn_ip_epoch",
+      "rn_ip_leader_target^num",
+      "rn_open true/false",
+      "rn_input true/false",
+      "rn_ip_leader_open true/false",
+      "rn_ip_party_neutrality_open true/false",
+      "rn_ip_country_open true/false"
+    ],
+    "native_whitelist": "not included or changed; no native field/carrier/Apply transport",
+    "position_limit": "fixed disposable 1720x900 QA layout below the military icons; shorter client/UI scaling not accepted",
+    "asset": "GFX_button_148x34; actual DDS148x36, no scale"
   }
 }

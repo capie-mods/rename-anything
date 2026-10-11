@@ -1,0 +1,9 @@
+﻿l_english:
+ RN_PRQ_TITLE: "Pair payload QA"
+ RN_PRQ_VALID: "Valid 1/32"
+ RN_PRQ_INVALID_A: "Invalid A"
+ RN_PRQ_INVALID_B: "Invalid B"
+ RN_PRQ_PRIORITY: "Both invalid"
+ RN_PRQ_MISSING_A: "Missing A"
+ RN_PRQ_MISSING_B: "Missing B"
+ RN_PRQ_NOTE: "Logs only; buffers read only."

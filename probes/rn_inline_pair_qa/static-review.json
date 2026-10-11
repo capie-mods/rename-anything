@@ -1,0 +1,38 @@
+{
+  "scope": "Offline limited source-model and static contract checks; NOT HOI4 runtime acceptance",
+  "pair_inputs": 41,
+  "qa_comparisons": 39,
+  "lost_slot31_restore_mutation": "rejected by direct tests and QA FAIL/adiff=1",
+  "pure_validator_persistent_writes": false,
+  "qa_persistent_writes": "only5 private rn_prq_bak arrays; cleared after each comparison",
+  "real_buffers_written": [],
+  "native_transport": false,
+  "epoch_or_capability_guard_tested": false,
+  "activated": false,
+  "files": {
+    "probes/rn_inline_pair_qa/co-load-review.json": "2994b1df0f1ee91904d47ae9443dd14df9585fd218573d94167e3dba935fd4f3",
+    "probes/rn_inline_pair_qa/common/scripted_effects/rn_inline_pair_payload.txt": "e278dfac3a4e3ac5ccca7d7cf74da9d87f0de728d30bca875d543f24956f6fc7",
+    "probes/rn_inline_pair_qa/common/scripted_effects/rn_inline_payload.txt": "cd171d6203bd66dc7905c7c3d0e1a2750c4b8eabab45f0540d75d3af2ce10800",
+    "probes/rn_inline_pair_qa/common/scripted_effects/rn_prq_diagnostics.txt": "20bd0166bb0c9ba6bf858b955900547b7a12f4a5e509556fdb3144eefe4d7ca4",
+    "probes/rn_inline_pair_qa/common/scripted_guis/rn_prq_gui.txt": "b4eedde00873b56cc42ab0899de44b0c00e76fc5faf3c17b37183f559e5bb1f0",
+    "probes/rn_inline_pair_qa/contract.json": "52cae8b77f502d4a0ea6ee56207b4d4d825e2fdff8dc547bcb84a60b007f1bf0",
+    "probes/rn_inline_pair_qa/descriptor.mod": "d0935ebafa1eb1e380a917a305f85618b15923e2dce970a5ccfac44845278529",
+    "probes/rn_inline_pair_qa/interface/rn_prq.gui": "b4908408f6b20f7cd8d39c89f0a503f3f00560f8bc6fa2db5ac70469316405a5",
+    "probes/rn_inline_pair_qa/localisation/english/rn_prq_l_english.yml": "40298381cb624ac832d68761c64554647a159d9176fedfe45443ef197da58b51",
+    "probes/rn_inline_pair_qa/localisation/polish/rn_prq_l_polish.yml": "9586af2d2c2bd5e7c58e11e9ddf39ad565cf20548dabc817af30a468a1d57718",
+    "probes/rn_inline_pair_qa/README.md": "ba71b838b9db9d6624a55c0f018e712e85d3f0e3dd9c66fd18d72ba2e47d70c8",
+    "probes/rn_inline_pair_qa/tools/check.py": "ba7e4b9d66b09cb5d6bb47e9a1ef0034e569a9d2116692483fbe709c6175b2d7",
+    "probes/rn_inline_pair_qa/tools/co_load_review.py": "b2c900c4d2f2a29b0c189962f82104e38c388b47542969f8ff5b3e027aae4b54",
+    "probes/rn_inline_pair_qa/tools/generate.py": "a634c9615bb1e167a33fcf3ee8d0df63c08342e9e38318757c50669dddddbb75"
+  },
+  "shared_pair_sha256": "e278dfac3a4e3ac5ccca7d7cf74da9d87f0de728d30bca875d543f24956f6fc7",
+  "findings": [],
+  "runtime_pending": [
+    "parser",
+    "explicit temp aliases and restoration",
+    "fractional boundaries",
+    "missing marker fresh-command semantics",
+    "all39 conditional comparison logs",
+    "buffer snapshots"
+  ]
+}

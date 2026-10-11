@@ -3,7 +3,7 @@
 guiTypes = {
 	containerWindowType = {
 		name = "rn_ip_leader_launcher_window"
-		position = { x = 177 y = 273 }
+		position = { x = 154 y = 299 }
 		size = { width = 14 height = 14 }
 		orientation = upper_left
 		clipping = no
@@ -19,7 +19,7 @@ guiTypes = {
 	containerWindowType = {
 		name = "rn_ip_leader_window"
 		position = { x = 18 y = 262 }
-		size = { width = 178 height = 36 }
+		size = { width = 155 height = 36 }
 		orientation = upper_left
 		clipping = no
 		background = { name = "Background" quadTextureSprite = "GFX_tiled_window_1b_border" }
@@ -48,14 +48,14 @@ guiTypes = {
 		editBoxType = {
 			name = "rn_ip_leader_edit"
 			position = { x = 4 y = 8 }
-			size = { x = 130 y = 20 }
+			size = { x = 110 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
 			text = ""
 		}
 		buttonType = {
 			name = "rn_ip_leader_apply"
-			position = { x = 138 y = 10 }
+			position = { x = 117 y = 10 }
 			quadTextureSprite = "GFX_preset_button_save"
 			scale = 0.533333
 			clicksound = click_default
@@ -63,7 +63,7 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_ip_leader_cancel"
-			position = { x = 158 y = 10 }
+			position = { x = 135 y = 10 }
 			quadTextureSprite = "GFX_closebutton_16"
 			clicksound = click_close
 			pdx_tooltip = "RN_IP_CANCEL"

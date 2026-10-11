@@ -1,0 +1,1101 @@
+# UNLOADED script-only pair diagnostics. No real rename/party/country effects.
+# QA owns rn_prq_* snapshots only; rn_buf/cname/cadj/pshort/plong are READ ONLY.
+# All34 A and34 B values are compared against independent rn_prq_a/b_* TEMP
+# copies, not the implementation's rn_paira_* scratch. Missing markers are
+# deliberately omitted only in their own fresh SG commands, never a batch.
+# Scalar length presence and full arrays are checked; no rollback hides FAIL.
+
+rn_prq_payload_a1_b32 = {
+	set_temp_variable = { rn_native_ok = 1 }
+	set_temp_variable = { rn_native_len = 1 }
+	set_temp_variable = { rn_native_0 = 84 }
+	set_temp_variable = { rn_native_1 = 0 }
+	set_temp_variable = { rn_native_2 = 0 }
+	set_temp_variable = { rn_native_3 = 0 }
+	set_temp_variable = { rn_native_4 = 0 }
+	set_temp_variable = { rn_native_5 = 0 }
+	set_temp_variable = { rn_native_6 = 0 }
+	set_temp_variable = { rn_native_7 = 0 }
+	set_temp_variable = { rn_native_8 = 0 }
+	set_temp_variable = { rn_native_9 = 0 }
+	set_temp_variable = { rn_native_10 = 0 }
+	set_temp_variable = { rn_native_11 = 0 }
+	set_temp_variable = { rn_native_12 = 0 }
+	set_temp_variable = { rn_native_13 = 0 }
+	set_temp_variable = { rn_native_14 = 0 }
+	set_temp_variable = { rn_native_15 = 0 }
+	set_temp_variable = { rn_native_16 = 0 }
+	set_temp_variable = { rn_native_17 = 0 }
+	set_temp_variable = { rn_native_18 = 0 }
+	set_temp_variable = { rn_native_19 = 0 }
+	set_temp_variable = { rn_native_20 = 0 }
+	set_temp_variable = { rn_native_21 = 0 }
+	set_temp_variable = { rn_native_22 = 0 }
+	set_temp_variable = { rn_native_23 = 0 }
+	set_temp_variable = { rn_native_24 = 0 }
+	set_temp_variable = { rn_native_25 = 0 }
+	set_temp_variable = { rn_native_26 = 0 }
+	set_temp_variable = { rn_native_27 = 0 }
+	set_temp_variable = { rn_native_28 = 0 }
+	set_temp_variable = { rn_native_29 = 0 }
+	set_temp_variable = { rn_native_30 = 0 }
+	set_temp_variable = { rn_native_31 = 0 }
+	set_temp_variable = { rn_nativeb_ok = 1 }
+	set_temp_variable = { rn_nativeb_len = 32 }
+	set_temp_variable = { rn_nativeb_0 = 1 }
+	set_temp_variable = { rn_nativeb_1 = 2 }
+	set_temp_variable = { rn_nativeb_2 = 3 }
+	set_temp_variable = { rn_nativeb_3 = 4 }
+	set_temp_variable = { rn_nativeb_4 = 5 }
+	set_temp_variable = { rn_nativeb_5 = 6 }
+	set_temp_variable = { rn_nativeb_6 = 7 }
+	set_temp_variable = { rn_nativeb_7 = 8 }
+	set_temp_variable = { rn_nativeb_8 = 9 }
+	set_temp_variable = { rn_nativeb_9 = 10 }
+	set_temp_variable = { rn_nativeb_10 = 11 }
+	set_temp_variable = { rn_nativeb_11 = 12 }
+	set_temp_variable = { rn_nativeb_12 = 13 }
+	set_temp_variable = { rn_nativeb_13 = 14 }
+	set_temp_variable = { rn_nativeb_14 = 15 }
+	set_temp_variable = { rn_nativeb_15 = 16 }
+	set_temp_variable = { rn_nativeb_16 = 17 }
+	set_temp_variable = { rn_nativeb_17 = 18 }
+	set_temp_variable = { rn_nativeb_18 = 19 }
+	set_temp_variable = { rn_nativeb_19 = 20 }
+	set_temp_variable = { rn_nativeb_20 = 21 }
+	set_temp_variable = { rn_nativeb_21 = 22 }
+	set_temp_variable = { rn_nativeb_22 = 23 }
+	set_temp_variable = { rn_nativeb_23 = 24 }
+	set_temp_variable = { rn_nativeb_24 = 25 }
+	set_temp_variable = { rn_nativeb_25 = 26 }
+	set_temp_variable = { rn_nativeb_26 = 27 }
+	set_temp_variable = { rn_nativeb_27 = 28 }
+	set_temp_variable = { rn_nativeb_28 = 29 }
+	set_temp_variable = { rn_nativeb_29 = 30 }
+	set_temp_variable = { rn_nativeb_30 = 31 }
+	set_temp_variable = { rn_nativeb_31 = 32 }
+}
+
+rn_prq_payload_a32_b1 = {
+	set_temp_variable = { rn_native_ok = 1 }
+	set_temp_variable = { rn_native_len = 32 }
+	set_temp_variable = { rn_native_0 = 84 }
+	set_temp_variable = { rn_native_1 = 83 }
+	set_temp_variable = { rn_native_2 = 82 }
+	set_temp_variable = { rn_native_3 = 81 }
+	set_temp_variable = { rn_native_4 = 80 }
+	set_temp_variable = { rn_native_5 = 79 }
+	set_temp_variable = { rn_native_6 = 78 }
+	set_temp_variable = { rn_native_7 = 77 }
+	set_temp_variable = { rn_native_8 = 76 }
+	set_temp_variable = { rn_native_9 = 75 }
+	set_temp_variable = { rn_native_10 = 74 }
+	set_temp_variable = { rn_native_11 = 73 }
+	set_temp_variable = { rn_native_12 = 72 }
+	set_temp_variable = { rn_native_13 = 71 }
+	set_temp_variable = { rn_native_14 = 70 }
+	set_temp_variable = { rn_native_15 = 69 }
+	set_temp_variable = { rn_native_16 = 68 }
+	set_temp_variable = { rn_native_17 = 67 }
+	set_temp_variable = { rn_native_18 = 66 }
+	set_temp_variable = { rn_native_19 = 65 }
+	set_temp_variable = { rn_native_20 = 64 }
+	set_temp_variable = { rn_native_21 = 63 }
+	set_temp_variable = { rn_native_22 = 62 }
+	set_temp_variable = { rn_native_23 = 61 }
+	set_temp_variable = { rn_native_24 = 60 }
+	set_temp_variable = { rn_native_25 = 59 }
+	set_temp_variable = { rn_native_26 = 58 }
+	set_temp_variable = { rn_native_27 = 57 }
+	set_temp_variable = { rn_native_28 = 56 }
+	set_temp_variable = { rn_native_29 = 55 }
+	set_temp_variable = { rn_native_30 = 54 }
+	set_temp_variable = { rn_native_31 = 53 }
+	set_temp_variable = { rn_nativeb_ok = 1 }
+	set_temp_variable = { rn_nativeb_len = 1 }
+	set_temp_variable = { rn_nativeb_0 = 1 }
+	set_temp_variable = { rn_nativeb_1 = 0 }
+	set_temp_variable = { rn_nativeb_2 = 0 }
+	set_temp_variable = { rn_nativeb_3 = 0 }
+	set_temp_variable = { rn_nativeb_4 = 0 }
+	set_temp_variable = { rn_nativeb_5 = 0 }
+	set_temp_variable = { rn_nativeb_6 = 0 }
+	set_temp_variable = { rn_nativeb_7 = 0 }
+	set_temp_variable = { rn_nativeb_8 = 0 }
+	set_temp_variable = { rn_nativeb_9 = 0 }
+	set_temp_variable = { rn_nativeb_10 = 0 }
+	set_temp_variable = { rn_nativeb_11 = 0 }
+	set_temp_variable = { rn_nativeb_12 = 0 }
+	set_temp_variable = { rn_nativeb_13 = 0 }
+	set_temp_variable = { rn_nativeb_14 = 0 }
+	set_temp_variable = { rn_nativeb_15 = 0 }
+	set_temp_variable = { rn_nativeb_16 = 0 }
+	set_temp_variable = { rn_nativeb_17 = 0 }
+	set_temp_variable = { rn_nativeb_18 = 0 }
+	set_temp_variable = { rn_nativeb_19 = 0 }
+	set_temp_variable = { rn_nativeb_20 = 0 }
+	set_temp_variable = { rn_nativeb_21 = 0 }
+	set_temp_variable = { rn_nativeb_22 = 0 }
+	set_temp_variable = { rn_nativeb_23 = 0 }
+	set_temp_variable = { rn_nativeb_24 = 0 }
+	set_temp_variable = { rn_nativeb_25 = 0 }
+	set_temp_variable = { rn_nativeb_26 = 0 }
+	set_temp_variable = { rn_nativeb_27 = 0 }
+	set_temp_variable = { rn_nativeb_28 = 0 }
+	set_temp_variable = { rn_nativeb_29 = 0 }
+	set_temp_variable = { rn_nativeb_30 = 0 }
+	set_temp_variable = { rn_nativeb_31 = 0 }
+}
+
+rn_prq_payload_a32_b32 = {
+	set_temp_variable = { rn_native_ok = 1 }
+	set_temp_variable = { rn_native_len = 32 }
+	set_temp_variable = { rn_native_0 = 84 }
+	set_temp_variable = { rn_native_1 = 83 }
+	set_temp_variable = { rn_native_2 = 82 }
+	set_temp_variable = { rn_native_3 = 81 }
+	set_temp_variable = { rn_native_4 = 80 }
+	set_temp_variable = { rn_native_5 = 79 }
+	set_temp_variable = { rn_native_6 = 78 }
+	set_temp_variable = { rn_native_7 = 77 }
+	set_temp_variable = { rn_native_8 = 76 }
+	set_temp_variable = { rn_native_9 = 75 }
+	set_temp_variable = { rn_native_10 = 74 }
+	set_temp_variable = { rn_native_11 = 73 }
+	set_temp_variable = { rn_native_12 = 72 }
+	set_temp_variable = { rn_native_13 = 71 }
+	set_temp_variable = { rn_native_14 = 70 }
+	set_temp_variable = { rn_native_15 = 69 }
+	set_temp_variable = { rn_native_16 = 68 }
+	set_temp_variable = { rn_native_17 = 67 }
+	set_temp_variable = { rn_native_18 = 66 }
+	set_temp_variable = { rn_native_19 = 65 }
+	set_temp_variable = { rn_native_20 = 64 }
+	set_temp_variable = { rn_native_21 = 63 }
+	set_temp_variable = { rn_native_22 = 62 }
+	set_temp_variable = { rn_native_23 = 61 }
+	set_temp_variable = { rn_native_24 = 60 }
+	set_temp_variable = { rn_native_25 = 59 }
+	set_temp_variable = { rn_native_26 = 58 }
+	set_temp_variable = { rn_native_27 = 57 }
+	set_temp_variable = { rn_native_28 = 56 }
+	set_temp_variable = { rn_native_29 = 55 }
+	set_temp_variable = { rn_native_30 = 54 }
+	set_temp_variable = { rn_native_31 = 53 }
+	set_temp_variable = { rn_nativeb_ok = 1 }
+	set_temp_variable = { rn_nativeb_len = 32 }
+	set_temp_variable = { rn_nativeb_0 = 1 }
+	set_temp_variable = { rn_nativeb_1 = 2 }
+	set_temp_variable = { rn_nativeb_2 = 3 }
+	set_temp_variable = { rn_nativeb_3 = 4 }
+	set_temp_variable = { rn_nativeb_4 = 5 }
+	set_temp_variable = { rn_nativeb_5 = 6 }
+	set_temp_variable = { rn_nativeb_6 = 7 }
+	set_temp_variable = { rn_nativeb_7 = 8 }
+	set_temp_variable = { rn_nativeb_8 = 9 }
+	set_temp_variable = { rn_nativeb_9 = 10 }
+	set_temp_variable = { rn_nativeb_10 = 11 }
+	set_temp_variable = { rn_nativeb_11 = 12 }
+	set_temp_variable = { rn_nativeb_12 = 13 }
+	set_temp_variable = { rn_nativeb_13 = 14 }
+	set_temp_variable = { rn_nativeb_14 = 15 }
+	set_temp_variable = { rn_nativeb_15 = 16 }
+	set_temp_variable = { rn_nativeb_16 = 17 }
+	set_temp_variable = { rn_nativeb_17 = 18 }
+	set_temp_variable = { rn_nativeb_18 = 19 }
+	set_temp_variable = { rn_nativeb_19 = 20 }
+	set_temp_variable = { rn_nativeb_20 = 21 }
+	set_temp_variable = { rn_nativeb_21 = 22 }
+	set_temp_variable = { rn_nativeb_22 = 23 }
+	set_temp_variable = { rn_nativeb_23 = 24 }
+	set_temp_variable = { rn_nativeb_24 = 25 }
+	set_temp_variable = { rn_nativeb_25 = 26 }
+	set_temp_variable = { rn_nativeb_26 = 27 }
+	set_temp_variable = { rn_nativeb_27 = 28 }
+	set_temp_variable = { rn_nativeb_28 = 29 }
+	set_temp_variable = { rn_nativeb_29 = 30 }
+	set_temp_variable = { rn_nativeb_30 = 31 }
+	set_temp_variable = { rn_nativeb_31 = 32 }
+}
+
+rn_prq_payload_a1_b1 = {
+	set_temp_variable = { rn_native_ok = 1 }
+	set_temp_variable = { rn_native_len = 1 }
+	set_temp_variable = { rn_native_0 = 84 }
+	set_temp_variable = { rn_native_1 = 0 }
+	set_temp_variable = { rn_native_2 = 0 }
+	set_temp_variable = { rn_native_3 = 0 }
+	set_temp_variable = { rn_native_4 = 0 }
+	set_temp_variable = { rn_native_5 = 0 }
+	set_temp_variable = { rn_native_6 = 0 }
+	set_temp_variable = { rn_native_7 = 0 }
+	set_temp_variable = { rn_native_8 = 0 }
+	set_temp_variable = { rn_native_9 = 0 }
+	set_temp_variable = { rn_native_10 = 0 }
+	set_temp_variable = { rn_native_11 = 0 }
+	set_temp_variable = { rn_native_12 = 0 }
+	set_temp_variable = { rn_native_13 = 0 }
+	set_temp_variable = { rn_native_14 = 0 }
+	set_temp_variable = { rn_native_15 = 0 }
+	set_temp_variable = { rn_native_16 = 0 }
+	set_temp_variable = { rn_native_17 = 0 }
+	set_temp_variable = { rn_native_18 = 0 }
+	set_temp_variable = { rn_native_19 = 0 }
+	set_temp_variable = { rn_native_20 = 0 }
+	set_temp_variable = { rn_native_21 = 0 }
+	set_temp_variable = { rn_native_22 = 0 }
+	set_temp_variable = { rn_native_23 = 0 }
+	set_temp_variable = { rn_native_24 = 0 }
+	set_temp_variable = { rn_native_25 = 0 }
+	set_temp_variable = { rn_native_26 = 0 }
+	set_temp_variable = { rn_native_27 = 0 }
+	set_temp_variable = { rn_native_28 = 0 }
+	set_temp_variable = { rn_native_29 = 0 }
+	set_temp_variable = { rn_native_30 = 0 }
+	set_temp_variable = { rn_native_31 = 0 }
+	set_temp_variable = { rn_nativeb_ok = 1 }
+	set_temp_variable = { rn_nativeb_len = 1 }
+	set_temp_variable = { rn_nativeb_0 = 1 }
+	set_temp_variable = { rn_nativeb_1 = 0 }
+	set_temp_variable = { rn_nativeb_2 = 0 }
+	set_temp_variable = { rn_nativeb_3 = 0 }
+	set_temp_variable = { rn_nativeb_4 = 0 }
+	set_temp_variable = { rn_nativeb_5 = 0 }
+	set_temp_variable = { rn_nativeb_6 = 0 }
+	set_temp_variable = { rn_nativeb_7 = 0 }
+	set_temp_variable = { rn_nativeb_8 = 0 }
+	set_temp_variable = { rn_nativeb_9 = 0 }
+	set_temp_variable = { rn_nativeb_10 = 0 }
+	set_temp_variable = { rn_nativeb_11 = 0 }
+	set_temp_variable = { rn_nativeb_12 = 0 }
+	set_temp_variable = { rn_nativeb_13 = 0 }
+	set_temp_variable = { rn_nativeb_14 = 0 }
+	set_temp_variable = { rn_nativeb_15 = 0 }
+	set_temp_variable = { rn_nativeb_16 = 0 }
+	set_temp_variable = { rn_nativeb_17 = 0 }
+	set_temp_variable = { rn_nativeb_18 = 0 }
+	set_temp_variable = { rn_nativeb_19 = 0 }
+	set_temp_variable = { rn_nativeb_20 = 0 }
+	set_temp_variable = { rn_nativeb_21 = 0 }
+	set_temp_variable = { rn_nativeb_22 = 0 }
+	set_temp_variable = { rn_nativeb_23 = 0 }
+	set_temp_variable = { rn_nativeb_24 = 0 }
+	set_temp_variable = { rn_nativeb_25 = 0 }
+	set_temp_variable = { rn_nativeb_26 = 0 }
+	set_temp_variable = { rn_nativeb_27 = 0 }
+	set_temp_variable = { rn_nativeb_28 = 0 }
+	set_temp_variable = { rn_nativeb_29 = 0 }
+	set_temp_variable = { rn_nativeb_30 = 0 }
+	set_temp_variable = { rn_nativeb_31 = 0 }
+}
+
+rn_prq_payload_missing_a = {
+	set_temp_variable = { rn_native_len = 32 }
+	set_temp_variable = { rn_native_0 = 84 }
+	set_temp_variable = { rn_native_1 = 83 }
+	set_temp_variable = { rn_native_2 = 82 }
+	set_temp_variable = { rn_native_3 = 81 }
+	set_temp_variable = { rn_native_4 = 80 }
+	set_temp_variable = { rn_native_5 = 79 }
+	set_temp_variable = { rn_native_6 = 78 }
+	set_temp_variable = { rn_native_7 = 77 }
+	set_temp_variable = { rn_native_8 = 76 }
+	set_temp_variable = { rn_native_9 = 75 }
+	set_temp_variable = { rn_native_10 = 74 }
+	set_temp_variable = { rn_native_11 = 73 }
+	set_temp_variable = { rn_native_12 = 72 }
+	set_temp_variable = { rn_native_13 = 71 }
+	set_temp_variable = { rn_native_14 = 70 }
+	set_temp_variable = { rn_native_15 = 69 }
+	set_temp_variable = { rn_native_16 = 68 }
+	set_temp_variable = { rn_native_17 = 67 }
+	set_temp_variable = { rn_native_18 = 66 }
+	set_temp_variable = { rn_native_19 = 65 }
+	set_temp_variable = { rn_native_20 = 64 }
+	set_temp_variable = { rn_native_21 = 63 }
+	set_temp_variable = { rn_native_22 = 62 }
+	set_temp_variable = { rn_native_23 = 61 }
+	set_temp_variable = { rn_native_24 = 60 }
+	set_temp_variable = { rn_native_25 = 59 }
+	set_temp_variable = { rn_native_26 = 58 }
+	set_temp_variable = { rn_native_27 = 57 }
+	set_temp_variable = { rn_native_28 = 56 }
+	set_temp_variable = { rn_native_29 = 55 }
+	set_temp_variable = { rn_native_30 = 54 }
+	set_temp_variable = { rn_native_31 = 53 }
+	set_temp_variable = { rn_nativeb_ok = 1 }
+	set_temp_variable = { rn_nativeb_len = 1 }
+	set_temp_variable = { rn_nativeb_0 = 1 }
+	set_temp_variable = { rn_nativeb_1 = 0 }
+	set_temp_variable = { rn_nativeb_2 = 0 }
+	set_temp_variable = { rn_nativeb_3 = 0 }
+	set_temp_variable = { rn_nativeb_4 = 0 }
+	set_temp_variable = { rn_nativeb_5 = 0 }
+	set_temp_variable = { rn_nativeb_6 = 0 }
+	set_temp_variable = { rn_nativeb_7 = 0 }
+	set_temp_variable = { rn_nativeb_8 = 0 }
+	set_temp_variable = { rn_nativeb_9 = 0 }
+	set_temp_variable = { rn_nativeb_10 = 0 }
+	set_temp_variable = { rn_nativeb_11 = 0 }
+	set_temp_variable = { rn_nativeb_12 = 0 }
+	set_temp_variable = { rn_nativeb_13 = 0 }
+	set_temp_variable = { rn_nativeb_14 = 0 }
+	set_temp_variable = { rn_nativeb_15 = 0 }
+	set_temp_variable = { rn_nativeb_16 = 0 }
+	set_temp_variable = { rn_nativeb_17 = 0 }
+	set_temp_variable = { rn_nativeb_18 = 0 }
+	set_temp_variable = { rn_nativeb_19 = 0 }
+	set_temp_variable = { rn_nativeb_20 = 0 }
+	set_temp_variable = { rn_nativeb_21 = 0 }
+	set_temp_variable = { rn_nativeb_22 = 0 }
+	set_temp_variable = { rn_nativeb_23 = 0 }
+	set_temp_variable = { rn_nativeb_24 = 0 }
+	set_temp_variable = { rn_nativeb_25 = 0 }
+	set_temp_variable = { rn_nativeb_26 = 0 }
+	set_temp_variable = { rn_nativeb_27 = 0 }
+	set_temp_variable = { rn_nativeb_28 = 0 }
+	set_temp_variable = { rn_nativeb_29 = 0 }
+	set_temp_variable = { rn_nativeb_30 = 0 }
+	set_temp_variable = { rn_nativeb_31 = 0 }
+}
+
+rn_prq_payload_missing_b = {
+	set_temp_variable = { rn_native_ok = 1 }
+	set_temp_variable = { rn_native_len = 32 }
+	set_temp_variable = { rn_native_0 = 84 }
+	set_temp_variable = { rn_native_1 = 83 }
+	set_temp_variable = { rn_native_2 = 82 }
+	set_temp_variable = { rn_native_3 = 81 }
+	set_temp_variable = { rn_native_4 = 80 }
+	set_temp_variable = { rn_native_5 = 79 }
+	set_temp_variable = { rn_native_6 = 78 }
+	set_temp_variable = { rn_native_7 = 77 }
+	set_temp_variable = { rn_native_8 = 76 }
+	set_temp_variable = { rn_native_9 = 75 }
+	set_temp_variable = { rn_native_10 = 74 }
+	set_temp_variable = { rn_native_11 = 73 }
+	set_temp_variable = { rn_native_12 = 72 }
+	set_temp_variable = { rn_native_13 = 71 }
+	set_temp_variable = { rn_native_14 = 70 }
+	set_temp_variable = { rn_native_15 = 69 }
+	set_temp_variable = { rn_native_16 = 68 }
+	set_temp_variable = { rn_native_17 = 67 }
+	set_temp_variable = { rn_native_18 = 66 }
+	set_temp_variable = { rn_native_19 = 65 }
+	set_temp_variable = { rn_native_20 = 64 }
+	set_temp_variable = { rn_native_21 = 63 }
+	set_temp_variable = { rn_native_22 = 62 }
+	set_temp_variable = { rn_native_23 = 61 }
+	set_temp_variable = { rn_native_24 = 60 }
+	set_temp_variable = { rn_native_25 = 59 }
+	set_temp_variable = { rn_native_26 = 58 }
+	set_temp_variable = { rn_native_27 = 57 }
+	set_temp_variable = { rn_native_28 = 56 }
+	set_temp_variable = { rn_native_29 = 55 }
+	set_temp_variable = { rn_native_30 = 54 }
+	set_temp_variable = { rn_native_31 = 53 }
+	set_temp_variable = { rn_nativeb_len = 1 }
+	set_temp_variable = { rn_nativeb_0 = 1 }
+	set_temp_variable = { rn_nativeb_1 = 0 }
+	set_temp_variable = { rn_nativeb_2 = 0 }
+	set_temp_variable = { rn_nativeb_3 = 0 }
+	set_temp_variable = { rn_nativeb_4 = 0 }
+	set_temp_variable = { rn_nativeb_5 = 0 }
+	set_temp_variable = { rn_nativeb_6 = 0 }
+	set_temp_variable = { rn_nativeb_7 = 0 }
+	set_temp_variable = { rn_nativeb_8 = 0 }
+	set_temp_variable = { rn_nativeb_9 = 0 }
+	set_temp_variable = { rn_nativeb_10 = 0 }
+	set_temp_variable = { rn_nativeb_11 = 0 }
+	set_temp_variable = { rn_nativeb_12 = 0 }
+	set_temp_variable = { rn_nativeb_13 = 0 }
+	set_temp_variable = { rn_nativeb_14 = 0 }
+	set_temp_variable = { rn_nativeb_15 = 0 }
+	set_temp_variable = { rn_nativeb_16 = 0 }
+	set_temp_variable = { rn_nativeb_17 = 0 }
+	set_temp_variable = { rn_nativeb_18 = 0 }
+	set_temp_variable = { rn_nativeb_19 = 0 }
+	set_temp_variable = { rn_nativeb_20 = 0 }
+	set_temp_variable = { rn_nativeb_21 = 0 }
+	set_temp_variable = { rn_nativeb_22 = 0 }
+	set_temp_variable = { rn_nativeb_23 = 0 }
+	set_temp_variable = { rn_nativeb_24 = 0 }
+	set_temp_variable = { rn_nativeb_25 = 0 }
+	set_temp_variable = { rn_nativeb_26 = 0 }
+	set_temp_variable = { rn_nativeb_27 = 0 }
+	set_temp_variable = { rn_nativeb_28 = 0 }
+	set_temp_variable = { rn_nativeb_29 = 0 }
+	set_temp_variable = { rn_nativeb_30 = 0 }
+	set_temp_variable = { rn_nativeb_31 = 0 }
+}
+
+rn_prq_snapshot_temps = {
+	set_temp_variable = { rn_prq_a_ok = temp_var:rn_native_ok }
+	set_temp_variable = { rn_prq_a_len = temp_var:rn_native_len }
+	set_temp_variable = { rn_prq_a_0 = temp_var:rn_native_0 }
+	set_temp_variable = { rn_prq_a_1 = temp_var:rn_native_1 }
+	set_temp_variable = { rn_prq_a_2 = temp_var:rn_native_2 }
+	set_temp_variable = { rn_prq_a_3 = temp_var:rn_native_3 }
+	set_temp_variable = { rn_prq_a_4 = temp_var:rn_native_4 }
+	set_temp_variable = { rn_prq_a_5 = temp_var:rn_native_5 }
+	set_temp_variable = { rn_prq_a_6 = temp_var:rn_native_6 }
+	set_temp_variable = { rn_prq_a_7 = temp_var:rn_native_7 }
+	set_temp_variable = { rn_prq_a_8 = temp_var:rn_native_8 }
+	set_temp_variable = { rn_prq_a_9 = temp_var:rn_native_9 }
+	set_temp_variable = { rn_prq_a_10 = temp_var:rn_native_10 }
+	set_temp_variable = { rn_prq_a_11 = temp_var:rn_native_11 }
+	set_temp_variable = { rn_prq_a_12 = temp_var:rn_native_12 }
+	set_temp_variable = { rn_prq_a_13 = temp_var:rn_native_13 }
+	set_temp_variable = { rn_prq_a_14 = temp_var:rn_native_14 }
+	set_temp_variable = { rn_prq_a_15 = temp_var:rn_native_15 }
+	set_temp_variable = { rn_prq_a_16 = temp_var:rn_native_16 }
+	set_temp_variable = { rn_prq_a_17 = temp_var:rn_native_17 }
+	set_temp_variable = { rn_prq_a_18 = temp_var:rn_native_18 }
+	set_temp_variable = { rn_prq_a_19 = temp_var:rn_native_19 }
+	set_temp_variable = { rn_prq_a_20 = temp_var:rn_native_20 }
+	set_temp_variable = { rn_prq_a_21 = temp_var:rn_native_21 }
+	set_temp_variable = { rn_prq_a_22 = temp_var:rn_native_22 }
+	set_temp_variable = { rn_prq_a_23 = temp_var:rn_native_23 }
+	set_temp_variable = { rn_prq_a_24 = temp_var:rn_native_24 }
+	set_temp_variable = { rn_prq_a_25 = temp_var:rn_native_25 }
+	set_temp_variable = { rn_prq_a_26 = temp_var:rn_native_26 }
+	set_temp_variable = { rn_prq_a_27 = temp_var:rn_native_27 }
+	set_temp_variable = { rn_prq_a_28 = temp_var:rn_native_28 }
+	set_temp_variable = { rn_prq_a_29 = temp_var:rn_native_29 }
+	set_temp_variable = { rn_prq_a_30 = temp_var:rn_native_30 }
+	set_temp_variable = { rn_prq_a_31 = temp_var:rn_native_31 }
+	set_temp_variable = { rn_prq_b_ok = temp_var:rn_nativeb_ok }
+	set_temp_variable = { rn_prq_b_len = temp_var:rn_nativeb_len }
+	set_temp_variable = { rn_prq_b_0 = temp_var:rn_nativeb_0 }
+	set_temp_variable = { rn_prq_b_1 = temp_var:rn_nativeb_1 }
+	set_temp_variable = { rn_prq_b_2 = temp_var:rn_nativeb_2 }
+	set_temp_variable = { rn_prq_b_3 = temp_var:rn_nativeb_3 }
+	set_temp_variable = { rn_prq_b_4 = temp_var:rn_nativeb_4 }
+	set_temp_variable = { rn_prq_b_5 = temp_var:rn_nativeb_5 }
+	set_temp_variable = { rn_prq_b_6 = temp_var:rn_nativeb_6 }
+	set_temp_variable = { rn_prq_b_7 = temp_var:rn_nativeb_7 }
+	set_temp_variable = { rn_prq_b_8 = temp_var:rn_nativeb_8 }
+	set_temp_variable = { rn_prq_b_9 = temp_var:rn_nativeb_9 }
+	set_temp_variable = { rn_prq_b_10 = temp_var:rn_nativeb_10 }
+	set_temp_variable = { rn_prq_b_11 = temp_var:rn_nativeb_11 }
+	set_temp_variable = { rn_prq_b_12 = temp_var:rn_nativeb_12 }
+	set_temp_variable = { rn_prq_b_13 = temp_var:rn_nativeb_13 }
+	set_temp_variable = { rn_prq_b_14 = temp_var:rn_nativeb_14 }
+	set_temp_variable = { rn_prq_b_15 = temp_var:rn_nativeb_15 }
+	set_temp_variable = { rn_prq_b_16 = temp_var:rn_nativeb_16 }
+	set_temp_variable = { rn_prq_b_17 = temp_var:rn_nativeb_17 }
+	set_temp_variable = { rn_prq_b_18 = temp_var:rn_nativeb_18 }
+	set_temp_variable = { rn_prq_b_19 = temp_var:rn_nativeb_19 }
+	set_temp_variable = { rn_prq_b_20 = temp_var:rn_nativeb_20 }
+	set_temp_variable = { rn_prq_b_21 = temp_var:rn_nativeb_21 }
+	set_temp_variable = { rn_prq_b_22 = temp_var:rn_nativeb_22 }
+	set_temp_variable = { rn_prq_b_23 = temp_var:rn_nativeb_23 }
+	set_temp_variable = { rn_prq_b_24 = temp_var:rn_nativeb_24 }
+	set_temp_variable = { rn_prq_b_25 = temp_var:rn_nativeb_25 }
+	set_temp_variable = { rn_prq_b_26 = temp_var:rn_nativeb_26 }
+	set_temp_variable = { rn_prq_b_27 = temp_var:rn_nativeb_27 }
+	set_temp_variable = { rn_prq_b_28 = temp_var:rn_nativeb_28 }
+	set_temp_variable = { rn_prq_b_29 = temp_var:rn_nativeb_29 }
+	set_temp_variable = { rn_prq_b_30 = temp_var:rn_nativeb_30 }
+	set_temp_variable = { rn_prq_b_31 = temp_var:rn_nativeb_31 }
+}
+
+rn_prq_compare_temps = {
+	set_temp_variable = { rn_prq_adiff = 0 }
+	set_temp_variable = { rn_prq_bdiff = 0 }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_ok = temp_var:rn_prq_a_ok } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_len = temp_var:rn_prq_a_len } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_0 = temp_var:rn_prq_a_0 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_1 = temp_var:rn_prq_a_1 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_2 = temp_var:rn_prq_a_2 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_3 = temp_var:rn_prq_a_3 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_4 = temp_var:rn_prq_a_4 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_5 = temp_var:rn_prq_a_5 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_6 = temp_var:rn_prq_a_6 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_7 = temp_var:rn_prq_a_7 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_8 = temp_var:rn_prq_a_8 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_9 = temp_var:rn_prq_a_9 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_10 = temp_var:rn_prq_a_10 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_11 = temp_var:rn_prq_a_11 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_12 = temp_var:rn_prq_a_12 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_13 = temp_var:rn_prq_a_13 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_14 = temp_var:rn_prq_a_14 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_15 = temp_var:rn_prq_a_15 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_16 = temp_var:rn_prq_a_16 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_17 = temp_var:rn_prq_a_17 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_18 = temp_var:rn_prq_a_18 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_19 = temp_var:rn_prq_a_19 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_20 = temp_var:rn_prq_a_20 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_21 = temp_var:rn_prq_a_21 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_22 = temp_var:rn_prq_a_22 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_23 = temp_var:rn_prq_a_23 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_24 = temp_var:rn_prq_a_24 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_25 = temp_var:rn_prq_a_25 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_26 = temp_var:rn_prq_a_26 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_27 = temp_var:rn_prq_a_27 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_28 = temp_var:rn_prq_a_28 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_29 = temp_var:rn_prq_a_29 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_30 = temp_var:rn_prq_a_30 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_native_31 = temp_var:rn_prq_a_31 } } } add_to_temp_variable = { rn_prq_adiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_ok = temp_var:rn_prq_b_ok } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_len = temp_var:rn_prq_b_len } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_0 = temp_var:rn_prq_b_0 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_1 = temp_var:rn_prq_b_1 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_2 = temp_var:rn_prq_b_2 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_3 = temp_var:rn_prq_b_3 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_4 = temp_var:rn_prq_b_4 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_5 = temp_var:rn_prq_b_5 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_6 = temp_var:rn_prq_b_6 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_7 = temp_var:rn_prq_b_7 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_8 = temp_var:rn_prq_b_8 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_9 = temp_var:rn_prq_b_9 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_10 = temp_var:rn_prq_b_10 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_11 = temp_var:rn_prq_b_11 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_12 = temp_var:rn_prq_b_12 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_13 = temp_var:rn_prq_b_13 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_14 = temp_var:rn_prq_b_14 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_15 = temp_var:rn_prq_b_15 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_16 = temp_var:rn_prq_b_16 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_17 = temp_var:rn_prq_b_17 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_18 = temp_var:rn_prq_b_18 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_19 = temp_var:rn_prq_b_19 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_20 = temp_var:rn_prq_b_20 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_21 = temp_var:rn_prq_b_21 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_22 = temp_var:rn_prq_b_22 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_23 = temp_var:rn_prq_b_23 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_24 = temp_var:rn_prq_b_24 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_25 = temp_var:rn_prq_b_25 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_26 = temp_var:rn_prq_b_26 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_27 = temp_var:rn_prq_b_27 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_28 = temp_var:rn_prq_b_28 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_29 = temp_var:rn_prq_b_29 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_30 = temp_var:rn_prq_b_30 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { temp_var:rn_nativeb_31 = temp_var:rn_prq_b_31 } } } add_to_temp_variable = { rn_prq_bdiff = 1 } }
+}
+
+rn_prq_snapshot_buffers = {
+	clear_array = rn_prq_bak0
+	set_temp_variable = { rn_prq_len0 = rn_len }
+	set_temp_variable = { rn_prq_had0 = 0 }
+	if = { limit = { has_variable = rn_len } set_temp_variable = { rn_prq_had0 = 1 } }
+	for_each_loop = { array = rn_buf value = rn_prq_v add_to_array = { rn_prq_bak0 = rn_prq_v } }
+	clear_array = rn_prq_bak1
+	set_temp_variable = { rn_prq_len1 = rn_cname_len }
+	set_temp_variable = { rn_prq_had1 = 0 }
+	if = { limit = { has_variable = rn_cname_len } set_temp_variable = { rn_prq_had1 = 1 } }
+	for_each_loop = { array = rn_cname value = rn_prq_v add_to_array = { rn_prq_bak1 = rn_prq_v } }
+	clear_array = rn_prq_bak2
+	set_temp_variable = { rn_prq_len2 = rn_cadj_len }
+	set_temp_variable = { rn_prq_had2 = 0 }
+	if = { limit = { has_variable = rn_cadj_len } set_temp_variable = { rn_prq_had2 = 1 } }
+	for_each_loop = { array = rn_cadj value = rn_prq_v add_to_array = { rn_prq_bak2 = rn_prq_v } }
+	clear_array = rn_prq_bak3
+	set_temp_variable = { rn_prq_len3 = rn_pshort_len }
+	set_temp_variable = { rn_prq_had3 = 0 }
+	if = { limit = { has_variable = rn_pshort_len } set_temp_variable = { rn_prq_had3 = 1 } }
+	for_each_loop = { array = rn_pshort value = rn_prq_v add_to_array = { rn_prq_bak3 = rn_prq_v } }
+	clear_array = rn_prq_bak4
+	set_temp_variable = { rn_prq_len4 = rn_plong_len }
+	set_temp_variable = { rn_prq_had4 = 0 }
+	if = { limit = { has_variable = rn_plong_len } set_temp_variable = { rn_prq_had4 = 1 } }
+	for_each_loop = { array = rn_plong value = rn_prq_v add_to_array = { rn_prq_bak4 = rn_prq_v } }
+}
+
+rn_prq_compare_buffers = {
+	set_temp_variable = { rn_prq_pdiff = 0 }
+	if = { limit = { NOT = { check_variable = { rn_len = temp_var:rn_prq_len0 } } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { rn_buf^num = rn_prq_bak0^num } } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { check_variable = { temp_var:rn_prq_had0 = 0 } has_variable = rn_len } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { check_variable = { temp_var:rn_prq_had0 = 1 } NOT = { has_variable = rn_len } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	for_each_loop = { array = rn_buf value = rn_prq_v index = rn_prq_i if = { limit = { NOT = { check_variable = { rn_prq_v = rn_prq_bak0^rn_prq_i } } } add_to_temp_variable = { rn_prq_pdiff = 1 } } }
+	if = { limit = { NOT = { check_variable = { rn_cname_len = temp_var:rn_prq_len1 } } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { rn_cname^num = rn_prq_bak1^num } } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { check_variable = { temp_var:rn_prq_had1 = 0 } has_variable = rn_cname_len } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { check_variable = { temp_var:rn_prq_had1 = 1 } NOT = { has_variable = rn_cname_len } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	for_each_loop = { array = rn_cname value = rn_prq_v index = rn_prq_i if = { limit = { NOT = { check_variable = { rn_prq_v = rn_prq_bak1^rn_prq_i } } } add_to_temp_variable = { rn_prq_pdiff = 1 } } }
+	if = { limit = { NOT = { check_variable = { rn_cadj_len = temp_var:rn_prq_len2 } } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { rn_cadj^num = rn_prq_bak2^num } } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { check_variable = { temp_var:rn_prq_had2 = 0 } has_variable = rn_cadj_len } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { check_variable = { temp_var:rn_prq_had2 = 1 } NOT = { has_variable = rn_cadj_len } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	for_each_loop = { array = rn_cadj value = rn_prq_v index = rn_prq_i if = { limit = { NOT = { check_variable = { rn_prq_v = rn_prq_bak2^rn_prq_i } } } add_to_temp_variable = { rn_prq_pdiff = 1 } } }
+	if = { limit = { NOT = { check_variable = { rn_pshort_len = temp_var:rn_prq_len3 } } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { rn_pshort^num = rn_prq_bak3^num } } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { check_variable = { temp_var:rn_prq_had3 = 0 } has_variable = rn_pshort_len } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { check_variable = { temp_var:rn_prq_had3 = 1 } NOT = { has_variable = rn_pshort_len } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	for_each_loop = { array = rn_pshort value = rn_prq_v index = rn_prq_i if = { limit = { NOT = { check_variable = { rn_prq_v = rn_prq_bak3^rn_prq_i } } } add_to_temp_variable = { rn_prq_pdiff = 1 } } }
+	if = { limit = { NOT = { check_variable = { rn_plong_len = temp_var:rn_prq_len4 } } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { NOT = { check_variable = { rn_plong^num = rn_prq_bak4^num } } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { check_variable = { temp_var:rn_prq_had4 = 0 } has_variable = rn_plong_len } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	if = { limit = { check_variable = { temp_var:rn_prq_had4 = 1 } NOT = { has_variable = rn_plong_len } } add_to_temp_variable = { rn_prq_pdiff = 1 } }
+	for_each_loop = { array = rn_plong value = rn_prq_v index = rn_prq_i if = { limit = { NOT = { check_variable = { rn_prq_v = rn_prq_bak4^rn_prq_i } } } add_to_temp_variable = { rn_prq_pdiff = 1 } } }
+}
+
+rn_prq_check = {
+	rn_prq_snapshot_temps = yes
+	rn_prq_snapshot_buffers = yes
+	rn_inline_pair_validate = yes
+	rn_prq_compare_temps = yes
+	rn_prq_compare_buffers = yes
+	if = {
+		limit = {
+			check_variable = { temp_var:rn_pair_err = temp_var:rn_prq_want_err }
+			check_variable = { temp_var:rn_pair_field = temp_var:rn_prq_want_field }
+			check_variable = { temp_var:rn_pair_bad = temp_var:rn_prq_want_bad }
+			check_variable = { temp_var:rn_prq_adiff = 0 }
+			check_variable = { temp_var:rn_prq_bdiff = 0 }
+			check_variable = { temp_var:rn_prq_pdiff = 0 }
+		}
+		log = "RN_PRQ case=[?rn_prq_case|0] PASS err=[?rn_pair_err|0] field=[?rn_pair_field|0] bad=[?rn_pair_bad|0] adiff=[?rn_prq_adiff|0] bdiff=[?rn_prq_bdiff|0] pdiff=[?rn_prq_pdiff|0]"
+	}
+	else = { log = "RN_PRQ case=[?rn_prq_case|0] FAIL err=[?rn_pair_err|0] field=[?rn_pair_field|0] bad=[?rn_pair_bad|0] adiff=[?rn_prq_adiff|0] bdiff=[?rn_prq_bdiff|0] pdiff=[?rn_prq_pdiff|0] want=[?rn_prq_want_err|0],[?rn_prq_want_field|0],[?rn_prq_want_bad|0]" }
+	clear_array = rn_prq_bak0
+	clear_array = rn_prq_bak1
+	clear_array = rn_prq_bak2
+	clear_array = rn_prq_bak3
+	clear_array = rn_prq_bak4
+}
+
+rn_prq_case_1 = {
+	rn_prq_payload_a1_b32 = yes
+	set_temp_variable = { rn_prq_case = 1 }
+	set_temp_variable = { rn_prq_want_err = 0 }
+	set_temp_variable = { rn_prq_want_field = 0 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_2 = {
+	rn_prq_payload_a32_b1 = yes
+	set_temp_variable = { rn_prq_case = 2 }
+	set_temp_variable = { rn_prq_want_err = 0 }
+	set_temp_variable = { rn_prq_want_field = 0 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_100 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_native_ok = 0 }
+	set_temp_variable = { rn_prq_case = 100 }
+	set_temp_variable = { rn_prq_want_err = 1 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_101 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_native_ok = 2 }
+	set_temp_variable = { rn_prq_case = 101 }
+	set_temp_variable = { rn_prq_want_err = 1 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_102 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_native_len = 0 }
+	set_temp_variable = { rn_prq_case = 102 }
+	set_temp_variable = { rn_prq_want_err = 4 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_103 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_native_len = 33 }
+	set_temp_variable = { rn_prq_case = 103 }
+	set_temp_variable = { rn_prq_want_err = 4 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_104 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_native_len = 1.5 }
+	set_temp_variable = { rn_prq_case = 104 }
+	set_temp_variable = { rn_prq_want_err = 4 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_105 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_native_len = 1.00001 }
+	set_temp_variable = { rn_prq_case = 105 }
+	set_temp_variable = { rn_prq_want_err = 4 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_106 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_native_len = 31.99999 }
+	set_temp_variable = { rn_prq_case = 106 }
+	set_temp_variable = { rn_prq_want_err = 4 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_107 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_native_0 = 0 }
+	set_temp_variable = { rn_prq_case = 107 }
+	set_temp_variable = { rn_prq_want_err = 5 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = 0 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_108 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_native_0 = 85 }
+	set_temp_variable = { rn_prq_case = 108 }
+	set_temp_variable = { rn_prq_want_err = 5 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = 0 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_109 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_native_0 = 1.5 }
+	set_temp_variable = { rn_prq_case = 109 }
+	set_temp_variable = { rn_prq_want_err = 5 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = 0 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_110 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_native_0 = 1.00001 }
+	set_temp_variable = { rn_prq_case = 110 }
+	set_temp_variable = { rn_prq_want_err = 5 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = 0 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_111 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_native_0 = 83.99999 }
+	set_temp_variable = { rn_prq_case = 111 }
+	set_temp_variable = { rn_prq_want_err = 5 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = 0 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_112 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_native_31 = 0 }
+	set_temp_variable = { rn_prq_case = 112 }
+	set_temp_variable = { rn_prq_want_err = 5 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = 31 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_113 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_native_31 = 85 }
+	set_temp_variable = { rn_prq_case = 113 }
+	set_temp_variable = { rn_prq_want_err = 5 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = 31 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_114 = {
+	rn_prq_payload_a1_b32 = yes
+	set_temp_variable = { rn_native_1 = 1 }
+	set_temp_variable = { rn_prq_case = 114 }
+	set_temp_variable = { rn_prq_want_err = 6 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = 1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_115 = {
+	rn_prq_payload_a1_b32 = yes
+	set_temp_variable = { rn_native_31 = 1 }
+	set_temp_variable = { rn_prq_case = 115 }
+	set_temp_variable = { rn_prq_want_err = 6 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = 31 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_116 = {
+	rn_prq_payload_a1_b32 = yes
+	set_temp_variable = { rn_native_31 = 0.00001 }
+	set_temp_variable = { rn_prq_case = 116 }
+	set_temp_variable = { rn_prq_want_err = 6 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = 31 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_200 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_nativeb_ok = 0 }
+	set_temp_variable = { rn_prq_case = 200 }
+	set_temp_variable = { rn_prq_want_err = 1 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_201 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_nativeb_ok = 2 }
+	set_temp_variable = { rn_prq_case = 201 }
+	set_temp_variable = { rn_prq_want_err = 1 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_202 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_nativeb_len = 0 }
+	set_temp_variable = { rn_prq_case = 202 }
+	set_temp_variable = { rn_prq_want_err = 4 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_203 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_nativeb_len = 33 }
+	set_temp_variable = { rn_prq_case = 203 }
+	set_temp_variable = { rn_prq_want_err = 4 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_204 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_nativeb_len = 1.5 }
+	set_temp_variable = { rn_prq_case = 204 }
+	set_temp_variable = { rn_prq_want_err = 4 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_205 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_nativeb_len = 1.00001 }
+	set_temp_variable = { rn_prq_case = 205 }
+	set_temp_variable = { rn_prq_want_err = 4 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_206 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_nativeb_len = 31.99999 }
+	set_temp_variable = { rn_prq_case = 206 }
+	set_temp_variable = { rn_prq_want_err = 4 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_207 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_nativeb_0 = 0 }
+	set_temp_variable = { rn_prq_case = 207 }
+	set_temp_variable = { rn_prq_want_err = 5 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = 0 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_208 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_nativeb_0 = 85 }
+	set_temp_variable = { rn_prq_case = 208 }
+	set_temp_variable = { rn_prq_want_err = 5 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = 0 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_209 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_nativeb_0 = 1.5 }
+	set_temp_variable = { rn_prq_case = 209 }
+	set_temp_variable = { rn_prq_want_err = 5 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = 0 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_210 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_nativeb_0 = 1.00001 }
+	set_temp_variable = { rn_prq_case = 210 }
+	set_temp_variable = { rn_prq_want_err = 5 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = 0 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_211 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_nativeb_0 = 83.99999 }
+	set_temp_variable = { rn_prq_case = 211 }
+	set_temp_variable = { rn_prq_want_err = 5 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = 0 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_212 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_nativeb_31 = 0 }
+	set_temp_variable = { rn_prq_case = 212 }
+	set_temp_variable = { rn_prq_want_err = 5 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = 31 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_213 = {
+	rn_prq_payload_a32_b32 = yes
+	set_temp_variable = { rn_nativeb_31 = 85 }
+	set_temp_variable = { rn_prq_case = 213 }
+	set_temp_variable = { rn_prq_want_err = 5 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = 31 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_214 = {
+	rn_prq_payload_a32_b1 = yes
+	set_temp_variable = { rn_nativeb_1 = 1 }
+	set_temp_variable = { rn_prq_case = 214 }
+	set_temp_variable = { rn_prq_want_err = 6 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = 1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_215 = {
+	rn_prq_payload_a32_b1 = yes
+	set_temp_variable = { rn_nativeb_31 = 1 }
+	set_temp_variable = { rn_prq_case = 215 }
+	set_temp_variable = { rn_prq_want_err = 6 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = 31 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_216 = {
+	rn_prq_payload_a32_b1 = yes
+	set_temp_variable = { rn_nativeb_31 = 0.00001 }
+	set_temp_variable = { rn_prq_case = 216 }
+	set_temp_variable = { rn_prq_want_err = 6 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = 31 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_300 = {
+	rn_prq_payload_a1_b32 = yes
+	set_temp_variable = { rn_native_ok = 0 }
+	set_temp_variable = { rn_nativeb_ok = 0 }
+	set_temp_variable = { rn_prq_case = 300 }
+	set_temp_variable = { rn_prq_want_err = 1 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_301 = {
+	rn_prq_payload_missing_a = yes
+	set_temp_variable = { rn_prq_case = 301 }
+	set_temp_variable = { rn_prq_want_err = 1 }
+	set_temp_variable = { rn_prq_want_field = 1 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_case_302 = {
+	rn_prq_payload_missing_b = yes
+	set_temp_variable = { rn_prq_case = 302 }
+	set_temp_variable = { rn_prq_want_err = 1 }
+	set_temp_variable = { rn_prq_want_field = 2 }
+	set_temp_variable = { rn_prq_want_bad = -1 }
+	rn_prq_check = yes
+}
+
+rn_prq_valid = {
+	rn_prq_case_1 = yes
+	rn_prq_case_2 = yes
+}
+
+rn_prq_invalid_a = {
+	rn_prq_case_100 = yes
+	rn_prq_case_101 = yes
+	rn_prq_case_102 = yes
+	rn_prq_case_103 = yes
+	rn_prq_case_104 = yes
+	rn_prq_case_105 = yes
+	rn_prq_case_106 = yes
+	rn_prq_case_107 = yes
+	rn_prq_case_108 = yes
+	rn_prq_case_109 = yes
+	rn_prq_case_110 = yes
+	rn_prq_case_111 = yes
+	rn_prq_case_112 = yes
+	rn_prq_case_113 = yes
+	rn_prq_case_114 = yes
+	rn_prq_case_115 = yes
+	rn_prq_case_116 = yes
+}
+
+rn_prq_invalid_b = {
+	rn_prq_case_200 = yes
+	rn_prq_case_201 = yes
+	rn_prq_case_202 = yes
+	rn_prq_case_203 = yes
+	rn_prq_case_204 = yes
+	rn_prq_case_205 = yes
+	rn_prq_case_206 = yes
+	rn_prq_case_207 = yes
+	rn_prq_case_208 = yes
+	rn_prq_case_209 = yes
+	rn_prq_case_210 = yes
+	rn_prq_case_211 = yes
+	rn_prq_case_212 = yes
+	rn_prq_case_213 = yes
+	rn_prq_case_214 = yes
+	rn_prq_case_215 = yes
+	rn_prq_case_216 = yes
+}
+
+rn_prq_priority = {
+	rn_prq_case_300 = yes
+}
+
+rn_prq_missing_a = {
+	rn_prq_case_301 = yes
+}
+
+rn_prq_missing_b = {
+	rn_prq_case_302 = yes
+}
+

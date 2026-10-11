@@ -103,4 +103,49 @@ scripted_gui = {
 			rn_ip_party_neutrality_cancel_click_enabled = { tag = POL is_ai = no has_government = neutrality has_country_flag = rn_ip_party_neutrality_open }
 		}
 	}
+
+	# Read-only flag observations are NOT a native text/payload transport test.
+	rn_ilqa_guard_gui = {
+		context_type = player_context
+		parent_window_token = politics_tab
+		window_name = "rn_ilqa_guard_window"
+		visible = { tag = POL is_ai = no }
+		ai_enabled = { always = no }
+		effects = {
+			rn_ilqa_guards_click = {
+				if = {
+					limit = { tag = POL is_ai = no }
+					log = "RN_ILQA guards tag=[ROOT.GetTag] epoch=[?rn_ip_epoch|0] pin_count=[?rn_ip_leader_target^num|0]"
+					if = {
+						limit = { has_country_flag = rn_open }
+						log = "RN_ILQA guards rn_open=true"
+					}
+					else = { log = "RN_ILQA guards rn_open=false" }
+					if = {
+						limit = { has_country_flag = rn_input }
+						log = "RN_ILQA guards rn_input=true"
+					}
+					else = { log = "RN_ILQA guards rn_input=false" }
+					if = {
+						limit = { has_country_flag = rn_ip_leader_open }
+						log = "RN_ILQA guards rn_ip_leader_open=true"
+					}
+					else = { log = "RN_ILQA guards rn_ip_leader_open=false" }
+					if = {
+						limit = { has_country_flag = rn_ip_party_neutrality_open }
+						log = "RN_ILQA guards rn_ip_party_neutrality_open=true"
+					}
+					else = { log = "RN_ILQA guards rn_ip_party_neutrality_open=false" }
+					if = {
+						limit = { has_country_flag = rn_ip_country_open }
+						log = "RN_ILQA guards rn_ip_country_open=true"
+					}
+					else = { log = "RN_ILQA guards rn_ip_country_open=false" }
+				}
+			}
+		}
+		triggers = {
+			rn_ilqa_guards_click_enabled = { tag = POL is_ai = no }
+		}
+	}
 }

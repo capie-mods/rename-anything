@@ -1,0 +1,799 @@
+{
+  "status": "unloaded; source-only; runtime pending root review",
+  "entry": "rn_inline_pair_validate",
+  "inputs": [
+    "rn_native_ok",
+    "rn_native_len",
+    "rn_native_0",
+    "rn_native_1",
+    "rn_native_2",
+    "rn_native_3",
+    "rn_native_4",
+    "rn_native_5",
+    "rn_native_6",
+    "rn_native_7",
+    "rn_native_8",
+    "rn_native_9",
+    "rn_native_10",
+    "rn_native_11",
+    "rn_native_12",
+    "rn_native_13",
+    "rn_native_14",
+    "rn_native_15",
+    "rn_native_16",
+    "rn_native_17",
+    "rn_native_18",
+    "rn_native_19",
+    "rn_native_20",
+    "rn_native_21",
+    "rn_native_22",
+    "rn_native_23",
+    "rn_native_24",
+    "rn_native_25",
+    "rn_native_26",
+    "rn_native_27",
+    "rn_native_28",
+    "rn_native_29",
+    "rn_native_30",
+    "rn_native_31",
+    "rn_nativeb_ok",
+    "rn_nativeb_len",
+    "rn_nativeb_0",
+    "rn_nativeb_1",
+    "rn_nativeb_2",
+    "rn_nativeb_3",
+    "rn_nativeb_4",
+    "rn_nativeb_5",
+    "rn_nativeb_6",
+    "rn_nativeb_7",
+    "rn_nativeb_8",
+    "rn_nativeb_9",
+    "rn_nativeb_10",
+    "rn_nativeb_11",
+    "rn_nativeb_12",
+    "rn_nativeb_13",
+    "rn_nativeb_14",
+    "rn_nativeb_15",
+    "rn_nativeb_16",
+    "rn_nativeb_17",
+    "rn_nativeb_18",
+    "rn_nativeb_19",
+    "rn_nativeb_20",
+    "rn_nativeb_21",
+    "rn_nativeb_22",
+    "rn_nativeb_23",
+    "rn_nativeb_24",
+    "rn_nativeb_25",
+    "rn_nativeb_26",
+    "rn_nativeb_27",
+    "rn_nativeb_28",
+    "rn_nativeb_29",
+    "rn_nativeb_30",
+    "rn_nativeb_31"
+  ],
+  "outputs": {
+    "rn_pair_err": "0 success;1 marker;4 length;5 code;6 padding",
+    "rn_pair_field": "0 success;1 A;2 B",
+    "rn_pair_bad": "-1 unless code/padding index"
+  },
+  "single_helper_sha256": "cd171d6203bd66dc7905c7c3d0e1a2750c4b8eabab45f0540d75d3af2ce10800",
+  "pair_helper_sha256": "e278dfac3a4e3ac5ccca7d7cf74da9d87f0de728d30bca875d543f24956f6fc7",
+  "preserved": "all34 values of A and B; no persistent writes",
+  "scratch": "rn_inline_* may contain B result; private temp rn_paira_* overwritten",
+  "buffers_observed": [
+    {
+      "array": "rn_buf",
+      "length": "rn_len"
+    },
+    {
+      "array": "rn_cname",
+      "length": "rn_cname_len"
+    },
+    {
+      "array": "rn_cadj",
+      "length": "rn_cadj_len"
+    },
+    {
+      "array": "rn_pshort",
+      "length": "rn_pshort_len"
+    },
+    {
+      "array": "rn_plong",
+      "length": "rn_plong_len"
+    }
+  ],
+  "key_ascii_byte_lengths": {
+    "rn_native_ok": 12,
+    "rn_native_len": 13,
+    "rn_native_0": 11,
+    "rn_native_1": 11,
+    "rn_native_2": 11,
+    "rn_native_3": 11,
+    "rn_native_4": 11,
+    "rn_native_5": 11,
+    "rn_native_6": 11,
+    "rn_native_7": 11,
+    "rn_native_8": 11,
+    "rn_native_9": 11,
+    "rn_native_10": 12,
+    "rn_native_11": 12,
+    "rn_native_12": 12,
+    "rn_native_13": 12,
+    "rn_native_14": 12,
+    "rn_native_15": 12,
+    "rn_native_16": 12,
+    "rn_native_17": 12,
+    "rn_native_18": 12,
+    "rn_native_19": 12,
+    "rn_native_20": 12,
+    "rn_native_21": 12,
+    "rn_native_22": 12,
+    "rn_native_23": 12,
+    "rn_native_24": 12,
+    "rn_native_25": 12,
+    "rn_native_26": 12,
+    "rn_native_27": 12,
+    "rn_native_28": 12,
+    "rn_native_29": 12,
+    "rn_native_30": 12,
+    "rn_native_31": 12,
+    "rn_nativeb_ok": 13,
+    "rn_nativeb_len": 14,
+    "rn_nativeb_0": 12,
+    "rn_nativeb_1": 12,
+    "rn_nativeb_2": 12,
+    "rn_nativeb_3": 12,
+    "rn_nativeb_4": 12,
+    "rn_nativeb_5": 12,
+    "rn_nativeb_6": 12,
+    "rn_nativeb_7": 12,
+    "rn_nativeb_8": 12,
+    "rn_nativeb_9": 12,
+    "rn_nativeb_10": 13,
+    "rn_nativeb_11": 13,
+    "rn_nativeb_12": 13,
+    "rn_nativeb_13": 13,
+    "rn_nativeb_14": 13,
+    "rn_nativeb_15": 13,
+    "rn_nativeb_16": 13,
+    "rn_nativeb_17": 13,
+    "rn_nativeb_18": 13,
+    "rn_nativeb_19": 13,
+    "rn_nativeb_20": 13,
+    "rn_nativeb_21": 13,
+    "rn_nativeb_22": 13,
+    "rn_nativeb_23": 13,
+    "rn_nativeb_24": 13,
+    "rn_nativeb_25": 13,
+    "rn_nativeb_26": 13,
+    "rn_nativeb_27": 13,
+    "rn_nativeb_28": 13,
+    "rn_nativeb_29": 13,
+    "rn_nativeb_30": 13,
+    "rn_nativeb_31": 13,
+    "rn_ip_cmd_epoch": 15,
+    "rn_native_cap": 13
+  },
+  "future_only_not_validated": [
+    "rn_ip_cmd_epoch",
+    "rn_native_cap",
+    "own target",
+    "country/party setters"
+  ],
+  "qa_groups": {
+    "rn_prq_valid": [
+      1,
+      2
+    ],
+    "rn_prq_invalid_a": [
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116
+    ],
+    "rn_prq_invalid_b": [
+      200,
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208,
+      209,
+      210,
+      211,
+      212,
+      213,
+      214,
+      215,
+      216
+    ],
+    "rn_prq_priority": [
+      300
+    ],
+    "rn_prq_missing_a": [
+      301
+    ],
+    "rn_prq_missing_b": [
+      302
+    ]
+  },
+  "qa_cases": [
+    {
+      "id": 1,
+      "group": "rn_prq_valid",
+      "description": "A length1/code84; B length32/codes1..32",
+      "expected": {
+        "error": 0,
+        "field": 0,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a1_b32",
+      "overrides": {}
+    },
+    {
+      "id": 2,
+      "group": "rn_prq_valid",
+      "description": "A length32/codes84..53; B length1/code1",
+      "expected": {
+        "error": 0,
+        "field": 0,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b1",
+      "overrides": {}
+    },
+    {
+      "id": 100,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: zero marker",
+      "expected": {
+        "error": 1,
+        "field": 1,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_native_ok": "0"
+      }
+    },
+    {
+      "id": 101,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: wrong marker",
+      "expected": {
+        "error": 1,
+        "field": 1,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_native_ok": "2"
+      }
+    },
+    {
+      "id": 102,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: zero length",
+      "expected": {
+        "error": 4,
+        "field": 1,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_native_len": "0"
+      }
+    },
+    {
+      "id": 103,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: overlong length",
+      "expected": {
+        "error": 4,
+        "field": 1,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_native_len": "33"
+      }
+    },
+    {
+      "id": 104,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: fractional length",
+      "expected": {
+        "error": 4,
+        "field": 1,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_native_len": "1.5"
+      }
+    },
+    {
+      "id": 105,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: fractional length lower edge",
+      "expected": {
+        "error": 4,
+        "field": 1,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_native_len": "1.00001"
+      }
+    },
+    {
+      "id": 106,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: fractional length upper edge",
+      "expected": {
+        "error": 4,
+        "field": 1,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_native_len": "31.99999"
+      }
+    },
+    {
+      "id": 107,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: zero active code",
+      "expected": {
+        "error": 5,
+        "field": 1,
+        "bad_index": 0
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_native_0": "0"
+      }
+    },
+    {
+      "id": 108,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: code above alphabet",
+      "expected": {
+        "error": 5,
+        "field": 1,
+        "bad_index": 0
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_native_0": "85"
+      }
+    },
+    {
+      "id": 109,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: fractional active code",
+      "expected": {
+        "error": 5,
+        "field": 1,
+        "bad_index": 0
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_native_0": "1.5"
+      }
+    },
+    {
+      "id": 110,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: fractional code lower edge",
+      "expected": {
+        "error": 5,
+        "field": 1,
+        "bad_index": 0
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_native_0": "1.00001"
+      }
+    },
+    {
+      "id": 111,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: fractional code upper edge",
+      "expected": {
+        "error": 5,
+        "field": 1,
+        "bad_index": 0
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_native_0": "83.99999"
+      }
+    },
+    {
+      "id": 112,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: zero final active code",
+      "expected": {
+        "error": 5,
+        "field": 1,
+        "bad_index": 31
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_native_31": "0"
+      }
+    },
+    {
+      "id": 113,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: invalid final active code",
+      "expected": {
+        "error": 5,
+        "field": 1,
+        "bad_index": 31
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_native_31": "85"
+      }
+    },
+    {
+      "id": 114,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: first padding nonzero",
+      "expected": {
+        "error": 6,
+        "field": 1,
+        "bad_index": 1
+      },
+      "payload": "rn_prq_payload_a1_b32",
+      "overrides": {
+        "rn_native_1": "1"
+      }
+    },
+    {
+      "id": 115,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: last padding nonzero",
+      "expected": {
+        "error": 6,
+        "field": 1,
+        "bad_index": 31
+      },
+      "payload": "rn_prq_payload_a1_b32",
+      "overrides": {
+        "rn_native_31": "1"
+      }
+    },
+    {
+      "id": 116,
+      "group": "rn_prq_invalid_a",
+      "description": "field1: fractional padding nonzero",
+      "expected": {
+        "error": 6,
+        "field": 1,
+        "bad_index": 31
+      },
+      "payload": "rn_prq_payload_a1_b32",
+      "overrides": {
+        "rn_native_31": "0.00001"
+      }
+    },
+    {
+      "id": 200,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: zero marker",
+      "expected": {
+        "error": 1,
+        "field": 2,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_nativeb_ok": "0"
+      }
+    },
+    {
+      "id": 201,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: wrong marker",
+      "expected": {
+        "error": 1,
+        "field": 2,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_nativeb_ok": "2"
+      }
+    },
+    {
+      "id": 202,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: zero length",
+      "expected": {
+        "error": 4,
+        "field": 2,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_nativeb_len": "0"
+      }
+    },
+    {
+      "id": 203,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: overlong length",
+      "expected": {
+        "error": 4,
+        "field": 2,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_nativeb_len": "33"
+      }
+    },
+    {
+      "id": 204,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: fractional length",
+      "expected": {
+        "error": 4,
+        "field": 2,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_nativeb_len": "1.5"
+      }
+    },
+    {
+      "id": 205,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: fractional length lower edge",
+      "expected": {
+        "error": 4,
+        "field": 2,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_nativeb_len": "1.00001"
+      }
+    },
+    {
+      "id": 206,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: fractional length upper edge",
+      "expected": {
+        "error": 4,
+        "field": 2,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_nativeb_len": "31.99999"
+      }
+    },
+    {
+      "id": 207,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: zero active code",
+      "expected": {
+        "error": 5,
+        "field": 2,
+        "bad_index": 0
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_nativeb_0": "0"
+      }
+    },
+    {
+      "id": 208,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: code above alphabet",
+      "expected": {
+        "error": 5,
+        "field": 2,
+        "bad_index": 0
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_nativeb_0": "85"
+      }
+    },
+    {
+      "id": 209,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: fractional active code",
+      "expected": {
+        "error": 5,
+        "field": 2,
+        "bad_index": 0
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_nativeb_0": "1.5"
+      }
+    },
+    {
+      "id": 210,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: fractional code lower edge",
+      "expected": {
+        "error": 5,
+        "field": 2,
+        "bad_index": 0
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_nativeb_0": "1.00001"
+      }
+    },
+    {
+      "id": 211,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: fractional code upper edge",
+      "expected": {
+        "error": 5,
+        "field": 2,
+        "bad_index": 0
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_nativeb_0": "83.99999"
+      }
+    },
+    {
+      "id": 212,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: zero final active code",
+      "expected": {
+        "error": 5,
+        "field": 2,
+        "bad_index": 31
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_nativeb_31": "0"
+      }
+    },
+    {
+      "id": 213,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: invalid final active code",
+      "expected": {
+        "error": 5,
+        "field": 2,
+        "bad_index": 31
+      },
+      "payload": "rn_prq_payload_a32_b32",
+      "overrides": {
+        "rn_nativeb_31": "85"
+      }
+    },
+    {
+      "id": 214,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: first padding nonzero",
+      "expected": {
+        "error": 6,
+        "field": 2,
+        "bad_index": 1
+      },
+      "payload": "rn_prq_payload_a32_b1",
+      "overrides": {
+        "rn_nativeb_1": "1"
+      }
+    },
+    {
+      "id": 215,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: last padding nonzero",
+      "expected": {
+        "error": 6,
+        "field": 2,
+        "bad_index": 31
+      },
+      "payload": "rn_prq_payload_a32_b1",
+      "overrides": {
+        "rn_nativeb_31": "1"
+      }
+    },
+    {
+      "id": 216,
+      "group": "rn_prq_invalid_b",
+      "description": "field2: fractional padding nonzero",
+      "expected": {
+        "error": 6,
+        "field": 2,
+        "bad_index": 31
+      },
+      "payload": "rn_prq_payload_a32_b1",
+      "overrides": {
+        "rn_nativeb_31": "0.00001"
+      }
+    },
+    {
+      "id": 300,
+      "group": "rn_prq_priority",
+      "description": "both markers0: first field wins",
+      "expected": {
+        "error": 1,
+        "field": 1,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_a1_b32",
+      "overrides": {
+        "rn_native_ok": "0",
+        "rn_nativeb_ok": "0"
+      }
+    },
+    {
+      "id": 301,
+      "group": "rn_prq_missing_a",
+      "description": "A marker not created in this fresh command",
+      "expected": {
+        "error": 1,
+        "field": 1,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_missing_a",
+      "overrides": {}
+    },
+    {
+      "id": 302,
+      "group": "rn_prq_missing_b",
+      "description": "B marker not created in this fresh command",
+      "expected": {
+        "error": 1,
+        "field": 2,
+        "bad_index": -1
+      },
+      "payload": "rn_prq_payload_missing_b",
+      "overrides": {}
+    }
+  ],
+  "missing_marker_note": "Dedicated fresh SG command omits marker assignment; value-level comparisons do not prove temp-record presence.",
+  "not_loaded_with": [
+    "rn_in_place_ui",
+    "rn_inline_payload_qa",
+    "rn_inline_leader_apply_qa"
+  ],
+  "allowed_exact_qa_co_load": [
+    "mod/",
+    "probes/rn_inline_leader_transport_qa/",
+    "probes/rn_inline_pair_qa/"
+  ],
+  "co_load_conditions": [
+    "root review before freshprocess activation",
+    "transport fixture retains log-only leader Apply and disabled party Apply",
+    "pair commands remain rn_prq_gui and outside native whitelist",
+    "no pair records injected into editor model",
+    "native transport and pure validation assessed separately",
+    "no real rename Apply or setters invoked"
+  ],
+  "co_load_evidence": "co-load-review.json; exact SG/GUI/effect/localisation inventories and reachable write targets",
+  "native_transport": false,
+  "rename_or_target_write": false
+}

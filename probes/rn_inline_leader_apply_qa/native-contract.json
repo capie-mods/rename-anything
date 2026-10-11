@@ -1,0 +1,170 @@
+{
+  "status": "unloaded_guarded_leader_apply_qa_candidate",
+  "qa_scope": "player_context; own POL; party also current neutrality",
+  "parent_window_token": "politics_tab",
+  "epoch_variable": "rn_ip_epoch",
+  "activation": "not_registered; do not activate until current log-only transport/prefill/Cancel/draft QA and independent review are complete",
+  "fields": [
+    {
+      "model": "rn_ip_leader_gui",
+      "window": "rn_ip_leader_window",
+      "edit": "rn_ip_leader_edit",
+      "carrier": "rn_ip_leader_prefill",
+      "expression": "[?ROOT.rn_ip_leader_identity.GetName]",
+      "flag": "rn_ip_leader_open",
+      "selector": "rn_ip_leader_apply_click",
+      "bounds": [
+        18,
+        262,
+        155,
+        36
+      ],
+      "target_pin": "typed singleton rn_ip_leader_target and rn_ip_leader_identity at Open; refresh own roster and unique current is_country_leader at Apply; active ruler semantics statically proven, pin flow runtime open",
+      "open_selector": "rn_ip_leader_open_click",
+      "cancel_selector": "rn_ip_leader_cancel_click",
+      "epoch_carrier": "rn_ip_leader_epoch",
+      "epoch_expression": "[?ROOT.rn_ip_epoch|0]",
+      "candidate_effect": "rn_inline_leader_apply unchanged; guarded real rename candidate, observed logs in SG before/after helper"
+    },
+    {
+      "model": "rn_ip_party_neutrality_gui",
+      "window": "rn_ip_party_neutrality_window",
+      "edit": "rn_ip_party_neutrality_edit",
+      "carrier": "rn_ip_party_neutrality_prefill",
+      "expression": "[ROOT.GetRulingParty]",
+      "long_edit": "rn_ip_party_neutrality_long_edit",
+      "long_carrier": "rn_ip_party_neutrality_long_prefill",
+      "long_expression": "[ROOT.GetRulingPartyLong]",
+      "flag": "rn_ip_party_neutrality_open",
+      "selector": "rn_ip_party_neutrality_apply_click",
+      "bounds": [
+        354,
+        352,
+        196,
+        62
+      ],
+      "ideology": "neutrality",
+      "target_pin": "country + ideology + opening epoch must be revalidated; custom ideology rows not mapped",
+      "open_selector": "rn_ip_party_neutrality_open_click",
+      "cancel_selector": "rn_ip_party_neutrality_cancel_click",
+      "epoch_carrier": "rn_ip_party_neutrality_epoch",
+      "epoch_expression": "[?ROOT.rn_ip_epoch|0]"
+    }
+  ],
+  "launcher_models": [
+    "rn_ip_leader_launcher_gui",
+    "rn_ip_party_neutrality_launcher_gui"
+  ],
+  "apply_enabled": {
+    "leader": "own POL/open/positive persistent epoch/identity/singleton pin/current own ruler, independent of payload before ctor",
+    "party": false
+  },
+  "existing_hook_model": "Requires separate inline_leader_bridge.dll exact rn_ip_leader_gui/rn_ip_leader_apply_click whitelist; no DLL build or activation in this task",
+  "command_epoch_temp": "rn_ip_cmd_epoch",
+  "command_epoch_status": "35th reserved ordinary temp_var:rn_ip_cmd_epoch; 15 ASCII bytes, captured with the same fresh payload; execution helper requires exact positive persistent epoch equality",
+  "payload_contract": "34 rn_native_* records + rn_ip_cmd_epoch; script fixture does not manufacture records or text",
+  "shared_country_fixture": {
+    "path": "../rn_country_inline_ui",
+    "open_flag": "rn_ip_country_open",
+    "guard_status": "source-only integrated candidate; not activated or tested in game",
+    "leader": "Open enabled/helper and Apply context reject country-open",
+    "party": "Open enabled/effect reject country-open and old rn_input",
+    "country": "Open enabled/effect reject leader-open, party-open, old rn_input and own country-open",
+    "switch_behavior": "Existing leader/party flag+pin+epoch switching is preserved",
+    "native_support": "country models/fields are not added to the whitelist"
+  },
+  "legacy_isolation": {
+    "flags": [
+      "rn_open",
+      "rn_input"
+    ],
+    "visible": "every inline launcher/editor rejects both flags",
+    "open": "enabled and effect/guarded helper reject both flags",
+    "apply": "Leader enabled and unchanged guarded helper reject rn_open/rn_input; party Apply remains always=no; Cancel is unchanged",
+    "cancel": "unchanged; no legacy rejection",
+    "state": "no flag/pin/epoch reset added; leader-party switching preserved",
+    "runtime": "Unactivated source candidate; native draft/menu/load lifecycle acceptance remains open"
+  },
+  "copied_from": "../rn_in_place_ui",
+  "co_load_exclusions": [
+    "../rn_in_place_ui",
+    "../rn_inline_leader_transport_qa"
+  ],
+  "runtime_status": "This fixture has not been parsed, activated or exercised in game; root reports 17 script-only payload QA cases PASS for the byte-identical CD171D... helper, not this caller",
+  "observed_logs": {
+    "prefix": "RN_ILAQA",
+    "before": [
+      "current country GetLeader",
+      "command epoch",
+      "persistent epoch",
+      "pin count"
+    ],
+    "after": [
+      "temp_var:rn_ip_leader_error",
+      "current country GetLeader",
+      "command epoch",
+      "persistent epoch",
+      "pin count"
+    ],
+    "success_rule": "No PASS string is emitted. Error=0 only means delegated rename path; compare actual GetLeader and native politics name with the entered native text.",
+    "target_readback": "After success the helper cancels and clears pin; GetLeader is the current country ruler name, not a dereference of a cleared pin."
+  },
+  "helpers": {
+    "rn_inline_leader.txt": {
+      "copied_byte_identical": true,
+      "sha256": "4acaaf9e2b1d2c41b165bb9a82c85ed880937c55f1ead696037b17bb74cdbe7a"
+    },
+    "rn_inline_payload.txt": {
+      "copied_byte_identical": true,
+      "sha256": "cd171d6203bd66dc7905c7c3d0e1a2750c4b8eabab45f0540d75d3af2ce10800"
+    }
+  },
+  "leader_geometry": {
+    "status": "post-PID3188 source-only correction; no runtime acceptance",
+    "parent": "politics_tab unchanged; coordinates local to native countrypoliticsview",
+    "launcher": [
+      154,
+      299,
+      14,
+      14
+    ],
+    "editor": [
+      18,
+      262,
+      155,
+      36
+    ],
+    "edit_local": [
+      4,
+      8,
+      110,
+      20
+    ],
+    "save_local": [
+      117,
+      10,
+      16,
+      16
+    ],
+    "cancel_local": [
+      135,
+      10,
+      16,
+      16
+    ],
+    "native_name_row": [
+      18,
+      262,
+      155,
+      36
+    ],
+    "native_faction_button": [
+      180,
+      243,
+      191,
+      57
+    ],
+    "reason": "old launcher177,273 and Cancel176..192 overlapped native Create faction. New leader controls end before local x173; launcher sits below leader_name and before ideology text y313.",
+    "runtime_limits": "clipping/draw order/hitboxes at actual UI scale and fresh callback still require QA; no parent/origin workaround"
+  }
+}

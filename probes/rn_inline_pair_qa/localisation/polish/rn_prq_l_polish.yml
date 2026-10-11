@@ -1,0 +1,9 @@
+﻿l_polish:
+ RN_PRQ_TITLE: "QA pary payloadów"
+ RN_PRQ_VALID: "Poprawne 1/32"
+ RN_PRQ_INVALID_A: "Błędne A"
+ RN_PRQ_INVALID_B: "Błędne B"
+ RN_PRQ_PRIORITY: "Oba błędne"
+ RN_PRQ_MISSING_A: "Brak A"
+ RN_PRQ_MISSING_B: "Brak B"
+ RN_PRQ_NOTE: "Tylko logi; bufory bez zmian."

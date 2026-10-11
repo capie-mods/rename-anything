@@ -1,10 +1,12 @@
 # Niewłączona próba transportu pola lidera
 
-Stan 2026-10-11: osobna kopia aktualnego `../rn_in_place_ui` do jednorazowej
-próby z `rename_anything_inline_leader_bridge.dll`. Nie zarejestrowano jej ani
-nie aktywowano; nie wykonano build, injection, UI ani testu w grze.
+Stan 2026-10-11: osobna kopia `../rn_in_place_ui` do próby z
+`rename_anything_inline_leader_bridge.dll`. Pierwszy proces PID3188 został
+zamknięty przez root po niepotwierdzonym Open/prefill (screenshot89–91).
+Poniższa rewizja geometrii i diagnostyki guardów nie została jeszcze uruchomiona;
+w tym kroku nie wykonano build, injection, konfiguracji ani UI.
 
-**Nie ładować razem z `rn_in_place_ui`.** Obie fixture deklarują te same modele,
+**Nie ładować razem z `rn_in_place_ui` ani `rn_inline_leader_apply_qa`.** Obie fixture deklarują te same modele,
 kontrolki i helpery. Do tej próby root wybiera tylko jedną z nich. W procesie
 nie mogą współistnieć DLL editor-observer, editor-bridge i inline-prefill z
 inline-leader-bridge: hookują te same funkcje. Main mod kraju jest osobną
@@ -74,9 +76,9 @@ syntetycznego producenta rekordów.
 
 Ta próba ma wyłącznie ustalić transport w jednym otwarciu. Nie zalicza menu/load,
 zmiany gracza, zapisu ani zachowania draftu po przejściu do innej zakładki.
-Obecny natywny lifecycle jest per-model i nie przypina stanu prefill do konkretnej
-instancji window/root; hidden tick może rozpocząć ponowny prefill w tej samej
-epoce. Nie zakładamy, że menu/load zawsze daje hidden tick. Stary mod nadal może
+Rewizje natywnego lifecycle są osobnym zadaniem root/reviewera; ta korekta GUI
+nie dowodzi resetu instancji window/root ani zachowania draftu. Nie zakładamy,
+że menu/load zawsze daje hidden tick. Stary mod nadal może
 otworzyć legacy okno w drugą stronę: inline ukryje się, a guarded Open/Apply
 odrzuci `rn_open` i `rn_input`. Te blokady nie anulują draftu ani flag inline
 i nie rozwiązują polityki resetu; starego moda i natywnego lifecycle nie zmieniono.
@@ -95,3 +97,44 @@ Kontrakt konstruktora i exact transport:
 `static-review.json` zapisuje inventory, dokładne zachowanie odziedziczonych
 helperów, różnice od źródła i SHA256. Jest to kontrola źródeł, bez potwierdzenia
 parsera gry, rzeczywistego prefill, klawiatury, logów czy transportu komendy.
+
+
+## Korekta geometrii po zakończonym PID3188
+
+Zmieniono wyłącznie geometrię lidera, bez zmiany parenta lub origin:
+launcher `(154,299)` 14×14, editor `(18,262)` 155×36, natywne pole lokalnie
+`(4,8)` 110×20, save `(117,10)` 16×16, Cancel `(135,10)` 16×16.
+Pole i przyciski kończą się przed lokalnym x173, w obrębie natywnego wiersza
+`leader_name`. Launcher leży tuż pod nazwą, przed tekstem ideologii od y313.
+
+Vanilla `countrypoliticsview.gui:94–141` składa pozycję Create faction do
+`(180,243)`; `interface/factions/factions.gfx:740–742` wskazuje DDS573×57
+z trzema klatkami, czyli 191×57 na klatkę. Poprzednie `(177,273)` oraz prawy
+Cancel nachodziły na ten przycisk. Na screenshot89–91 źródłowy overlap wyjaśnia
+natywne tooltipy, ale nie stanowi dowodu wykonania callbacka inline. Nowa
+geometria, z-order, hitbox, widoczność i Open/Cancel wymagają świeżego QA.
+Nie zmieniono modelu, named controls, carrierów, epoki, guardów ani helperów.
+
+
+## Odczyt guardów bez zmiany stanu
+
+Dodatkowy model `rn_ilqa_guard_gui` ma własny `player_context`, `politics_tab`
+i guard własnego POL (`is_ai = no`). Przycisk **QA guards** leży lokalnie
+`(375,760)`, 148×36: w obecnym disposable client1720×900 poniżej ikon personelu
+wojskowego. Przykładowe y700 nachodziłoby na ich wiersz. Krótsze okno i inna
+skala UI wymagają osobnej kontroli.
+
+Model celowo nie znika przy `rn_open/rn_input` ani inline-open: ma ujawnić
+przyczynę ukrycia launchera. Enabled i callback ponawiają własny POL/is_ai=no.
+Callback wyłącznie loguje `RN_ILQA guards`: rzeczywisty `[ROOT.GetTag]`,
+`rn_ip_epoch`, count typed pina oraz osobną linię true/false dla `rn_open`,
+`rn_input`, `rn_ip_leader_open`, `rn_ip_party_neutrality_open`,
+`rn_ip_country_open`. Nie ustawia/usuwa flag, zmiennych, epoki, tablic ani tempów,
+nie odczytuje/produkuje payloadu, nie woła Open/Cancel/Apply/rename.
+
+To osobny diagnostyczny selector `rn_ilqa_guards_click`, bez natywnego pola
+lub carrierów, poza whitelist bridge. Log nie emituje PASS. Brak wpisu nie
+rozstrzyga sam, czy przycisk był niewidoczny, disabled, czy callback nie dotarł.
+
+Grafika diagnostyki `GFX_button_148x34` ma w dokładnej instalacji DDS148×36;
+kontener dopasowano do rzeczywistej wysokości36, bez skalowania.

@@ -5,3 +5,5 @@
  RN_IP_CANCEL: "Anuluj"
  RN_IP_LONG_NAME: "Pełna nazwa"
  RN_ILQA_LOG_PAYLOAD: "Zaloguj dane pola lidera. Ten przycisk QA nigdy nie zapisuje nazwy."
+ RN_ILQA_GUARDS: "QA guards"
+ RN_ILQA_GUARDS_TT: "Tylko odczyt QA: zapisz kraj, flagi legacy/inline, epokę otwarcia i liczbę celów lidera do logu."

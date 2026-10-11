@@ -39,7 +39,61 @@
     "epoch_key_ascii_bytes": 15,
     "Apply_enabled": false,
     "epoch_expression": "[?ROOT.rn_ip_epoch|0]",
-    "shared_country_flag": "rn_ip_country_open"
+    "shared_country_flag": "rn_ip_country_open",
+    "windows": [
+      "rn_ip_leader_launcher_window",
+      "rn_ip_leader_window",
+      "rn_ip_party_neutrality_launcher_window",
+      "rn_ip_party_neutrality_window"
+    ],
+    "leader_geometry": {
+      "status": "post-PID3188 source-only correction; no runtime acceptance",
+      "parent": "politics_tab unchanged; coordinates local to native countrypoliticsview",
+      "launcher": [
+        154,
+        299,
+        14,
+        14
+      ],
+      "editor": [
+        18,
+        262,
+        155,
+        36
+      ],
+      "edit_local": [
+        4,
+        8,
+        110,
+        20
+      ],
+      "save_local": [
+        117,
+        10,
+        16,
+        16
+      ],
+      "cancel_local": [
+        135,
+        10,
+        16,
+        16
+      ],
+      "native_name_row": [
+        18,
+        262,
+        155,
+        36
+      ],
+      "native_faction_button": [
+        180,
+        243,
+        191,
+        57
+      ],
+      "reason": "old launcher177,273 and Cancel176..192 overlapped native Create faction. New leader controls end before local x173; launcher sits below leader_name and before ideology text y313.",
+      "runtime_limits": "clipping/draw order/hitboxes at actual UI scale and fresh callback still require QA; no parent/origin workaround"
+    }
   },
   "limits": [
     "unactivated; no game UI or native bridge exercised",
@@ -55,14 +109,15 @@
   ],
   "sha256": {
     "common/scripted_effects/rn_inline_leader.txt": "4acaaf9e2b1d2c41b165bb9a82c85ed880937c55f1ead696037b17bb74cdbe7a",
+    "common/scripted_effects/rn_inline_pair_payload.txt": "e278dfac3a4e3ac5ccca7d7cf74da9d87f0de728d30bca875d543f24956f6fc7",
     "common/scripted_effects/rn_inline_payload.txt": "cd171d6203bd66dc7905c7c3d0e1a2750c4b8eabab45f0540d75d3af2ce10800",
     "common/scripted_guis/rn_in_place_ui.txt": "ff97b452d4de78a9c6566ee33019a091cf426f668a0753516dc502f710b4efee",
     "descriptor.mod": "a80aa796964449643f58856d3cfc0ac58e9987515b776b2ef9a8b03e7d46f1bd",
-    "interface/rn_in_place_ui.gui": "462853b6e168b9f6de9c5bd0610e7363d7445db8c62fb2cbda7f2c6ab8b7a967",
+    "interface/rn_in_place_ui.gui": "a53197ffcb05e7c8258480f1478a7f2554ea1fd860b40b377ca3bcd86d9204ef",
     "localisation/english/rn_in_place_ui_l_english.yml": "6ae57118ec03987ee5e53cb8b5ae0ebfc0fa96c21e5f33e3e5070d00ccf0321e",
     "localisation/polish/rn_in_place_ui_l_polish.yml": "4388b661799852dc32d1fbc85ad18f7ae1d86412142b503dbbd6c98233ecc7d6",
-    "native-contract.json": "0c8129efcdc852bf06fdce34492d2b86819939ed0a119b372328766da51d2d8f",
-    "README.md": "64f359ab8f22535ff4142018cc8accdf5a45519abb9070a039c0fcc5161aa650"
+    "native-contract.json": "aaa0c355f6e34722a460e61ae888560d8d90dbbf0dd0934c41e7b99b25e5c4bf",
+    "README.md": "da6b049a5b72ccdf33cc394c435be5744673129e72fb5973f5289177838b43f5"
   },
   "review_note": "Initial disposable inventory regex mishandled CRLF localisation bytes; corrected by splitlines. Source files required no localisation change. Root-approved follow-up changes ONLY the two unloaded epoch carriers and manifest to explicit |0 for the digits-only native parser; candidate static review, rendering/runtime still unobserved. Root-approved unloaded shared-fixture follow-up adds only country-open gates (plus old rn_input on party Open), documentation and manifest metadata. No native or active fixture change. Disposable inventory parser was corrected for comparison operators and repeated if blocks without altering game sources. 2026-10-11 root post-PID16992 revision: replace modulo1 with rounded private copy exact comparison, extend fractional/boundary diagnostics36..41; candidate awaits new runtime.",
   "shared_fixture_review": {
@@ -92,5 +147,60 @@
       "GUI/descriptor/localisation/expected input unchanged",
       "frozen payload SHA CD171D6203BD66DC7905C7C3D0E1A2750C4B8EABAB45F0540D75D3AF2CE10800 unchanged"
     ]
+  },
+  "leader_geometry_guard_review": {
+    "date": "2026-10-11",
+    "status": "source-only candidate after closed PID3188; no activation/runtime",
+    "findings": [],
+    "verified": [
+      "rn_in_place_ui clean whitespace descriptor.mod",
+      "rn_in_place_ui clean whitespace native-contract.json",
+      "rn_in_place_ui clean whitespace README.md",
+      "rn_in_place_ui clean whitespace static-review.json",
+      "rn_in_place_ui clean whitespace interface\\rn_in_place_ui.gui",
+      "rn_in_place_ui clean whitespace localisation\\english\\rn_in_place_ui_l_english.yml",
+      "rn_in_place_ui clean whitespace localisation\\polish\\rn_in_place_ui_l_polish.yml",
+      "rn_in_place_ui clean whitespace common\\scripted_effects\\rn_inline_leader.txt",
+      "rn_in_place_ui clean whitespace common\\scripted_effects\\rn_inline_pair_payload.txt",
+      "rn_in_place_ui clean whitespace common\\scripted_effects\\rn_inline_payload.txt",
+      "rn_in_place_ui clean whitespace common\\scripted_guis\\rn_in_place_ui.txt",
+      "rn_in_place_ui frozen helper common/scripted_effects/rn_inline_leader.txt",
+      "rn_in_place_ui frozen helper common/scripted_effects/rn_inline_payload.txt",
+      "rn_in_place_ui exact launcher154,299 14x14",
+      "rn_in_place_ui exact editor18,262 155x36",
+      "rn_in_place_ui exact field4,8 110x20",
+      "rn_in_place_ui exact save117,10 16px",
+      "rn_in_place_ui exact Cancel135,10 16px",
+      "rn_in_place_ui interactive controls inside x173 portrait row",
+      "rn_in_place_ui inherited GUI only requested leader geometry delta",
+      "rn_in_place_ui party geometry untouched",
+      "rn_in_place_ui SG bytes unchanged",
+      "rn_in_place_ui party Apply disabled",
+      "rn_in_place_ui player_context politics_tab unchanged",
+      "rn_in_place_ui english UTF8 BOM",
+      "rn_in_place_ui polish UTF8 BOM",
+      "rn_in_place_ui PL EN keys agree",
+      "rn_in_place_ui manifest bounds agree",
+      "transport inherited SG unchanged",
+      "diagnostic visible own POL even under legacy flags",
+      "diagnostic enabled repeats own POL",
+      "diagnostic effect repeats own POL",
+      "diagnostic only conditions and log commands",
+      "diagnostic actual tag and ordinary epoch pin reads",
+      "diagnostic true false rn_open",
+      "diagnostic true false rn_input",
+      "diagnostic true false rn_ip_leader_open",
+      "diagnostic true false rn_ip_party_neutrality_open",
+      "diagnostic true false rn_ip_country_open",
+      "diagnostic no payload or PASS log",
+      "source says flags are not transport test",
+      "diagnostic375,760 148x36",
+      "diagnostic only one button no native field",
+      "vanilla diagnostic DDS actual148x36",
+      "native whitelist explicitly unchanged"
+    ],
+    "party_geometry_unchanged": true,
+    "strict_helpers_unchanged": true,
+    "diagnostic_present": false
   }
 }
