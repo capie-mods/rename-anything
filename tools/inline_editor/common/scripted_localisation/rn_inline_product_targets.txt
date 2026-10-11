@@ -34,6 +34,8 @@ defined_text = {
 defined_text = {
 	name = RN_IPP_PARTY_STATUS
 	text = { trigger = { check_variable = { rn_ip_status_err = 12 } } localization_key = RN_IP_ERR_NO_BRIDGE }
+	text = { trigger = { check_variable = { rn_ip_status_err = 13 } } localization_key = RN_IP_ERR_NO_COUNTER }
+	text = { trigger = { check_variable = { rn_ip_status_err = 14 } } localization_key = RN_IP_ERR_RENAME_LIMIT }
 	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_status_err = 11 } } localization_key = RN_IP_ERR_CD_PARTY }
 	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } check_variable = { rn_ip_status_field = 1 } check_variable = { rn_ip_status_why = 1 } } localization_key = RN_IP_ERR_PARTY_SHORT_EMPTY }
 	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } check_variable = { rn_ip_status_field = 1 } check_variable = { rn_ip_status_why = 2 } } localization_key = RN_IP_ERR_PARTY_SHORT_LONG }
@@ -55,6 +57,8 @@ defined_text = {
 	name = RN_IP_STATUS
 	text = { trigger = { NOT = { has_variable = rn_ip_status_err } } localization_key = RN_IP_HINT }
 	text = { trigger = { check_variable = { rn_ip_status_err = 12 } } localization_key = RN_IP_ERR_NO_BRIDGE }
+	text = { trigger = { check_variable = { rn_ip_status_err = 13 } } localization_key = RN_IP_ERR_NO_COUNTER }
+	text = { trigger = { check_variable = { rn_ip_status_err = 14 } } localization_key = RN_IP_ERR_RENAME_LIMIT }
 	text = { trigger = { check_variable = { rn_ip_status_err = 11 } has_country_flag = rn_ip_leader_open } localization_key = RN_IP_ERR_CD_LEADER }
 	text = { trigger = { check_variable = { rn_ip_status_err = 11 } } localization_key = RN_IP_ERR_CD_COUNTRY }
 	text = { trigger = { check_variable = { rn_ip_status_err > 6 } } localization_key = RN_IP_ERR_STALE }

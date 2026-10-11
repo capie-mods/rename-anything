@@ -88,3 +88,5 @@
  RN_IP_ERR_PARTY_LONG_LONG:0 "§RFull name is too long: 32 characters at most.§!"
  RN_IP_ERR_PARTY_LONG_EMPTY:0 "§RFull name is empty. Type a name or press Cancel.§!"
  RN_IP_ERR_PARTY_LONG_CHAR:0 "§RFull name contains a character the game cannot show.§!"
+ RN_IP_ERR_NO_COUNTER:0 "§RMod version does not match CAPIE. Update the mod. Nothing was changed.§!"
+ RN_IP_ERR_RENAME_LIMIT:0 "§RLimit of 999 renames reached here in this campaign. Nothing was changed.§!"
