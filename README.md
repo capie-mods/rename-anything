@@ -1,157 +1,211 @@
-# Rename Anything (HOI4)
+# Rename Anything
 
-Mod z oknem do wpisywania nazw własnych postaci, stanów i miast (punktów zwycięstwa),
-z eksperymentalną wtyczką natywną do nazwy i przymiotnika kraju.
-Interfejs jest po polsku i angielsku; pozostałe języki gry dostają angielskie napisy.
+<img src="docs/assets/readme/badges.svg" alt="HOI4 1.19.3.0 only. Status: pre-release. Multiplayer: not supported. Built on CAPIE. License: MIT, planned." width="848">
 
-## Stan projektu
+**Click the pencil next to a name, type a new one, press Enter.** Rename Anything lets you rename
+your country, its leader, its parties, its states and its cities in Hearts of Iron IV, right in
+the panel where the name is shown. It works the way the game already lets you rename divisions,
+armies and fleets.
 
-- Poprawka nadpisywania decyzji przeszła niezależny test w grze. Pełny restart i wczytanie
-  zapisu zachowały nazwę kraju na mapie, w dyplomacji i tooltipie. Poprawiona lista miast
-  przeszła nowy test PL: własny Apply zmienił VP362 na „Nowy Gdańsk” na mapie i w panelu
-  prowincji. Nazwa przetrwała pełny restart i wczytanie własnego zapisu QA.
-  Przycisk przy panelu stanu poprawnie otworzył trzy miasta Gdyni.
-  Własny Apply lidera „Jan Żółć” jest widoczny w natywnym panelu polityki; lista postaci
-  pokazuje poprawne cele i zmienionego cywilnego „Adam QA”. Finalny zapis nadal jest sprawdzany.
-  Nie jest to gotowe wydanie. Szczegóły i granice
-  potwierdzenia są w [raporcie testów](docs/test-report.md) i [handoffie](docs/HANDOFF-20261011.md).
-- `mod/` zawiera implementację skryptową i `descriptor.mod`. Generator oraz kontrola referencji
-  przechodzą lokalnie; wynik bieżących testów w grze opisuje [raport testów](docs/test-report.md).
-- Próby na HOI4 1.19.3.0 potwierdziły przyjmowanie dowolnych literałów przez efekty zmiany nazw
-  postaci, stanów i prowincji oraz ich trwałość po zapisie i wczytaniu. To dowód mechanizmu;
-  pełny interfejs moda wymaga osobnej weryfikacji opisanej w raporcie.
-- **Nazwa i przymiotnik kraju wymagają wtyczki natywnej z `plugin/`.** Zakładka „Kraj” zapisuje
-  oba pola w tagu kosmetycznym gry. Bez załadowanej DLL tag pozostaje zapisany, ale gra
-  wyświetla oryginalną nazwę. Aktualny zakres potwierdzenia na żywo opisuje raport testów.
-  Postacie, stany i miasta korzystają z części skryptowej bez DLL.
-- Multiplayer nie został jeszcze potwierdzony na dwóch klientach. Nie traktuj tej wersji jako
-  wydania ze zweryfikowaną zgodnością MP.
-- Trwa wdrażanie edycji kraju, lidera i partii w ich panelach, na wzór zmiany nazwy
-  dywizji/armii/floty. Obecny interfejs nadal używa bufora ekranowego; osobny natywny
-  probe i konwerter tekstu nie oznaczają jeszcze gotowej edycji in-place.
-  [Zakres i kontrakty](docs/in-place-editing-plan.md).
+Built on CAPIE (Cyprian's API Extender), a small native library that gives HOI4 mods abilities
+the scripting language does not have.
 
-Dowody wcześniejszych prób: [probe 1](docs/stage0-probe-results.md),
-[probe 2](docs/stage0-probe2-results.md). Uzasadnienie ograniczenia nazw krajów i stan badań
-natywnych: [naming-internals.md](docs/naming-internals.md).
+> **Pre-release.** Nothing here is published on the Workshop yet. The features marked
+> "Works today" below were checked in the game on development builds. Multiplayer is not
+> supported.
 
-## Instalacja lokalna
+## Why
 
-1. Zachowaj cały katalog `mod/` z repozytorium, np.
-   `C:/Users/user/Documents/GitHub/hoi4-rename-anything/mod`.
-2. W swoim katalogu użytkownika HOI4 (`Documents/Paradox Interactive/Hearts of Iron IV/mod/`)
-   utwórz plik `rename_anything_dev.mod` z poniższą zawartością. Dostosuj ścieżkę bezwzględną;
-   musi wskazywać na **podkatalog `mod`** zawierający `common/`, `interface/` i `descriptor.mod`.
+HOI4 lets you name a division whatever you like, but your own country, its leader and its ruling
+party are stuck with whatever the game or a focus tree gives them. Existing Workshop mods get
+around this with decisions that pick from prepared lists of names. Rename Anything gives you a
+real text field instead: any name you can type, Polish letters included, saved in your campaign.
+
+## What works today
+
+Checked in the game on HOI4 1.19.3.0 (Windows, Steam), single player, on development builds.
+Details and limits for every row are in the [test report](docs/test-report.md).
+
+| Feature | Status | Notes |
+|---|---|---|
+| Your country's name and adjective | Works today | Needs CAPIE. Map, diplomacy, tooltips and events pick up the new name; decision titles keep their own text. |
+| Your country's leader | Works today | Pencil next to the portrait in the Politics panel. |
+| Ruling party, short and full name | Works today | Tested on the ruling party group. |
+| States and cities (victory points) | Works today | Scripts only, no CAPIE needed. |
+| Other characters (generals, admirals, advisers) | Works today | Through the scripted name editor, no CAPIE needed. |
+| Polish letters (ą ć ę ł ń ó ś ź ż) | Works today | Names with Polish letters apply and persist. Typing them into the field was checked on one keyboard layout. |
+| Names survive save, load and a full game restart | Works today | |
+| Enter applies the change | Works today | Same game command as clicking Apply. |
+| 5-day cooldown per object | Works today | The pencil greys out and its tooltip says when the next rename is possible. |
+| Leader and party name update without reopening Politics | In progress | Today the panel shows the new name after you close and reopen it. |
+| Esc closes the editor | In progress | Esc currently closes the Politics panel and leaves the editor on screen. |
+| All four party groups through tabs | In progress | Built; not yet checked in the game. |
+| Renaming a subject's names (as overlord) | In progress | Placeholder, hidden. |
+| Editors merged into the main mod | In progress | Merged into `mod/`; the merged build still needs its in-game check. |
+| Start through Steam launch options or a shortcut | In progress | Launcher built and reviewed, not yet tested end to end. |
+| One-line PowerShell installer, updates, uninstall | In progress | Script and offline tests exist; no release to install yet. |
+| CAPIE API for other mods | Planned | See [For modders](#for-modders-capie). |
+| Multiplayer handshake that refuses players without CAPIE | Planned | |
+| Main-menu line showing whether CAPIE is loaded | Planned | |
+| Multiplayer | Not supported | Never tested with two players. |
+| Achievements and ironman | Not supported | See [FAQ](#faq). |
+| Any game version other than 1.19.3.0 | Not supported | CAPIE stays off; scripts keep working. |
+
+## How it works
+
+<img src="docs/assets/readme/edit-in-place.svg" alt="Renaming a leader: click the pencil, type Jan Żółć into the game's own text field, press Enter. The name is sent as a game command and stored in the save." width="880">
+
+The mod is ordinary HOI4 script and interface files. It adds a pencil beside each name it can
+change. Clicking it opens the game's own text field (`editBoxType`) in that spot, prefilled with
+the current name. HOI4 scripts cannot read what you type into such a field, so CAPIE passes the
+text to the mod through the same game command a button click sends. From there the mod uses the
+game's own rename effects, and the result is written into your save like any other change.
+
+<img src="docs/assets/readme/architecture.svg" alt="Three layers: mod scripts on top, CAPIE in the middle, the unmodified game at the bottom. Country names and the text field bridge work today; a public API and a multiplayer handshake are planned." width="880">
+
+States, cities and characters need nothing beyond the scripts. Your country's name and adjective
+also need CAPIE: the game has no script effect that takes free text for a country, so CAPIE
+supplies the name and adjective when the game looks them up. The text itself is stored in the
+save, in the game's cosmetic tag. Without CAPIE the save still loads and the country shows its
+original name.
+
+<img src="docs/assets/readme/launch-chain.svg" alt="Planned launch chain: Steam Play or a shortcut starts the CAPIE launcher, which starts the Paradox Launcher with your playset. On version 1.19.3.0 CAPIE is loaded into that game only. On an unknown version the game starts without CAPIE." width="880">
+
+The planned way to start the game keeps your habits: you press Play in Steam (or use a desktop
+shortcut), pick your playset in the Paradox Launcher, and play with your other mods. The CAPIE
+launcher only adds one step in between, and loads CAPIE only into the game it started.
+
+## Safety
+
+- **No game files are changed.** Not `hoi4.exe`, not `steam_api64.dll`, nothing in the game
+  folder. CAPIE works in the game's memory while it runs and is gone when you close the game.
+- **No network.** CAPIE does not use the network. Current builds import only `KERNEL32` and
+  `bcrypt` (used for SHA-256 checks); no networking library is among their imports. The
+  installer script goes online only when you ask it to install or update.
+- **Pinned to one exact game build.** CAPIE checks the SHA-256 of `hoi4.exe` and the code it
+  hooks. If anything differs it refuses to start and the game runs without it.
+- **Fails closed.** Bad input (empty, too long, characters the game cannot show) is rejected and
+  nothing changes.
+- **Scanned before release.** Every published binary will be scanned on VirusTotal and the
+  results linked from the release notes. There is no release yet, so there are no links yet.
+- **Open source.** You can read and build everything in this repository.
+
+## Install
+
+### First release (coming)
+
+The plan: subscribe on the Steam Workshop, then run one PowerShell line that installs the CAPIE
+launcher and, if you agree, adds it to Steam's launch options or creates a shortcut. The command
+will be published with the first release. Until then there is nothing to install this way, and
+the installer refuses to run on purpose. Its design and options are in
+[tools/bootstrap/README.md](tools/bootstrap/README.md).
+
+### Today (development builds)
+
+For testers comfortable with a developer setup.
+
+1. Keep the whole `mod/` folder of this repository, for example
+   `C:/Users/you/Documents/GitHub/hoi4-rename-anything/mod`.
+2. In your HOI4 user folder (`Documents/Paradox Interactive/Hearts of Iron IV/mod/`) create
+   `rename_anything_dev.mod`. The `path` must point at the `mod` subfolder that contains
+   `common/`, `interface/` and `descriptor.mod`:
 
    ```text
    name="Rename Anything (dev)"
-   path="C:/Users/user/Documents/GitHub/hoi4-rename-anything/mod"
+   path="C:/Users/you/Documents/GitHub/hoi4-rename-anything/mod"
    version="0.1.0"
    supported_version="1.19.*"
    ```
 
-3. Dodaj mod do playsetu w launcherze i włącz go. Do odtwarzalnego testu wybierz tylko ten mod.
-   Zachowaj własny playset; instalacja nie wymaga podmiany `dlc_load.json` ani plików gry.
-4. Uruchom grę i kampanię. Przycisk „Zmień nazwy” / „Rename” jest w lewym górnym rogu.
+3. Add the mod to a playset in the Paradox Launcher. You do not need to change
+   `dlc_load.json` or any game file.
+4. For country names and the in-panel text fields, build CAPIE and load it into the running game
+   as described in [plugin/README.md](plugin/README.md). This is a manual developer step for now,
+   and it must be repeated every time the game starts. Current builds still use legacy file names
+   (`rename_anything_*.dll`, `rename_anything_injector.exe`); they will be renamed to CAPIE in a
+   separate step.
 
-## Wtyczka do nazw krajów
+`supported_version="1.19.*"` only quiets the launcher's warning. It does not mean other 1.19
+patches were tested.
 
-Źródła, instrukcja budowania oraz użycia są w [plugin/README.md](plugin/README.md).
-Wtyczka jest przeznaczona wyłącznie dla przypiętego Windows/Steam HOI4 **1.19.3.0**,
-SHA-256 `7DC947BE34970DA1E1C787BCDDBE7F62B610FF258AEBF8F06AA8B348F3A031D5`.
-Injector odmawia pracy z innym EXE. Pliki gry i istniejący `steam_api64.dll` nie są podmieniane.
+## Roadmap
 
-Uruchom grę z modem, a następnie załaduj zbudowaną DLL do właściwego procesu przez
-`rename_anything_injector.exe PID ABSOLUTNA_ŚCIEŻKA_DLL`. W zakładce „Kraj” sprawdź napis
-**DLL: ACTIVE (RN1)**, wpisz nazwę i przymiotnik, następnie kliknij „Zastosuj”. Oba pola są
-wymagane. Napis „Tekst zapisany” potwierdza jedynie zapisanie danych; sprawdź faktyczną nazwę
-w grze. **INACTIVE / NIEAKTYWNA oznacza, że zmiana nazwy kraju nie będzie wyświetlana.**
+1. Check the merged editors in the game with CAPIE loaded, including the instant caption refresh.
+2. Rename the binaries to CAPIE (`capie_*.dll`) with new hashes and reviews.
+3. A versioned contract between CAPIE and the mods that use it; Rename Anything pins a CAPIE
+   version.
+4. Split the repository in two, keeping history: CAPIE (native library, launcher, installer) and
+   Rename Anything (mod and tools). The design system in [docs/design/](docs/design/) is shared.
+5. First public release: Workshop item, signed release files, VirusTotal links.
+6. Multiplayer testing with two players.
 
-DLL trzeba ponownie załadować po każdym uruchomieniu gry, także przed sprawdzaniem zapisu
-z własną nazwą kraju. Nie odłączaj DLL od działającego procesu; zakończ grę, aby ją usunąć.
-Nazwa i przymiotnik są przechowywane w zapisie jako tag kosmetyczny, a nie w pliku lokalizacji.
-„Przywróć oryginalną nazwę” usuwa bieżący tag; **nie odtwarza wcześniejszego tagu kosmetycznego**
-nadawanego np. wydarzeniem lub innym modem.
+## For modders: CAPIE
 
-Przymiotnik jest dostępny w tekstach gry odwołujących się do `GetAdjective`.
-Istniejące dosłowne nazwy dywizji, szablonów i partii nie są z niego tworzone:
-vanilla POL używa m.in. `Dywizja Piechoty` i `Sanacja`. Mod nie przepisuje tych tekstów.
-Nazwy jednostek i szablonów można zmienić osobno w standardowym interfejsie gry;
-edycja nazw partii jest osobnym nowym zakresem, obecnie w trakcie weryfikacji.
-Ten zakres DoD pozostaje ograniczony.
+> **Planned.** None of this exists yet. The names and syntax below are a proposal and will change.
 
-## Obsługa
+CAPIE is meant to become a shared library any HOI4 mod can build on. The first goal is to expose
+what Rename Anything already does inside the game: free text names for countries, leaders and
+parties, plus a reliable way for a mod to know whether CAPIE is loaded and which version it is.
 
-- **Postacie:** wybierz własną postać na liście i kliknij „Zmień”. Lista odświeża się po otwarciu
-  okna lub zmianie zakładki, a strony mieszczą po 10 pozycji. Zakładka „Kraj” ma też skrót do przywódcy.
-- **Stany:** wybierz własny stan i „Zmień”. „Przywróć” usuwa nadpisanie nazwy. Przyciski są też
-  w panelu zaznaczonego własnego stanu na mapie.
-- **Miasta:** w zakładce „Stany” kliknij „Miasta” obok wybranego stanu albo użyj „Miasta”
-  w panelu Rename Anything przy otwartym widoku własnego stanu na mapie. Samo kliknięcie
-  mapy nie przełącza listy miast. Następnie zmień nazwę wybranego punktu zwycięstwa.
-  Lista pokazuje oryginalne nazwy z lokalizacji, także po zmianie. „Przywróć” usuwa
-  nadpisanie nazwy prowincji. Zwykła podpowiedź terenu pokazuje nazwę stanu, nie nazwę miasta.
-- **Kraj:** wpisz osobno nazwę i przymiotnik, zatwierdź oba pola i kliknij „Zastosuj”. Wymaga
-  aktywnej wtyczki opisanej powyżej. Limit 32 znaków dotyczy każdego pola osobno.
-- Pole przyjmuje do **32 znaków**: A–Z / a–z, cyfry, spację, `-`, `.`, apostrof oraz
-  `ąćęłńóśźż` i ich wielkie odpowiedniki. Litery, Shift+litera, cyfry, `-`, `.`, Backspace,
-  Enter i spacja mają skróty; można też klikać klawiaturę ekranową. Polskie litery i apostrof
-  wpisuje się przyciskami; przełącznik wielkich liter obejmuje polskie znaki.
-- Skróty gry pozostają aktywne podczas wpisywania: spacja również pauzuje/wznawia grę,
-  a inne klawisze mogą otwierać panele gry. W razie kolizji użyj przycisków ekranowych.
-- „Anuluj” odrzuca bufor. Zmiana postaci nie ma przycisku przywracania; wpisz wcześniejsze imię
-  lub wczytaj wcześniejszy zapis. Nazwy ustawione przez efekty są częścią zapisu gry.
+Illustrative only, **proposed syntax, subject to change**:
 
-Polskie znaki działają w efektach nazw i w przetestowanych miejscach interfejsu przy języku
-angielskim. Pełna czytelność wszystkich fontów i etykiet pozostaje punktem kontroli raportu;
-AltGr nie jest wejściem tekstowym tej klawiatury skryptowej.
+```text
+# Proposed syntax, subject to change. Nothing below works today.
+my_mod_rename_country = {
+    if = {
+        limit = { capie_loaded = { min_version = 1.0 } }
+        set_custom_country_name = {
+            name = "Nowa Polska"
+            adjective = "nowopolski"
+        }
+    }
+}
+```
 
-## Multiplayer, ironman i zgodność
+What is decided so far ([API decisions](docs/API-DECISIONS.md)):
 
-Logika wpisywania oraz zmiany nazw jest wykonywana przez efekty przycisków scripted GUI.
-Bufory należą do krajów, a tablice kodów znaków mają identyczną zawartość we wszystkich
-lokalizacjach. To założenie synchronizacji, **nie wynik testu MP**. Gracze kooperacyjni tego
-samego kraju współdzielą bufor. Do weryfikacji potrzebne są dwa klienty z identyczną wersją
-moda i zestawem modów, kontrola nazw u obu graczy, zapis/wczytanie i obserwacja OOS.
-Przy zmianach kraju **każdy proces gry musi mieć tę samą aktywną DLL**; zwykła zgodność checksum
-modów nie dowodzi załadowania ani zgodności wtyczki. Procedurę i blokady testu na jednej maszynie
-opisuje [plan MP](docs/mp-test-plan.md).
+- Both new script keywords and a variable-based protocol, whichever proves more stable across
+  game patches.
+- Every mod built on CAPIE ships a small snippet that shows a discreet main-menu line when the mod
+  is enabled but CAPIE is missing.
+- Versioned API with safe fallback for mods by other authors; data from other mods is validated.
+- In multiplayer, CAPIE would check the other players and refuse those without it or with an
+  incompatible version.
+- Players rename only their own country's things. Exceptions: the host, and an overlord whose
+  subject is another player.
 
-Mod zmienia pliki `common/`, więc zmienia checksum gry. Nie jest zgodny z osiągnięciami
-wymagającymi niezmienionej checksumy. Obsługi ironman nie zweryfikowano; do testów używaj
-kampanii bez ironman i kopii zapisu.
+## FAQ
 
-Badana wersja gry to **Windows / Steam, HOI4 1.19.3.0**. Deklaracja `supported_version="1.19.*"`
-w deskryptorze ogranicza ostrzeżenia launchera; nie stanowi dowodu działania na innych patchach.
-Tabela miast pochodzi z vanilli 1.19.3 (955 stanów z VP, 1500 punktów). Mody zmieniające mapę,
-ID stanów/prowincji lub dodające VP wymagają regeneracji tabel i ponownego testu. VP dodane
-w trakcie kampanii nie pojawią się automatycznie. Bieżąca część `mod/` nie obejmuje jeszcze
-edycji nazw partii politycznych; nowe pole i efekty partii są badane w odrębnym probe.
+**Does it work in multiplayer?**
+No. It has never been tested with two players, so it is not supported. Script-only renames are
+designed to travel as normal game commands, but that is a design goal, not a test result. Remove
+CAPIE from Steam's launch options before you play multiplayer.
 
-## Odinstalowanie
+**Can I still get achievements?**
+No. Any mod that changes files under `common/` changes the game's checksum, and achievements need
+an unmodified checksum. Ironman was not tested.
 
-Wyłącz mod w playsecie i usuń `rename_anything_dev.mod` oraz kopię jego katalogu, jeżeli była
-utworzona wyłącznie dla niego. Pliki instalacji gry nie są zmieniane. Nazwy postaci, stanów i miast
-zapisane w kampanii mogą pozostać po wyłączeniu moda; odinstalowanie nie jest ich cofnięciem.
-Przed odinstalowaniem przywróć nazwy stanów/miast w UI albo zachowaj wcześniejszy zapis.
-Zmienne moda mogą pozostać w istniejącym zapisie. Kontynuację bez moda trzeba sprawdzić na kopii.
-Wtyczkę usuń dopiero po zamknięciu gry. Zapisany tag kraju bez DLL wraca wizualnie do nazwy
-oryginalnej, ale nadal jest częścią zapisu; aby go usunąć, przed odinstalowaniem użyj resetu kraju.
+**My antivirus complains.**
+CAPIE loads itself into the game process, which is what some malware does too, so heuristic
+warnings are possible. Every released binary will be scanned on VirusTotal and the results linked
+from the release notes. The source is here; you can build it yourself.
 
-## Steam Workshop
+**What happens after a game update?**
+CAPIE is pinned to the exact HOI4 1.19.3.0 executable. After a patch the launcher starts the game
+without CAPIE and tells you why. States, cities and characters still work through scripts; a
+custom country name shows as the original until a CAPIE update ships for the new version.
 
-`mod/` jest katalogiem zawartości zwykłego moda skryptowego. Repozytorium nie zawiera
-opublikowanego identyfikatora Workshop; publikacja wymaga osobnego przesłania przez launcher.
-Steam Workshop jako platforma może dystrybuować pliki DLL, ale przyjmowanie ich przez uploader
-HOI4 nie zostało przetestowane. Sama subskrypcja nie ładuje obecnej DLL z `plugin/` do gry;
-ten komponent wymaga osobnego uruchomienia injectora. Szczegóły i granice ustaleń opisuje
-[research dystrybucji natywnej przez Workshop](docs/workshop-native-research.md).
+**How do I uninstall?**
+Disable the mod in your playset and delete `rename_anything_dev.mod` (and the copied folder, if
+you made one). Close the game to unload CAPIE. Nothing in the game folder needs repairing. Names
+you set stay in the saves you made. To drop a custom country name from a save, use the reset in
+the game before you uninstall. Continuing an old save without the mod was not tested; try it on a
+copy.
 
-Sprawdzony [hoi4-globe-prototype](docs/globe-reference-assessment.md) pokazuje przydatny
-wzorzec osobnego launchera dla tej samej wersji gry. Taki launcher mógłby ograniczyć
-obsługę do skrótu „Uruchom z Rename Anything”, zachowując zwykły playset i zapisy.
-Nie jest jeszcze zaimplementowany; repo referencyjne także wymaga uruchomienia
-zewnętrznego programu i nie zapewnia ładowania DLL przez sam Workshop.
+**Does it work with other mods?**
+It should work with mods that leave the Politics panel and state view alone. Mods that replace
+`countrypoliticsview.gui` or the same scripted GUIs can conflict. Mods that change the map, state
+or province IDs, or add victory points need the city tables regenerated (see Development).
 
 ## Development
 
@@ -160,16 +214,16 @@ python tools/gen.py
 python tools/check.py
 ```
 
-Generator czyta instalację gry bez jej modyfikowania; inną ścieżkę podaj przez
-`python tools/gen.py --game "D:/Steam/steamapps/common/Hearts of Iron IV"` i
-`python tools/check.py "D:/Steam/steamapps/common/Hearts of Iron IV"`.
-Edytuj generator, nie pliki oznaczone `GENERATED`. `tools/check.py` sprawdza referencje, strukturę
-oraz lokalizacje; nie zastępuje parsera gry, testu zapisu/wczytania ani testu multiplayer.
+The generator reads the game installation without changing it. For another location use
+`python tools/gen.py --game "D:/Steam/steamapps/common/Hearts of Iron IV"` and
+`python tools/check.py "D:/Steam/steamapps/common/Hearts of Iron IV"`. Edit the generator, not
+files marked `GENERATED`. `tools/check.py` checks references, structure and localisation; it
+does not replace the game's parser, a save and load test or a multiplayer test.
 
-### Lint i typy skryptów Python
+### Lint and types for the Python tools
 
-Konfiguracja jest w `pyproject.toml` (ruff `select = ["ALL"]`, ty ze wszystkimi regułami
-jako błędy). Narzędzia instaluje `uv` jako zależności deweloperskie:
+Configured in `pyproject.toml` (ruff with `select = ["ALL"]`, ty with every rule as an error).
+`uv` installs the tools as development dependencies:
 
 ```powershell
 uv sync
@@ -179,29 +233,44 @@ uv run ty check
 uv run python tools/check_constant_docstrings.py
 ```
 
-Ostatnie polecenie wymaga docstringu pod każdą stałą `UPPER_CASE` na poziomie modułu, czego
-ruff nie sprawdza. Wykluczenia (archiwalne `docs/evidence/`, przypięte narzędzia
-`probes/rn_inline_pair_qa/tools/` i pliki w trakcie pracy innych agentów) są opisane w
-`pyproject.toml`. Same skrypty nadal uruchamia się zwykłym `python`, jak wyżej.
+The last command requires a docstring under every module-level `UPPER_CASE` constant, which ruff
+does not check. Exclusions (archived `docs/evidence/`, pinned tools in
+`probes/rn_inline_pair_qa/tools/`, files other agents are working on) are listed in
+`pyproject.toml`. The scripts themselves still run with plain `python`, as above.
 
-Tymczasowe logi city Apply i `debug = yes` usunięto po potwierdzeniu właściwego celu
-i efektu w grze. Dowody diagnostyki zachowano w raporcie testów. Lista miast nadal
-pokazuje oryginalne nazwy z lokalizacji.
+### Test session helper
 
-Skrót Backspace pozostaje aktywny. Mod dostarcza brakującą w vanilli ikonę `GFX_BACKSPACE`
-dla automatycznej podpowiedzi skrótu, która wcześniej dodawała błąd `Couldnt find texticon: BACKSPACE`.
-Poprawka renderowania podpowiedzi wymaga ponownej kontroli logu po uruchomieniu gry.
+`tools/test-session.ps1 -Action Begin -Language polish` prepares a local 1720x900 test session;
+`-Action Restore` puts the originals back after checking their SHA-256. The game must be closed.
+It backs up `dlc_load.json`, `settings.txt` and, when present, `pdx_settings.txt` (newer game
+builds rebuild the legacy settings from it, so language, window size and windowed mode must be set
+in both). Restore also handles older manifests with only two files. Use a temporary
+`-UserDirectory` when trying the helper; never run it against your live profile while the game
+runs. A repeatable test of both formats and the older manifest:
+`powershell.exe -NoProfile -File tools/tests/test-session-fixture.ps1` (uses a fresh TEMP folder
+only and leaves its result there).
 
-`tools/test-session.ps1 -Action Begin -Language polish` przygotowuje lokalną sesję testową
-1720×900; `-Action Restore` przywraca oryginały po ich weryfikacji SHA-256. Helper wymaga
-zamkniętej gry. Zabezpiecza `dlc_load.json`, `settings.txt` i — jeśli istnieje —
-`pdx_settings.txt`: nowsza gra odtwarza ustawienia legacy z tego drugiego formatu, więc
-język, rozdzielczość okna i tryb okienkowy trzeba ustawić w obu. Restore obsługuje również
-starsze manifesty obejmujące tylko dwa pliki. Do prób helpera używaj tymczasowego
-`-UserDirectory`; nie uruchamiaj go na bieżącej konfiguracji podczas pracy gry.
-Powtarzalny test obu formatów i starszego manifestu uruchomisz przy zamkniętej grze poleceniem
-`powershell.exe -NoProfile -File tools/tests/test-session-fixture.ps1`; używa wyłącznie nowego
-katalogu TEMP i pozostawia tam wynik do wglądu.
+### Layout
 
-Struktura: `mod/` — mod skryptowy; `plugin/` — badania komponentu natywnego; `probes/` —
-osobne mody eksperymentalne; `docs/` — dowody i raporty; `tools/` — generator i kontrola statyczna.
+`mod/` is the scripted mod; `plugin/` holds CAPIE sources, the launcher and research probes;
+`probes/` holds separate experimental mods; `tools/` the generator, checks and installer; `docs/`
+evidence and reports; [`docs/design/`](docs/design/DESIGN-SYSTEM.md) the shared design system and
+tokens that the README diagrams are drawn from.
+
+Background reading: [naming internals](docs/naming-internals.md),
+[in-place editing plan](docs/in-place-editing-plan.md), [multiplayer test plan](docs/mp-test-plan.md),
+[Workshop and native code](docs/workshop-native-research.md),
+[distribution decisions](docs/DISTRIBUTION-DECISIONS.md).
+
+## License
+
+The intended license is MIT. It is not in place yet: until a `LICENSE` file is added, all rights
+are reserved.
+
+## Credits
+
+CAPIE uses [MinHook](https://github.com/TsudaKageyu/minhook) by Tsuda Kageyu, under the BSD
+2-Clause license; see [plugin/LICENSE.MinHook.txt](plugin/LICENSE.MinHook.txt).
+
+Hearts of Iron IV is a trademark of Paradox Interactive. This project is not affiliated with or
+endorsed by Paradox Interactive.
