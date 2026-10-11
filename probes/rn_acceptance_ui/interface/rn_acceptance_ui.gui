@@ -1,0 +1,31 @@
+guiTypes = {
+	containerWindowType = {
+		name = "rn_acceptance_window"
+		orientation = upper_right
+		position = { x = -260 y = 140 }
+		size = { width = 240 height = 88 }
+		clipping = no
+		background = {
+			name = "rn_acceptance_bg"
+			quadTextureSprite = "GFX_tiled_window_2b_border"
+		}
+		instantTextBoxType = {
+			name = "rn_acceptance_title"
+			position = { x = 10 y = 9 }
+			font = "hoi_16mbs"
+			text = "RN_ACC_TITLE"
+			maxWidth = 220
+			maxHeight = 24
+			fixedsize = yes
+		}
+		buttonType = {
+			name = "rn_acceptance_news350"
+			position = { x = 10 y = 40 }
+			spriteType = "GFX_button_221x34"
+			buttonText = "RN_ACC_NEWS350"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_ACC_NEWS350_TT"
+			clicksound = click_default
+		}
+	}
+}

@@ -9,7 +9,8 @@ Interfejs jest po polsku i angielsku; pozostałe języki gry dostają angielskie
 - Poprawka nadpisywania decyzji przeszła niezależny test w grze. Pełny restart i wczytanie
   zapisu zachowały nazwę kraju na mapie, w dyplomacji i tooltipie. Poprawiona lista miast
   przeszła nowy test PL: własny Apply zmienił VP362 na „Nowy Gdańsk” na mapie i w panelu
-  prowincji. Przycisk przy panelu stanu poprawnie otworzył trzy miasta Gdyni.
+  prowincji. Nazwa przetrwała pełny restart i wczytanie własnego zapisu QA.
+  Przycisk przy panelu stanu poprawnie otworzył trzy miasta Gdyni.
   Weryfikacja lidera i finalnego zapisu nadal trwa. Nie jest to gotowe wydanie. Szczegóły i granice
   potwierdzenia są w [raporcie testów](docs/test-report.md) i [handoffie](docs/HANDOFF-20261011.md).
 - `mod/` zawiera implementację skryptową i `descriptor.mod`. Generator oraz kontrola referencji

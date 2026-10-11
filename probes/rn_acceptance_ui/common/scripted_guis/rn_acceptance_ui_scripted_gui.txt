@@ -1,0 +1,14 @@
+# Separate, opt-in QA fixture. Does not redefine the vanilla news event.
+scripted_gui = {
+	rn_acceptance_gui = {
+		context_type = player_context
+		window_name = "rn_acceptance_window"
+		visible = { always = yes }
+		ai_enabled = { always = no }
+		effects = {
+			rn_acceptance_news350_click = {
+				ROOT = { news_event = { id = news.350 } }
+			}
+		}
+	}
+}

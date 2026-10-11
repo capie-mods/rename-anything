@@ -1,0 +1,43 @@
+{
+  "status": "static checks PASS; not enabled or tested at runtime",
+  "button_count": 1,
+  "locales": [
+    "english",
+    "polish"
+  ],
+  "original_event": "news.350",
+  "event_type": "news_event",
+  "event_option_count": 3,
+  "event_has_immediate": false,
+  "event_assignment_keys": [
+    "NOT",
+    "desc",
+    "has_government",
+    "id",
+    "is_triggered_only",
+    "major",
+    "name",
+    "news_event",
+    "option",
+    "original_tag",
+    "picture",
+    "title",
+    "trigger"
+  ],
+  "name_accessor": "ROOT.GetNameDef (not plain GetName)",
+  "description_accessors": [
+    "ROOT.Capital.GetCapitalVictoryPointName",
+    "ROOT.GetAdjective",
+    "ROOT.GetLeader",
+    "ROOT.GetRulingIdeology"
+  ],
+  "vanilla_event_block_sha256": "9477283A519DB575EF5C57B9929D15B4D44311BD14C3831DECBF5C90790BBB43",
+  "fixture_sha256": {
+    "common\\scripted_guis\\rn_acceptance_ui_scripted_gui.txt": "A992FCFD334A121AEE8B59F0455F4CB254AF1E8FDCBA29E3FA9C1576A58FB548",
+    "descriptor.mod": "2E971F3FFE2980D062D4C724AFB9DC4BC0FC5D2D30A123A9F1E1DBF7E0037AE1",
+    "interface\\rn_acceptance_ui.gui": "225DD1DDD254268BD066C01C54326975F8EA258F26ED6F949E15EB95A7A5AE1F",
+    "localisation\\english\\rn_acceptance_ui_l_english.yml": "D716DF5DB4A8F11E67238AAF78F2F08751618AF00ADAD08312E825C645431B5B",
+    "localisation\\polish\\rn_acceptance_ui_l_polish.yml": "D5863A801F361E5687D9EE2217EE12804B96E96F64A471B26B3D7EBBF9F0C7B4",
+    "README.md": "84C260B2A640938125C947954DCD4E9CB57A52BE02ADD051B75560F274658B67"
+  }
+}
