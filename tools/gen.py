@@ -41,7 +41,8 @@ touched:
 * ``common/scripted_guis/rename_anything_scripted_gui.txt``: one scripted GUI
   per main tab (a child container's own ``_visible`` trigger
   did not work in 1.19.3, so each tab is a separate window), the input window
-  with every keyboard button, and the panel in the state view.
+  with every keyboard button, and the panel in the state view. The tab and
+  input windows update only when ``rn_gui_dirty`` changes; every click bumps it.
 * ``interface/rename_anything.gui`` and ``interface/rename_anything.gfx``: the
   window layout and sprite definitions that match those scripted GUIs.
 * ``gfx/interface/rename_anything/*.tga``: six small 32-bit TGA textures drawn
@@ -56,6 +57,9 @@ touched:
 * ``common/scripted_triggers/rename_anything_generated_triggers.txt``: the state
   and city rename cooldown triggers and ``rn_editor_bridge_available``, the gate
   for every in-place editor window.
+* ``common/on_actions/rename_anything_on_actions.txt``: the daily bump of the
+  legacy windows' refresh gate (``dirty = rn_gui_dirty``) while a human
+  player's editor is open.
 * The in-place editor: every file of ``tools/inline_editor/`` is copied to the
   same relative path (country, leader and party editors, the party tabs, the
   rename cooldown, the status line, the decision that opens the Characters tab
