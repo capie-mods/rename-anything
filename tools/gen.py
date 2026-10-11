@@ -35,8 +35,8 @@ touched:
   literal state ID and its VP provinces on the player country), and the
   ``meta_effect`` based ``rn_apply_input``, ``rn_reset_vp`` and
   ``rn_apply_country_name`` effects.
-* ``common/scripted_guis/rename_anything_scripted_gui.txt``: the entry button,
-  one scripted GUI per main tab (a child container's own ``_visible`` trigger
+* ``common/scripted_guis/rename_anything_scripted_gui.txt``: one scripted GUI
+  per main tab (a child container's own ``_visible`` trigger
   did not work in 1.19.3, so each tab is a separate window), the input window
   with every keyboard button, and the panel in the state view.
 * ``interface/rename_anything.gui`` and ``interface/rename_anything.gfx``: the
@@ -50,6 +50,22 @@ touched:
   table and the other key-to-scripted-loc indirections. These files are the
   same in every language (apart from the header) because multiplayer clients
   with different game languages must build identical names.
+
+* ``common/scripted_triggers/rename_anything_generated_triggers.txt``: the state
+  and city rename cooldown triggers and ``rn_editor_bridge_available``, the gate
+  for every in-place editor window.
+* The in-place editor: every file of ``tools/inline_editor/`` is copied to the
+  same relative path (country, leader and party editors, the party tabs, the
+  rename cooldown, the status line, the decision that opens the Characters tab
+  and a hidden placeholder for subjects). Script and GUI files get a header and
+  the cooldown length; localisation goes to every language (Polish from the
+  Polish source, the rest from English).
+
+Rename cooldown. One constant, ``COOLDOWN_DAYS``, sets the cooldown for every
+rename type: country name and adjective, leader, parties (one shared cooldown),
+states and cities (one per player country and category). It starts only after a
+successful rename. The legacy editor checks the same cooldowns, so it cannot be
+used to get around them.
 
 The hand-written files are never touched. They are
 ``common/scripted_effects/rename_anything_effects.txt``,
@@ -93,6 +109,20 @@ DEFAULT_GAME = r"C:\Program Files (x86)\Steam\steamapps\common\Hearts of Iron IV
 
 MAXLEN = 32
 """Maximum number of characters in one name buffer."""
+
+COOLDOWN_DAYS = 5
+"""Rename cooldown in game days, the single source for every rename type.
+
+It is written into the state/city cooldown effect ``rn_cd_days`` and substituted for
+the ``@RN_COOLDOWN_DAYS@`` token in the in-place editor source (``rn_ip_cooldown_days``).
+"""
+
+INLINE_SRC = ROOT_DIR / "tools" / "inline_editor"
+"""Source of the in-place editor, copied to the same relative paths under ``mod/``.
+
+Model, window, field, carrier and selector names in it are the native bridge contract
+and must stay byte-identical.
+"""
 
 VP_SLOTS = 5
 """Number of victory point rows the Cities tab can show for one state."""
@@ -190,17 +220,6 @@ def slots_expr(prefix: str) -> str:
 # ----------------------------------------------------------------------------- UI strings
 UI = {
     # Each value holds the English text first, then the Polish text.
-    "RN_ENTRY_BTN": ("Rename", "Zmień nazwy"),
-    "RN_ENTRY_BTN_TT": (
-        (
-            "Open §YRename Anything§!: rename characters, states and cities. "
-            "Country renaming needs the native plugin."
-        ),
-        (
-            "Otwórz §YRename Anything§!: zmień nazwy postaci, stanów i miast. "
-            "Nazwa kraju wymaga wtyczki natywnej."
-        ),
-    ),
     # The en dash below is part of the displayed Polish title (RUF001 suppressed).
     "RN_MAIN_TITLE": ("Rename Anything", "Rename Anything – zmiana nazw"),  # noqa: RUF001
     "RN_TAB_1": ("Country", "Kraj"),
@@ -225,12 +244,12 @@ UI = {
     "RN_BTN_COUNTRY_RESET": ("Original name", "Przywróć oryginalną nazwę"),
     "RN_COUNTRY_APPLY_TT": (
         (
-            "Stores the name and adjective. Load the native plugin first; "
-            "without it the displayed country name stays unchanged."
+            "Requires the Rename Anything extension (launcher). Without it the name "
+            "is stored but the displayed country name stays unchanged."
         ),
         (
-            "Zapisuje nazwę i przymiotnik. Najpierw załaduj wtyczkę natywną; "
-            "bez niej wyświetlana nazwa kraju pozostanie bez zmian."
+            "Wymaga rozszerzenia Rename Anything (launcher). Bez niego nazwa zostanie "
+            "zapisana, ale wyświetlana nazwa kraju się nie zmieni."
         ),
     ),
     "RN_COUNTRY_RESET_TT": (
@@ -239,13 +258,13 @@ UI = {
     ),
     "RN_COUNTRY_NOTE": (
         (
-            "Country names require the native plugin in every game process. "
-            "Without it, Apply stores text but leaves the displayed name unchanged. "
+            "Country names require the Rename Anything extension (launcher) in every game "
+            "session. Without it, Apply stores text but the displayed name stays unchanged. "
             "Reset removes the cosmetic tag."
         ),
         (
-            "Nazwa kraju wymaga wtyczki natywnej w każdym procesie gry. "
-            "Bez niej Zastosuj zapisuje tekst, lecz nie zmienia wyświetlanej nazwy. "
+            "Nazwa kraju wymaga rozszerzenia Rename Anything (launcher) w każdej sesji gry. "
+            "Bez niego Zastosuj zapisuje tekst, ale wyświetlana nazwa się nie zmienia. "
             "Reset usuwa tag kosmetyczny."
         ),
     ),
@@ -332,6 +351,17 @@ UI = {
     "RN_SV_RENAME": ("Rename state", "Zmień nazwę"),
     "RN_SV_CITIES": ("Cities", "Miasta"),
     "RN_SV_RESET": ("Reset", "Przywróć"),
+    # rename cooldown (states and cities); {days} is replaced by COOLDOWN_DAYS in gen_ui_loc
+    "RN_CD_STATE_TT": ("[ROOT.RN_CD_STATE_LEFT]", "[ROOT.RN_CD_STATE_LEFT]"),
+    "RN_CD_VP_TT": ("[ROOT.RN_CD_VP_LEFT]", "[ROOT.RN_CD_VP_LEFT]"),
+    "RN_CD_STATE_READY": (
+        "You can rename one state every {days} days.",
+        "Nazwę stanu można zmieniać raz na {days} dni.",
+    ),
+    "RN_CD_VP_READY": (
+        "You can rename one city every {days} days.",
+        "Nazwę miasta można zmieniać raz na {days} dni.",
+    ),
 }
 """UI localisation key to (English text, Polish text); other languages use English."""
 
@@ -601,16 +631,27 @@ rn_apply_input = {{
 			for_each_scope_loop = {{
 				array = rn_tchar
 				if = {{
-					limit = {{ is_in_array = {{ array = ROOT.rn_chars_all value = THIS }} }}
+					limit = {{
+						is_in_array = {{ array = ROOT.rn_chars_all value = THIS }}
+						# The country leader shares the in-place editor cooldown (no legacy bypass).
+						OR = {{
+							NOT = {{ is_country_leader = yes }}
+							ROOT = {{ NOT = {{ rn_ip_cooldown_active_leader = yes }} }}
+						}}
+					}}
 					meta_effect = {{
 						text = {{ set_character_name = "[N]" }}
 						N = "{n_expr}"
+					}}
+					if = {{
+						limit = {{ is_country_leader = yes }}
+						ROOT = {{ rn_ip_cooldown_start_leader = yes }}
 					}}
 				}}
 			}}
 		}}
 		else_if = {{
-			limit = {{ check_variable = {{ rn_ttype = 2 }} }}
+			limit = {{ check_variable = {{ rn_ttype = 2 }} NOT = {{ rn_cd_state_active = yes }} }}
 			for_each_scope_loop = {{
 				array = rn_tstate
 				if = {{
@@ -619,11 +660,12 @@ rn_apply_input = {{
 						text = {{ set_state_name = "[N]" }}
 						N = "{n_expr}"
 					}}
+					ROOT = {{ rn_cd_state_start = yes }}
 				}}
 			}}
 		}}
 		else_if = {{
-			limit = {{ check_variable = {{ rn_ttype = 3 }} check_variable = {{ rn_tprov > 0 }} }}
+			limit = {{ check_variable = {{ rn_ttype = 3 }} check_variable = {{ rn_tprov > 0 }} NOT = {{ rn_cd_vp_active = yes }} }}
 			for_each_scope_loop = {{
 				array = rn_tstate
 				if = {{
@@ -633,6 +675,7 @@ rn_apply_input = {{
 						P = "{p_expr}"
 						N = "{n_expr}"
 					}}
+					ROOT = {{ rn_cd_vp_start = yes }}
 				}}
 			}}
 		}}
@@ -646,6 +689,21 @@ rn_apply_input = {{
 		}}
 	}}
 	rn_cancel_input = yes
+}}
+
+# Rename cooldown (states, cities): COUNTRY scope, one per category, started only after a setter ran.
+rn_cd_days = {{
+	set_temp_variable = {{ rn_cd_days = {COOLDOWN_DAYS} }}
+}}
+rn_cd_state_start = {{
+	rn_cd_days = yes
+	set_variable = {{ rn_cd_state_until = global.num_days }}
+	add_to_variable = {{ rn_cd_state_until = temp_var:rn_cd_days }}
+}}
+rn_cd_vp_start = {{
+	rn_cd_days = yes
+	set_variable = {{ rn_cd_vp_until = global.num_days }}
+	add_to_variable = {{ rn_cd_vp_until = temp_var:rn_cd_days }}
 }}
 
 # Reset a city (VP province) name by clearing the override. This also works for VPs without a loc key.
@@ -860,7 +918,21 @@ def gen_main_scripted_guis(vp_effects: str, vp_triggers: str) -> str:
         "country": """			rn_leader_rename_click = { rn_target_leader = yes }
 			rn_cname_edit_click = { set_variable = { rn_ttype = 4 } rn_open_input = yes }
 			rn_cadj_edit_click = { set_variable = { rn_ttype = 5 } rn_open_input = yes }
-			rn_country_apply_click = { rn_apply_country_name = yes }
+			rn_country_apply_click = {
+				# The cooldown starts only in the same branch as the setter (its limit repeats the
+				# rn_apply_country_name limit). Without the editor bridge the button does nothing.
+				if = {
+					limit = {
+						rn_editor_bridge_available = yes
+						NOT = { rn_ip_cooldown_active_country = yes }
+						rn_country_rename_enabled = yes
+						check_variable = { rn_cname_len > 0 }
+						check_variable = { rn_cadj_len > 0 }
+					}
+					rn_apply_country_name = yes
+					rn_ip_cooldown_start_country = yes
+				}
+			}
 			rn_country_reset_click = { rn_reset_country_name = yes }
 """,
         "chars": """			rn_char_rename_click = { var:rn_row_character = { ROOT = { rn_target_character = yes } } }
@@ -892,19 +964,24 @@ def gen_main_scripted_guis(vp_effects: str, vp_triggers: str) -> str:
         "cities": vp_effects,
     }
     triggers = {
-        "country": """			rn_country_apply_click_enabled = {
+        "country": """			rn_leader_rename_click_enabled = { NOT = { rn_ip_cooldown_active_leader = yes } }
+			rn_country_apply_click_enabled = {
+				rn_editor_bridge_available = yes
+				NOT = { rn_ip_cooldown_active_country = yes }
 				rn_country_rename_enabled = yes
 				check_variable = { rn_cname_len > 0 }
 				check_variable = { rn_cadj_len > 0 }
 			}
 			rn_country_reset_click_enabled = { has_country_flag = rn_custom_name }
-""",
-        "chars": """			rn_cpage_prev_click_enabled = { check_variable = { rn_cpage > 0 } }
+""",  # noqa: E501
+        "chars": """			rn_char_rename_click_enabled = { NOT = { AND = { var:rn_row_character = { is_country_leader = yes } rn_ip_cooldown_active_leader = yes } } }
+			rn_cpage_prev_click_enabled = { check_variable = { rn_cpage > 0 } }
 			rn_cpage_next_click_enabled = { check_variable = { rn_cpage_disp < rn_cpages } }
-""",
-        "states": """			rn_spage_prev_click_enabled = { check_variable = { rn_spage > 0 } }
+""",  # noqa: E501
+        "states": """			rn_state_rename_click_enabled = { ROOT = { NOT = { rn_cd_state_active = yes } } }
+			rn_spage_prev_click_enabled = { check_variable = { rn_spage > 0 } }
 			rn_spage_next_click_enabled = { check_variable = { rn_spage_disp < rn_spages } }
-""",
+""",  # noqa: E501
         "cities": "\t\t\trn_no_cities_visible = { NOT = { check_variable = { rn_vp_cnt > 0 } } }\n"
         + vp_triggers,
     }
@@ -1068,7 +1145,16 @@ def _cities_tab(y0: int) -> list[str]:
     for k in range(VP_SLOTS):
         y = y0 + 86 + k * 44
         o.append(txt(f"rn_vp_name_{k}", 20, y + 8, f"RN_VPROW_{k}", w=300))
-        o.append(btn(f"rn_vp_rename_{k}", 330, y + 2, "GFX_button_94x31", text="RN_BTN_RENAME"))
+        o.append(
+            btn(
+                f"rn_vp_rename_{k}",
+                330,
+                y + 2,
+                "GFX_button_94x31",
+                text="RN_BTN_RENAME",
+                tooltip="RN_CD_VP_TT",
+            )
+        )
         o.append(btn(f"rn_vp_reset_{k}", 430, y + 2, "GFX_button_94x31", text="RN_BTN_RESET"))
     o.append(txt("rn_cities_note", 20, y0 + 314, "RN_CITIES_NOTE", w=520, h=60))
     return o
@@ -1109,9 +1195,11 @@ def gen_scripted_gui() -> str:
     """Generate the complete scripted GUI file.
 
     Returns:
-        Contents of ``rename_anything_scripted_gui.txt``: the entry button GUI,
-        the four tab GUIs, the input window GUI with every keyboard key, and the
-        state view panel GUI.
+        Contents of ``rename_anything_scripted_gui.txt``: the four tab GUIs, the
+        input window GUI with every keyboard key, and the state view panel GUI.
+        There is no global entry button any more (it covered the leader portrait
+        and the decision list); the editor opens from the state view and from
+        the ``rn_open_name_editor`` decision of the in-place editor source.
     """
     keys = keyboard_keys()
     key_effects = "".join(f"\t\t\t{name}_click = {{ {body} }}\n" for name, *_r, body in keys)
@@ -1128,9 +1216,14 @@ def gen_scripted_gui() -> str:
         for el in ("rn_vp_name", "rn_vp_rename", "rn_vp_reset")
     )
     vp_triggers += "".join(
-        f"\t\t\t{el}_{k}_click_enabled = {{ check_variable = {{ rn_vp_cnt > {k} }} }}\n"
+        f"\t\t\trn_vp_reset_{k}_click_enabled = {{ check_variable = {{ rn_vp_cnt > {k} }} }}\n"
         for k in range(VP_SLOTS)
-        for el in ("rn_vp_rename", "rn_vp_reset")
+    )
+    # Renaming a city is disabled (not hidden) during the city cooldown.
+    vp_triggers += "".join(
+        f"\t\t\trn_vp_rename_{k}_click_enabled = {{ check_variable = {{ rn_vp_cnt > {k} }}"
+        " NOT = { rn_cd_vp_active = yes } }\n"
+        for k in range(VP_SLOTS)
     )
     main_guis = gen_main_scripted_guis(vp_effects, vp_triggers)
     return (
@@ -1139,24 +1232,6 @@ def gen_scripted_gui() -> str:
 # on the clicking player's own country (ROOT). Two-client MP verification is still required.
 
 scripted_gui = {{
-	rn_entry_gui = {{
-		context_type = player_context
-		window_name = "rn_entry_window"
-		visible = {{ always = yes }}
-		ai_enabled = {{ always = no }}
-		effects = {{
-			rn_entry_btn_click = {{
-				if = {{
-					limit = {{ has_country_flag = rn_open }}
-					rn_close_all = yes
-				}}
-				else = {{
-					rn_open_main = yes
-				}}
-			}}
-		}}
-	}}
-
 {main_guis}
 	rn_input_gui = {{
 		context_type = player_context
@@ -1213,6 +1288,9 @@ scripted_gui = {{
 					reset_state_name = yes
 				}}
 			}}
+		}}
+		triggers = {{
+			rn_sv_rename_click_enabled = {{ ROOT = {{ NOT = {{ rn_cd_state_active = yes }} }} }}
 		}}
 	}}
 }}
@@ -1329,14 +1407,28 @@ def _list_entries() -> list[str]:
             "\t\tsize = { width = 520 height = 36 }\n\t\tclipping = no\n"
         ),
         txt("rn_char_name", 6, 8, "RN_CHAR_NAME", w=390),
-        btn("rn_char_rename", 420, 2, "GFX_button_94x31", text="RN_BTN_RENAME"),
+        btn(
+            "rn_char_rename",
+            420,
+            2,
+            "GFX_button_94x31",
+            text="RN_BTN_RENAME",
+            tooltip="RN_CHAR_RENAME_TT",
+        ),
         "\t}\n",
         (
             '\tcontainerWindowType = {\n\t\tname = "rn_state_entry"\n'
             "\t\tsize = { width = 520 height = 36 }\n\t\tclipping = no\n"
         ),
         txt("rn_state_name", 6, 8, "RN_STATE_NAME", w=215),
-        btn("rn_state_rename", 228, 2, "GFX_button_94x31", text="RN_BTN_RENAME"),
+        btn(
+            "rn_state_rename",
+            228,
+            2,
+            "GFX_button_94x31",
+            text="RN_BTN_RENAME",
+            tooltip="RN_CD_STATE_TT",
+        ),
         btn("rn_state_reset", 324, 2, "GFX_button_94x31", text="RN_BTN_RESET"),
         btn("rn_state_cities", 420, 2, "GFX_button_94x31", text="RN_BTN_CITIES"),
         "\t}\n",
@@ -1421,29 +1513,11 @@ def gen_gui() -> str:
     """Generate the interface ``.gui`` file.
 
     Returns:
-        Contents of ``rename_anything.gui``: the entry button, the tab windows,
-        the list row templates, the input window and the state view panel.
+        Contents of ``rename_anything.gui``: the tab windows, the list row
+        templates, the input window and the state view panel.
     """
     width = 560
     o = [GEN_HEADER, "guiTypes = {\n"]
-    # entry button
-    o.append(
-        '\tcontainerWindowType = {\n\t\tname = "rn_entry_window"\n\t\torientation = upper_left\n'
-        "\t\tposition = { x = 8 y = 150 }\n\t\tsize = { width = 130 height = 36 }\n"
-        "\t\tclipping = no\n"
-    )
-    o.append(
-        btn(
-            "rn_entry_btn",
-            0,
-            0,
-            "GFX_button_123x34",
-            text="RN_ENTRY_BTN",
-            tooltip="RN_ENTRY_BTN_TT",
-        )
-    )
-    o.append("\t}\n\n")
-
     o.append(gen_main_windows())
 
     # list entries
@@ -1462,7 +1536,16 @@ def gen_gui() -> str:
         ' quadTextureSprite = "GFX_tiled_window_2b_border" }\n'
     )
     o.append(txt("rn_sv_title", 10, 8, "RN_SV_TITLE", w=120, fmt="centre"))
-    o.append(btn("rn_sv_rename", 8, 32, "GFX_button_123x34", text="RN_SV_RENAME"))
+    o.append(
+        btn(
+            "rn_sv_rename",
+            8,
+            32,
+            "GFX_button_123x34",
+            text="RN_SV_RENAME",
+            tooltip="RN_CD_STATE_TT",
+        )
+    )
     o.append(btn("rn_sv_cities", 8, 66, "GFX_button_123x34", text="RN_SV_CITIES"))
     o.append(btn("rn_sv_reset", 8, 100, "GFX_button_123x34", text="RN_SV_RESET"))
     o.append("\t}\n")
@@ -1667,6 +1750,122 @@ def gen_textures() -> dict[str, bytes]:
     }
 
 
+# ----------------------------------------------------------------------------- cooldown, in-place
+
+
+COOLDOWN_LABEL_LIMIT = 30
+"""Largest remaining-day count that gets its own tooltip text; longer ones say "more than"."""
+
+
+def gen_cooldown_loc() -> str:
+    """Generate the scripted localisation for the state and city cooldown tooltips.
+
+    Each category is one cooldown per player country, stored as an expiry day in
+    ``rn_cd_state_until`` or ``rn_cd_vp_until``. Every branch computes the
+    remaining days in its own trigger (temporary-variable arithmetic inside a
+    trigger, as vanilla ``common/ai_strategy/ENG.txt`` does), so no temporary
+    value is shared between ``defined_text`` blocks.
+
+    Returns:
+        ``defined_text`` blocks ``RN_CD_STATE_LEFT`` and ``RN_CD_VP_LEFT`` that pick
+        an exact day count (1 to 30), "more than 30" or the ready text.
+    """
+    o = ["\n# Rename cooldown tooltips (country variables rn_cd_state_until / rn_cd_vp_until).\n"]
+    for cat, var in (("STATE", "rn_cd_state_until"), ("VP", "rn_cd_vp_until")):
+        left = (
+            f"set_temp_variable = {{{{ rn_cd_left = {var} }}}} "
+            "subtract_from_temp_variable = {{ rn_cd_left = global.num_days }} "
+            "check_variable = {{ rn_cd_left > 0 }} check_variable = {{ rn_cd_left < {lim} }}"
+        )
+        o.append(f"defined_text = {{\n\tname = RN_CD_{cat}_LEFT\n")
+        o.extend(
+            f"\ttext = {{ trigger = {{ {left.format(lim=n + 1)} }}"
+            f" localization_key = RN_CD_{cat}_WAIT_{n} }}\n"
+            for n in range(1, COOLDOWN_LABEL_LIMIT + 1)
+        )
+        o.append(
+            f"\ttext = {{ trigger = {{ {left.format(lim=1000000)} }}"
+            f" localization_key = RN_CD_{cat}_WAIT_MORE }}\n"
+        )
+        o.append(f"\ttext = {{ localization_key = RN_CD_{cat}_READY }}\n}}\n")
+    return "".join(o)
+
+
+def gen_generated_triggers() -> str:
+    """Generate the scripted triggers that the hand-written files do not define.
+
+    Returns:
+        Contents of ``rename_anything_generated_triggers.txt``: the state and city
+        cooldown triggers and ``rn_editor_bridge_available``. The last one gates every
+        in-place editor window and the legacy country Apply. It is ``always = yes``
+        until the native editor bridge exposes a presence signal that triggers can read
+        (``rn_native_cap`` is only a command temp and ``RN_PLUGIN_STATUS`` only a
+        localisation override), so without the extension the pencils are still shown
+        and Apply reports that the extension is missing.
+    """
+    return (
+        GEN_HEADER
+        + """# Rename cooldown, COUNTRY scope, one per category (states, cities).
+# Temp-variable arithmetic inside triggers follows vanilla common/ai_strategy/ENG.txt:1729-1731.
+rn_cd_state_active = {
+	set_temp_variable = { rn_cd_left = rn_cd_state_until }
+	subtract_from_temp_variable = { rn_cd_left = global.num_days }
+	check_variable = { rn_cd_left > 0 }
+}
+rn_cd_vp_active = {
+	set_temp_variable = { rn_cd_left = rn_cd_vp_until }
+	subtract_from_temp_variable = { rn_cd_left = global.num_days }
+	check_variable = { rn_cd_left > 0 }
+}
+
+# In-place editor (country/leader/parties) is shown only when the native editor bridge is present.
+# OPEN: there is no script-visible presence signal yet (rn_native_cap exists only as a command
+# temp injected into the Apply command; RN_PLUGIN_STATUS is a localisation override). The Native
+# agent will provide one; replace the body below with it (e.g. has_global_flag = <signal>).
+rn_editor_bridge_available = {
+	always = yes
+}
+"""
+    )
+
+
+def gen_inline_editor() -> list[tuple[str, str, bool]]:
+    """Return every in-place editor file copied from :data:`INLINE_SRC`.
+
+    Script and GUI files get a generated-file header and the ``@RN_COOLDOWN_DAYS@``
+    token replaced by :data:`COOLDOWN_DAYS`. Localisation is written for every
+    language in :data:`LANGS`: ``polish`` from the Polish source and every other
+    language from the English source with its own ``l_<lang>:`` header, which is how
+    :func:`gen_ui_loc` treats the other languages too.
+
+    Returns:
+        ``(path relative to mod/, text, needs BOM)`` for every output file, in a stable
+        order.
+
+    Raises:
+        ValueError: A script or GUI file still contains an unknown ``@RN_`` token.
+    """
+    out: list[tuple[str, str, bool]] = []
+    for src in sorted(p for p in INLINE_SRC.rglob("*") if p.is_file()):
+        rel = src.relative_to(INLINE_SRC).as_posix()
+        text = src.read_text(encoding="utf-8-sig").replace("\r\n", "\n")
+        if rel.startswith("localisation/"):
+            lang_src = rel.split("/")[1]
+            targets = ["polish"] if lang_src == "polish" else [x for x in LANGS if x != "polish"]
+            for lang in targets:
+                body = text.replace(f"l_{lang_src}:", f"l_{lang}:", 1)
+                name = src.name.replace(f"_l_{lang_src}.yml", f"_l_{lang}.yml")
+                out.append((f"localisation/{lang}/{name}", body, True))
+            continue
+        text = text.replace("@RN_COOLDOWN_DAYS@", str(COOLDOWN_DAYS))
+        if "@RN_" in text:
+            msg = f"unresolved @RN_ token in tools/inline_editor/{rel}"
+            raise ValueError(msg)
+        header = f"# GENERATED by tools/gen.py from tools/inline_editor/{rel} - edit the source.\n"
+        out.append((rel, header + text, False))
+    return out
+
+
 # ----------------------------------------------------------------------------- localisation
 
 
@@ -1717,8 +1916,29 @@ def gen_ui_loc(lang: str) -> str:
         Contents of ``rename_anything_l_<lang>.yml`` (without BOM).
     """
     idx = 1 if lang == "polish" else 0
+    days = str(COOLDOWN_DAYS)
     o = [f"l_{lang}:\n", " # GENERATED by tools/gen.py (UI strings)\n"]
-    o.extend(f' {k}: "{yml_escape(v[idx])}"\n' for k, v in UI.items())
+    o.extend(f' {k}: "{yml_escape(v[idx].replace("{days}", days))}"\n' for k, v in UI.items())
+    for cat, en, pl in (
+        ("STATE", "A state was renamed recently", "Niedawno zmieniono nazwę stanu"),
+        ("VP", "A city was renamed recently", "Niedawno zmieniono nazwę miasta"),
+    ):
+        for n in [*range(1, COOLDOWN_LABEL_LIMIT + 1), "MORE"]:
+            if lang == "polish":
+                left = (
+                    f"ponad {COOLDOWN_LABEL_LIMIT} dni"
+                    if n == "MORE"
+                    else ("1 dzień" if n == 1 else f"{n} dni")
+                )
+                text = f"§R{pl}: kolejna zmiana za {left}.§!"
+            else:
+                left = (
+                    f"more than {COOLDOWN_LABEL_LIMIT} days"
+                    if n == "MORE"
+                    else ("1 day" if n == 1 else f"{n} days")
+                )
+                text = f"§R{en}: next change in {left}.§!"
+            o.append(f' RN_CD_{cat}_WAIT_{n}: "{text}"\n')
     return "".join(o)
 
 
@@ -1741,7 +1961,11 @@ def main() -> int:
     common = MOD / "common"
     write(
         common / "scripted_localisation" / "rename_anything_scripted_loc.txt",
-        gen_scripted_loc(states, keys),
+        gen_scripted_loc(states, keys) + gen_cooldown_loc(),
+    )
+    write(
+        common / "scripted_triggers" / "rename_anything_generated_triggers.txt",
+        gen_generated_triggers(),
     )
     write(
         common / "scripted_effects" / "rename_anything_generated_effects.txt",
@@ -1752,6 +1976,8 @@ def main() -> int:
     write(MOD / "interface" / "rename_anything.gfx", gen_gfx())
     for name, data in gen_textures().items():
         write_bytes(MOD / "gfx" / "interface" / "rename_anything" / name, data)
+    for rel, text, bom in gen_inline_editor():
+        write(MOD / rel, text, bom=bom)
     for lang in LANGS:
         loc_dir = MOD / "localisation" / lang
         write(loc_dir / f"rename_anything_l_{lang}.yml", gen_ui_loc(lang), bom=True)

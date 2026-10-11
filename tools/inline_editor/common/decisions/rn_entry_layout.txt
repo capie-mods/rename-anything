@@ -1,0 +1,42 @@
+# Rename Anything entry: free repeatable decision opening the name editor on the Characters tab.
+# No reward or cost; refused while any name editor is open.
+rn_entry_layout = {
+	rn_open_name_editor = {
+		# Decision icons resolve to GFX_decision_<icon>; vanilla 1.19.3 defines only the
+		# CATEGORY sprite for generic_political_actions, so use an existing decision sprite.
+		icon = generic_political_discourse
+		allowed = { always = yes }
+		visible = { is_ai = no }
+		available = {
+			# One readable reason instead of five raw flag names in the decision tooltip.
+			custom_trigger_tooltip = {
+				tooltip = rn_open_name_editor_blocked_tt
+				NOT = { has_country_flag = rn_open }
+				NOT = { has_country_flag = rn_input }
+				NOT = { has_country_flag = rn_ip_leader_open }
+				NOT = { has_country_flag = rn_ip_party_neutrality_open }
+				NOT = { has_country_flag = rn_ip_country_open }
+			}
+		}
+		cost = 0
+		fire_only_once = no
+		days_re_enable = 0
+		ai_will_do = { base = 0 }
+		complete_effect = {
+			if = {
+				limit = {
+					is_ai = no
+					NOT = { has_country_flag = rn_open }
+					NOT = { has_country_flag = rn_input }
+					NOT = { has_country_flag = rn_ip_leader_open }
+					NOT = { has_country_flag = rn_ip_party_neutrality_open }
+					NOT = { has_country_flag = rn_ip_country_open }
+				}
+				rn_open_main = yes
+				# Characters tab: generals, admirals and advisers (no own state needed).
+				set_temp_variable = { rn_newtab = 2 }
+				rn_set_tab = yes
+			}
+		}
+	}
+}

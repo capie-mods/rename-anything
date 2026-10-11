@@ -24,9 +24,10 @@ The checks run in this order, and their findings are printed in the same order:
   or in a vanilla ``interface/*.gfx`` file, and every texture the mod ``.gfx``
   points at must exist.
 * Scripted localisation. Every ``[ROOT.RN_...]`` reference in localisation, the
-  GUI or the generated effects must have a ``defined_text``. Every
-  ``localization_key`` in the scripted localisation file must exist in the
-  mod's English tables or as a vanilla ``VICTORY_POINTS_<id>`` key.
+  GUI or the generated effects must have a ``defined_text`` in one of the
+  ``common/scripted_localisation`` files (legacy tables, cooldown tooltips and
+  the in-place editor carriers). Every ``localization_key`` in those files must
+  exist in the mod's English tables or as a vanilla ``VICTORY_POINTS_<id>`` key.
 * Typed state scope misuse. ``rn_sel_state`` holds a state scope, so comparing it
   inside ``check_variable`` is reported, as is assigning ``THIS.id`` to
   ``rn_sel_state_id``.
@@ -35,8 +36,9 @@ The checks run in this order, and their findings are printed in the same order:
   ``history/states``: one entry per state, the numeric ID equal to the state ID,
   consecutive VP slots matching the declared count, and the first five distinct
   VP provinces in file order. Missing, extra and wrong mappings are reported.
-* Effects and GUI wiring. Every ``rn_... = yes`` call must name a defined effect
-  or trigger. Every button must have a ``_click`` effect and every ``_click``
+* Effects and GUI wiring. Every ``rn_... = yes`` call must name an effect or
+  trigger defined in any ``common/scripted_effects`` or
+  ``common/scripted_triggers`` file. Every button must have a ``_click`` effect and every ``_click``
   effect a button. ``_visible`` and ``_click_enabled`` triggers and scripted GUI
   ``window_name`` values must name existing elements.
 * Syntax shape. Curly braces must balance in every ``common/**/*.txt``,
@@ -328,7 +330,9 @@ def main() -> None:
     loc = english_loc()
     locale_tables, _ = locale_tables_check(loc, bad)
     bad += interface_check(game, gui, loc)
-    sl = rd("common/scripted_localisation/rename_anything_scripted_loc.txt")
+    # Every scripted localisation, effect and trigger file counts: the generator also writes
+    # the in-place editor (rn_inline_*) and the cooldown triggers next to the legacy files.
+    sl = "".join(rd(f) for f in sorted(glob.glob("common/scripted_localisation/*.txt")))
     defs = set(re.findall(r"name = (\S+)", sl))
     eff = rd("common/scripted_effects/rename_anything_generated_effects.txt")
     refs = set()
@@ -341,8 +345,8 @@ def main() -> None:
         for k in sorted(set(re.findall(r"localization_key = (\S+)", sl)))
         if k not in loc and k not in vk
     ]
-    allfx = rd("common/scripted_effects/rename_anything_effects.txt") + eff
-    trig = rd("common/scripted_triggers/rename_anything_triggers.txt")
+    allfx = "".join(rd(f) for f in sorted(glob.glob("common/scripted_effects/*.txt")))
+    trig = "".join(rd(f) for f in sorted(glob.glob("common/scripted_triggers/*.txt")))
     fxdefs = set(re.findall(r"^(rn_\w+) = \{", allfx + trig, re.MULTILINE))
     sg = rd("common/scripted_guis/rename_anything_scripted_gui.txt")
     # rn_sel_state stores a typed state scope (PREV), not the numeric map ID.

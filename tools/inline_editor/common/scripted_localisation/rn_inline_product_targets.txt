@@ -1,0 +1,175 @@
+# Party target carriers (iteration 4: any base group via tabs). Empty fallback blocks
+# native prefill on a stale target. The game has no long-name getter for a non-ruling party, so its
+# long carrier is the placeholder "?" (outside the 84-code alphabet): an unchanged Apply is rejected
+# by the native encoder (ok=0 -> err 1, field 2) and never overwrites the full name (I4-M1).
+
+defined_text = {
+	name = RN_IPP_PARTY_SHORT
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 1 } has_government = democratic } localization_key = RN_IPP_PARTY_SHORT_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 2 } has_government = communism } localization_key = RN_IPP_PARTY_SHORT_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 3 } has_government = fascism } localization_key = RN_IPP_PARTY_SHORT_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 4 } has_government = neutrality } localization_key = RN_IPP_PARTY_SHORT_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 1 } } localization_key = RN_IPP_PARTY_SHORT_DEMOCRATIC }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 2 } } localization_key = RN_IPP_PARTY_SHORT_COMMUNISM }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 3 } } localization_key = RN_IPP_PARTY_SHORT_FASCISM }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 4 } } localization_key = RN_IPP_PARTY_SHORT_NEUTRALITY }
+	text = { localization_key = RN_IPP_EMPTY }
+}
+
+defined_text = {
+	name = RN_IPP_PARTY_LONG
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 1 } has_government = democratic } localization_key = RN_IPP_PARTY_LONG_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 2 } has_government = communism } localization_key = RN_IPP_PARTY_LONG_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 3 } has_government = fascism } localization_key = RN_IPP_PARTY_LONG_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 4 } has_government = neutrality } localization_key = RN_IPP_PARTY_LONG_CURRENT }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 1 } } localization_key = RN_IPP_LONG_PLACEHOLDER }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 2 } } localization_key = RN_IPP_LONG_PLACEHOLDER }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 3 } } localization_key = RN_IPP_LONG_PLACEHOLDER }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_party_group = 4 } } localization_key = RN_IPP_LONG_PLACEHOLDER }
+	text = { localization_key = RN_IPP_EMPTY }
+}
+
+defined_text = {
+	name = RN_IPP_PARTY_STATUS
+	text = { trigger = { check_variable = { rn_ip_status_err = 12 } } localization_key = RN_IP_ERR_NO_BRIDGE }
+	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_status_err = 11 } } localization_key = RN_IP_ERR_CD_PARTY }
+	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } check_variable = { rn_ip_status_field = 1 } } localization_key = RN_IP_ERR_PARTY_SHORT }
+	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } NOT = { rn_ipp_party_pinned_rules = yes } } localization_key = RN_IP_ERR_PARTY_LONG_UNKNOWN }
+	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } } localization_key = RN_IP_ERR_PARTY_LONG }
+	text = { trigger = { rn_ipp_party_target_matches = yes NOT = { has_variable = rn_ip_status_err } rn_ipp_party_pinned_rules = yes } localization_key = RN_IP_LONG_NAME }
+	text = { trigger = { rn_ipp_party_target_matches = yes NOT = { has_variable = rn_ip_status_err } } localization_key = RN_IPP_LONG_UNKNOWN }
+	text = { localization_key = RN_IPP_TARGET_CHANGED }
+}
+
+# Iteration 3 (M3): status line of the leader and country editors (display only).
+defined_text = {
+	name = RN_IP_STATUS
+	text = { trigger = { NOT = { has_variable = rn_ip_status_err } } localization_key = RN_IP_HINT }
+	text = { trigger = { check_variable = { rn_ip_status_err = 12 } } localization_key = RN_IP_ERR_NO_BRIDGE }
+	text = { trigger = { check_variable = { rn_ip_status_err = 11 } has_country_flag = rn_ip_leader_open } localization_key = RN_IP_ERR_CD_LEADER }
+	text = { trigger = { check_variable = { rn_ip_status_err = 11 } } localization_key = RN_IP_ERR_CD_COUNTRY }
+	text = { trigger = { check_variable = { rn_ip_status_err > 6 } } localization_key = RN_IP_ERR_STALE }
+	text = { trigger = { has_country_flag = rn_ip_leader_open } localization_key = RN_IP_ERR_LEADER }
+	text = { trigger = { check_variable = { rn_ip_status_field = 2 } } localization_key = RN_IP_ERR_COUNTRY_ADJ }
+	text = { localization_key = RN_IP_ERR_COUNTRY_NAME }
+}
+
+# Iteration 3: rename cooldown tooltips. RN_IP_CD_<K> is empty unless the cooldown is active;
+# RN_IP_CD_LEFT_<K> turns (expiry day - global.num_days) into a day count (1..30, then >30).
+defined_text = {
+	name = RN_IP_CD_COUNTRY
+	text = { trigger = { rn_ip_cooldown_active_country = yes } localization_key = RN_IP_CD_COUNTRY_ACTIVE }
+	text = { localization_key = RN_IPP_EMPTY }
+}
+defined_text = {
+	name = RN_IP_CD_LEFT_COUNTRY
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 2 } } localization_key = RN_IP_CD_DAYS_1 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 3 } } localization_key = RN_IP_CD_DAYS_2 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 4 } } localization_key = RN_IP_CD_DAYS_3 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 5 } } localization_key = RN_IP_CD_DAYS_4 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 6 } } localization_key = RN_IP_CD_DAYS_5 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 7 } } localization_key = RN_IP_CD_DAYS_6 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 8 } } localization_key = RN_IP_CD_DAYS_7 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 9 } } localization_key = RN_IP_CD_DAYS_8 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 10 } } localization_key = RN_IP_CD_DAYS_9 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 11 } } localization_key = RN_IP_CD_DAYS_10 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 12 } } localization_key = RN_IP_CD_DAYS_11 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 13 } } localization_key = RN_IP_CD_DAYS_12 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 14 } } localization_key = RN_IP_CD_DAYS_13 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 15 } } localization_key = RN_IP_CD_DAYS_14 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 16 } } localization_key = RN_IP_CD_DAYS_15 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 17 } } localization_key = RN_IP_CD_DAYS_16 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 18 } } localization_key = RN_IP_CD_DAYS_17 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 19 } } localization_key = RN_IP_CD_DAYS_18 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 20 } } localization_key = RN_IP_CD_DAYS_19 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 21 } } localization_key = RN_IP_CD_DAYS_20 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 22 } } localization_key = RN_IP_CD_DAYS_21 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 23 } } localization_key = RN_IP_CD_DAYS_22 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 24 } } localization_key = RN_IP_CD_DAYS_23 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 25 } } localization_key = RN_IP_CD_DAYS_24 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 26 } } localization_key = RN_IP_CD_DAYS_25 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 27 } } localization_key = RN_IP_CD_DAYS_26 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 28 } } localization_key = RN_IP_CD_DAYS_27 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 29 } } localization_key = RN_IP_CD_DAYS_28 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 30 } } localization_key = RN_IP_CD_DAYS_29 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 31 } } localization_key = RN_IP_CD_DAYS_30 }
+	text = { localization_key = RN_IP_CD_DAYS_MORE }
+}
+defined_text = {
+	name = RN_IP_CD_LEADER
+	text = { trigger = { rn_ip_cooldown_active_leader = yes } localization_key = RN_IP_CD_LEADER_ACTIVE }
+	text = { localization_key = RN_IPP_EMPTY }
+}
+defined_text = {
+	name = RN_IP_CD_LEFT_LEADER
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 2 } } localization_key = RN_IP_CD_DAYS_1 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 3 } } localization_key = RN_IP_CD_DAYS_2 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 4 } } localization_key = RN_IP_CD_DAYS_3 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 5 } } localization_key = RN_IP_CD_DAYS_4 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 6 } } localization_key = RN_IP_CD_DAYS_5 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 7 } } localization_key = RN_IP_CD_DAYS_6 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 8 } } localization_key = RN_IP_CD_DAYS_7 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 9 } } localization_key = RN_IP_CD_DAYS_8 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 10 } } localization_key = RN_IP_CD_DAYS_9 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 11 } } localization_key = RN_IP_CD_DAYS_10 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 12 } } localization_key = RN_IP_CD_DAYS_11 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 13 } } localization_key = RN_IP_CD_DAYS_12 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 14 } } localization_key = RN_IP_CD_DAYS_13 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 15 } } localization_key = RN_IP_CD_DAYS_14 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 16 } } localization_key = RN_IP_CD_DAYS_15 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 17 } } localization_key = RN_IP_CD_DAYS_16 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 18 } } localization_key = RN_IP_CD_DAYS_17 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 19 } } localization_key = RN_IP_CD_DAYS_18 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 20 } } localization_key = RN_IP_CD_DAYS_19 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 21 } } localization_key = RN_IP_CD_DAYS_20 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 22 } } localization_key = RN_IP_CD_DAYS_21 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 23 } } localization_key = RN_IP_CD_DAYS_22 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 24 } } localization_key = RN_IP_CD_DAYS_23 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 25 } } localization_key = RN_IP_CD_DAYS_24 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 26 } } localization_key = RN_IP_CD_DAYS_25 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 27 } } localization_key = RN_IP_CD_DAYS_26 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 28 } } localization_key = RN_IP_CD_DAYS_27 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 29 } } localization_key = RN_IP_CD_DAYS_28 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 30 } } localization_key = RN_IP_CD_DAYS_29 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 31 } } localization_key = RN_IP_CD_DAYS_30 }
+	text = { localization_key = RN_IP_CD_DAYS_MORE }
+}
+defined_text = {
+	name = RN_IP_CD_PARTY
+	text = { trigger = { rn_ip_cooldown_active_party = yes } localization_key = RN_IP_CD_PARTY_ACTIVE }
+	text = { localization_key = RN_IPP_EMPTY }
+}
+defined_text = {
+	name = RN_IP_CD_LEFT_PARTY
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 2 } } localization_key = RN_IP_CD_DAYS_1 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 3 } } localization_key = RN_IP_CD_DAYS_2 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 4 } } localization_key = RN_IP_CD_DAYS_3 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 5 } } localization_key = RN_IP_CD_DAYS_4 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 6 } } localization_key = RN_IP_CD_DAYS_5 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 7 } } localization_key = RN_IP_CD_DAYS_6 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 8 } } localization_key = RN_IP_CD_DAYS_7 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 9 } } localization_key = RN_IP_CD_DAYS_8 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 10 } } localization_key = RN_IP_CD_DAYS_9 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 11 } } localization_key = RN_IP_CD_DAYS_10 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 12 } } localization_key = RN_IP_CD_DAYS_11 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 13 } } localization_key = RN_IP_CD_DAYS_12 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 14 } } localization_key = RN_IP_CD_DAYS_13 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 15 } } localization_key = RN_IP_CD_DAYS_14 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 16 } } localization_key = RN_IP_CD_DAYS_15 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 17 } } localization_key = RN_IP_CD_DAYS_16 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 18 } } localization_key = RN_IP_CD_DAYS_17 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 19 } } localization_key = RN_IP_CD_DAYS_18 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 20 } } localization_key = RN_IP_CD_DAYS_19 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 21 } } localization_key = RN_IP_CD_DAYS_20 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 22 } } localization_key = RN_IP_CD_DAYS_21 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 23 } } localization_key = RN_IP_CD_DAYS_22 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 24 } } localization_key = RN_IP_CD_DAYS_23 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 25 } } localization_key = RN_IP_CD_DAYS_24 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 26 } } localization_key = RN_IP_CD_DAYS_25 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 27 } } localization_key = RN_IP_CD_DAYS_26 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 28 } } localization_key = RN_IP_CD_DAYS_27 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 29 } } localization_key = RN_IP_CD_DAYS_28 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 30 } } localization_key = RN_IP_CD_DAYS_29 }
+	text = { trigger = { set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until } subtract_from_temp_variable = { rn_ip_cd_left = global.num_days } check_variable = { rn_ip_cd_left < 31 } } localization_key = RN_IP_CD_DAYS_30 }
+	text = { localization_key = RN_IP_CD_DAYS_MORE }
+}

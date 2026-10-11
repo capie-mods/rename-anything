@@ -1,0 +1,134 @@
+# Pure two-field validator. No persistent writes, target changes or setters.
+# Inputs: complete A rn_native_* and B rn_nativeb_* (ok,len,0..31 each).
+# Outputs: rn_pair_err, rn_pair_field (0 success;1 A;2 B), rn_pair_bad.
+# Error codes are the unchanged strict single helper's 1/4/5/6; bad=-1
+# except active-code/padding failures. A rejects before B is aliased.
+# Valid A is backed up in private TEMP rn_paira_* and ALWAYS restored after B.
+# B is read-only. rn_inline_* are scratch and may describe B after return.
+# This is validation only: callers must separately recheck own target, epoch,
+# capability where needed, and both results BEFORE any persistent buffer write.
+
+rn_inline_pair_validate = {
+	set_temp_variable = { rn_pair_err = 0 }
+	set_temp_variable = { rn_pair_field = 0 }
+	set_temp_variable = { rn_pair_bad = -1 }
+	rn_inline_validate_payload = yes
+	if = {
+		limit = { NOT = { check_variable = { temp_var:rn_inline_error = 0 } } }
+		set_temp_variable = { rn_pair_err = temp_var:rn_inline_error }
+		set_temp_variable = { rn_pair_field = 1 }
+		set_temp_variable = { rn_pair_bad = temp_var:rn_inline_bad_index }
+	}
+	else = {
+		set_temp_variable = { rn_paira_ok = temp_var:rn_native_ok }
+		set_temp_variable = { rn_paira_len = temp_var:rn_native_len }
+		set_temp_variable = { rn_paira_0 = temp_var:rn_native_0 }
+		set_temp_variable = { rn_paira_1 = temp_var:rn_native_1 }
+		set_temp_variable = { rn_paira_2 = temp_var:rn_native_2 }
+		set_temp_variable = { rn_paira_3 = temp_var:rn_native_3 }
+		set_temp_variable = { rn_paira_4 = temp_var:rn_native_4 }
+		set_temp_variable = { rn_paira_5 = temp_var:rn_native_5 }
+		set_temp_variable = { rn_paira_6 = temp_var:rn_native_6 }
+		set_temp_variable = { rn_paira_7 = temp_var:rn_native_7 }
+		set_temp_variable = { rn_paira_8 = temp_var:rn_native_8 }
+		set_temp_variable = { rn_paira_9 = temp_var:rn_native_9 }
+		set_temp_variable = { rn_paira_10 = temp_var:rn_native_10 }
+		set_temp_variable = { rn_paira_11 = temp_var:rn_native_11 }
+		set_temp_variable = { rn_paira_12 = temp_var:rn_native_12 }
+		set_temp_variable = { rn_paira_13 = temp_var:rn_native_13 }
+		set_temp_variable = { rn_paira_14 = temp_var:rn_native_14 }
+		set_temp_variable = { rn_paira_15 = temp_var:rn_native_15 }
+		set_temp_variable = { rn_paira_16 = temp_var:rn_native_16 }
+		set_temp_variable = { rn_paira_17 = temp_var:rn_native_17 }
+		set_temp_variable = { rn_paira_18 = temp_var:rn_native_18 }
+		set_temp_variable = { rn_paira_19 = temp_var:rn_native_19 }
+		set_temp_variable = { rn_paira_20 = temp_var:rn_native_20 }
+		set_temp_variable = { rn_paira_21 = temp_var:rn_native_21 }
+		set_temp_variable = { rn_paira_22 = temp_var:rn_native_22 }
+		set_temp_variable = { rn_paira_23 = temp_var:rn_native_23 }
+		set_temp_variable = { rn_paira_24 = temp_var:rn_native_24 }
+		set_temp_variable = { rn_paira_25 = temp_var:rn_native_25 }
+		set_temp_variable = { rn_paira_26 = temp_var:rn_native_26 }
+		set_temp_variable = { rn_paira_27 = temp_var:rn_native_27 }
+		set_temp_variable = { rn_paira_28 = temp_var:rn_native_28 }
+		set_temp_variable = { rn_paira_29 = temp_var:rn_native_29 }
+		set_temp_variable = { rn_paira_30 = temp_var:rn_native_30 }
+		set_temp_variable = { rn_paira_31 = temp_var:rn_native_31 }
+		set_temp_variable = { rn_native_ok = temp_var:rn_nativeb_ok }
+		set_temp_variable = { rn_native_len = temp_var:rn_nativeb_len }
+		set_temp_variable = { rn_native_0 = temp_var:rn_nativeb_0 }
+		set_temp_variable = { rn_native_1 = temp_var:rn_nativeb_1 }
+		set_temp_variable = { rn_native_2 = temp_var:rn_nativeb_2 }
+		set_temp_variable = { rn_native_3 = temp_var:rn_nativeb_3 }
+		set_temp_variable = { rn_native_4 = temp_var:rn_nativeb_4 }
+		set_temp_variable = { rn_native_5 = temp_var:rn_nativeb_5 }
+		set_temp_variable = { rn_native_6 = temp_var:rn_nativeb_6 }
+		set_temp_variable = { rn_native_7 = temp_var:rn_nativeb_7 }
+		set_temp_variable = { rn_native_8 = temp_var:rn_nativeb_8 }
+		set_temp_variable = { rn_native_9 = temp_var:rn_nativeb_9 }
+		set_temp_variable = { rn_native_10 = temp_var:rn_nativeb_10 }
+		set_temp_variable = { rn_native_11 = temp_var:rn_nativeb_11 }
+		set_temp_variable = { rn_native_12 = temp_var:rn_nativeb_12 }
+		set_temp_variable = { rn_native_13 = temp_var:rn_nativeb_13 }
+		set_temp_variable = { rn_native_14 = temp_var:rn_nativeb_14 }
+		set_temp_variable = { rn_native_15 = temp_var:rn_nativeb_15 }
+		set_temp_variable = { rn_native_16 = temp_var:rn_nativeb_16 }
+		set_temp_variable = { rn_native_17 = temp_var:rn_nativeb_17 }
+		set_temp_variable = { rn_native_18 = temp_var:rn_nativeb_18 }
+		set_temp_variable = { rn_native_19 = temp_var:rn_nativeb_19 }
+		set_temp_variable = { rn_native_20 = temp_var:rn_nativeb_20 }
+		set_temp_variable = { rn_native_21 = temp_var:rn_nativeb_21 }
+		set_temp_variable = { rn_native_22 = temp_var:rn_nativeb_22 }
+		set_temp_variable = { rn_native_23 = temp_var:rn_nativeb_23 }
+		set_temp_variable = { rn_native_24 = temp_var:rn_nativeb_24 }
+		set_temp_variable = { rn_native_25 = temp_var:rn_nativeb_25 }
+		set_temp_variable = { rn_native_26 = temp_var:rn_nativeb_26 }
+		set_temp_variable = { rn_native_27 = temp_var:rn_nativeb_27 }
+		set_temp_variable = { rn_native_28 = temp_var:rn_nativeb_28 }
+		set_temp_variable = { rn_native_29 = temp_var:rn_nativeb_29 }
+		set_temp_variable = { rn_native_30 = temp_var:rn_nativeb_30 }
+		set_temp_variable = { rn_native_31 = temp_var:rn_nativeb_31 }
+		rn_inline_validate_payload = yes
+		set_temp_variable = { rn_pair_err = temp_var:rn_inline_error }
+		set_temp_variable = { rn_pair_bad = temp_var:rn_inline_bad_index }
+		if = {
+			limit = { NOT = { check_variable = { temp_var:rn_inline_error = 0 } } }
+			set_temp_variable = { rn_pair_field = 2 }
+		}
+		set_temp_variable = { rn_native_ok = temp_var:rn_paira_ok }
+		set_temp_variable = { rn_native_len = temp_var:rn_paira_len }
+		set_temp_variable = { rn_native_0 = temp_var:rn_paira_0 }
+		set_temp_variable = { rn_native_1 = temp_var:rn_paira_1 }
+		set_temp_variable = { rn_native_2 = temp_var:rn_paira_2 }
+		set_temp_variable = { rn_native_3 = temp_var:rn_paira_3 }
+		set_temp_variable = { rn_native_4 = temp_var:rn_paira_4 }
+		set_temp_variable = { rn_native_5 = temp_var:rn_paira_5 }
+		set_temp_variable = { rn_native_6 = temp_var:rn_paira_6 }
+		set_temp_variable = { rn_native_7 = temp_var:rn_paira_7 }
+		set_temp_variable = { rn_native_8 = temp_var:rn_paira_8 }
+		set_temp_variable = { rn_native_9 = temp_var:rn_paira_9 }
+		set_temp_variable = { rn_native_10 = temp_var:rn_paira_10 }
+		set_temp_variable = { rn_native_11 = temp_var:rn_paira_11 }
+		set_temp_variable = { rn_native_12 = temp_var:rn_paira_12 }
+		set_temp_variable = { rn_native_13 = temp_var:rn_paira_13 }
+		set_temp_variable = { rn_native_14 = temp_var:rn_paira_14 }
+		set_temp_variable = { rn_native_15 = temp_var:rn_paira_15 }
+		set_temp_variable = { rn_native_16 = temp_var:rn_paira_16 }
+		set_temp_variable = { rn_native_17 = temp_var:rn_paira_17 }
+		set_temp_variable = { rn_native_18 = temp_var:rn_paira_18 }
+		set_temp_variable = { rn_native_19 = temp_var:rn_paira_19 }
+		set_temp_variable = { rn_native_20 = temp_var:rn_paira_20 }
+		set_temp_variable = { rn_native_21 = temp_var:rn_paira_21 }
+		set_temp_variable = { rn_native_22 = temp_var:rn_paira_22 }
+		set_temp_variable = { rn_native_23 = temp_var:rn_paira_23 }
+		set_temp_variable = { rn_native_24 = temp_var:rn_paira_24 }
+		set_temp_variable = { rn_native_25 = temp_var:rn_paira_25 }
+		set_temp_variable = { rn_native_26 = temp_var:rn_paira_26 }
+		set_temp_variable = { rn_native_27 = temp_var:rn_paira_27 }
+		set_temp_variable = { rn_native_28 = temp_var:rn_paira_28 }
+		set_temp_variable = { rn_native_29 = temp_var:rn_paira_29 }
+		set_temp_variable = { rn_native_30 = temp_var:rn_paira_30 }
+		set_temp_variable = { rn_native_31 = temp_var:rn_paira_31 }
+	}
+}
+

@@ -3,24 +3,6 @@
 # on the clicking player's own country (ROOT). Two-client MP verification is still required.
 
 scripted_gui = {
-	rn_entry_gui = {
-		context_type = player_context
-		window_name = "rn_entry_window"
-		visible = { always = yes }
-		ai_enabled = { always = no }
-		effects = {
-			rn_entry_btn_click = {
-				if = {
-					limit = { has_country_flag = rn_open }
-					rn_close_all = yes
-				}
-				else = {
-					rn_open_main = yes
-				}
-			}
-		}
-	}
-
 	rn_main_country_gui = {
 		context_type = player_context
 		window_name = "rn_main_country_window"
@@ -39,12 +21,29 @@ scripted_gui = {
 			rn_leader_rename_click = { rn_target_leader = yes }
 			rn_cname_edit_click = { set_variable = { rn_ttype = 4 } rn_open_input = yes }
 			rn_cadj_edit_click = { set_variable = { rn_ttype = 5 } rn_open_input = yes }
-			rn_country_apply_click = { rn_apply_country_name = yes }
+			rn_country_apply_click = {
+				# The cooldown starts only in the same branch as the setter (its limit repeats the
+				# rn_apply_country_name limit). Without the editor bridge the button does nothing.
+				if = {
+					limit = {
+						rn_editor_bridge_available = yes
+						NOT = { rn_ip_cooldown_active_country = yes }
+						rn_country_rename_enabled = yes
+						check_variable = { rn_cname_len > 0 }
+						check_variable = { rn_cadj_len > 0 }
+					}
+					rn_apply_country_name = yes
+					rn_ip_cooldown_start_country = yes
+				}
+			}
 			rn_country_reset_click = { rn_reset_country_name = yes }
 		}
 		triggers = {
 			rn_tab_1_click_enabled = { always = no }
+			rn_leader_rename_click_enabled = { NOT = { rn_ip_cooldown_active_leader = yes } }
 			rn_country_apply_click_enabled = {
+				rn_editor_bridge_available = yes
+				NOT = { rn_ip_cooldown_active_country = yes }
 				rn_country_rename_enabled = yes
 				check_variable = { rn_cname_len > 0 }
 				check_variable = { rn_cadj_len > 0 }
@@ -74,6 +73,7 @@ scripted_gui = {
 		}
 		triggers = {
 			rn_tab_2_click_enabled = { always = no }
+			rn_char_rename_click_enabled = { NOT = { AND = { var:rn_row_character = { is_country_leader = yes } rn_ip_cooldown_active_leader = yes } } }
 			rn_cpage_prev_click_enabled = { check_variable = { rn_cpage > 0 } }
 			rn_cpage_next_click_enabled = { check_variable = { rn_cpage_disp < rn_cpages } }
 		}
@@ -126,6 +126,7 @@ scripted_gui = {
 		}
 		triggers = {
 			rn_tab_3_click_enabled = { always = no }
+			rn_state_rename_click_enabled = { ROOT = { NOT = { rn_cd_state_active = yes } } }
 			rn_spage_prev_click_enabled = { check_variable = { rn_spage > 0 } }
 			rn_spage_next_click_enabled = { check_variable = { rn_spage_disp < rn_spages } }
 		}
@@ -182,16 +183,16 @@ scripted_gui = {
 			rn_vp_name_4_visible = { check_variable = { rn_vp_cnt > 4 } }
 			rn_vp_rename_4_visible = { check_variable = { rn_vp_cnt > 4 } }
 			rn_vp_reset_4_visible = { check_variable = { rn_vp_cnt > 4 } }
-			rn_vp_rename_0_click_enabled = { check_variable = { rn_vp_cnt > 0 } }
 			rn_vp_reset_0_click_enabled = { check_variable = { rn_vp_cnt > 0 } }
-			rn_vp_rename_1_click_enabled = { check_variable = { rn_vp_cnt > 1 } }
 			rn_vp_reset_1_click_enabled = { check_variable = { rn_vp_cnt > 1 } }
-			rn_vp_rename_2_click_enabled = { check_variable = { rn_vp_cnt > 2 } }
 			rn_vp_reset_2_click_enabled = { check_variable = { rn_vp_cnt > 2 } }
-			rn_vp_rename_3_click_enabled = { check_variable = { rn_vp_cnt > 3 } }
 			rn_vp_reset_3_click_enabled = { check_variable = { rn_vp_cnt > 3 } }
-			rn_vp_rename_4_click_enabled = { check_variable = { rn_vp_cnt > 4 } }
 			rn_vp_reset_4_click_enabled = { check_variable = { rn_vp_cnt > 4 } }
+			rn_vp_rename_0_click_enabled = { check_variable = { rn_vp_cnt > 0 } NOT = { rn_cd_vp_active = yes } }
+			rn_vp_rename_1_click_enabled = { check_variable = { rn_vp_cnt > 1 } NOT = { rn_cd_vp_active = yes } }
+			rn_vp_rename_2_click_enabled = { check_variable = { rn_vp_cnt > 2 } NOT = { rn_cd_vp_active = yes } }
+			rn_vp_rename_3_click_enabled = { check_variable = { rn_vp_cnt > 3 } NOT = { rn_cd_vp_active = yes } }
+			rn_vp_rename_4_click_enabled = { check_variable = { rn_vp_cnt > 4 } NOT = { rn_cd_vp_active = yes } }
 		}
 		dynamic_lists = {
 			rn_selstate_grid = {
@@ -336,6 +337,9 @@ scripted_gui = {
 					reset_state_name = yes
 				}
 			}
+		}
+		triggers = {
+			rn_sv_rename_click_enabled = { ROOT = { NOT = { rn_cd_state_active = yes } } }
 		}
 	}
 }

@@ -1,0 +1,175 @@
+# Rename Anything in-place editor; no MP/foreign-country authority claim.
+# player_context + CURRENT==ROOT; payload and capability arrive only in native ctor.
+# POL/is_ai/neutrality are disposable QA gates, not product or MP authorization.
+# Rename Anything in-place editor. All names/fields/selectors match unified; requires reviewed transport.
+scripted_gui = {
+	rn_ip_leader_launcher_gui = {
+		context_type = player_context
+		parent_window_token = politics_tab
+		window_name = "rn_ip_leader_launcher_window"
+		visible = { tag = ROOT is_ai = no rn_editor_bridge_available = yes NOT = { has_country_flag = rn_ip_leader_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
+		ai_enabled = { always = no }
+		effects = {
+			rn_ip_leader_open_click = {
+				# Explicit zero before the first opening: an absent counter is never displayed/read as 0 by accident.
+				if = { limit = { NOT = { has_variable = rn_ip_lui_rev } } set_variable = { rn_ip_lui_rev = 0 } }
+				rn_inline_leader_open = yes
+				rn_ip_status_clear = yes
+			}
+		}
+		triggers = {
+			rn_ip_leader_rev_visible = { always = no }
+			rn_ip_leader_open_click_enabled = { tag = ROOT is_ai = no NOT = { has_country_flag = rn_ip_leader_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_ip_country_open } NOT = { rn_ip_cooldown_active_leader = yes } }
+		}
+	}
+	rn_ip_leader_gui = {
+		context_type = player_context
+		parent_window_token = politics_tab
+		window_name = "rn_ip_leader_window"
+		visible = { tag = ROOT is_ai = no rn_editor_bridge_available = yes has_country_flag = rn_ip_leader_open NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
+		ai_enabled = { always = no }
+		effects = {
+			# Enabled only for a valid own opening/pin. No payload gate before ctor injection.
+			rn_ip_leader_apply_click = {
+				log = "RN_IPP leader before current_leader=[ROOT.GetLeader] cmd_epoch=[?temp_var:rn_ip_cmd_epoch|0] epoch=[?ROOT.rn_ip_epoch|0] pin_count=[?ROOT.rn_ip_leader_target^num|0]"
+				rn_inline_leader_apply = yes
+				# Caption refresh: +1 exactly once, only when the guarded helper ended in its success branch
+				# (it initializes rn_ip_leader_error = 7 and leaves 0 only after set_name). Capped at 999:
+				# the native bridge already refuses Apply at 999 (plain-digit display range 0..999).
+				if = {
+					limit = { check_variable = { temp_var:rn_ip_leader_error = 0 } check_variable = { rn_ip_lui_rev < 999 } }
+					add_to_variable = { rn_ip_lui_rev = 1 }
+				}
+				rn_ip_status_record_leader = yes
+				log = "RN_IPP leader after error=[?temp_var:rn_ip_leader_error|0] current_leader=[ROOT.GetLeader] cmd_epoch=[?temp_var:rn_ip_cmd_epoch|0] epoch=[?ROOT.rn_ip_epoch|0] pin_count=[?ROOT.rn_ip_leader_target^num|0]"
+			}
+			rn_ip_leader_cancel_click = { rn_inline_leader_cancel = yes rn_ip_status_clear = yes }
+		}
+		triggers = {
+			rn_ip_leader_epoch_visible = { always = no }
+			rn_ip_leader_rev_visible = { always = no }
+			rn_ip_leader_prefill_visible = { always = no }
+			rn_ip_leader_apply_click_enabled = {
+				tag = ROOT
+				is_ai = no
+				has_country_flag = rn_ip_leader_open
+				NOT = { has_country_flag = rn_ip_party_neutrality_open }
+				NOT = { has_country_flag = rn_ip_country_open }
+				NOT = { has_country_flag = rn_open }
+				NOT = { has_country_flag = rn_input }
+				check_variable = { rn_ip_epoch > 0 }
+				has_variable = rn_ip_leader_identity
+				check_variable = { rn_ip_leader_target^num = 1 }
+				is_in_array = { array = rn_ip_leader_target value = rn_ip_leader_identity }
+				# COUNTRY iterator rechecks that the pinned character is our active ruler.
+				any_character = {
+					is_country_leader = yes
+					is_in_array = { array = ROOT.rn_ip_leader_target value = THIS }
+				}
+			}
+			rn_ip_leader_cancel_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_leader_open }
+		}
+	}
+	rn_ip_party_neutrality_launcher_gui = {
+		context_type = player_context
+		parent_window_token = politics_tab
+		window_name = "rn_ip_party_neutrality_launcher_window"
+		visible = { tag = ROOT is_ai = no rn_editor_bridge_available = yes OR = { has_government = democratic has_government = communism has_government = fascism has_government = neutrality } NOT = { has_country_flag = rn_ip_party_neutrality_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
+		ai_enabled = { always = no }
+		effects = {
+			rn_ip_party_neutrality_open_click = {
+				if = { limit = { NOT = { has_variable = rn_ip_pui_rev } } set_variable = { rn_ip_pui_rev = 0 } }
+				rn_inline_pair_open_party = yes
+				rn_ip_status_clear = yes
+			}
+		}
+		triggers = {
+			rn_ip_party_neutrality_rev_visible = { always = no }
+			rn_ip_party_neutrality_open_click_enabled = {
+				tag = ROOT
+				is_ai = no
+				NOT = {
+					has_country_flag = rn_open
+				}
+				NOT = {
+					has_country_flag = rn_input
+				}
+				NOT = {
+					has_country_flag = rn_ip_leader_open
+				}
+				NOT = {
+					has_country_flag = rn_ip_country_open
+				}
+				NOT = {
+					has_country_flag = rn_ip_party_neutrality_open
+				}
+				NOT = { rn_ip_cooldown_active_party = yes }
+				OR = { has_government = democratic has_government = communism has_government = fascism has_government = neutrality }
+			}
+		}
+	}
+	rn_ip_party_neutrality_gui = {
+		context_type = player_context
+		parent_window_token = politics_tab
+		window_name = "rn_ip_party_neutrality_window"
+		visible = { tag = ROOT is_ai = no rn_editor_bridge_available = yes has_country_flag = rn_ip_party_neutrality_open NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
+		ai_enabled = { always = no }
+		effects = {
+			# Actual guarded pair Apply; enabled is payload/cap independent before native ctor.
+			rn_ip_party_neutrality_apply_click = {
+				log = "RN_IPP party before short=[ROOT.GetRulingParty] long=[ROOT.GetRulingPartyLong] cmd_epoch=[?temp_var:rn_ip_cmd_epoch|0] epoch=[?ROOT.rn_ip_epoch|0] pin_count=[?ROOT.rn_ip_party_target^num|0] group=[?ROOT.rn_ip_party_group|0]"
+				rn_inline_pair_apply_party = yes
+				# Caption refresh: +1 exactly once, only after set_party_name + rn_inline_party_finish
+				# (the guard initializes rn_pair_err = 7; every non-matching branch sets 9). Capped at 999.
+				if = {
+					limit = { check_variable = { temp_var:rn_pair_err = 0 } check_variable = { rn_ip_pui_rev < 999 } }
+					add_to_variable = { rn_ip_pui_rev = 1 }
+				}
+				rn_ip_status_record_pair = yes
+				log = "RN_IPP party after err=[?temp_var:rn_pair_err] field=[?temp_var:rn_pair_field] bad=[?temp_var:rn_pair_bad] short=[ROOT.GetRulingParty] long=[ROOT.GetRulingPartyLong] cmd_epoch=[?temp_var:rn_ip_cmd_epoch|0] epoch=[?ROOT.rn_ip_epoch|0] pin_count=[?ROOT.rn_ip_party_target^num|0] group=[?ROOT.rn_ip_party_group|0]"
+			}
+			rn_ip_party_neutrality_cancel_click = {
+				rn_inline_pair_cancel_party = yes
+				rn_ip_status_clear = yes
+			}
+			rn_ipp_tab_1_click = {
+				set_temp_variable = { rn_ip_party_tab = 1 }
+				rn_inline_pair_switch_party = yes
+				rn_ip_status_clear = yes
+			}
+			rn_ipp_tab_2_click = {
+				set_temp_variable = { rn_ip_party_tab = 2 }
+				rn_inline_pair_switch_party = yes
+				rn_ip_status_clear = yes
+			}
+			rn_ipp_tab_3_click = {
+				set_temp_variable = { rn_ip_party_tab = 3 }
+				rn_inline_pair_switch_party = yes
+				rn_ip_status_clear = yes
+			}
+			rn_ipp_tab_4_click = {
+				set_temp_variable = { rn_ip_party_tab = 4 }
+				rn_inline_pair_switch_party = yes
+				rn_ip_status_clear = yes
+			}
+		}
+		triggers = {
+			rn_ip_party_neutrality_epoch_visible = { always = no }
+			rn_ip_party_neutrality_rev_visible = { always = no }
+			rn_ip_party_neutrality_prefill_visible = { always = no }
+			rn_ip_party_neutrality_long_prefill_visible = { always = no }
+			rn_ip_party_neutrality_apply_click_enabled = { rn_ipp_party_target_matches = yes }
+			rn_ip_party_neutrality_cancel_click_enabled = {
+				tag = ROOT
+				is_ai = no
+				has_country_flag = rn_ip_party_neutrality_open
+			}
+			# Tabs: the selected group is the disabled tab (same pattern as the main editor tabs).
+			rn_ipp_tab_1_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 1 } } NOT = { rn_ip_cooldown_active_party = yes } }
+			rn_ipp_tab_2_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 2 } } NOT = { rn_ip_cooldown_active_party = yes } }
+			rn_ipp_tab_3_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 3 } } NOT = { rn_ip_cooldown_active_party = yes } }
+			rn_ipp_tab_4_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 4 } } NOT = { rn_ip_cooldown_active_party = yes } }
+		}
+	}
+
+}

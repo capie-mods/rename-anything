@@ -1,0 +1,45 @@
+# Placeholder (iteration 4): subject rename entry in the diplomacy view of a subject.
+# Hidden by rn_ip_subject_rename_enabled (always = no). Position is a candidate, runtime QA needed.
+guiTypes = {
+	containerWindowType = {
+		name = "rn_ip_subject_window"
+		position = { x = 380 y = 60 }
+		size = { width = 132 height = 24 }
+		orientation = upper_left
+		clipping = no
+		instantTextboxType = {
+			name = "rn_ips_label"
+			position = { x = 0 y = 4 }
+			font = "Arial12"
+			text = "RN_IPS_LABEL"
+			maxWidth = 60
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_ips_leader"
+			position = { x = 64 y = 2 }
+			scale = 0.67
+			quadTextureSprite = "GFX_edit_designer_notes_button"
+			clicksound = click_default
+			pdx_tooltip = "RN_IPS_LEADER_TT"
+		}
+		buttonType = {
+			name = "rn_ips_party"
+			position = { x = 88 y = 2 }
+			scale = 0.67
+			quadTextureSprite = "GFX_edit_designer_notes_button"
+			clicksound = click_default
+			pdx_tooltip = "RN_IPS_PARTY_TT"
+		}
+		buttonType = {
+			name = "rn_ips_country"
+			position = { x = 112 y = 2 }
+			scale = 0.67
+			quadTextureSprite = "GFX_edit_designer_notes_button"
+			clicksound = click_default
+			pdx_tooltip = "RN_IPS_COUNTRY_TT"
+		}
+	}
+}

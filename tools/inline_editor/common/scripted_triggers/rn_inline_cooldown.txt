@@ -1,0 +1,17 @@
+# Rename Anything in-place editor (iteration 3): cooldown active = expiry day still in the future.
+# Temp-variable arithmetic inside a trigger follows vanilla ai_strategy/ENG.txt:1729-1731.
+rn_ip_cooldown_active_country = {
+	set_temp_variable = { rn_ip_cd_left = rn_ip_cd_country_until }
+	subtract_from_temp_variable = { rn_ip_cd_left = global.num_days }
+	check_variable = { rn_ip_cd_left > 0 }
+}
+rn_ip_cooldown_active_leader = {
+	set_temp_variable = { rn_ip_cd_left = rn_ip_cd_leader_until }
+	subtract_from_temp_variable = { rn_ip_cd_left = global.num_days }
+	check_variable = { rn_ip_cd_left > 0 }
+}
+rn_ip_cooldown_active_party = {
+	set_temp_variable = { rn_ip_cd_left = rn_ip_cd_party_until }
+	subtract_from_temp_variable = { rn_ip_cd_left = global.num_days }
+	check_variable = { rn_ip_cd_left > 0 }
+}

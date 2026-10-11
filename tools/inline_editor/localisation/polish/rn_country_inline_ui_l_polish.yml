@@ -1,0 +1,4 @@
+﻿l_polish:
+ RN_IPC_EDIT_COUNTRY:0 "Edytuj nazwę państwa i przymiotnik. Górne pole: nazwa państwa. Dolne pole: przymiotnik. Enter zatwierdza.[ROOT.RN_IP_CD_COUNTRY]"
+ RN_IPC_APPLY_UNAVAILABLE:0 "Zatwierdzanie jest niedostępne w tym szkicu UI."
+ RN_IPC_CANCEL:0 "Anuluj edycję."

@@ -1,0 +1,6 @@
+# Rename Anything decision category. No map overlay or gameplay reward.
+rn_entry_layout = {
+	icon = generic_political_actions
+	allowed = { always = yes }
+	visible = { is_ai = no }
+}

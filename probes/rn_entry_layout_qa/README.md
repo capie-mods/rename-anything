@@ -1,3 +1,10 @@
+> **WYCOFANY (integracja z mod/, 2026-10-11).** Ten fixture został przeniesiony do generatora:
+> źródło `tools/inline_editor/`, wynik w `mod/` (`tools/gen.py`), testy w
+> `tools/tests/check_inline_editor.py`. Globalny przycisk `rn_entry_gui` usunięto w generatorze.
+> **Nie ładuj tego katalogu razem z `mod/`** — te same nazwy modeli, efektów i kluczy
+> (oraz ten sam plik SG w layout) dałyby duplikaty albo cofnęłyby zmiany generatora.
+> Zostaje w repo jako historia QA.
+
 # Nieaktywny kandydat wejścia do edytora
 
 Użytkownik zgłosił 2026-10-11, że globalny przycisk „Zmień nazwy” zasłania portret

@@ -1,3 +1,8 @@
+> **WYCOFANY (integracja z mod/, 2026-10-11).** Ten probe definiuje te same modele `rn_ip_*`,
+> efekty lub klucze co `mod/` (źródło `tools/inline_editor/`, generator `tools/gen.py`).
+> **Nie ładuj go razem z `mod/`**: dałoby to duplikaty definicji albo cofnęło zmiany generatora.
+> Zostaje w repo jako historia QA; deskryptor w profilu wyrejestrowuje root.
+
 # Niewłączona wspólna próba transportu pięciu pól
 
 Stan 2026-10-11: nowa fixture do przeglądu, bez rejestracji, aktywacji, zmian
