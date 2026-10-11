@@ -302,11 +302,6 @@ def gen_effects(states) -> str:
     out.append(f"""# Apply the input buffer to the current target. meta_effect turns the scripted loc into a literal string,
 # so the stored name is plain text. Persistence was observed in stage0 probes; MP still needs a two-client test.
 rn_apply_input = {{
-	# Temporary city diagnostics: observe the target without changing Apply conditions.
-	if = {{
-		limit = {{ check_variable = {{ rn_ttype = 3 }} }}
-		log = "Rename Anything city apply: player=[ROOT.GetTag] province=[?ROOT.rn_tprov|0] target_states=[?ROOT.rn_tstate^num|0] input_len=[?ROOT.rn_len|0] digits={p_expr}"
-	}}
 	if = {{
 		limit = {{ check_variable = {{ rn_len > 0 }} }}
 		if = {{
@@ -341,12 +336,9 @@ rn_apply_input = {{
 			limit = {{ check_variable = {{ rn_ttype = 3 }} check_variable = {{ rn_tprov > 0 }} }}
 			for_each_scope_loop = {{
 				array = rn_tstate
-				log = "Rename Anything city ownership check: player=[ROOT.GetTag] state=[THIS.GetName] owner=[THIS.Owner.GetTag] province=[?ROOT.rn_tprov|0] target_states=[?ROOT.rn_tstate^num|0]"
 				if = {{
 					limit = {{ is_owned_by = ROOT }}
-					log = "Rename Anything city owned target accepted: province=[?ROOT.rn_tprov|0] target_states=[?ROOT.rn_tstate^num|0]"
 					meta_effect = {{
-						debug = yes
 						text = {{ set_province_name = {{ id = [P] name = "[N]" }} }}
 						P = "{p_expr}"
 						N = "{n_expr}"
@@ -654,19 +646,12 @@ scripted_gui = {{
 		}}
 		triggers = {{
 			rn_apply_click_enabled = {{ check_variable = {{ rn_len > 0 }} }}
-			rn_target_char_grid_visible = {{ check_variable = {{ rn_ttype = 1 }} }}
-			rn_target_state_grid_visible = {{ check_variable = {{ rn_ttype = 2 }} }}
 			rn_target_prov_visible = {{ check_variable = {{ rn_ttype = 3 }} }}
 			rn_target_country_visible = {{ check_variable = {{ rn_ttype > 3 }} }}
 		}}
 		dynamic_lists = {{
-			rn_target_char_grid = {{
-				array = rn_tchar
-				change_scope = yes
-				entry_container = "rn_target_entry"
-			}}
-			rn_target_state_grid = {{
-				array = rn_tstate
+			rn_target_grid = {{
+				array = rn_display_target
 				change_scope = yes
 				entry_container = "rn_target_entry"
 			}}
@@ -769,7 +754,7 @@ def gen_gui() -> str:
              f'\t\tposition = {{ x = {-W // 2} y = {-IH // 2} }}\n\t\tsize = {{ width = {W} height = {IH} }}\n\t\tclipping = no\n'
              '\t\tbackground = { name = "rn_input_bg" quadTextureSprite = "GFX_tiled_window_2b_border" }\n')
     o.append(txt("rn_input_title", 20, 12, "RN_INPUT_TITLE", font="hoi_18mbs", w=520))
-    for g in ("rn_target_char_grid", "rn_target_state_grid"):
+    for g in ("rn_target_grid",):
         o.append(f'\t\tgridBoxType = {{\n\t\t\tname = "{g}"\n\t\t\tposition = {{ x = 20 y = 40 }}\n'
                  '\t\t\tsize = { width = 500 height = 26 }\n\t\t\tslotsize = { width = 500 height = 26 }\n'
                  '\t\t\tmax_slots_horizontal = 1\n\t\t\tformat = "UPPER_LEFT"\n\t\t}\n')

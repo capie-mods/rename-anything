@@ -7,6 +7,7 @@
 #   rn_shift        1 = caps toggle on
 #   rn_ttype        input target: 1 character, 2 state, 3 province (VP), 4 country name, 5 country adjective
 #   rn_tchar        1-element array with the target character
+#   rn_display_target display-only typed target array for the single input header grid
 #   rn_tstate       1-element array with the target state (also owner state of the target province)
 #   rn_tprov        target province id, rn_pd_0..4 its decimal digits
 #   rn_tslot        VP slot (0..4) of the target province in the Cities tab
@@ -35,6 +36,7 @@ rn_open_main = {
 rn_close_all = {
 	clr_country_flag = rn_open
 	clr_country_flag = rn_input
+	clear_array = rn_display_target
 	clear_array = rn_buf
 	set_variable = { rn_len = 0 }
 }
@@ -189,6 +191,25 @@ rn_select_state = {
 # ---------------------------------------------------------------- text input
 
 rn_open_input = { # requires rn_ttype (+ target arrays/variables) set by the caller
+	# Keep only current header data. Overlapping target grids showed stale state data
+	# despite their visibility triggers after a city selection.
+	clear_array = rn_display_target
+	if = {
+		limit = { check_variable = { rn_ttype = 1 } }
+		for_each_loop = {
+			array = rn_tchar
+			value = rn_display_v
+			add_to_array = { rn_display_target = rn_display_v }
+		}
+	}
+	else_if = {
+		limit = { check_variable = { rn_ttype = 2 } }
+		for_each_loop = {
+			array = rn_tstate
+			value = rn_display_v
+			add_to_array = { rn_display_target = rn_display_v }
+		}
+	}
 	set_country_flag = rn_open
 	set_country_flag = rn_input
 	clear_array = rn_buf
@@ -197,6 +218,7 @@ rn_open_input = { # requires rn_ttype (+ target arrays/variables) set by the cal
 }
 
 rn_cancel_input = {
+	clear_array = rn_display_target
 	clr_country_flag = rn_input
 	clear_array = rn_buf
 	set_variable = { rn_len = 0 }

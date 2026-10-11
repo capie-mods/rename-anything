@@ -151,11 +151,9 @@ Generator czyta instalację gry bez jej modyfikowania; inną ścieżkę podaj pr
 Edytuj generator, nie pliki oznaczone `GENERATED`. `tools/check.py` sprawdza referencje, strukturę
 oraz lokalizacje; nie zastępuje parsera gry, testu zapisu/wczytania ani testu multiplayer.
 
-Diagnostyka zgłoszenia miasta jest obecnie włączona: Apply zapisuje w `logs/game.log`
-wiersze `Rename Anything city ...` z ID prowincji, tablicą celu i kontrolą własności oraz
-rozwinięty `meta_effect` (`debug = yes`) z ID i wpisaną nazwą. Pozwala to rozróżnić pusty cel,
-odrzuconą własność i wykonany efekt; nie zmienia warunków Apply. Po diagnozie usuń te logi
-i `debug = yes` w generatorze. Lista miast nadal pokazuje oryginalne nazwy z lokalizacji.
+Tymczasowe logi city Apply i `debug = yes` usunięto po potwierdzeniu właściwego celu
+i efektu w grze. Dowody diagnostyki zachowano w raporcie testów. Lista miast nadal
+pokazuje oryginalne nazwy z lokalizacji.
 
 Skrót Backspace pozostaje aktywny. Mod dostarcza brakującą w vanilli ikonę `GFX_BACKSPACE`
 dla automatycznej podpowiedzi skrótu, która wcześniej dodawała błąd `Couldnt find texticon: BACKSPACE`.

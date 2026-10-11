@@ -477,15 +477,7 @@ guiTypes = {
 		background = { name = "rn_input_bg" quadTextureSprite = "GFX_tiled_window_2b_border" }
 		instantTextBoxType = { name = "rn_input_title" position = { x = 20 y = 12 } font = "hoi_18mbs" text = "RN_INPUT_TITLE" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
 		gridBoxType = {
-			name = "rn_target_char_grid"
-			position = { x = 20 y = 40 }
-			size = { width = 500 height = 26 }
-			slotsize = { width = 500 height = 26 }
-			max_slots_horizontal = 1
-			format = "UPPER_LEFT"
-		}
-		gridBoxType = {
-			name = "rn_target_state_grid"
+			name = "rn_target_grid"
 			position = { x = 20 y = 40 }
 			size = { width = 500 height = 26 }
 			slotsize = { width = 500 height = 26 }

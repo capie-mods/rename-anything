@@ -291,19 +291,12 @@ scripted_gui = {
 		}
 		triggers = {
 			rn_apply_click_enabled = { check_variable = { rn_len > 0 } }
-			rn_target_char_grid_visible = { check_variable = { rn_ttype = 1 } }
-			rn_target_state_grid_visible = { check_variable = { rn_ttype = 2 } }
 			rn_target_prov_visible = { check_variable = { rn_ttype = 3 } }
 			rn_target_country_visible = { check_variable = { rn_ttype > 3 } }
 		}
 		dynamic_lists = {
-			rn_target_char_grid = {
-				array = rn_tchar
-				change_scope = yes
-				entry_container = "rn_target_entry"
-			}
-			rn_target_state_grid = {
-				array = rn_tstate
+			rn_target_grid = {
+				array = rn_display_target
 				change_scope = yes
 				entry_container = "rn_target_entry"
 			}
