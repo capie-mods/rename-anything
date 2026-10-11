@@ -8,8 +8,8 @@ Interfejs jest po polsku i angielsku; pozostałe języki gry dostają angielskie
 
 - Poprawka nadpisywania decyzji przeszła niezależny test w grze. Pełny restart i wczytanie
   zapisu zachowały nazwę kraju na mapie, w dyplomacji i tooltipie. Problem pustej listy
-  miast pozostaje otwarty: bieżąca poprawka jest robocza, a konwersja `THIS.id` do
-  liczbowego ID nie została potwierdzona. Nie jest to gotowe wydanie. Szczegóły i granice
+  miast pozostaje otwarty: poprawka używa teraz dopasowania stanu do liczbowego literału
+  i obejmuje także stany bez VP, lecz wymaga testu w grze. Nie jest to gotowe wydanie. Szczegóły i granice
   potwierdzenia są w [raporcie testów](docs/test-report.md) i [handoffie](docs/HANDOFF-20261011.md).
 - `mod/` zawiera implementację skryptową i `descriptor.mod`. Generator oraz kontrola referencji
   przechodzą lokalnie; wynik bieżących testów w grze opisuje [raport testów](docs/test-report.md).

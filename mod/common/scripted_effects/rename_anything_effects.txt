@@ -26,7 +26,10 @@ rn_open_main = {
 		set_variable = { rn_tab = 1 }
 	}
 	rn_refresh_lists = yes
-	rn_select_state = yes
+	if = {
+		limit = { check_variable = { rn_tab = 4 } }
+		rn_select_state = yes
+	}
 }
 
 rn_close_all = {
@@ -168,14 +171,18 @@ rn_select_state = {
 	clear_array = rn_sel_state_arr
 	set_variable = { rn_vp_cnt = 0 }
 	set_variable = { rn_sel_state_id = 0 }
+	set_variable = { rn_vp_0 = 0 }
+	set_variable = { rn_vp_1 = 0 }
+	set_variable = { rn_vp_2 = 0 }
+	set_variable = { rn_vp_3 = 0 }
+	set_variable = { rn_vp_4 = 0 }
 	if = {
 		limit = { has_variable = rn_sel_state }
-		# PREV/THIS stores a typed scope, not a numeric ID. Export the ID separately.
-		# Vanilla 1.19.3: SOV_scripted_effects.txt uses ROOT.temp_target_state = THIS.id.
+		# Keep the typed scope for arrays. The generated state trigger dispatch
+		# writes an ordinary numeric literal and loads VPs in the same pass.
 		# Resolving here also migrates selections already present in an older save.
-		var:rn_sel_state = { set_variable = { ROOT.rn_sel_state_id = THIS.id } }
+		var:rn_sel_state = { rn_load_selected_state = yes }
 		add_to_array = { rn_sel_state_arr = rn_sel_state }
-		rn_load_vps = yes # generated
 	}
 }
 

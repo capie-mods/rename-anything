@@ -79,10 +79,51 @@ trig = rd("common/scripted_triggers/rename_anything_triggers.txt")
 fxdefs = set(re.findall(r"^(rn_\w+) = \{", allfx + trig, re.M))
 sg = rd("common/scripted_guis/rename_anything_scripted_gui.txt")
 # rn_sel_state stores a typed state scope (PREV), not the numeric map ID.
-# Vanilla SOV_scripted_effects exports THIS.id; our rn_select_state does the same.
 if any(re.search(r"\brn_sel_state\b", m.group(1))
        for m in re.finditer(r"check_variable\s*=\s*\{([^{}]*)\}", sg + allfx + sl)):
     bad.append("typed rn_sel_state compared numerically; use rn_sel_state_id")
+if re.search(r"rn_sel_state_id\s*=\s*THIS\.id\b", allfx, re.I):
+    bad.append("THIS.id is a typed scope, not the numeric rn_sel_state_id")
+# Check the generated state -> literal ID / VP table against the read-only game
+# inventory, including states without VPs. This checks data coverage, not runtime
+# scope evaluation; that still requires the Cities paths to be tested in game.
+state_inventory = {}
+for f in sorted(glob.glob(os.path.join(G, "history", "states", "*.txt"))):
+    history = re.sub(r"#[^\n]*", "", open(f, encoding="utf-8-sig", errors="replace").read())
+    state_id = re.search(r"\bid\s*=\s*(\d+)", history)
+    if not state_id:
+        bad.append(f"state history without ID: {f}")
+        continue
+    state_id = int(state_id.group(1))
+    if state_id in state_inventory:
+        bad.append(f"duplicate state ID in game inventory: {state_id}")
+    provinces = []
+    for province in re.findall(r"victory_points\s*=\s*\{\s*(\d+)\s+[-\d.]+\s*\}", history):
+        province = int(province)
+        if province not in provinces:
+            provinces.append(province)
+    state_inventory[state_id] = provinces[:5]
+state_entries = re.findall(
+    r"(?:if|else_if)\s*=\s*\{\s*limit\s*=\s*\{\s*state\s*=\s*(\d+)\s*\}\s*"
+    r"ROOT\s*=\s*\{\s*set_variable\s*=\s*\{\s*rn_sel_state_id\s*=\s*(\d+)\s*\}\s*"
+    r"set_variable\s*=\s*\{\s*rn_vp_cnt\s*=\s*(\d+)\s*\}"
+    r"((?:\s*set_variable\s*=\s*\{\s*rn_vp_\d\s*=\s*\d+\s*\})*)\s*\}\s*\}", eff)
+generated_states = {}
+for state_id, numeric_id, count, slots in state_entries:
+    state_id, numeric_id, count = int(state_id), int(numeric_id), int(count)
+    if state_id in generated_states:
+        bad.append(f"duplicate generated state mapping: {state_id}")
+    if numeric_id != state_id:
+        bad.append(f"state mapping {state_id} writes numeric ID {numeric_id}")
+    vp_slots = [(int(k), int(p)) for k, p in re.findall(r"rn_vp_(\d)\s*=\s*(\d+)", slots)]
+    if [k for k, _ in vp_slots] != list(range(count)):
+        bad.append(f"state mapping {state_id} has inconsistent VP count/slots")
+    generated_states[state_id] = [p for _, p in vp_slots]
+bad += [f"missing generated state mapping: {s}" for s in sorted(state_inventory.keys() - generated_states.keys())]
+bad += [f"unexpected generated state mapping: {s}" for s in sorted(generated_states.keys() - state_inventory.keys())]
+bad += [f"wrong VP mapping for state {s}: {generated_states[s]} != {state_inventory[s]}"
+        for s in sorted(state_inventory.keys() & generated_states.keys())
+        if generated_states[s] != state_inventory[s]]
 used = set(re.findall(r"\b(rn_\w+) = yes", sg + allfx + sl))
 bad += [f"undefined effect/trigger {u}" for u in sorted(used - fxdefs)]
 btns = set(re.findall(r'buttonType = \{\s*name = "([^"]+)"', gui))

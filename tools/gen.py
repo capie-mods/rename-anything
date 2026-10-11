@@ -184,7 +184,7 @@ def yml_escape(s: str) -> str:
     return s
 
 
-# ----------------------------------------------------------------------------- vanilla VP table
+# ----------------------------------------------------------------------------- vanilla state / VP table
 
 
 def read_vps(game: str):
@@ -201,8 +201,9 @@ def read_vps(game: str):
             p = int(vm.group(1))
             if p not in vps:
                 vps.append(p)
-        if vps:
-            states[sid] = vps[:VP_SLOTS]
+        # States without VPs still need an ordinary numeric ID and a selected
+        # state label. Keeping them also lets an empty Cities list be deliberate.
+        states[sid] = vps[:VP_SLOTS]
     keys = set()
     for f in glob.glob(os.path.join(game, "localisation", "english", "*.yml")):
         for line in open(f, encoding="utf-8-sig", errors="replace"):
@@ -286,24 +287,16 @@ def gen_effects(states) -> str:
     n_expr = slots_expr("B")
     p_expr = "".join(f"[ROOT.RN_PD_{k}]" for k in range(5))
     out = [GEN_HEADER, "# Generated scripted effects (country scope = player ROOT).\n\n"]
-    # VP loader
-    out.append("# Loads VPs using numeric rn_sel_state_id; rn_sel_state itself is a typed scope.\n")
-    out.append("rn_load_vps = {\n\tset_variable = { rn_vp_cnt = 0 }\n")
-    buckets = sorted({s // STATE_BUCKET for s in states})
-    first_b = True
-    for b in buckets:
-        kw = "if" if first_b else "else_if"
-        first_b = False
-        out.append(f"\t{kw} = {{\n\t\tlimit = {{ check_variable = {{ rn_sel_state_id < {(b + 1) * STATE_BUCKET} }} }}\n")
-        first = True
-        for s, vps in states.items():
-            if s // STATE_BUCKET != b:
-                continue
-            kw2 = "if" if first else "else_if"
-            first = False
-            sets = " ".join(f"set_variable = {{ rn_vp_{i} = {p} }}" for i, p in enumerate(vps))
-            out.append(f"\t\t{kw2} = {{ limit = {{ check_variable = {{ rn_sel_state_id = {s} }} }} set_variable = {{ rn_vp_cnt = {len(vps)} }} {sets} }}\n")
-        out.append("\t}\n")
+    # CURRENT is the selected state; ROOT is the player country. A typed state
+    # variable (including THIS.id) cannot be compared to ordinary numeric IDs.
+    # Resolve by state trigger and assign a numeric literal, loading VPs in the
+    # same pass. This runs on Cities selection/open, never as a per-frame effect.
+    out.append("# State scope -> literal numeric ID and VP slots on ROOT (player). Includes states without VPs.\n")
+    out.append("rn_load_selected_state = {\n")
+    for i, (s, vps) in enumerate(states.items()):
+        kw = "if" if i == 0 else "else_if"
+        sets = "".join(f" set_variable = {{ rn_vp_{k} = {p} }}" for k, p in enumerate(vps))
+        out.append(f"\t{kw} = {{ limit = {{ state = {s} }} ROOT = {{ set_variable = {{ rn_sel_state_id = {s} }} set_variable = {{ rn_vp_cnt = {len(vps)} }}{sets} }} }}\n")
     out.append("}\n\n")
     # apply
     out.append(f"""# Apply the input buffer to the current target. meta_effect turns the scripted loc into a literal string,
@@ -935,7 +928,7 @@ def main() -> int:
         write(os.path.join(MOD, "localisation", lang, f"rename_anything_l_{lang}.yml"), gen_ui_loc(lang), bom=True)
         write(os.path.join(MOD, "localisation", lang, f"rename_anything_chars_l_{lang}.yml"), gen_char_loc(lang, states, keys), bom=True)
     nvp = sum(len(v) for v in states.values())
-    print(f"states with VPs: {len(states)}, VP slots: {nvp}, VPs without loc key: {sum(1 for v in states.values() for p in v if p not in keys)}")
+    print(f"states: {len(states)}, states with VPs: {sum(bool(v) for v in states.values())}, VP slots: {nvp}, VPs without loc key: {sum(1 for v in states.values() for p in v if p not in keys)}")
     return 0
 
 
