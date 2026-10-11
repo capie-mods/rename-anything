@@ -1,0 +1,227 @@
+{
+  "date": "2026-10-11",
+  "status": "new unloaded unified 5-field log-only transport QA; not registered or activated",
+  "activation": "Only root may select fresh process after current PID43444 proof and source review; this task does not change config/process/DLL",
+  "context": "own player_context POL / politics_tab / is_ai=no; party additionally current neutrality",
+  "bridge": "rename_anything_inline_editor_bridge.dll exact model/selector whitelist; Enter remains diagnostic only",
+  "country_component": "Fresh RNCountryCapabilities()==0x524e4301 queried by bridge before preparation and again before native dispatch. Expected transport marker rn_native_cap=1 is logged, never treated here as proof of target or successful rename.",
+  "epoch_variable": "rn_ip_epoch",
+  "command_epoch_temp": "rn_ip_cmd_epoch",
+  "epoch_carrier_expression": "[?ROOT.rn_ip_epoch|0]",
+  "model_groups": [
+    {
+      "model": "rn_ip_leader_gui",
+      "launcher_model": "rn_ip_leader_launcher_gui",
+      "window": "rn_ip_leader_window",
+      "apply_selector": "rn_ip_leader_apply_click",
+      "records": 35,
+      "fields": [
+        {
+          "edit": "rn_ip_leader_edit",
+          "carrier": "rn_ip_leader_prefill",
+          "expression": "[?ROOT.rn_ip_leader_identity.GetName]"
+        }
+      ],
+      "epoch_carrier": "rn_ip_leader_epoch",
+      "guard": "Inherited own active-ruler singleton typed pin guard; Apply log-only helper byte-identical to leader transport QA.",
+      "behavior": "Only A+epoch are fresh; unchanged RN_ILQA payload/slots logs. No B/cap claim."
+    },
+    {
+      "model": "rn_ip_party_neutrality_gui",
+      "launcher_model": "rn_ip_party_neutrality_launcher_gui",
+      "window": "rn_ip_party_neutrality_window",
+      "apply_selector": "rn_ip_party_neutrality_apply_click",
+      "records": 69,
+      "fields": [
+        {
+          "edit": "rn_ip_party_neutrality_edit",
+          "carrier": "rn_ip_party_neutrality_prefill",
+          "expression": "[ROOT.GetRulingParty]",
+          "payload": "A"
+        },
+        {
+          "edit": "rn_ip_party_neutrality_long_edit",
+          "carrier": "rn_ip_party_neutrality_long_prefill",
+          "expression": "[ROOT.GetRulingPartyLong]",
+          "payload": "B"
+        }
+      ],
+      "epoch_carrier": "rn_ip_party_neutrality_epoch",
+      "guard": "Own POL/neutrality/open/positive persistent epoch; no leader/country/legacy open. No payload/cap/temp-command-epoch gate in enabled.",
+      "behavior": "Full A+B+epochs logs, then pure pair validator and actual err/field/bad. No target pin proof or setter."
+    },
+    {
+      "model": "rn_ip_country_gui",
+      "launcher_model": "rn_ip_country_launcher_gui",
+      "window": "rn_ip_country_window",
+      "apply_selector": "rn_ip_country_apply_click",
+      "records": 70,
+      "fields": [
+        {
+          "edit": "rn_ip_country_name_edit",
+          "carrier": "rn_ip_country_name_prefill",
+          "expression": "[ROOT.GetName]",
+          "payload": "A"
+        },
+        {
+          "edit": "rn_ip_country_adj_edit",
+          "carrier": "rn_ip_country_adj_prefill",
+          "expression": "[ROOT.GetAdjective]",
+          "payload": "B"
+        }
+      ],
+      "epoch_carrier": "rn_ip_country_epoch",
+      "guard": "Own POL/open/positive persistent epoch; no leader/party/legacy open. No payload/cap/temp-command-epoch gate in enabled.",
+      "behavior": "Full A+B+epochs+cap logs, then pure pair validator and actual err/field/bad. No target pin proof or setter."
+    }
+  ],
+  "leader_geometry": {
+    "status": "post-PID3188 source-only correction; no runtime acceptance",
+    "parent": "politics_tab unchanged; coordinates local to native countrypoliticsview",
+    "launcher": [
+      154,
+      299,
+      14,
+      14
+    ],
+    "editor": [
+      18,
+      262,
+      155,
+      36
+    ],
+    "edit_local": [
+      4,
+      8,
+      110,
+      20
+    ],
+    "save_local": [
+      117,
+      10,
+      16,
+      16
+    ],
+    "cancel_local": [
+      135,
+      10,
+      16,
+      16
+    ],
+    "native_name_row": [
+      18,
+      262,
+      155,
+      36
+    ],
+    "native_faction_button": [
+      180,
+      243,
+      191,
+      57
+    ],
+    "reason": "old launcher177,273 and Cancel176..192 overlapped native Create faction. New leader controls end before local x173; launcher sits below leader_name and before ideology text y313.",
+    "runtime_limits": "clipping/draw order/hitboxes at actual UI scale and fresh callback still require QA; no parent/origin workaround"
+  },
+  "country_geometry": {
+    "launcher": [
+      45,
+      29,
+      393,
+      14
+    ],
+    "editor": [
+      45,
+      28,
+      405,
+      16
+    ],
+    "fields": [
+      {
+        "edit": "rn_ip_country_name_edit",
+        "carrier": "rn_ip_country_name_prefill",
+        "expression": "[ROOT.GetName]",
+        "bounds_local_to_editor": [
+          0,
+          0,
+          210,
+          16
+        ]
+      },
+      {
+        "edit": "rn_ip_country_adj_edit",
+        "carrier": "rn_ip_country_adj_prefill",
+        "expression": "[ROOT.GetAdjective]",
+        "bounds_local_to_editor": [
+          218,
+          0,
+          145,
+          16
+        ]
+      }
+    ]
+  },
+  "guard_diagnostic": {
+    "model": "rn_ilqa_guard_gui",
+    "window": "rn_ilqa_guard_window",
+    "button": "rn_ilqa_guards",
+    "selector": "rn_ilqa_guards_click",
+    "context": "player_context / politics_tab / own POL / is_ai=no; deliberately visible even when legacy or inline flags are set",
+    "bounds": [
+      375,
+      760,
+      148,
+      36
+    ],
+    "read_only": true,
+    "logs": [
+      "actual ROOT.GetTag",
+      "rn_ip_epoch",
+      "rn_ip_leader_target^num",
+      "rn_open true/false",
+      "rn_input true/false",
+      "rn_ip_leader_open true/false",
+      "rn_ip_party_neutrality_open true/false",
+      "rn_ip_country_open true/false"
+    ],
+    "native_whitelist": "not included or changed; no native field/carrier/Apply transport",
+    "position_limit": "fixed disposable 1720x900 QA layout below the military icons; shorter client/UI scaling not accepted",
+    "asset": "GFX_button_148x34; actual DDS148x36, no scale"
+  },
+  "co_load_exclusions": [
+    "rn_in_place_ui",
+    "rn_inline_leader_transport_qa",
+    "rn_inline_leader_apply_qa",
+    "rn_country_inline_ui",
+    "rn_inline_pair_qa",
+    "rn_inline_payload_qa"
+  ],
+  "included_helpers": {
+    "rn_inline_leader.txt": "6a44bb8db13cff63e6c818ff4c7c6556d5f7b4d1d176c8a450516dea8f804827",
+    "rn_inline_payload.txt": "cd171d6203bd66dc7905c7c3d0e1a2750c4b8eabab45f0540d75d3af2ce10800",
+    "rn_inline_pair_payload.txt": "e278dfac3a4e3ac5ccca7d7cf74da9d87f0de728d30bca875d543f24956f6fc7"
+  },
+  "pure_validation_boundary": "Strict full helper file contains rn_inline_copy_payload definition for byte identity, but Apply calls only rn_inline_validate_payload via pure rn_inline_pair_validate; no call path reaches copy/buffer writes. Pair aliases/restores only temporary A values.",
+  "legacy_and_switch": "Inherited visible/Open/Apply legacy guards, Open/Cancel flag+epoch flow and leader/party switch preserved. Country Open refuses other inline editors. QA guards remain read-only and visible through legacy flags.",
+  "target_limit": "Party/country do not pin typed target in this diagnostic; no target identity or production Apply claim.",
+  "runtime_limits": [
+    "New fixture not parsed/activated/exercised.",
+    "No rename, setter, buffer copy, synthetic text/payload, auto-Apply or Enter dispatch.",
+    "No party/country clipping, keyboard, draft/Cancel, menu/load, save/restart or multiplayer acceptance.",
+    "Logs/validator output are actual observations, not PASS assertions."
+  ],
+  "explicit_button_extents": {
+    "status": "NEW unified fixture source candidate only; no runtime visibility/hit-testing proof",
+    "pencils": "all 3 named *_open buttons size={x=14 y=14}, no scale, buttonFont=hoi_18mbs",
+    "save": "all 3 named *_apply buttons size={x=16 y=16}, no scale, buttonFont=hoi_18mbs",
+    "cancel": "all 3 named *_cancel buttons size={x=16 y=16}, no scale; native closebutton_16 asset",
+    "positions": "unchanged; no text hitboxes, new assets, origin or parent changes",
+    "primary_sources": [
+      "vanilla interface/airselectionview.gui:32-40: buttonType size={x=410 y=30} with quadTextureSprite",
+      "vanilla interface/tank_designer_view.gui:290-297: GFX_preset_button_save + buttonFont=hoi_18mbs",
+      "vanilla interface/tank_designer_view.gui:1500-1506: GFX_edit_designer_notes_button + buttonFont=hoi_18mbs",
+      "vanilla interface/core.gfx:1851-1862: both assets textSpriteType, 4 frames"
+    ],
+    "causal_limit": "Vanilla notes/save buttons above omit size; static evidence validates syntax/font but does not establish that missing extent caused PID43444 invisible pencil."
+  }
+}

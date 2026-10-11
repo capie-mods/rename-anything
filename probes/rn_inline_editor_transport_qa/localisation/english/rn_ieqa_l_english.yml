@@ -1,0 +1,3 @@
+﻿l_english:
+ RN_IEQA_LOG_PARTY:0 "Log both party fields and pure validation only. No rename."
+ RN_IEQA_LOG_COUNTRY:0 "Log country name/adjective, capability and pure validation only. No rename."

@@ -1,0 +1,63 @@
+# UNLOADED unified log-only transport. No persistent buffer/target/name writes.
+# Native bridge alone supplies payload; this fixture never manufactures text or records.
+# Pure validator uses private temporary scratch and restores valid A after aliasing B.
+# Enabled must not depend on ctor-injected payload, command epoch or country capability.
+
+rn_ieqa_party_apply = {
+	if = {
+		limit = {
+			tag = POL
+			is_ai = no
+			has_government = neutrality
+			has_country_flag = rn_ip_party_neutrality_open
+			NOT = { has_country_flag = rn_ip_leader_open }
+			NOT = { has_country_flag = rn_ip_country_open }
+			NOT = { has_country_flag = rn_open }
+			NOT = { has_country_flag = rn_input }
+			check_variable = { rn_ip_epoch > 0 }
+		}
+		log = "RN_IEQA party expected_records=69 cmd_epoch=[?temp_var:rn_ip_cmd_epoch|0] persistent_epoch=[?ROOT.rn_ip_epoch|0]"
+		log = "RN_IEQA party A ok=[?temp_var:rn_native_ok] len=[?temp_var:rn_native_len]"
+		log = "RN_IEQA party A slots 00-07: [?temp_var:rn_native_0],[?temp_var:rn_native_1],[?temp_var:rn_native_2],[?temp_var:rn_native_3],[?temp_var:rn_native_4],[?temp_var:rn_native_5],[?temp_var:rn_native_6],[?temp_var:rn_native_7]"
+		log = "RN_IEQA party A slots 08-15: [?temp_var:rn_native_8],[?temp_var:rn_native_9],[?temp_var:rn_native_10],[?temp_var:rn_native_11],[?temp_var:rn_native_12],[?temp_var:rn_native_13],[?temp_var:rn_native_14],[?temp_var:rn_native_15]"
+		log = "RN_IEQA party A slots 16-23: [?temp_var:rn_native_16],[?temp_var:rn_native_17],[?temp_var:rn_native_18],[?temp_var:rn_native_19],[?temp_var:rn_native_20],[?temp_var:rn_native_21],[?temp_var:rn_native_22],[?temp_var:rn_native_23]"
+		log = "RN_IEQA party A slots 24-31: [?temp_var:rn_native_24],[?temp_var:rn_native_25],[?temp_var:rn_native_26],[?temp_var:rn_native_27],[?temp_var:rn_native_28],[?temp_var:rn_native_29],[?temp_var:rn_native_30],[?temp_var:rn_native_31]"
+		log = "RN_IEQA party B ok=[?temp_var:rn_nativeb_ok] len=[?temp_var:rn_nativeb_len]"
+		log = "RN_IEQA party B slots 00-07: [?temp_var:rn_nativeb_0],[?temp_var:rn_nativeb_1],[?temp_var:rn_nativeb_2],[?temp_var:rn_nativeb_3],[?temp_var:rn_nativeb_4],[?temp_var:rn_nativeb_5],[?temp_var:rn_nativeb_6],[?temp_var:rn_nativeb_7]"
+		log = "RN_IEQA party B slots 08-15: [?temp_var:rn_nativeb_8],[?temp_var:rn_nativeb_9],[?temp_var:rn_nativeb_10],[?temp_var:rn_nativeb_11],[?temp_var:rn_nativeb_12],[?temp_var:rn_nativeb_13],[?temp_var:rn_nativeb_14],[?temp_var:rn_nativeb_15]"
+		log = "RN_IEQA party B slots 16-23: [?temp_var:rn_nativeb_16],[?temp_var:rn_nativeb_17],[?temp_var:rn_nativeb_18],[?temp_var:rn_nativeb_19],[?temp_var:rn_nativeb_20],[?temp_var:rn_nativeb_21],[?temp_var:rn_nativeb_22],[?temp_var:rn_nativeb_23]"
+		log = "RN_IEQA party B slots 24-31: [?temp_var:rn_nativeb_24],[?temp_var:rn_nativeb_25],[?temp_var:rn_nativeb_26],[?temp_var:rn_nativeb_27],[?temp_var:rn_nativeb_28],[?temp_var:rn_nativeb_29],[?temp_var:rn_nativeb_30],[?temp_var:rn_nativeb_31]"
+		rn_inline_pair_validate = yes
+		log = "RN_IEQA party pair err=[?temp_var:rn_pair_err] field=[?temp_var:rn_pair_field] bad=[?temp_var:rn_pair_bad]"
+	}
+	else = { log = "RN_IEQA party context/open/epoch rejected; no buffer or name write" }
+}
+
+rn_ieqa_country_apply = {
+	if = {
+		limit = {
+			tag = POL
+			is_ai = no
+			has_country_flag = rn_ip_country_open
+			NOT = { has_country_flag = rn_ip_leader_open }
+			NOT = { has_country_flag = rn_ip_party_neutrality_open }
+			NOT = { has_country_flag = rn_open }
+			NOT = { has_country_flag = rn_input }
+			check_variable = { rn_ip_epoch > 0 }
+		}
+		log = "RN_IEQA country expected_records=70 cmd_epoch=[?temp_var:rn_ip_cmd_epoch|0] persistent_epoch=[?ROOT.rn_ip_epoch|0] cap=[?temp_var:rn_native_cap]"
+		log = "RN_IEQA country A ok=[?temp_var:rn_native_ok] len=[?temp_var:rn_native_len]"
+		log = "RN_IEQA country A slots 00-07: [?temp_var:rn_native_0],[?temp_var:rn_native_1],[?temp_var:rn_native_2],[?temp_var:rn_native_3],[?temp_var:rn_native_4],[?temp_var:rn_native_5],[?temp_var:rn_native_6],[?temp_var:rn_native_7]"
+		log = "RN_IEQA country A slots 08-15: [?temp_var:rn_native_8],[?temp_var:rn_native_9],[?temp_var:rn_native_10],[?temp_var:rn_native_11],[?temp_var:rn_native_12],[?temp_var:rn_native_13],[?temp_var:rn_native_14],[?temp_var:rn_native_15]"
+		log = "RN_IEQA country A slots 16-23: [?temp_var:rn_native_16],[?temp_var:rn_native_17],[?temp_var:rn_native_18],[?temp_var:rn_native_19],[?temp_var:rn_native_20],[?temp_var:rn_native_21],[?temp_var:rn_native_22],[?temp_var:rn_native_23]"
+		log = "RN_IEQA country A slots 24-31: [?temp_var:rn_native_24],[?temp_var:rn_native_25],[?temp_var:rn_native_26],[?temp_var:rn_native_27],[?temp_var:rn_native_28],[?temp_var:rn_native_29],[?temp_var:rn_native_30],[?temp_var:rn_native_31]"
+		log = "RN_IEQA country B ok=[?temp_var:rn_nativeb_ok] len=[?temp_var:rn_nativeb_len]"
+		log = "RN_IEQA country B slots 00-07: [?temp_var:rn_nativeb_0],[?temp_var:rn_nativeb_1],[?temp_var:rn_nativeb_2],[?temp_var:rn_nativeb_3],[?temp_var:rn_nativeb_4],[?temp_var:rn_nativeb_5],[?temp_var:rn_nativeb_6],[?temp_var:rn_nativeb_7]"
+		log = "RN_IEQA country B slots 08-15: [?temp_var:rn_nativeb_8],[?temp_var:rn_nativeb_9],[?temp_var:rn_nativeb_10],[?temp_var:rn_nativeb_11],[?temp_var:rn_nativeb_12],[?temp_var:rn_nativeb_13],[?temp_var:rn_nativeb_14],[?temp_var:rn_nativeb_15]"
+		log = "RN_IEQA country B slots 16-23: [?temp_var:rn_nativeb_16],[?temp_var:rn_nativeb_17],[?temp_var:rn_nativeb_18],[?temp_var:rn_nativeb_19],[?temp_var:rn_nativeb_20],[?temp_var:rn_nativeb_21],[?temp_var:rn_nativeb_22],[?temp_var:rn_nativeb_23]"
+		log = "RN_IEQA country B slots 24-31: [?temp_var:rn_nativeb_24],[?temp_var:rn_nativeb_25],[?temp_var:rn_nativeb_26],[?temp_var:rn_nativeb_27],[?temp_var:rn_nativeb_28],[?temp_var:rn_nativeb_29],[?temp_var:rn_nativeb_30],[?temp_var:rn_nativeb_31]"
+		rn_inline_pair_validate = yes
+		log = "RN_IEQA country pair err=[?temp_var:rn_pair_err] field=[?temp_var:rn_pair_field] bad=[?temp_var:rn_pair_bad]"
+	}
+	else = { log = "RN_IEQA country context/open/epoch rejected; no buffer or name write" }
+}

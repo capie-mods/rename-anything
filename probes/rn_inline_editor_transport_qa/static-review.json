@@ -1,0 +1,380 @@
+{
+  "date": "2026-10-11",
+  "status": "SOURCE ONLY READY; unloaded and unregistered; no HOI4 parser/runtime acceptance",
+  "checks_passed": 92,
+  "checks": [
+    "Nine PDX descriptor/GUI/SG/effect sources consumed by local grammar (not HOI4 parser acceptance)",
+    "All 33 recorded read-only source fixture files unchanged",
+    "Unique seven models/windows and eleven helper definitions",
+    "Exactly five native fields and ten buttons (nine editor controls plus QA guards)",
+    "Frozen helper SHA256: rn_inline_leader.txt",
+    "Frozen helper SHA256: rn_inline_payload.txt",
+    "Frozen helper SHA256: rn_inline_pair_payload.txt",
+    "Byte identity to read-only active pair source: rn_inline_payload.txt",
+    "Byte identity to read-only active pair source: rn_inline_pair_payload.txt",
+    "Exact own player/politics binding, no AI: rn_ip_country_launcher_gui",
+    "Own POL QA visibility: rn_ip_country_launcher_gui",
+    "Both legacy visibility gates: rn_ip_country_launcher_gui",
+    "Exact own player/politics binding, no AI: rn_ip_country_gui",
+    "Own POL QA visibility: rn_ip_country_gui",
+    "Both legacy visibility gates: rn_ip_country_gui",
+    "Exact own player/politics binding, no AI: rn_ip_leader_launcher_gui",
+    "Own POL QA visibility: rn_ip_leader_launcher_gui",
+    "Both legacy visibility gates: rn_ip_leader_launcher_gui",
+    "Exact own player/politics binding, no AI: rn_ip_leader_gui",
+    "Own POL QA visibility: rn_ip_leader_gui",
+    "Both legacy visibility gates: rn_ip_leader_gui",
+    "Exact own player/politics binding, no AI: rn_ip_party_neutrality_launcher_gui",
+    "Own POL QA visibility: rn_ip_party_neutrality_launcher_gui",
+    "Both legacy visibility gates: rn_ip_party_neutrality_launcher_gui",
+    "Exact own player/politics binding, no AI: rn_ip_party_neutrality_gui",
+    "Own POL QA visibility: rn_ip_party_neutrality_gui",
+    "Both legacy visibility gates: rn_ip_party_neutrality_gui",
+    "Exact own player/politics binding, no AI: rn_ilqa_guard_gui",
+    "Own POL QA visibility: rn_ilqa_guard_gui",
+    "Exact effect/enabled selector for button rn_ip_country_open",
+    "Explicit unscaled button extent: rn_ip_country_open",
+    "Primary textSprite font: rn_ip_country_open",
+    "Exact effect/enabled selector for button rn_ip_country_apply",
+    "Explicit unscaled button extent: rn_ip_country_apply",
+    "Primary textSprite font: rn_ip_country_apply",
+    "Exact effect/enabled selector for button rn_ip_country_cancel",
+    "Explicit unscaled button extent: rn_ip_country_cancel",
+    "Exact effect/enabled selector for button rn_ip_leader_open",
+    "Explicit unscaled button extent: rn_ip_leader_open",
+    "Primary textSprite font: rn_ip_leader_open",
+    "Exact effect/enabled selector for button rn_ip_leader_apply",
+    "Explicit unscaled button extent: rn_ip_leader_apply",
+    "Primary textSprite font: rn_ip_leader_apply",
+    "Exact effect/enabled selector for button rn_ip_leader_cancel",
+    "Explicit unscaled button extent: rn_ip_leader_cancel",
+    "Exact effect/enabled selector for button rn_ip_party_neutrality_open",
+    "Explicit unscaled button extent: rn_ip_party_neutrality_open",
+    "Primary textSprite font: rn_ip_party_neutrality_open",
+    "Exact effect/enabled selector for button rn_ip_party_neutrality_apply",
+    "Explicit unscaled button extent: rn_ip_party_neutrality_apply",
+    "Primary textSprite font: rn_ip_party_neutrality_apply",
+    "Exact effect/enabled selector for button rn_ip_party_neutrality_cancel",
+    "Explicit unscaled button extent: rn_ip_party_neutrality_cancel",
+    "Exact effect/enabled selector for button rn_ilqa_guards",
+    "One helper and exact enabled/effect guard parity: rn_ip_leader_gui",
+    "Enabled independent of ctor records: rn_ip_leader_gui",
+    "Empty native field plus resolved hidden carrier: rn_ip_leader_edit",
+    "Hidden plain integral epoch carrier: rn_ip_leader_gui",
+    "Exact field/carrier/model/selector strings in five-field native whitelist: rn_ip_leader_gui",
+    "One helper and exact enabled/effect guard parity: rn_ip_party_neutrality_gui",
+    "Enabled independent of ctor records: rn_ip_party_neutrality_gui",
+    "Empty native field plus resolved hidden carrier: rn_ip_party_neutrality_edit",
+    "Empty native field plus resolved hidden carrier: rn_ip_party_neutrality_long_edit",
+    "Hidden plain integral epoch carrier: rn_ip_party_neutrality_gui",
+    "Exact field/carrier/model/selector strings in five-field native whitelist: rn_ip_party_neutrality_gui",
+    "One helper and exact enabled/effect guard parity: rn_ip_country_gui",
+    "Enabled independent of ctor records: rn_ip_country_gui",
+    "Empty native field plus resolved hidden carrier: rn_ip_country_name_edit",
+    "Empty native field plus resolved hidden carrier: rn_ip_country_adj_edit",
+    "Hidden plain integral epoch carrier: rn_ip_country_gui",
+    "Exact field/carrier/model/selector strings in five-field native whitelist: rn_ip_country_gui",
+    "All inherited Open/Cancel/context/visibility/QA guards unchanged except named Apply: rn_ip_party_neutrality_gui",
+    "All inherited Open/Cancel/context/visibility/QA guards unchanged except named Apply: rn_ip_country_gui",
+    "GUI inherits all geometry/content except authorized explicit extents/font and log tooltip: interface/rn_in_place_ui.gui",
+    "GUI inherits all geometry/content except authorized explicit extents/font and log tooltip: interface/rn_country_inline_ui.gui",
+    "Complete Apply callgraph excludes copy, open, flags, pin refresh and setters",
+    "All reachable Apply commands are logs and temporary scratch only; no persistent or buffer writes",
+    "All 34 rn_native observations exactly once: party",
+    "All 34 rn_nativeb observations exactly once: party",
+    "Raw full payload logged before pure validator; actual epochs/error/field/bad, no fake PASS: party",
+    "Capability observation only in country70: party",
+    "All 34 rn_native observations exactly once: country",
+    "All 34 rn_nativeb observations exactly once: country",
+    "Raw full payload logged before pure validator; actual epochs/error/field/bad, no fake PASS: country",
+    "Capability observation only in country70: country",
+    "Every visible editor control lies inside its root extent",
+    "Root-approved leader and independent guard geometry unchanged",
+    "UTF8-BOM, unique locale keys and every button reference resolves: english",
+    "UTF8-BOM, unique locale keys and every button reference resolves: polish",
+    "English/Polish key parity",
+    "Inherited expected observation Jan Żółć unchanged; never installed as synthetic field input",
+    "All fixture JSON parses and all text files have no trailing whitespace"
+  ],
+  "models": [
+    "rn_ilqa_guard_gui",
+    "rn_ip_country_gui",
+    "rn_ip_country_launcher_gui",
+    "rn_ip_leader_gui",
+    "rn_ip_leader_launcher_gui",
+    "rn_ip_party_neutrality_gui",
+    "rn_ip_party_neutrality_launcher_gui"
+  ],
+  "native_fields": [
+    "rn_ip_country_adj_edit",
+    "rn_ip_country_name_edit",
+    "rn_ip_leader_edit",
+    "rn_ip_party_neutrality_edit",
+    "rn_ip_party_neutrality_long_edit"
+  ],
+  "hidden_carriers": [
+    "rn_ip_leader_prefill",
+    "rn_ip_party_neutrality_prefill",
+    "rn_ip_party_neutrality_long_prefill",
+    "rn_ip_country_name_prefill",
+    "rn_ip_country_adj_prefill",
+    "rn_ip_leader_epoch",
+    "rn_ip_party_neutrality_epoch",
+    "rn_ip_country_epoch"
+  ],
+  "geometry": {
+    "rn_ip_country_launcher_window": {
+      "bounds": [
+        45,
+        29,
+        393,
+        14
+      ],
+      "controls": {
+        "rn_ip_country_open": [
+          379,
+          0,
+          14,
+          14
+        ]
+      }
+    },
+    "rn_ip_country_window": {
+      "bounds": [
+        45,
+        28,
+        405,
+        16
+      ],
+      "controls": {
+        "rn_ip_country_name_edit": [
+          0,
+          0,
+          210,
+          16
+        ],
+        "rn_ip_country_adj_edit": [
+          218,
+          0,
+          145,
+          16
+        ],
+        "rn_ip_country_apply": [
+          369,
+          0,
+          16,
+          16
+        ],
+        "rn_ip_country_cancel": [
+          389,
+          0,
+          16,
+          16
+        ]
+      }
+    },
+    "rn_ip_leader_launcher_window": {
+      "bounds": [
+        154,
+        299,
+        14,
+        14
+      ],
+      "controls": {
+        "rn_ip_leader_open": [
+          0,
+          0,
+          14,
+          14
+        ]
+      }
+    },
+    "rn_ip_leader_window": {
+      "bounds": [
+        18,
+        262,
+        155,
+        36
+      ],
+      "controls": {
+        "rn_ip_leader_edit": [
+          4,
+          8,
+          110,
+          20
+        ],
+        "rn_ip_leader_apply": [
+          117,
+          10,
+          16,
+          16
+        ],
+        "rn_ip_leader_cancel": [
+          135,
+          10,
+          16,
+          16
+        ]
+      }
+    },
+    "rn_ip_party_neutrality_launcher_window": {
+      "bounds": [
+        536,
+        352,
+        14,
+        14
+      ],
+      "controls": {
+        "rn_ip_party_neutrality_open": [
+          0,
+          0,
+          14,
+          14
+        ]
+      }
+    },
+    "rn_ip_party_neutrality_window": {
+      "bounds": [
+        354,
+        352,
+        196,
+        62
+      ],
+      "controls": {
+        "rn_ip_party_neutrality_edit": [
+          6,
+          0,
+          138,
+          18
+        ],
+        "rn_ip_party_neutrality_apply": [
+          148,
+          1,
+          16,
+          16
+        ],
+        "rn_ip_party_neutrality_cancel": [
+          168,
+          1,
+          16,
+          16
+        ],
+        "rn_ip_party_neutrality_long_edit": [
+          6,
+          42,
+          176,
+          18
+        ]
+      }
+    },
+    "rn_ilqa_guard_window": {
+      "bounds": [
+        375,
+        760,
+        148,
+        36
+      ],
+      "controls": {
+        "rn_ilqa_guards": [
+          0,
+          0,
+          148,
+          36
+        ]
+      }
+    }
+  },
+  "reachable_apply_helpers": [
+    "rn_ieqa_country_apply",
+    "rn_ieqa_party_apply",
+    "rn_inline_leader_apply",
+    "rn_inline_pair_validate",
+    "rn_inline_validate_payload",
+    "rn_inline_validate_slot"
+  ],
+  "reachable_effect_commands": [
+    "add_to_temp_variable",
+    "log",
+    "round_temp_variable",
+    "set_temp_variable"
+  ],
+  "source_fixture_files_unchanged": 33,
+  "included_helper_sha256": {
+    "rn_inline_leader.txt": "6a44bb8db13cff63e6c818ff4c7c6556d5f7b4d1d176c8a450516dea8f804827",
+    "rn_inline_payload.txt": "cd171d6203bd66dc7905c7c3d0e1a2750c4b8eabab45f0540d75d3af2ce10800",
+    "rn_inline_pair_payload.txt": "e278dfac3a4e3ac5ccca7d7cf74da9d87f0de728d30bca875d543f24956f6fc7"
+  },
+  "locale_keys": {
+    "english": [
+      "RN_IEQA_LOG_COUNTRY",
+      "RN_IEQA_LOG_PARTY",
+      "RN_ILQA_GUARDS",
+      "RN_ILQA_GUARDS_TT",
+      "RN_ILQA_LOG_PAYLOAD",
+      "RN_IPC_APPLY_UNAVAILABLE",
+      "RN_IPC_CANCEL",
+      "RN_IPC_EDIT_COUNTRY",
+      "RN_IP_APPLY_UNAVAILABLE",
+      "RN_IP_CANCEL",
+      "RN_IP_EDIT_LEADER",
+      "RN_IP_EDIT_PARTY",
+      "RN_IP_LONG_NAME"
+    ],
+    "polish": [
+      "RN_IEQA_LOG_COUNTRY",
+      "RN_IEQA_LOG_PARTY",
+      "RN_ILQA_GUARDS",
+      "RN_ILQA_GUARDS_TT",
+      "RN_ILQA_LOG_PAYLOAD",
+      "RN_IPC_APPLY_UNAVAILABLE",
+      "RN_IPC_CANCEL",
+      "RN_IPC_EDIT_COUNTRY",
+      "RN_IP_APPLY_UNAVAILABLE",
+      "RN_IP_CANCEL",
+      "RN_IP_EDIT_LEADER",
+      "RN_IP_EDIT_PARTY",
+      "RN_IP_LONG_NAME"
+    ]
+  },
+  "button_extent_evidence": {
+    "status": "NEW unified fixture source candidate only; no runtime visibility/hit-testing proof",
+    "pencils": "all 3 named *_open buttons size={x=14 y=14}, no scale, buttonFont=hoi_18mbs",
+    "save": "all 3 named *_apply buttons size={x=16 y=16}, no scale, buttonFont=hoi_18mbs",
+    "cancel": "all 3 named *_cancel buttons size={x=16 y=16}, no scale; native closebutton_16 asset",
+    "positions": "unchanged; no text hitboxes, new assets, origin or parent changes",
+    "primary_sources": [
+      "vanilla interface/airselectionview.gui:32-40: buttonType size={x=410 y=30} with quadTextureSprite",
+      "vanilla interface/tank_designer_view.gui:290-297: GFX_preset_button_save + buttonFont=hoi_18mbs",
+      "vanilla interface/tank_designer_view.gui:1500-1506: GFX_edit_designer_notes_button + buttonFont=hoi_18mbs",
+      "vanilla interface/core.gfx:1851-1862: both assets textSpriteType, 4 frames"
+    ],
+    "causal_limit": "Vanilla notes/save buttons above omit size; static evidence validates syntax/font but does not establish that missing extent caused PID43444 invisible pencil."
+  },
+  "runtime_limits": [
+    "New fixture not parsed/activated/exercised.",
+    "No rename, setter, buffer copy, synthetic text/payload, auto-Apply or Enter dispatch.",
+    "No party/country clipping, keyboard, draft/Cancel, menu/load, save/restart or multiplayer acceptance.",
+    "Logs/validator output are actual observations, not PASS assertions."
+  ],
+  "inventory_sha256": {
+    "common/scripted_effects/rn_ieqa_diagnostics.txt": "10b93bc3a22b754b239dadfc7b78f54e97b003fdfc2932079b9257fafc139e63",
+    "common/scripted_effects/rn_inline_leader.txt": "6a44bb8db13cff63e6c818ff4c7c6556d5f7b4d1d176c8a450516dea8f804827",
+    "common/scripted_effects/rn_inline_pair_payload.txt": "e278dfac3a4e3ac5ccca7d7cf74da9d87f0de728d30bca875d543f24956f6fc7",
+    "common/scripted_effects/rn_inline_payload.txt": "cd171d6203bd66dc7905c7c3d0e1a2750c4b8eabab45f0540d75d3af2ce10800",
+    "common/scripted_guis/rn_country_inline_ui.txt": "ed0c6d6de69c76f7d22ea8ee43f8a4b8bf31b4f5844b3c2ceeb846d5d6038127",
+    "common/scripted_guis/rn_in_place_ui.txt": "ff8ad50232bd0bc34081c9d9d2bf7c2531d815419710dc31abe2ca0adda57a98",
+    "descriptor.mod": "119e396e8997f8bd442b249967f9e49453122100dea12b206e05947bf936ac78",
+    "expected-input.json": "16b6a644bcf1c670bb86cac550b977d144c633897b80a665db58df4d9b9380fd",
+    "interface/rn_country_inline_ui.gui": "74f15f972aea2acab18dcfb87a24fa9b4d90d49d732efe0d6d0c38509d3fa8f1",
+    "interface/rn_in_place_ui.gui": "9977c5c844b50fc57461c78cd378ba82048eab19cfcc436a62438d5c0881f946",
+    "localisation/english/rn_country_inline_ui_l_english.yml": "36304caf8c0a3c26093add78bc21fd7a0b1c0cd792e2a9720c3afab006fe17e8",
+    "localisation/english/rn_ieqa_l_english.yml": "9fc7f4e4c536f78fee95dfcff5470b88495628df2d3857cf6737252ccc5660f3",
+    "localisation/english/rn_in_place_ui_l_english.yml": "a087cc01606fc47b776fbf54cc4f674abeb154e129500268eae48e7a5ae6d498",
+    "localisation/polish/rn_country_inline_ui_l_polish.yml": "e2f4c81a5ed5f2ed8866a7b39aa892eb98ed79e44a22c44821dc109257566783",
+    "localisation/polish/rn_ieqa_l_polish.yml": "a20734f78473b6250c437e6d440b8dc79805093d3c6568d66ff7ce9c0c4ecf88",
+    "localisation/polish/rn_in_place_ui_l_polish.yml": "b24cd86a0db0e8d9fa17bf3b5d5bad83f95a7f6bc38c8dd570c91ee32a2fd71b",
+    "native-contract.json": "9979e9b8f12bb0194e5caeb5b70a8d4efa4736fa3faeb039e29441315b871bd0",
+    "README.md": "75d28a094d06fde5c4840566d644d93628e951a9dfc59c3d89d31d9848afc03e",
+    "source-baseline.json": "d5f0c76edf098f951b12eac04eef1f9b779f27e54abc91f7e939a894cf9aa72b"
+  }
+}

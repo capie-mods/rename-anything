@@ -1,0 +1,74 @@
+# UNLOADED own-country QA sketch. player_context establishes the player scope.
+# POL/is_ai are disposable QA gates, not production or multiplayer authority.
+# Unified unloaded log-only transport fixture; Open/Cancel remain from country sketch.
+scripted_gui = {
+	rn_ip_country_launcher_gui = {
+		context_type = player_context
+		parent_window_token = politics_tab
+		window_name = "rn_ip_country_launcher_window"
+		visible = { tag = POL is_ai = no NOT = { has_country_flag = rn_ip_country_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
+		ai_enabled = { always = no }
+		effects = {
+			rn_ip_country_open_click = {
+				if = {
+					limit = {
+						tag = POL
+						is_ai = no
+						NOT = { has_country_flag = rn_ip_country_open }
+						NOT = { has_country_flag = rn_ip_leader_open }
+						NOT = { has_country_flag = rn_ip_party_neutrality_open }
+						NOT = { has_country_flag = rn_open }
+						NOT = { has_country_flag = rn_input }
+					}
+					set_country_flag = rn_ip_country_open
+					add_to_variable = { rn_ip_epoch = 1 }
+				}
+			}
+		}
+		triggers = {
+			rn_ip_country_open_click_enabled = {
+				tag = POL
+				is_ai = no
+				NOT = { has_country_flag = rn_ip_country_open }
+				NOT = { has_country_flag = rn_ip_leader_open }
+				NOT = { has_country_flag = rn_ip_party_neutrality_open }
+				NOT = { has_country_flag = rn_open }
+				NOT = { has_country_flag = rn_input }
+			}
+		}
+	}
+	rn_ip_country_gui = {
+		context_type = player_context
+		parent_window_token = politics_tab
+		window_name = "rn_ip_country_window"
+		visible = { tag = POL is_ai = no has_country_flag = rn_ip_country_open NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
+		ai_enabled = { always = no }
+		effects = {
+			# Observe only: ordinary enabled guard precedes native capability/payload injection.
+			rn_ip_country_apply_click = { rn_ieqa_country_apply = yes }
+			rn_ip_country_cancel_click = {
+				if = {
+					limit = { tag = POL is_ai = no has_country_flag = rn_ip_country_open }
+					clr_country_flag = rn_ip_country_open
+					add_to_variable = { rn_ip_epoch = 1 }
+				}
+			}
+		}
+		triggers = {
+			rn_ip_country_name_prefill_visible = { always = no }
+			rn_ip_country_adj_prefill_visible = { always = no }
+			rn_ip_country_epoch_visible = { always = no }
+			rn_ip_country_apply_click_enabled = {
+				tag = POL
+				is_ai = no
+				has_country_flag = rn_ip_country_open
+				NOT = { has_country_flag = rn_ip_leader_open }
+				NOT = { has_country_flag = rn_ip_party_neutrality_open }
+				NOT = { has_country_flag = rn_open }
+				NOT = { has_country_flag = rn_input }
+				check_variable = { rn_ip_epoch > 0 }
+			}
+			rn_ip_country_cancel_click_enabled = { tag = POL is_ai = no has_country_flag = rn_ip_country_open }
+		}
+	}
+}

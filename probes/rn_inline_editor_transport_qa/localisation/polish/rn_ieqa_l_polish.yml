@@ -1,0 +1,3 @@
+﻿l_polish:
+ RN_IEQA_LOG_PARTY:0 "Tylko log obu pól partii i czystej walidacji. Bez zmiany nazwy."
+ RN_IEQA_LOG_COUNTRY:0 "Tylko log nazwy/przymiotnika kraju, capabilities i czystej walidacji. Bez zmiany nazwy."
