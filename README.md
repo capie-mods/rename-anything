@@ -21,36 +21,6 @@ party are stuck with whatever the game or a focus tree gives them. Existing Work
 around this with decisions that pick from prepared lists of names. Rename Anything gives you a
 real text field instead: any name you can type, Polish letters included, saved in your campaign.
 
-## What works today
-
-Checked in the game on HOI4 1.19.3.0 (Windows, Steam), single player, on development builds.
-Details and limits for every row are in the [test report](docs/test-report.md).
-
-| Feature | Status | Notes |
-|---|---|---|
-| Your country's name and adjective | Works today | Needs CAPIE. Map, diplomacy, tooltips and events pick up the new name; decision titles keep their own text. |
-| Your country's leader | Works today | Pencil next to the portrait in the Politics panel. |
-| Ruling party, short and full name | Works today | Tested on the ruling party group. |
-| States and cities (victory points) | Works today | Scripts only, no CAPIE needed. |
-| Other characters (generals, admirals, advisers) | Works today | Through the scripted name editor, no CAPIE needed. |
-| Polish letters (ą ć ę ł ń ó ś ź ż) | Works today | Names with Polish letters apply and persist. Typing them into the field was checked on one keyboard layout. |
-| Names survive save, load and a full game restart | Works today | |
-| Enter applies the change | Works today | Same game command as clicking Apply. |
-| 5-day cooldown per object | Works today | The pencil greys out and its tooltip says when the next rename is possible. |
-| Leader and party name update without reopening Politics | In progress | Today the panel shows the new name after you close and reopen it. |
-| Esc closes the editor | In progress | Esc currently closes the Politics panel and leaves the editor on screen. |
-| All four party groups through tabs | In progress | Built; not yet checked in the game. |
-| Renaming a subject's names (as overlord) | In progress | Placeholder, hidden. |
-| Editors merged into the main mod | In progress | Merged into `mod/`; the merged build still needs its in-game check. |
-| Start through Steam launch options or a shortcut | In progress | Launcher built and reviewed, not yet tested end to end. |
-| One-line PowerShell installer, updates, uninstall | In progress | Script and offline tests exist; no release to install yet. |
-| CAPIE API for other mods | Planned | See [For modders](#for-modders-capie). |
-| Multiplayer handshake that refuses players without CAPIE | Planned | |
-| Main-menu line showing whether CAPIE is loaded | Planned | |
-| Multiplayer | Not supported | Never tested with two players. |
-| Achievements and ironman | Not supported | See [FAQ](#faq). |
-| Any game version other than 1.19.3.0 | Not supported | CAPIE stays off; scripts keep working. |
-
 ## How it works
 
 <img src="docs/assets/readme/edit-in-place.svg" alt="Renaming a leader: click the pencil, type Jan Żółć into the game's own text field, press Enter. The name is sent as a game command and stored in the save." width="880">
@@ -74,6 +44,38 @@ original name.
 The planned way to start the game keeps your habits: you press Play in Steam (or use a desktop
 shortcut), pick your playset in the Paradox Launcher, and play with your other mods. The CAPIE
 launcher only adds one step in between, and loads CAPIE only into the game it started.
+
+## What works today
+
+Everything marked "Works today" was checked in the game on HOI4 1.19.3.0 (Windows, Steam),
+single player, on development builds. The [test report](docs/test-report.md) has the details
+and limits for every row.
+
+| Feature | Status | Notes |
+|---|---|---|
+| Your country's name and adjective | Works today | Needs CAPIE. Map, diplomacy, tooltips and events pick up the new name; decision titles keep their own text. |
+| Your country's leader | Works today | Pencil next to the portrait in the Politics panel. |
+| Party names, short and full | Works today | Tested on the ruling party and on a party that is not in power. |
+| All four party groups through tabs | Works today | A party that is not in power was renamed through its tab. |
+| Party name updates in the panel right away | Works today | |
+| States and cities (victory points) | Works today | Scripts only, no CAPIE needed. |
+| Other characters (generals, admirals, advisers) | Works today | Through the scripted name editor, no CAPIE needed. |
+| Polish letters (ą ć ę ł ń ó ś ź ż) | Works today | Names with Polish letters apply and persist. Typing them into the field was checked on one keyboard layout. |
+| Names survive save, load and a full game restart | Works today | |
+| Enter applies the change | Works today | Same game command as clicking Apply. |
+| 5-day cooldown per object | Works today | The pencil greys out and its tooltip says when the next rename is possible. |
+| Editors merged into the main mod | Works today | The in-game check ran on the merged `mod/`. |
+| Leader name updates without reopening Politics | In progress | Today the leader's name changes after you close and reopen the panel. |
+| Esc cancels the edit | In progress | Esc closes the Politics panel and the editor with it, but the edit mode stays on. |
+| Renaming a subject's names (as overlord) | In progress | Placeholder, hidden. |
+| Start through Steam launch options or a shortcut | In progress | Launcher built and reviewed, not yet tested end to end. |
+| One-line PowerShell installer, updates, uninstall | In progress | Script and offline tests exist; no release to install yet. |
+| CAPIE API for other mods | Planned | See [For modders](#for-modders-capie). |
+| Multiplayer handshake that refuses players without CAPIE | Planned | |
+| Main-menu line showing whether CAPIE is loaded | Planned | |
+| Multiplayer | Not supported | Never tested with two players. |
+| Achievements and ironman | Not supported | See [FAQ](#faq). |
+| Any game version other than 1.19.3.0 | Not supported | CAPIE stays off; scripts keep working. |
 
 ## Safety
 
