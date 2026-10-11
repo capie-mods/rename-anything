@@ -1,0 +1,119 @@
+{
+  "status": "unloaded log-only leader transport QA; not registered or activated",
+  "qa_scope": "own player_context POL; party current neutrality; visible/Open/Apply reject legacy rn_open and rn_input",
+  "parent_window_token": "politics_tab",
+  "epoch_variable": "rn_ip_epoch",
+  "activation": "not_registered; root owns fresh-process activation with only isolated bridge, no other editor hook DLL",
+  "fields": [
+    {
+      "model": "rn_ip_leader_gui",
+      "window": "rn_ip_leader_window",
+      "edit": "rn_ip_leader_edit",
+      "carrier": "rn_ip_leader_prefill",
+      "expression": "[?ROOT.rn_ip_leader_identity.GetName]",
+      "flag": "rn_ip_leader_open",
+      "selector": "rn_ip_leader_apply_click",
+      "bounds": [
+        18,
+        262,
+        178,
+        36
+      ],
+      "target_pin": "Open pins typed own active ruler; enabled/effect require singleton identity membership and fresh own any_character active-ruler match",
+      "open_selector": "rn_ip_leader_open_click",
+      "cancel_selector": "rn_ip_leader_cancel_click",
+      "epoch_carrier": "rn_ip_leader_epoch",
+      "epoch_expression": "[?ROOT.rn_ip_epoch|0]",
+      "candidate_effect": "rn_inline_leader_apply (LOG ONLY; does not copy/rename/close)"
+    },
+    {
+      "model": "rn_ip_party_neutrality_gui",
+      "window": "rn_ip_party_neutrality_window",
+      "edit": "rn_ip_party_neutrality_edit",
+      "carrier": "rn_ip_party_neutrality_prefill",
+      "expression": "[ROOT.GetRulingParty]",
+      "long_edit": "rn_ip_party_neutrality_long_edit",
+      "long_carrier": "rn_ip_party_neutrality_long_prefill",
+      "long_expression": "[ROOT.GetRulingPartyLong]",
+      "flag": "rn_ip_party_neutrality_open",
+      "selector": "rn_ip_party_neutrality_apply_click",
+      "bounds": [
+        354,
+        352,
+        196,
+        62
+      ],
+      "ideology": "neutrality",
+      "target_pin": "country + ideology + opening epoch must be revalidated; custom ideology rows not mapped",
+      "open_selector": "rn_ip_party_neutrality_open_click",
+      "cancel_selector": "rn_ip_party_neutrality_cancel_click",
+      "epoch_carrier": "rn_ip_party_neutrality_epoch",
+      "epoch_expression": "[?ROOT.rn_ip_epoch|0]"
+    }
+  ],
+  "launcher_models": [
+    "rn_ip_leader_launcher_gui",
+    "rn_ip_party_neutrality_launcher_gui"
+  ],
+  "apply_enabled": {
+    "leader": "conditional own editor/open+typed pin+positive persistent epoch; no payload gate",
+    "party": false
+  },
+  "existing_hook_model": "isolated inline_leader_bridge exact leader/party prefill and leader apply transport; no country whitelist",
+  "command_epoch_temp": "rn_ip_cmd_epoch",
+  "command_epoch_status": "native bridge candidate injects 15-byte exact ordinary temp rn_ip_cmd_epoch; this fixture logs it without accepting/rejecting payload",
+  "payload_contract": "35 fresh records from isolated bridge; observed only, no validation/copy/rename",
+  "shared_country_fixture": {
+    "path": "../rn_country_inline_ui",
+    "open_flag": "rn_ip_country_open",
+    "guard_status": "source-only country-open exclusion preserved; country fixture not needed for this run",
+    "leader": "Open enabled/helper and Apply context reject country-open",
+    "party": "Open enabled/effect reject country-open and old rn_input",
+    "country": "Open enabled/effect reject leader-open, party-open, old rn_input and own country-open",
+    "switch_behavior": "Existing leader/party flag+pin+epoch switching is preserved",
+    "native_support": "country models/fields are not added to the whitelist"
+  },
+  "cannot_co_load_with": [
+    "probes/rn_in_place_ui (duplicate model/control/helper definitions)"
+  ],
+  "effects_included": [
+    "rn_inline_leader_clear_target",
+    "rn_inline_leader_refresh",
+    "rn_inline_leader_open",
+    "rn_inline_leader_cancel",
+    "rn_inline_leader_apply (log-only replacement)"
+  ],
+  "effects_omitted": [
+    "rn_inline_payload.txt",
+    "rn_inline_validate_payload",
+    "rn_inline_copy_payload",
+    "all rename Apply logic"
+  ],
+  "expected_input": "expected-input.json: Jan Żółć, 8 codepoints, 12 UTF8 bytes, codes36,1,14,63,84,72,70,68 then24zeros",
+  "cannot_co_load_dlls": [
+    "rename_anything_editor_observer.dll",
+    "rename_anything_editor_bridge.dll",
+    "rename_anything_inline_prefill.dll"
+  ],
+  "runtime_limits": [
+    "parser/temp_var log namespaces untested",
+    "one-opening transport only; menu/load and draft-across-tab behavior not accepted",
+    "native lifecycle per-model is not tied to a specific window/root instance",
+    "native bridge presence and every record must be independently observed; no PASS implied by a log",
+    "no rename, payload validation/copy, party/country transport, save/load or multiplayer acceptance",
+    "Old mod may open legacy in reverse direction; inline is hidden and Open/Apply reject both flags, without cancel/reset or draft lifecycle acceptance."
+  ],
+  "source_baseline": "probes/rn_in_place_ui after source-only country-open guard integration",
+  "legacy_isolation": {
+    "flags": [
+      "rn_open",
+      "rn_input"
+    ],
+    "visible": "every inline launcher/editor rejects both flags",
+    "open": "enabled and effect/guarded helper reject both flags",
+    "apply": "disabled Apply stays always=no; diagnostic Apply and all effects/guarded helpers reject both flags",
+    "cancel": "unchanged; no legacy rejection",
+    "state": "no flag/pin/epoch reset added; leader-party switching preserved",
+    "runtime": "source-only unactivated candidate; game parser, cached visibility timing and lifecycle untested"
+  }
+}

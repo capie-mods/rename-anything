@@ -84,6 +84,16 @@ lider/partia przez usunięcie flagi, pina i zmianę epoki pozostaje. Country Ope
 odrzuca lidera, partię i `rn_input`; nie wywołuje helperów tego katalogu. Ta
 integracja jest oceniona tylko statycznie. Country modele nadal nie należą do
 natywnej whitelist; żaden z katalogów nie jest przez tę zmianę aktywowany.
+
+Wszystkie launchery i editory inline mają teraz w `visible` blokady `rn_open`
+oraz `rn_input` starego moda. Open ponawia obie blokady w enabled i efekcie
+(lider przez helper). Apply ponawia je bezpośrednio w helperze/efekcie, ponieważ
+desired visibility jest odświeżana w ticku i nie zastępuje kontroli wykonania.
+Wyłączone Apply pozostają `always = no`; Cancel i przełączanie lider/partia
+nie dostały nowych ograniczeń. Jest to izolacja źródłowa, bez zmiany starego
+moda ani rozwiązania draft/reset lifecycle; nie resetuje pina, flag ani epoki
+przy otwarciu starego okna. Parser i współdziałanie w grze wymagają osobnej próby.
+
 Trzeba jeszcze określić reset przy
 zamknięciu polityki, menu/load, zmianie gracza i odbudowie GUI. Flagi/epoka są
 zwykłym stanem skryptowym kraju, więc nie należy zakładać automatycznego resetu.

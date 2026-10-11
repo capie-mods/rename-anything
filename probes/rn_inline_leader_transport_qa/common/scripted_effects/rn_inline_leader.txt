@@ -1,0 +1,85 @@
+# UNLOADED transport-only QA. No rename or payload-copy helper is included.
+# Open/Cancel/typed pin/epoch match the source sketch. Apply logs, leaves editor open.
+# COUNTRY CURRENT/ROOT must be own player_context POL; never opens old rn_input.
+# The isolated native bridge injects 35 records only after the native enabled check.
+# Payload values are observations, not an acceptance/PASS claim or an Apply gate.
+
+rn_inline_leader_clear_target = {
+	clear_array = rn_ip_leader_target
+	clear_variable = rn_ip_leader_identity
+}
+
+rn_inline_leader_refresh = {
+	clear_array = rn_ip_leader_owned
+	clear_array = rn_ip_leader_current
+	every_character = {
+		ROOT = { add_to_array = { rn_ip_leader_owned = PREV } }
+		if = {
+			limit = { is_country_leader = yes }
+			ROOT = { add_to_array = { rn_ip_leader_current = PREV } }
+		}
+	}
+}
+
+rn_inline_leader_open = {
+	if = {
+		limit = {
+			tag = POL
+			is_ai = no
+			NOT = { has_country_flag = rn_open }
+			NOT = { has_country_flag = rn_input }
+			NOT = { has_country_flag = rn_ip_leader_open }
+			NOT = { has_country_flag = rn_ip_country_open }
+		}
+		rn_inline_leader_clear_target = yes
+		rn_inline_leader_refresh = yes
+		# Reject ambiguity instead of choosing the last country-leader role in a loop.
+		if = {
+			limit = { check_variable = { rn_ip_leader_current^num = 1 } }
+			set_variable = { rn_ip_leader_identity = rn_ip_leader_current^0 }
+			add_to_array = { rn_ip_leader_target = rn_ip_leader_identity }
+			clr_country_flag = rn_ip_party_neutrality_open
+			add_to_variable = { rn_ip_epoch = 1 }
+			set_country_flag = rn_ip_leader_open
+		}
+		else = { log = "RN inline leader Open rejected: current candidates [?rn_ip_leader_current^num]" }
+	}
+}
+
+rn_inline_leader_cancel = {
+	if = {
+		limit = { tag = POL is_ai = no has_country_flag = rn_ip_leader_open }
+		clr_country_flag = rn_ip_leader_open
+		rn_inline_leader_clear_target = yes
+		add_to_variable = { rn_ip_epoch = 1 }
+	}
+}
+
+rn_inline_leader_apply = {
+	if = {
+		limit = {
+				tag = POL
+				is_ai = no
+				has_country_flag = rn_ip_leader_open
+				NOT = { has_country_flag = rn_ip_party_neutrality_open }
+				NOT = { has_country_flag = rn_ip_country_open }
+				NOT = { has_country_flag = rn_open }
+				NOT = { has_country_flag = rn_input }
+				check_variable = { rn_ip_epoch > 0 }
+				has_variable = rn_ip_leader_identity
+				check_variable = { rn_ip_leader_target^num = 1 }
+				is_in_array = { array = rn_ip_leader_target value = rn_ip_leader_identity }
+				# COUNTRY iterator rechecks that the pinned character is our active ruler.
+				any_character = {
+					is_country_leader = yes
+					is_in_array = { array = ROOT.rn_ip_leader_target value = THIS }
+				}
+		}
+		log = "RN_ILQA payload ok=[?temp_var:rn_native_ok] len=[?temp_var:rn_native_len] cmd_epoch=[?temp_var:rn_ip_cmd_epoch|0] persistent_epoch=[?ROOT.rn_ip_epoch|0]"
+		log = "RN_ILQA slots 00-07: [?temp_var:rn_native_0],[?temp_var:rn_native_1],[?temp_var:rn_native_2],[?temp_var:rn_native_3],[?temp_var:rn_native_4],[?temp_var:rn_native_5],[?temp_var:rn_native_6],[?temp_var:rn_native_7]"
+		log = "RN_ILQA slots 08-15: [?temp_var:rn_native_8],[?temp_var:rn_native_9],[?temp_var:rn_native_10],[?temp_var:rn_native_11],[?temp_var:rn_native_12],[?temp_var:rn_native_13],[?temp_var:rn_native_14],[?temp_var:rn_native_15]"
+		log = "RN_ILQA slots 16-23: [?temp_var:rn_native_16],[?temp_var:rn_native_17],[?temp_var:rn_native_18],[?temp_var:rn_native_19],[?temp_var:rn_native_20],[?temp_var:rn_native_21],[?temp_var:rn_native_22],[?temp_var:rn_native_23]"
+		log = "RN_ILQA slots 24-31: [?temp_var:rn_native_24],[?temp_var:rn_native_25],[?temp_var:rn_native_26],[?temp_var:rn_native_27],[?temp_var:rn_native_28],[?temp_var:rn_native_29],[?temp_var:rn_native_30],[?temp_var:rn_native_31]"
+	}
+	else = { log = "RN_ILQA rejected: context/open/pin/epoch; no name or buffer write" }
+}

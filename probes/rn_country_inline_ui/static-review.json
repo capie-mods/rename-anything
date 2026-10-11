@@ -67,16 +67,17 @@
     "shared flag/epoch reset across politics close/menu/load/player changes is unresolved",
     "epoch |0 exact digits-only rendering is a candidate until runtime",
     "no production, save/load or multiplayer rename claim",
-    "Shared country-open guards are prepared only in unloaded source; parser/runtime and lifecycle reset still require QA."
+    "Shared country-open guards are prepared only in unloaded source; parser/runtime and lifecycle reset still require QA.",
+    "Legacy rn_open/rn_input isolation is source-only; no native draft/reset or cached-visibility runtime acceptance."
   ],
   "sha256": {
-    "common/scripted_guis/rn_country_inline_ui.txt": "f5498f60f1299405aafbae7e5f52e9f5aa103f0e53f21eaacff9ad45b919570b",
+    "common/scripted_guis/rn_country_inline_ui.txt": "b6a7993ada2c8795aca32bdd81db740d248a300486ea34eca9802040d350b4af",
     "descriptor.mod": "8c870bbb7e14cf443c1d0900c29665ef0ad1cacc89cb5c21c170268b98823d52",
     "interface/rn_country_inline_ui.gui": "1f87c132eea21a1d92f7727810e399baeeae3a93f710c0a448193061aeed5e17",
     "localisation/english/rn_country_inline_ui_l_english.yml": "36304caf8c0a3c26093add78bc21fd7a0b1c0cd792e2a9720c3afab006fe17e8",
     "localisation/polish/rn_country_inline_ui_l_polish.yml": "e2f4c81a5ed5f2ed8866a7b39aa892eb98ed79e44a22c44821dc109257566783",
-    "native-contract.json": "83c3b0b895aeb2f3b49a633043322236a38caa981e75f8a34fa24eefe9c8c78d",
-    "README.md": "27622ba864ddb814950527d1a3465c3d16c5be412426afc2f35e482ef5d919df"
+    "native-contract.json": "56d01d80184cfae03fb7071a4e79bcb590917dbdfb47c1d8725d1d623d8a91cc",
+    "README.md": "79e8c245b19f2a31161621687d79710431175c5f1e26922774c2550d68a6472a"
   },
   "shared_fixture_review": {
     "status": "source-only candidate; no activation or game parser/runtime proof",
@@ -91,5 +92,20 @@
     ],
     "native_scope": "country models/fields not added to any native whitelist"
   },
-  "review_note": " Root-approved unloaded shared-fixture follow-up adds only country-open gates (plus old rn_input on party Open), documentation and manifest metadata. No native or active fixture change. Disposable inventory parser was corrected for comparison operators and repeated if blocks without altering game sources."
+  "review_note": " Root-approved unloaded shared-fixture follow-up adds only country-open gates (plus old rn_input on party Open), documentation and manifest metadata. No native or active fixture change. Disposable inventory parser was corrected for comparison operators and repeated if blocks without altering game sources.",
+  "legacy_isolation_review": {
+    "date": "2026-10-11",
+    "scope": "read-only static verification after isolated source guard edits; no activation/runtime",
+    "findings": [],
+    "verified": [
+      "all launcher/editor visible reject rn_open/rn_input",
+      "Open enabled/effect or guarded helper reject both legacy flags",
+      "Apply always=no remains unchanged; only log-only QA is conditionally enabled",
+      "all Apply effects or guarded helpers reject both flags directly",
+      "Cancel has no new legacy restrictions",
+      "leader-party switch, typed pin and epoch changes preserved",
+      "GUI/descriptor/localisation/expected input unchanged",
+      "frozen payload SHA CD171D6203BD66DC7905C7C3D0E1A2750C4B8EABAB45F0540D75D3AF2CE10800 unchanged"
+    ]
+  }
 }

@@ -29,6 +29,7 @@ rn_inline_leader_open = {
 		limit = {
 			tag = POL
 			is_ai = no
+			NOT = { has_country_flag = rn_open }
 			NOT = { has_country_flag = rn_input }
 			NOT = { has_country_flag = rn_ip_leader_open }
 			NOT = { has_country_flag = rn_ip_country_open }
@@ -66,6 +67,7 @@ rn_inline_leader_apply = {
 			has_country_flag = rn_ip_leader_open
 			NOT = { has_country_flag = rn_ip_party_neutrality_open }
 			NOT = { has_country_flag = rn_ip_country_open }
+			NOT = { has_country_flag = rn_open }
 			NOT = { has_country_flag = rn_input }
 		}
 		set_temp_variable = { rn_ip_leader_error = 8 }

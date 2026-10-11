@@ -6,7 +6,7 @@ scripted_gui = {
 		context_type = player_context
 		parent_window_token = politics_tab
 		window_name = "rn_ip_country_launcher_window"
-		visible = { tag = POL is_ai = no NOT = { has_country_flag = rn_ip_country_open } }
+		visible = { tag = POL is_ai = no NOT = { has_country_flag = rn_ip_country_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
 		ai_enabled = { always = no }
 		effects = {
 			rn_ip_country_open_click = {
@@ -17,6 +17,7 @@ scripted_gui = {
 						NOT = { has_country_flag = rn_ip_country_open }
 						NOT = { has_country_flag = rn_ip_leader_open }
 						NOT = { has_country_flag = rn_ip_party_neutrality_open }
+						NOT = { has_country_flag = rn_open }
 						NOT = { has_country_flag = rn_input }
 					}
 					set_country_flag = rn_ip_country_open
@@ -31,6 +32,7 @@ scripted_gui = {
 				NOT = { has_country_flag = rn_ip_country_open }
 				NOT = { has_country_flag = rn_ip_leader_open }
 				NOT = { has_country_flag = rn_ip_party_neutrality_open }
+				NOT = { has_country_flag = rn_open }
 				NOT = { has_country_flag = rn_input }
 			}
 		}
@@ -39,11 +41,16 @@ scripted_gui = {
 		context_type = player_context
 		parent_window_token = politics_tab
 		window_name = "rn_ip_country_window"
-		visible = { tag = POL is_ai = no has_country_flag = rn_ip_country_open }
+		visible = { tag = POL is_ai = no has_country_flag = rn_ip_country_open NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
 		ai_enabled = { always = no }
 		effects = {
 			# Disabled below. This placeholder never changes a name or reads a payload.
-			rn_ip_country_apply_click = { log = "RN country inline UI: Apply is disconnected" }
+			rn_ip_country_apply_click = {
+				if = {
+					limit = { NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
+					log = "RN country inline UI: Apply is disconnected"
+				}
+			}
 			rn_ip_country_cancel_click = {
 				if = {
 					limit = { tag = POL is_ai = no has_country_flag = rn_ip_country_open }

@@ -69,5 +69,17 @@
     "country": "Open enabled/effect reject leader-open, party-open, old rn_input and own country-open",
     "switch_behavior": "Existing leader/party flag+pin+epoch switching is preserved",
     "native_support": "country models/fields are not added to the whitelist"
+  },
+  "legacy_isolation": {
+    "flags": [
+      "rn_open",
+      "rn_input"
+    ],
+    "visible": "every inline launcher/editor rejects both flags",
+    "open": "enabled and effect/guarded helper reject both flags",
+    "apply": "disabled Apply stays always=no; diagnostic Apply and all effects/guarded helpers reject both flags",
+    "cancel": "unchanged; no legacy rejection",
+    "state": "no flag/pin/epoch reset added; leader-party switching preserved",
+    "runtime": "source-only unactivated candidate; game parser, cached visibility timing and lifecycle untested"
   }
 }

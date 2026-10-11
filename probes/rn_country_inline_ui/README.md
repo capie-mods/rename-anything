@@ -24,11 +24,17 @@ ograniczają jednorazową próbę QA. Nie są docelowym ograniczeniem produktu a
 samodzielnym dowodem własności w multiplayer. Nie korzystamy ze wskazanego kraju
 w dyplomacji ani z zaznaczenia mapy.
 
-Open sprawdza w enabled i ponownie w efekcie, że nie ma flag `rn_input`,
+Open sprawdza w enabled i ponownie w efekcie, że nie ma flag `rn_open`, `rn_input`,
 `rn_ip_leader_open`, `rn_ip_party_neutrality_open` ani własnej
 `rn_ip_country_open`. Ustawia tylko tę ostatnią i zwiększa wspólną `rn_ip_epoch`.
 Cancel usuwa tylko własną flagę i również zwiększa epokę. Nie wywołuje cudzych
 helperów ani nie zmienia typed pina lidera, bufora Rename czy nazw w grze.
+
+Launcher i editor są niewidoczne przy `rn_open` lub `rn_input` starego moda.
+Wyłączone Apply nadal ma `always = no`, a jego logujący efekt także ponawia obie
+blokady. Nie polegamy na samej tick-cached desired visibility. Cancel pozostaje
+bez blokady legacy. To niewłączony kandydat izolacji, nie potwierdzony reset
+draftu, pina, flag czy epoki; starego moda ani natywnego lifecycle nie zmieniono.
 
 Wspólny niewłączony kandydat `rn_in_place_ui` ma już przygotowane wzajemne
 blokady: Open lidera w enabled/helperze oraz kontekst Apply lidera odrzucają

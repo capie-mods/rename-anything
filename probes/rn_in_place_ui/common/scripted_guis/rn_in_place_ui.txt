@@ -6,7 +6,7 @@ scripted_gui = {
 		context_type = player_context
 		parent_window_token = politics_tab
 		window_name = "rn_ip_leader_launcher_window"
-		visible = { tag = POL is_ai = no NOT = { has_country_flag = rn_ip_leader_open } }
+		visible = { tag = POL is_ai = no NOT = { has_country_flag = rn_ip_leader_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
 		ai_enabled = { always = no }
 		effects = {
 			rn_ip_leader_open_click = {
@@ -14,14 +14,14 @@ scripted_gui = {
 			}
 		}
 		triggers = {
-			rn_ip_leader_open_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_ip_leader_open } NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_ip_country_open } }
+			rn_ip_leader_open_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_ip_leader_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_ip_country_open } }
 		}
 	}
 	rn_ip_leader_gui = {
 		context_type = player_context
 		parent_window_token = politics_tab
 		window_name = "rn_ip_leader_window"
-		visible = { tag = POL is_ai = no has_country_flag = rn_ip_leader_open }
+		visible = { tag = POL is_ai = no has_country_flag = rn_ip_leader_open NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
 		ai_enabled = { always = no }
 		effects = {
 			# Still disabled below. Candidate requires fresh payload + copied opening epoch.
@@ -39,12 +39,12 @@ scripted_gui = {
 		context_type = player_context
 		parent_window_token = politics_tab
 		window_name = "rn_ip_party_neutrality_launcher_window"
-		visible = { tag = POL is_ai = no has_government = neutrality NOT = { has_country_flag = rn_ip_party_neutrality_open } }
+		visible = { tag = POL is_ai = no has_government = neutrality NOT = { has_country_flag = rn_ip_party_neutrality_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
 		ai_enabled = { always = no }
 		effects = {
 			rn_ip_party_neutrality_open_click = {
 				if = {
-					limit = { tag = POL is_ai = no has_government = neutrality NOT = { has_country_flag = rn_ip_party_neutrality_open } NOT = { has_country_flag = rn_ip_country_open } NOT = { has_country_flag = rn_input } }
+					limit = { tag = POL is_ai = no has_government = neutrality NOT = { has_country_flag = rn_ip_party_neutrality_open } NOT = { has_country_flag = rn_ip_country_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
 					clr_country_flag = rn_ip_leader_open
 					rn_inline_leader_clear_target = yes
 					set_country_flag = rn_ip_party_neutrality_open
@@ -53,18 +53,23 @@ scripted_gui = {
 			}
 		}
 		triggers = {
-			rn_ip_party_neutrality_open_click_enabled = { tag = POL is_ai = no has_government = neutrality NOT = { has_country_flag = rn_ip_party_neutrality_open } NOT = { has_country_flag = rn_ip_country_open } NOT = { has_country_flag = rn_input } }
+			rn_ip_party_neutrality_open_click_enabled = { tag = POL is_ai = no has_government = neutrality NOT = { has_country_flag = rn_ip_party_neutrality_open } NOT = { has_country_flag = rn_ip_country_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
 		}
 	}
 	rn_ip_party_neutrality_gui = {
 		context_type = player_context
 		parent_window_token = politics_tab
 		window_name = "rn_ip_party_neutrality_window"
-		visible = { tag = POL is_ai = no has_government = neutrality has_country_flag = rn_ip_party_neutrality_open }
+		visible = { tag = POL is_ai = no has_government = neutrality has_country_flag = rn_ip_party_neutrality_open NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
 		ai_enabled = { always = no }
 		effects = {
 			# Disabled below. This placeholder never calls rn_apply_input/set_party_name.
-			rn_ip_party_neutrality_apply_click = { log = "RN in-place UI sketch: Apply is disconnected" }
+			rn_ip_party_neutrality_apply_click = {
+				if = {
+					limit = { NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
+					log = "RN in-place UI sketch: Apply is disconnected"
+				}
+			}
 			rn_ip_party_neutrality_cancel_click = {
 				if = {
 					limit = { tag = POL is_ai = no has_government = neutrality has_country_flag = rn_ip_party_neutrality_open }

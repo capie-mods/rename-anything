@@ -1,0 +1,136 @@
+{
+  "date": "2026-10-11",
+  "kind": "source-only static copy/inventory review; not game parser/runtime",
+  "findings": [],
+  "checks_passed": 46,
+  "verified": [
+    "leader Apply tooltip explains log-only",
+    "all geometry/model controls/fonts/carriers unchanged except leader tooltip",
+    "four exact bridge models",
+    "rn_ip_leader_launcher_gui unchanged",
+    "rn_ip_party_neutrality_launcher_gui unchanged",
+    "rn_ip_party_neutrality_gui unchanged",
+    "leader SG except enabled trigger unchanged",
+    "leader hidden/cancel triggers unchanged",
+    "rn_inline_leader_clear_target unchanged",
+    "rn_inline_leader_refresh unchanged",
+    "rn_inline_leader_open unchanged",
+    "rn_inline_leader_cancel unchanged",
+    "same five helper definitions; no duplicate/new payload helpers",
+    "enabled/effect repeat identical own/pin/epoch preflight",
+    "own POL and open editor required",
+    "rejects rn_input",
+    "rejects rn_ip_country_open",
+    "rejects rn_ip_party_neutrality_open",
+    "positive persistent epoch",
+    "singleton typed pin matches identity",
+    "fresh country-owned active ruler matches pin",
+    "no payload/command epoch enabled gate before constructor injection",
+    "Apply contains only guard and logs; no mutable effect",
+    "one header plus four full slot rows",
+    "every code slot0..31 observed exactly once in order",
+    "observes [?temp_var:rn_native_ok]",
+    "observes [?temp_var:rn_native_len]",
+    "observes [?temp_var:rn_ip_cmd_epoch|0]",
+    "observes [?ROOT.rn_ip_epoch|0]",
+    "no false PASS output",
+    "party Apply remains always disabled",
+    "interface\\rn_in_place_ui.gui: no payload-copy or rename effect",
+    "interface\\rn_in_place_ui.gui: no Rename buffer reference",
+    "common\\scripted_effects\\rn_inline_leader.txt: no payload-copy or rename effect",
+    "common\\scripted_effects\\rn_inline_leader.txt: no Rename buffer reference",
+    "common\\scripted_guis\\rn_in_place_ui.txt: no payload-copy or rename effect",
+    "common\\scripted_guis\\rn_in_place_ui.txt: no Rename buffer reference",
+    "payload helper omitted",
+    "english BOM",
+    "polish BOM",
+    "EN/PL six-key parity",
+    "all literal GUI localisation references resolve",
+    "expected current-leader text lengths",
+    "all32 expected code/raw values",
+    "manifest unloaded/party disabled",
+    "README duplicate-fixture and lifecycle limits"
+  ],
+  "inventory": {
+    "models": [
+      "rn_ip_leader_launcher_gui",
+      "rn_ip_leader_gui",
+      "rn_ip_party_neutrality_launcher_gui",
+      "rn_ip_party_neutrality_gui"
+    ],
+    "native_fields": [
+      "rn_ip_leader_edit",
+      "rn_ip_party_neutrality_edit",
+      "rn_ip_party_neutrality_long_edit"
+    ],
+    "hidden_carriers": [
+      "rn_ip_leader_prefill",
+      "rn_ip_leader_epoch",
+      "rn_ip_party_neutrality_prefill",
+      "rn_ip_party_neutrality_long_prefill",
+      "rn_ip_party_neutrality_epoch"
+    ],
+    "leader_selector": "rn_ip_leader_apply_click",
+    "leader_apply": "conditionally enabled, LOG ONLY",
+    "party_apply": false,
+    "observed_records": 35,
+    "epoch_key": "rn_ip_cmd_epoch",
+    "locale_keys": [
+      "RN_ILQA_LOG_PAYLOAD",
+      "RN_IP_APPLY_UNAVAILABLE",
+      "RN_IP_CANCEL",
+      "RN_IP_EDIT_LEADER",
+      "RN_IP_EDIT_PARTY",
+      "RN_IP_LONG_NAME"
+    ],
+    "helper_definitions": [
+      "rn_inline_leader_clear_target",
+      "rn_inline_leader_refresh",
+      "rn_inline_leader_open",
+      "rn_inline_leader_cancel",
+      "rn_inline_leader_apply"
+    ]
+  },
+  "changes_from_source": [
+    "separate descriptor/readme/manifest/static inventory/expected input",
+    "leader button tooltip changed to explicit log-only QA",
+    "leader Apply enabled only at own POL/open/valid pin/positive epoch, without payload gate",
+    "leader Apply implementation replaced entirely by five observation logs; no buffer/copy/rename/close",
+    "payload helper not copied; all four Open/Cancel/pin helpers and party SG preserved"
+  ],
+  "limits": [
+    "parser/temp_var log namespaces untested",
+    "one-opening transport only; menu/load and draft-across-tab behavior not accepted",
+    "native lifecycle per-model is not tied to a specific window/root instance",
+    "old mainmod rn_input reverse-opening guard not integrated here",
+    "native bridge presence and every record must be independently observed; no PASS implied by a log",
+    "no rename, payload validation/copy, party/country transport, save/load or multiplayer acceptance",
+    "Legacy rn_open/rn_input isolation is source-only; no native draft/reset or cached-visibility runtime acceptance."
+  ],
+  "sha256": {
+    "common/scripted_effects/rn_inline_leader.txt": "6a44bb8db13cff63e6c818ff4c7c6556d5f7b4d1d176c8a450516dea8f804827",
+    "common/scripted_guis/rn_in_place_ui.txt": "cc209453b0bb233c46cc536fdc82d68fa43138f4060b0fda4581c01c74cedaa9",
+    "descriptor.mod": "1f8b6937084c5836977e9d2a40b796e6ea982d9c9ce995f84c929672fd232dd8",
+    "expected-input.json": "16b6a644bcf1c670bb86cac550b977d144c633897b80a665db58df4d9b9380fd",
+    "interface/rn_in_place_ui.gui": "6d21da89defaa7a29716b7e6eeec1339ee705fb80df800afb0156d76c7eed14d",
+    "localisation/english/rn_in_place_ui_l_english.yml": "775f9bc7e2144d96a82cbb7deed80ab84e940e6a73e05515bb922234f51ff04e",
+    "localisation/polish/rn_in_place_ui_l_polish.yml": "aac493eee41eeae98ab2c708d1bbe04aa6d20e7bdd24b00d7cf97af2c46dc0e4",
+    "native-contract.json": "90bf72b21877772ccaa37ce07ad03cc559be5f5ac889917e4d41e5ba22725c3d",
+    "README.md": "a4f0ba360689236adaf7b8525972db5ffcc2b0b4b0b78662bd82d844ef753003"
+  },
+  "legacy_isolation_review": {
+    "date": "2026-10-11",
+    "scope": "read-only static verification after isolated source guard edits; no activation/runtime",
+    "findings": [],
+    "verified": [
+      "all launcher/editor visible reject rn_open/rn_input",
+      "Open enabled/effect or guarded helper reject both legacy flags",
+      "Apply always=no remains unchanged; only log-only QA is conditionally enabled",
+      "all Apply effects or guarded helpers reject both flags directly",
+      "Cancel has no new legacy restrictions",
+      "leader-party switch, typed pin and epoch changes preserved",
+      "GUI/descriptor/localisation/expected input unchanged",
+      "frozen payload SHA CD171D6203BD66DC7905C7C3D0E1A2750C4B8EABAB45F0540D75D3AF2CE10800 unchanged"
+    ]
+  }
+}

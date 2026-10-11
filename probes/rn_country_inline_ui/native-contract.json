@@ -20,6 +20,7 @@
   "apply_enabled": false,
   "apply_behavior": "log-only placeholder; no payload, country rename or adjective rename",
   "open_rejects_flags": [
+    "rn_open",
     "rn_ip_country_open",
     "rn_ip_leader_open",
     "rn_ip_party_neutrality_open",
@@ -66,5 +67,17 @@
   "dependencies": "No foreign scripted helper calls. Shares rn_ip_epoch and reads existing open flags. Reciprocal country-open guards are prepared in unloaded rn_in_place_ui leader Open/Apply and party Open; joint runtime remains untested.",
   "future_target_requirement": "Fresh own player-context country identity plus opening epoch; do not derive ownership from is_ai=no or a diplomacy selection",
   "runtime_status": "unobserved: parser, resolved carriers, epoch formatting, glyph clipping, focus, keyboard, native prefill, Enter and save/load lifecycle",
-  "shared_fixture_guard_status": "source-only integrated candidate; neither fixture activated"
+  "shared_fixture_guard_status": "source-only integrated candidate; neither fixture activated",
+  "legacy_isolation": {
+    "flags": [
+      "rn_open",
+      "rn_input"
+    ],
+    "visible": "every inline launcher/editor rejects both flags",
+    "open": "enabled and effect/guarded helper reject both flags",
+    "apply": "disabled Apply stays always=no; diagnostic Apply and all effects/guarded helpers reject both flags",
+    "cancel": "unchanged; no legacy rejection",
+    "state": "no flag/pin/epoch reset added; leader-party switching preserved",
+    "runtime": "source-only unactivated candidate; game parser, cached visibility timing and lifecycle untested"
+  }
 }

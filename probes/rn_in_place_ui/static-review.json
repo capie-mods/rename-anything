@@ -50,18 +50,19 @@
     "typed Character membership RHS caller requires parser/runtime validation",
     "party literal/save and custom ideology rows unproven",
     "Explicit |0 epoch carrier is a candidate integer format; actual engine output requires runtime confirmation.",
-    "Shared country-open guards are prepared only in unloaded source; parser/runtime and lifecycle reset still require QA."
+    "Shared country-open guards are prepared only in unloaded source; parser/runtime and lifecycle reset still require QA.",
+    "Legacy rn_open/rn_input isolation is source-only; no native draft/reset or cached-visibility runtime acceptance."
   ],
   "sha256": {
-    "common/scripted_effects/rn_inline_leader.txt": "aef0bef740c160fdab7dc057227a9d5c02a2ce4e1bacf3c128a4b809d1010e34",
+    "common/scripted_effects/rn_inline_leader.txt": "4acaaf9e2b1d2c41b165bb9a82c85ed880937c55f1ead696037b17bb74cdbe7a",
     "common/scripted_effects/rn_inline_payload.txt": "cd171d6203bd66dc7905c7c3d0e1a2750c4b8eabab45f0540d75d3af2ce10800",
-    "common/scripted_guis/rn_in_place_ui.txt": "82b7855438d49e74395370cefb0f6f2d2e76695d463d32b6e5b5f7dfcf8bd9f1",
+    "common/scripted_guis/rn_in_place_ui.txt": "ff97b452d4de78a9c6566ee33019a091cf426f668a0753516dc502f710b4efee",
     "descriptor.mod": "a80aa796964449643f58856d3cfc0ac58e9987515b776b2ef9a8b03e7d46f1bd",
     "interface/rn_in_place_ui.gui": "462853b6e168b9f6de9c5bd0610e7363d7445db8c62fb2cbda7f2c6ab8b7a967",
     "localisation/english/rn_in_place_ui_l_english.yml": "6ae57118ec03987ee5e53cb8b5ae0ebfc0fa96c21e5f33e3e5070d00ccf0321e",
     "localisation/polish/rn_in_place_ui_l_polish.yml": "4388b661799852dc32d1fbc85ad18f7ae1d86412142b503dbbd6c98233ecc7d6",
-    "native-contract.json": "6ca48286e99ffa77103ab1fc7005a378743ade0896bd75d1f2a4a0cd09babce9",
-    "README.md": "f72e2e60fb316a3a86353b7762509a5323e07050f07e7d4899b890fa25bde907"
+    "native-contract.json": "0c8129efcdc852bf06fdce34492d2b86819939ed0a119b372328766da51d2d8f",
+    "README.md": "64f359ab8f22535ff4142018cc8accdf5a45519abb9070a039c0fcc5161aa650"
   },
   "review_note": "Initial disposable inventory regex mishandled CRLF localisation bytes; corrected by splitlines. Source files required no localisation change. Root-approved follow-up changes ONLY the two unloaded epoch carriers and manifest to explicit |0 for the digits-only native parser; candidate static review, rendering/runtime still unobserved. Root-approved unloaded shared-fixture follow-up adds only country-open gates (plus old rn_input on party Open), documentation and manifest metadata. No native or active fixture change. Disposable inventory parser was corrected for comparison operators and repeated if blocks without altering game sources. 2026-10-11 root post-PID16992 revision: replace modulo1 with rounded private copy exact comparison, extend fractional/boundary diagnostics36..41; candidate awaits new runtime.",
   "shared_fixture_review": {
@@ -76,5 +77,20 @@
       "Pdx assignments/comparisons/braces and JSON remain structurally valid"
     ],
     "native_scope": "country models/fields not added to any native whitelist"
+  },
+  "legacy_isolation_review": {
+    "date": "2026-10-11",
+    "scope": "read-only static verification after isolated source guard edits; no activation/runtime",
+    "findings": [],
+    "verified": [
+      "all launcher/editor visible reject rn_open/rn_input",
+      "Open enabled/effect or guarded helper reject both legacy flags",
+      "Apply always=no remains unchanged; only log-only QA is conditionally enabled",
+      "all Apply effects or guarded helpers reject both flags directly",
+      "Cancel has no new legacy restrictions",
+      "leader-party switch, typed pin and epoch changes preserved",
+      "GUI/descriptor/localisation/expected input unchanged",
+      "frozen payload SHA CD171D6203BD66DC7905C7C3D0E1A2750C4B8EABAB45F0540D75D3AF2CE10800 unchanged"
+    ]
   }
 }
