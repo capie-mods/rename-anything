@@ -12,6 +12,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from modgen.common import TAB_COUNTRY
+from modgen.features import refresh
 from modgen.gui import (
     BUTTON_MEDIUM,
     CLOSE_BUTTON,
@@ -126,6 +127,7 @@ def scripted_guis(tabs: list[TabSpec]) -> str:
         One ``rn_main_<name>_gui`` block per tab, each followed by a blank line.
     """
     header_effects = _header_effects(tabs)
+    dirty = refresh.dirty_line()
     out = []
     for tab in tabs:
         out.append(f"""	rn_main_{tab.name}_gui = {{
@@ -137,8 +139,8 @@ def scripted_guis(tabs: list[TabSpec]) -> str:
 			{_visible_condition(tab.number)}
 		}}
 		ai_enabled = {{ always = no }}
-		effects = {{
-{header_effects}{tab.effects}		}}
+{dirty}		effects = {{
+{refresh.touch_clicks(header_effects + tab.effects)}		}}
 		triggers = {{
 			rn_tab_{tab.number}_click_enabled = {{ always = no }}
 {tab.triggers}		}}

@@ -18,8 +18,10 @@
 #   rn_sel_state_arr, rn_vp_cnt, rn_vp_0..4 (Cities tab)
 #   rn_cname / rn_cname_len, rn_cadj / rn_cadj_len (country name / adjective buffers)
 # Country flags: rn_open (main window), rn_input (text input window)
+#   rn_gui_dirty    refresh gate (scripted GUI dirty) of the legacy windows; bumped by rn_gui_touch
 
 rn_open_main = {
+	rn_gui_touch = yes # refresh gate (dirty) of the legacy windows
 	set_country_flag = rn_open
 	clr_country_flag = rn_input
 	if = {
@@ -34,6 +36,7 @@ rn_open_main = {
 }
 
 rn_close_all = {
+	rn_gui_touch = yes # refresh gate (dirty) of the legacy windows
 	clr_country_flag = rn_open
 	clr_country_flag = rn_input
 	clear_array = rn_display_target
@@ -42,6 +45,7 @@ rn_close_all = {
 }
 
 rn_set_tab = { # temp rn_newtab
+	rn_gui_touch = yes # refresh gate (dirty) of the legacy windows
 	set_variable = { rn_tab = rn_newtab }
 	rn_refresh_lists = yes
 	if = {
@@ -51,6 +55,17 @@ rn_set_tab = { # temp rn_newtab
 }
 
 rn_refresh_lists = {
+	rn_refresh_chars = yes
+	clear_array = rn_states_all
+	every_owned_state = {
+		ROOT = { add_to_array = { rn_states_all = PREV } }
+	}
+	rn_build_state_page = yes
+}
+
+# Characters only (leader first). A character Apply needs just this to recheck that its
+# target still belongs to the player; the state list is rebuilt on Open and on every tab switch.
+rn_refresh_chars = {
 	clear_array = rn_chars_all
 	every_character = {
 		limit = { is_country_leader = yes }
@@ -60,12 +75,7 @@ rn_refresh_lists = {
 		limit = { is_country_leader = no }
 		ROOT = { add_to_array = { rn_chars_all = PREV } }
 	}
-	clear_array = rn_states_all
-	every_owned_state = {
-		ROOT = { add_to_array = { rn_states_all = PREV } }
-	}
 	rn_build_char_page = yes
-	rn_build_state_page = yes
 }
 
 rn_build_char_page = {
@@ -191,6 +201,7 @@ rn_select_state = {
 # ---------------------------------------------------------------- text input
 
 rn_open_input = { # requires rn_ttype (+ target arrays/variables) set by the caller
+	rn_gui_touch = yes # refresh gate (dirty) of the legacy windows
 	# Keep only current header data. Overlapping target grids showed stale state data
 	# despite their visibility triggers after a city selection.
 	clear_array = rn_display_target
@@ -218,6 +229,7 @@ rn_open_input = { # requires rn_ttype (+ target arrays/variables) set by the cal
 }
 
 rn_cancel_input = {
+	rn_gui_touch = yes # refresh gate (dirty) of the legacy windows
 	clear_array = rn_display_target
 	clr_country_flag = rn_input
 	clear_array = rn_buf

@@ -20,6 +20,7 @@ from modgen.features import (
     input_window,
     localisation,
     main_window,
+    refresh,
     states,
     textures,
 )
@@ -105,6 +106,8 @@ def effects(states_table: StateTable) -> str:
             "\n",
             cooldown.effects(),
             "\n",
+            refresh.touch_effect(),
+            "\n",
             cities.reset_vp_effect(),
             "\n",
             country.apply_country_name_effect(),
@@ -177,6 +180,7 @@ def write_all(sink: OutputSink, states_table: StateTable, keys: set[int]) -> Non
     sink.write_text(SCRIPTED_GUI_FILE, scripted_gui())
     sink.write_text(GUI_FILE, gui())
     sink.write_text(GFX_FILE, textures.gen_gfx())
+    sink.write_text(refresh.ON_ACTIONS_FILE, GEN_HEADER + refresh.on_actions())
     for name, data in textures.gen_textures().items():
         sink.write_bytes(f"{textures.TEXTURE_DIR}/{name}", data)
     for rel, text, bom in inline_editor.gen_inline_editor():

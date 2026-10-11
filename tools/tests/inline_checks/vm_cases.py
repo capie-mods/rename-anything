@@ -607,6 +607,29 @@ def run_party_loc_equivalence(ctx: Context) -> int:
     return cases
 
 
+def run_refresh_gate(ctx: Context) -> int:
+    """Run the legacy refresh counter: every bump changes it, also at the wrap.
+
+    Args:
+        ctx: Shared VM inputs.
+
+    Returns:
+        Number of cases.
+    """
+    assert "rn_gui_touch" in ctx.effects
+    cases = 0
+    for start, want in ((None, 1), (Decimal(0), 1), (Decimal(41), 42), (Decimal(999999), 0)):
+        vm = ctx.vm("country")
+        vm.enforce = False
+        if start is not None:
+            vm.persistent["rn_gui_dirty"] = start
+        vm.run("rn_gui_touch")
+        assert vm.persistent["rn_gui_dirty"] == want, start
+        assert vm.persistent["rn_gui_dirty"] != start, "every bump is a change"
+        cases += 1
+    return cases
+
+
 def run_caption_counter(ctx: Context, models: dict[str, Any]) -> int:
     """Run the real party Apply callback and check the caption revision counter.
 
