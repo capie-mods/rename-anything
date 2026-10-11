@@ -87,7 +87,13 @@ STATUS_HEIGHT = 14
 """Height of the one-line status under the last field."""
 
 STALE_SENTINEL = -1
-"""Command epoch a bridge can send for an editor widget it did not open (proposal)."""
+"""Command epoch the bridge sends for a stale editor (reopening helps)."""
+
+REFUSED_SENTINELS = {-2: 13, -3: 14}
+"""Cause-coded command epochs (rev7: -2 no caption counter, -3 counter at 999) and status codes."""
+
+REFUSED_KEYS = {13: "RN_IP_ERR_NO_COUNTER", 14: "RN_IP_ERR_RENAME_LIMIT"}
+"""Status code of a cause-coded refusal and its status-line key."""
 
 ERR_CLOSED = 7
 """Guard error: editor closed, legacy editor open or wrong country."""

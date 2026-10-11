@@ -297,6 +297,8 @@ def check_status(
     party_status = [n for n in locs["RN_IPP_PARTY_STATUS"] if n[0] == "text"]
     assert [get(t[2], "localization_key") for t in party_status] == [
         "RN_IP_ERR_NO_BRIDGE",
+        "RN_IP_ERR_NO_COUNTER",
+        "RN_IP_ERR_RENAME_LIMIT",
         "RN_IP_ERR_CD_PARTY",
         *(f"RN_IP_ERR_PARTY_SHORT_{r}" for r in REASONS),
         "RN_IP_ERR_PARTY_SHORT",
@@ -311,11 +313,14 @@ def check_status(
     ]
     assert all(
         ("rn_ipp_party_target_matches", "=", "yes") in get(t[2], "trigger")
-        for t in party_status[1:-1]
+        # NO_BRIDGE and the two cause-coded refusals apply to any target; so does the last line.
+        for t in party_status[3:-1]
     )
     assert [get(t[2], "localization_key") for t in locs["RN_IP_STATUS"] if t[0] == "text"] == [
         "RN_IP_HINT",
         "RN_IP_ERR_NO_BRIDGE",
+        "RN_IP_ERR_NO_COUNTER",
+        "RN_IP_ERR_RENAME_LIMIT",
         "RN_IP_ERR_CD_LEADER",
         "RN_IP_ERR_CD_COUNTRY",
         "RN_IP_ERR_STALE",

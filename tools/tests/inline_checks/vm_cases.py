@@ -17,6 +17,8 @@ from inline_checks.constants import (
     GROUP_KEYS,
     GROUPS,
     MAX_NAME,
+    REFUSED_KEYS,
+    REFUSED_SENTINELS,
     REV_CAP,
     STALE_SENTINEL,
     STATUS_NO_BRIDGE,
@@ -458,6 +460,59 @@ def run_stale_sentinel(ctx: Context) -> int:
         status = "RN_IP_STATUS" if kind == "country" else "RN_IPP_PARTY_STATUS"
         assert vm.localized(status) == ctx.chars["RN_IP_ERR_STALE"], kind
     return 2
+
+
+def run_refused_sentinels(ctx: Context) -> int:
+    """Cause-coded refusals (-2, -3) show their own line; nothing is written.
+
+    The guard still returns 8 (any negative command epoch differs from the
+    opening epoch); only the status line tells the player that reopening the
+    editor will not help. The leader editor gets the same lines.
+
+    Args:
+        ctx: Shared VM inputs.
+
+    Returns:
+        Number of cases.
+    """
+    cases = 0
+    for sentinel, code in REFUSED_SENTINELS.items():
+        want = ctx.chars[REFUSED_KEYS[code]]
+        assert want != ctx.chars["RN_IP_ERR_STALE"]
+        for kind in ("party", "country"):
+            vm = ctx.vm(kind)
+            vm.temp["rn_ip_cmd_epoch"] = Decimal(sentinel)
+            state = vm.state()
+            vm.run("rn_inline_pair_apply_" + kind)
+            assert vm.state() == state, (kind, sentinel)
+            assert not vm.requests, (kind, sentinel)
+            assert vm.temp["rn_pair_err"] == ERR_EPOCH, (kind, sentinel)
+            vm.enforce = False
+            vm.run("rn_ip_status_record_pair")
+            assert vm.persistent["rn_ip_status_err"] == code, (kind, sentinel)
+            status = "RN_IP_STATUS" if kind == "country" else "RN_IPP_PARTY_STATUS"
+            assert vm.localized(status) == want, (kind, sentinel)
+            cases += 1
+        vm = ctx.vm("country")
+        vm.enforce = False
+        vm.flags.add("rn_ip_leader_open")
+        vm.temp["rn_ip_cmd_epoch"] = Decimal(sentinel)
+        vm.temp["rn_ip_leader_error"] = Decimal(ERR_EPOCH)
+        vm.run("rn_ip_status_record_leader")
+        assert vm.persistent["rn_ip_status_err"] == code, ("leader", sentinel)
+        assert vm.localized("RN_IP_STATUS") == want, ("leader", sentinel)
+        cases += 1
+    for sentinel in (STALE_SENTINEL, -4, 0):
+        vm = ctx.vm("country")
+        vm.enforce = False
+        vm.temp["rn_ip_cmd_epoch"] = Decimal(sentinel)
+        vm.temp["rn_pair_err"] = Decimal(ERR_EPOCH)
+        vm.temp["rn_pair_field"] = Decimal(0)
+        vm.run("rn_ip_status_record_pair")
+        expected = STATUS_NO_BRIDGE if sentinel == 0 else ERR_EPOCH
+        assert vm.persistent["rn_ip_status_err"] == expected, sentinel
+        cases += 1
+    return cases
 
 
 def run_caption_counter(ctx: Context, models: dict[str, Any]) -> int:

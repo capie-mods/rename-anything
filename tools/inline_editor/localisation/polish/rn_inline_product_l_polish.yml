@@ -88,3 +88,5 @@
  RN_IP_ERR_PARTY_LONG_LONG:0 "§RPełna nazwa jest za długa: najwyżej 32 znaki.§!"
  RN_IP_ERR_PARTY_LONG_EMPTY:0 "§RPełna nazwa jest pusta. Wpisz nazwę albo anuluj.§!"
  RN_IP_ERR_PARTY_LONG_CHAR:0 "§RPełna nazwa zawiera znak, którego gra nie wyświetli.§!"
+ RN_IP_ERR_NO_COUNTER:0 "§RWersja moda nie pasuje do CAPIE. Zaktualizuj mod. Nic nie zmieniono.§!"
+ RN_IP_ERR_RENAME_LIMIT:0 "§RW tej kampanii osiągnięto tu limit 999 zmian nazwy. Nic nie zmieniono.§!"
