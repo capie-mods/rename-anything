@@ -65,7 +65,7 @@ and limits for every row.
 | Enter applies the change | Works today | Same game command as clicking Apply. |
 | 5-day cooldown per object | Works today | The pencil greys out and its tooltip says when the next rename is possible. |
 | Editors merged into the main mod | Works today | The in-game check ran on the merged `mod/`. |
-| Leader name updates without reopening Politics | In progress | Today the leader's name changes after you close and reopen the panel. |
+| Leader name updates without reopening Politics | Works today | Needs CAPIE. The portrait caption changes as soon as you press Enter. |
 | Esc cancels the edit | In progress | Esc closes the Politics panel and the editor with it, but the edit mode stays on. |
 | Renaming a subject's names (as overlord) | In progress | Placeholder, hidden. |
 | Start through Steam launch options or a shortcut | In progress | Launcher built and reviewed, not yet tested end to end. |
