@@ -68,7 +68,7 @@ scripted_gui = {
 			rn_tab_2_click = { set_temp_variable = { rn_newtab = 2 } rn_set_tab = yes }
 			rn_tab_3_click = { set_temp_variable = { rn_newtab = 3 } rn_set_tab = yes }
 			rn_tab_4_click = { set_temp_variable = { rn_newtab = 4 } rn_set_tab = yes }
-			rn_char_rename_click = { ROOT = { rn_target_character = yes } }
+			rn_char_rename_click = { var:rn_row_character = { ROOT = { rn_target_character = yes } } }
 			rn_cpage_prev_click = { subtract_from_variable = { rn_cpage = 1 } rn_build_char_page = yes }
 			rn_cpage_next_click = { add_to_variable = { rn_cpage = 1 } rn_build_char_page = yes }
 		}
@@ -80,7 +80,8 @@ scripted_gui = {
 		dynamic_lists = {
 			rn_chars_grid = {
 				array = rn_chars_page
-				change_scope = yes
+				value = rn_row_character
+				change_scope = no
 				entry_container = "rn_char_entry"
 			}
 		}
@@ -297,7 +298,8 @@ scripted_gui = {
 		dynamic_lists = {
 			rn_target_grid = {
 				array = rn_display_target
-				change_scope = yes
+				value = rn_header_target
+				change_scope = no
 				entry_container = "rn_target_entry"
 			}
 		}

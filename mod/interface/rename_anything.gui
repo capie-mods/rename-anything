@@ -465,7 +465,7 @@ guiTypes = {
 		name = "rn_target_entry"
 		size = { width = 500 height = 26 }
 		clipping = no
-		instantTextBoxType = { name = "rn_target_name" position = { x = 0 y = 2 } font = "hoi_18mbs" text = "RN_TARGET_ENTRY" maxWidth = 500 maxHeight = 24 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_target_name" position = { x = 0 y = 2 } font = "hoi_18mbs" text = "RN_TARGET_DISPLAY" maxWidth = 500 maxHeight = 24 format = left fixedsize = yes }
 	}
 
 	containerWindowType = {

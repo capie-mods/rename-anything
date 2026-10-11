@@ -119,7 +119,7 @@ UI = {
     "RN_SPAGE": ("Page [?ROOT.rn_spage_disp|0] / [?ROOT.rn_spages|0]", "Strona [?ROOT.rn_spage_disp|0] / [?ROOT.rn_spages|0]"),
     "RN_BTN_PREV": ("< Prev", "< Wstecz"),
     "RN_BTN_NEXT": ("Next >", "Dalej >"),
-    "RN_CHAR_NAME": ("[This.GetName]", "[This.GetName]"),
+    "RN_CHAR_NAME": ("[?rn_row_character.GetName]", "[?rn_row_character.GetName]"),
     "RN_STATE_NAME": ("[This.GetName]", "[This.GetName]"),
     "RN_SEL_STATE_LBL": ("State:", "Stan:"),
     "RN_CITIES_HINT": ("Pick a state with 'Cities' in the States tab or in the state view on the map.",
@@ -139,6 +139,7 @@ UI = {
     "RN_TARGET_PROV": ("§Y[ROOT.RN_TProvName]§!", "§Y[ROOT.RN_TProvName]§!"),
     "RN_TARGET_COUNTRY": ("§Y[ROOT.GetName]§!", "§Y[ROOT.GetName]§!"),
     "RN_TARGET_ENTRY": ("§Y[This.GetName]§!", "§Y[This.GetName]§!"),
+    "RN_TARGET_DISPLAY": ("§Y[?rn_header_target.GetName]§!", "§Y[?rn_header_target.GetName]§!"),
     "RN_FIELD_TEXT": (slots_expr("B") + "§Y|§!", slots_expr("B") + "§Y|§!"),
     "RN_FIELD_COUNT": ("[?ROOT.rn_len|0]/32", "[?ROOT.rn_len|0]/32"),
     "RN_KEY_SPACE": ("Space", "Spacja"),
@@ -463,7 +464,7 @@ def gen_main_scripted_guis(vp_effects: str, vp_triggers: str) -> str:
 			rn_country_apply_click = { rn_apply_country_name = yes }
 			rn_country_reset_click = { rn_reset_country_name = yes }
 """,
-        "chars": """			rn_char_rename_click = { ROOT = { rn_target_character = yes } }
+        "chars": """			rn_char_rename_click = { var:rn_row_character = { ROOT = { rn_target_character = yes } } }
 			rn_cpage_prev_click = { subtract_from_variable = { rn_cpage = 1 } rn_build_char_page = yes }
 			rn_cpage_next_click = { add_to_variable = { rn_cpage = 1 } rn_build_char_page = yes }
 """,
@@ -532,10 +533,14 @@ def gen_main_scripted_guis(vp_effects: str, vp_triggers: str) -> str:
 """)
         if tab in lists:
             g, arr, entry = lists[tab]
+            # The native GUI scope bridge only carries country/state/unit-leader
+            # contexts. Keep civilian characters as typed row variables instead.
+            row_context = ("\t\t\t\tvalue = rn_row_character\n\t\t\t\tchange_scope = no"
+                           if tab == "chars" else "\t\t\t\tchange_scope = yes")
             out.append(f"""		dynamic_lists = {{
 			{g} = {{
 				array = {arr}
-				change_scope = yes
+{row_context}
 				entry_container = "{entry}"
 			}}
 		}}
@@ -652,7 +657,8 @@ scripted_gui = {{
 		dynamic_lists = {{
 			rn_target_grid = {{
 				array = rn_display_target
-				change_scope = yes
+				value = rn_header_target
+				change_scope = no
 				entry_container = "rn_target_entry"
 			}}
 		}}
@@ -745,7 +751,7 @@ def gen_gui() -> str:
     o.append(txt("rn_selstate_name", 0, 4, "RN_TARGET_ENTRY", w=410))
     o.append("\t}\n")
     o.append('\tcontainerWindowType = {\n\t\tname = "rn_target_entry"\n\t\tsize = { width = 500 height = 26 }\n\t\tclipping = no\n')
-    o.append(txt("rn_target_name", 0, 2, "RN_TARGET_ENTRY", font="hoi_18mbs", w=500))
+    o.append(txt("rn_target_name", 0, 2, "RN_TARGET_DISPLAY", font="hoi_18mbs", w=500))
     o.append("\t}\n\n")
 
     # input window

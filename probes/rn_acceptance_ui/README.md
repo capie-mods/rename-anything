@@ -1,6 +1,8 @@
 # Acceptance UI — osobny fixture QA
 
-Nie jest częścią `mod/` ani wydania. **Nie został włączony ani przetestowany w grze.**
+Nie jest częścią `mod/` ani wydania. **Włączony do następnej sesji QA 2026-10-11;
+test w grze nadal oczekuje.** Aktywację i późniejsze sprzątanie śledzi
+`docs/evidence/session-20261011/day2-acceptance-fixture-activation.json`.
 Jeden widoczny przycisk w prawym górnym obszarze ekranu wywołuje na kraju gracza
 oryginalny `news_event = { id = news.350 }`. Nie ma skrótu klawiaturowego,
 własnych eventów, zmian nazw ani efektów kampanii poza wywołaniem wiadomości.
