@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 330" width="880" height="330" role="img" aria-labelledby="t d">
+  <title id="t">Renaming a leader in place</title>
+  <desc id="d">A politics panel shows the leader Ignacy Mościcki with a small pencil. The player clicks the pencil and a native text field opens in the same spot, prefilled with the current name. The player types Jan Żółć and presses Enter. The panel then shows Jan Żółć; the pencil is greyed out and its tooltip says the next rename is possible in 5 days. On the right, three steps light up in turn: native text field, game command, stored in your save.</desc>
+  <!-- Tokens: docs/design/tokens.json v1.1.0 -->
+  <style>
+    .canvas{fill:#272421}
+    .rim{fill:none;stroke:#3c3936;stroke-width:1}
+    .caps{font:700 11.5px Ubuntu,'Segoe UI','DejaVu Sans',Verdana,sans-serif;letter-spacing:.14em;fill:#ffbd00}
+    .name{font:700 18px Ubuntu,'Segoe UI','DejaVu Sans',Verdana,sans-serif;fill:#ece6d3}
+    .typed{font:300 16px Ubuntu,'Segoe UI','DejaVu Sans',Verdana,sans-serif;fill:#ece6d3}
+    .title{font:700 15px Ubuntu,'Segoe UI','DejaVu Sans',Verdana,sans-serif;fill:#ece6d3}
+    .body{font:400 12px Ubuntu,'Segoe UI','DejaVu Sans',Verdana,sans-serif;fill:#c3b091}
+    .cap{font:400 12px Ubuntu,'Segoe UI','DejaVu Sans',Verdana,sans-serif;fill:#a39a86}
+    .keyt{font:700 11px Ubuntu,'Segoe UI','DejaVu Sans',Verdana,sans-serif;fill:#ece6d3}
+    .tip1{font:400 13px 'EB Garamond',Garamond,Georgia,'Times New Roman',serif;fill:#ece6d3}
+    .tip2{font:400 13px 'EB Garamond',Garamond,Georgia,'Times New Roman',serif;fill:#ff3232}
+    .window{fill:#0f0e0d;stroke:#3c3936;stroke-width:1}
+    .strip{fill:#272421}
+    .portrait{fill:#161412;stroke:#3c3936}
+    .sil{fill:#3c3b38}
+    .overlay{fill:#272421;stroke:#3c3936}
+    .field{fill:#161412;stroke:#76776b;stroke-width:1}
+    .icon{fill:#3c3b38;stroke:#76776b;stroke-width:1}
+    .key{fill:#2e3627;stroke:#424e38;stroke-width:1}
+    .tip{fill:#161412;stroke:#3c3936}
+    .step{fill:#161412;stroke:#76776b;stroke-width:1.25}
+    .mark{fill:#507040}
+    .old,.edit,.cursor{opacity:0}
+    @media (prefers-reduced-motion:no-preference){
+      .old{animation:old 10s linear infinite}
+      .edit{animation:edit 10s linear infinite}
+      .new{animation:nw 10s linear infinite}
+      .prefill{animation:pre 10s linear infinite}
+      .cover{transform-box:fill-box;transform-origin:right center;animation:type 10s steps(8,end) infinite}
+      .caret{animation:caret 10s steps(8,end) infinite}
+      .cursor{transform-box:fill-box;transform-origin:center;animation:cur 10s cubic-bezier(.16,1,.3,1) infinite}
+      .keycap{animation:key 10s linear infinite}
+      .s1{animation:s1 10s linear infinite}
+      .s2{animation:s2 10s linear infinite}
+      .s3{animation:s3 10s linear infinite}
+    }
+    @keyframes old{0%{opacity:0}3%,20%{opacity:1}23%,100%{opacity:0}}
+    @keyframes edit{0%,21%{opacity:0}24%,64%{opacity:1}67%,100%{opacity:0}}
+    @keyframes nw{0%,66%{opacity:0}70%,94%{opacity:1}98%,100%{opacity:0}}
+    @keyframes pre{0%,27%{opacity:1}28%,100%{opacity:0}}
+    @keyframes type{0%,29%{transform:scaleX(1)}51%,100%{transform:scaleX(0)}}
+    @keyframes caret{0%,29%{transform:translateX(0)}51%,100%{transform:translateX(66px)}}
+    @keyframes cur{0%,3%{opacity:0;transform:translate(60px,80px)}6%{opacity:1}14%{transform:translate(0,0)}16%{transform:translate(0,0) scale(.86)}18%{opacity:1;transform:translate(0,0)}22%,100%{opacity:0;transform:translate(0,0)}}
+    @keyframes key{0%,54%{fill:#2e3627}56%,60%{fill:#507040}63%,100%{fill:#2e3627}}
+    @keyframes s1{0%,22%{opacity:.45}25%,100%{opacity:1}}
+    @keyframes s2{0%,55%{opacity:.45}58%,100%{opacity:1}}
+    @keyframes s3{0%,68%{opacity:.45}71%,100%{opacity:1}}
+  </style>
+
+  <rect class="canvas" width="880" height="330" rx="6"/>
+  <rect class="rim" x="8.5" y="8.5" width="863" height="313" rx="4"/>
+
+  <text class="caps" x="32" y="38">EDIT WHERE YOU SEE IT</text>
+
+  <!-- Simplified politics panel (illustration, not a game asset) -->
+  <rect class="window" x="32" y="52" width="440" height="246" rx="2"/>
+  <rect class="strip" x="33" y="53" width="438" height="26"/>
+  <text class="caps" x="46" y="71" style="fill:#c3b091">POLITICS</text>
+  <rect class="portrait" x="50" y="94" width="96" height="124" rx="1"/>
+  <circle class="sil" cx="98" cy="138" r="21"/>
+  <path class="sil" d="M60 218 C62 180 79 167 98 167 C117 167 134 180 136 218 Z"/>
+  <text class="cap" x="50" y="240">Head of state</text>
+
+  <!-- Before: name and pencil -->
+  <g class="old">
+    <text class="name" x="164" y="126">Ignacy Mościcki</text>
+    <g transform="translate(320 110)">
+      <rect width="20" height="20" rx="1" fill="#3c3b38" stroke="#76776b" stroke-width="1"/>
+      <rect x="4" y="3.5" width="10" height="13" fill="#406030"/>
+      <path d="M7 15.5 L7 13 L14.5 5.5 L17 8 L9.5 15.5 Z" fill="#c3b091"/>
+    </g>
+  </g>
+
+  <!-- Editing: native field in the same place -->
+  <g class="edit">
+    <rect class="overlay" x="156" y="100" width="300" height="78" rx="1"/>
+    <rect class="field" x="164" y="108" width="236" height="28"/>
+    <text class="typed" x="172" y="128">Jan Żółć</text>
+    <rect class="cover" x="170" y="111" width="72" height="22" fill="#161412"/>
+    <text class="typed prefill" x="172" y="128">Ignacy Mościcki</text>
+    <rect class="caret" x="172" y="113" width="1.5" height="19" fill="#ffbd00"/>
+    <g transform="translate(406 112)">
+      <rect class="icon" width="20" height="20" rx="1"/>
+      <path d="M5 10.5 L8.5 14 L15 6.5" fill="none" stroke="#7db35a" stroke-width="2"/>
+    </g>
+    <g transform="translate(432 114)">
+      <rect class="icon" width="16" height="16" rx="1"/>
+      <path d="M4.5 4.5 L11.5 11.5 M11.5 4.5 L4.5 11.5" stroke="#d0a070" stroke-width="1.8"/>
+    </g>
+    <text class="body" x="166" y="160">Enter: apply</text>
+    <rect class="key keycap" x="252" y="146" width="52" height="22" rx="2"/>
+    <text class="keyt" x="263" y="161">Enter</text>
+  </g>
+
+  <!-- After: new name, pencil on cooldown, tooltip -->
+  <g class="new">
+    <text class="name" x="164" y="126">Jan Żółć</text>
+    <g transform="translate(250 110)" opacity=".4">
+      <rect width="20" height="20" rx="1" fill="#3c3b38" stroke="#76776b" stroke-width="1"/>
+      <rect x="4" y="3.5" width="10" height="13" fill="#3c3b38"/>
+      <path d="M7 15.5 L7 13 L14.5 5.5 L17 8 L9.5 15.5 Z" fill="#a39a86"/>
+    </g>
+    <rect class="tip" x="164" y="142" width="292" height="50" rx="1"/>
+    <text class="tip1" x="176" y="161">Rename leader</text>
+    <text class="tip2" x="176" y="181">Next rename possible in 5 days.</text>
+  </g>
+
+  <!-- Pointer -->
+  <g class="cursor">
+    <path d="M327 118 L327 135 L331.5 131 L334.5 138 L337.5 136.6 L334.6 130 L340 130 Z" fill="#ece6d3" stroke="#0f0e0d" stroke-width="1"/>
+  </g>
+
+  <text class="body" x="164" y="272">Click the pencil, type, press Enter.</text>
+
+  <!-- Steps -->
+  <text class="caps" x="508" y="38">WHAT HAPPENS</text>
+  <g class="s1">
+    <rect class="step" x="508" y="52" width="340" height="72" rx="2"/>
+    <rect class="mark" x="524" y="70" width="10" height="10"/>
+    <text class="title" x="546" y="80">Native text field</text>
+    <text class="body" x="546" y="104">The game's own input box. Polish letters work.</text>
+  </g>
+  <g class="s2">
+    <rect class="step" x="508" y="139" width="340" height="72" rx="2"/>
+    <rect class="mark" x="524" y="157" width="10" height="10"/>
+    <text class="title" x="546" y="167">Game command</text>
+    <text class="body" x="546" y="191">Enter runs the same command as Apply.</text>
+  </g>
+  <g class="s3">
+    <rect class="step" x="508" y="226" width="340" height="72" rx="2"/>
+    <rect class="mark" x="524" y="244" width="10" height="10"/>
+    <text class="title" x="546" y="254">Stored in your save</text>
+    <text class="body" x="546" y="278">Survives save, load and a full restart.</text>
+  </g>
+</svg>
