@@ -4,8 +4,11 @@ Unloaded development probe, excluded from `mod/` and any release. Activation mus
 wait for a full game exit. The current native DLL does **not** implement its input
 bridge, and this probe does not claim an operational in-place editor.
 
-When active in a POL campaign, opening the Politics panel attaches a small test
-window to its right. It contains a real vanilla `editBoxType` named
+When active in a POL campaign, opening the Politics panel should attach a small
+test window inside its bounds at180,430. The initial x560 position produced no
+visible window in PID28244; parent clipping is a hypothesis being tested by this
+change. This temporary QA window overlaps lower politics controls.
+It contains a real vanilla `editBoxType` named
 `rn_native_edit_unique`, initially supplied with fixed text `Zażółć QA`.
 This fixed value is a constructor/text-layout control; it is not evidence of
 typing or of reading a player's edit.
