@@ -166,6 +166,24 @@ Generator czyta instalację gry bez jej modyfikowania; inną ścieżkę podaj pr
 Edytuj generator, nie pliki oznaczone `GENERATED`. `tools/check.py` sprawdza referencje, strukturę
 oraz lokalizacje; nie zastępuje parsera gry, testu zapisu/wczytania ani testu multiplayer.
 
+### Lint i typy skryptów Python
+
+Konfiguracja jest w `pyproject.toml` (ruff `select = ["ALL"]`, ty ze wszystkimi regułami
+jako błędy). Narzędzia instaluje `uv` jako zależności deweloperskie:
+
+```powershell
+uv sync
+uv run ruff check
+uv run ruff format --check
+uv run ty check
+uv run python tools/check_constant_docstrings.py
+```
+
+Ostatnie polecenie wymaga docstringu pod każdą stałą `UPPER_CASE` na poziomie modułu, czego
+ruff nie sprawdza. Wykluczenia (archiwalne `docs/evidence/`, przypięte narzędzia
+`probes/rn_inline_pair_qa/tools/` i pliki w trakcie pracy innych agentów) są opisane w
+`pyproject.toml`. Same skrypty nadal uruchamia się zwykłym `python`, jak wyżej.
+
 Tymczasowe logi city Apply i `debug = yes` usunięto po potwierdzeniu właściwego celu
 i efektu w grze. Dowody diagnostyki zachowano w raporcie testów. Lista miast nadal
 pokazuje oryginalne nazwy z lokalizacji.
