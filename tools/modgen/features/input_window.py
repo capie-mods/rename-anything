@@ -32,6 +32,7 @@ from modgen.common import (
     TARGET_STATE,
     slots_expr,
 )
+from modgen.features import refresh
 from modgen.features.cities import province_expr
 from modgen.features.main_window import WINDOW_WIDTH
 from modgen.features.text_buffers import INPUT_BUFFER
@@ -279,6 +280,13 @@ def key_label_entries() -> list[str]:
     ]
 
 
+_CLOSING_EFFECTS = (
+    "\t\t\trn_cancel_click = { rn_cancel_input = yes }\n"
+    "\t\t\trn_apply_click = { rn_apply_input = yes }\n"
+)
+"""Cancel and Apply effects of the input window."""
+
+
 def input_gui() -> str:
     """Return the scripted GUI of the input window with every keyboard key.
 
@@ -293,10 +301,8 @@ def input_gui() -> str:
 		window_name = "rn_input_window"
 		visible = {{ has_country_flag = rn_input }}
 		ai_enabled = {{ always = no }}
-		effects = {{
-{key_effects}			rn_cancel_click = {{ rn_cancel_input = yes }}
-			rn_apply_click = {{ rn_apply_input = yes }}
-		}}
+{refresh.dirty_line()}		effects = {{
+{refresh.touch_clicks(key_effects + _CLOSING_EFFECTS)}		}}
 		triggers = {{
 			rn_apply_click_enabled = {{ check_variable = {{ {INPUT_BUFFER.length} > 0 }} }}
 			rn_target_prov_visible = {{ check_variable = {{ rn_ttype = {TARGET_CITY} }} }}
@@ -399,8 +405,8 @@ rn_apply_input = {{
 		limit = {{ check_variable = {{ {INPUT_BUFFER.length} > 0 }} }}
 		if = {{
 			limit = {{ check_variable = {{ rn_ttype = {TARGET_CHARACTER} }} }}
-			# Rebuild the player's current characters; a target can transfer/retire while the input stays open.
-			rn_refresh_lists = yes
+			# Rebuild only the character list (not states): a target can transfer/retire while the input stays open.
+			rn_refresh_chars = yes
 			for_each_scope_loop = {{
 				array = rn_tchar
 				if = {{

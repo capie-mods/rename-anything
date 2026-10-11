@@ -62,7 +62,9 @@ def check_legacy_editor() -> None:
     setter_limit = get(get(effects["rn_apply_country_name"], "if"), "limit")
     bridge = ("rn_editor_bridge_available", "=", "yes")
     no_country_cd = ("NOT", "=", [("rn_ip_cooldown_active_country", "=", "yes")])
+    # The refresh gate bump (ROOT = { rn_gui_touch }) comes first and changes no game state.
     assert get(get(country, "effects"), "rn_country_apply_click") == [
+        ("ROOT", "=", [("rn_gui_touch", "=", "yes")]),
         (
             "if",
             "=",
@@ -71,7 +73,7 @@ def check_legacy_editor() -> None:
                 ("rn_apply_country_name", "=", "yes"),
                 ("rn_ip_cooldown_start_country", "=", "yes"),
             ],
-        )
+        ),
     ], "legacy country Apply: one branch for setter and cooldown start"
     enabled = get(get(country, "triggers"), "rn_country_apply_click_enabled")
     assert bridge in enabled

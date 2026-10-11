@@ -15,7 +15,14 @@ import pytest
 from modgen import build
 from modgen.charset import CHARS, CODE, DISPLAY_ORDER, FORBIDDEN, LAST_CODE, PL_UPPER
 from modgen.common import LANGS, MAXLEN, MOD, STATE_BUCKET, VP_SLOTS, slots_expr
-from modgen.features import cities, cooldown, inline_editor, input_window, localisation
+from modgen.features import (
+    cities,
+    cooldown,
+    inline_editor,
+    input_window,
+    localisation,
+    refresh,
+)
 from modgen.features.text_buffers import INPUT_BUFFER, slot_tables
 from modgen.features.textures import gen_textures, tga
 from modgen.gui import btn, gridbox, txt
@@ -215,3 +222,88 @@ def test_generator_reproduces_committed_mod() -> None:
     build.write_all(sink, states, keys)
     for relative, data in sink.files.items():
         assert (MOD / Path(relative)).read_bytes() == data, relative
+
+
+GATED_GUIS = (
+    "rn_main_country_gui",
+    "rn_main_chars_gui",
+    "rn_main_states_gui",
+    "rn_main_cities_gui",
+    "rn_input_gui",
+)
+"""Legacy scripted GUIs that update only when the refresh counter changes."""
+
+ENTRY_EFFECTS = ("rn_open_main", "rn_close_all", "rn_set_tab", "rn_open_input", "rn_cancel_input")
+"""Hand-written effects that other entry points (decision, state view) call; each bumps the gate."""
+
+
+def _gui_blocks(text: str) -> dict[str, str]:
+    """Split the scripted GUI file into its top-level GUI blocks.
+
+    Args:
+        text: Contents of the scripted GUI file.
+
+    Returns:
+        GUI name to its block text.
+    """
+    blocks: dict[str, str] = {}
+    lines = text.splitlines(keepends=True)
+    name = ""
+    for line in lines:
+        if line.startswith("\t") and not line.startswith("\t\t") and line.rstrip().endswith("{"):
+            name = line.strip().split(" ")[0]
+            blocks[name] = ""
+        if name:
+            blocks[name] += line
+    return blocks
+
+
+def test_refresh_gate_covers_every_click() -> None:
+    """Gated GUIs carry ``dirty`` and every click effect bumps the counter on ROOT first."""
+    blocks = _gui_blocks(build.scripted_gui())
+    assert set(GATED_GUIS) | {"rn_state_view_gui"} == set(blocks)
+    touch = f"ROOT = {{ {refresh.TOUCH_EFFECT} = yes }}"
+    for name in GATED_GUIS:
+        block = blocks[name]
+        assert refresh.dirty_line() in block, name
+        clicks = [
+            line for line in block.splitlines() if line.strip().split(" ")[0].endswith("_click")
+        ]
+        assert clicks, name
+        assert all(line.split("{", 1)[1].strip().startswith(touch) for line in clicks), name
+    view = blocks["rn_state_view_gui"]
+    assert "dirty" not in view, "the state view scope changes without an effect"
+    assert touch in view, "the state view reset bumps the player's gate"
+
+
+def test_refresh_gate_counter_and_daily_on_action() -> None:
+    """The counter wraps before the variable range and the daily on-action is limited."""
+    effect = refresh.touch_effect()
+    assert f"add_to_variable = {{ {refresh.DIRTY_VARIABLE} = 1 }}" in effect
+    assert f"{refresh.DIRTY_VARIABLE} > {refresh.DIRTY_WRAP}" in effect
+    assert refresh.TOUCH_EFFECT + " = {" in build.effects(SAMPLE_STATES)
+    daily = refresh.on_actions()
+    assert "on_daily = {" in daily
+    assert "limit = { is_ai = no has_country_flag = rn_open }" in daily
+    sink = MemorySink()
+    build.write_all(sink, SAMPLE_STATES, SAMPLE_KEYS)
+    assert refresh.ON_ACTIONS_FILE in sink.files
+
+
+def test_hand_written_entries_bump_the_gate_and_character_apply_is_light() -> None:
+    """Entry effects bump the gate; a character Apply rebuilds only the character list."""
+    hand = (MOD / "common" / "scripted_effects" / "rename_anything_effects.txt").read_text(
+        encoding="utf-8"
+    )
+    for name in ENTRY_EFFECTS:
+        body = hand.split(f"\n{name} = {{", 1)[1].split("\n}", 1)[0]
+        assert f"{refresh.TOUCH_EFFECT} = yes" in body, name
+    lists = hand.split("\nrn_refresh_lists = {", 1)[1].split("\n}", 1)[0]
+    chars = hand.split("\nrn_refresh_chars = {", 1)[1].split("\n}", 1)[0]
+    assert "rn_refresh_chars = yes" in lists
+    assert "every_owned_state" in lists
+    assert "every_owned_state" not in chars
+    assert chars.count("every_character") == 2  # noqa: PLR2004 - leader first, then the rest
+    apply = input_window.apply_input_effect()
+    assert "rn_refresh_chars = yes" in apply
+    assert "rn_refresh_lists" not in apply

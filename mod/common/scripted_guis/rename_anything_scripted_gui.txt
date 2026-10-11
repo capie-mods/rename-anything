@@ -12,16 +12,17 @@ scripted_gui = {
 			NOT = { check_variable = { rn_tab > 1 } }
 		}
 		ai_enabled = { always = no }
+		dirty = rn_gui_dirty
 		effects = {
-			rn_close_click = { rn_close_all = yes }
-			rn_tab_1_click = { set_temp_variable = { rn_newtab = 1 } rn_set_tab = yes }
-			rn_tab_2_click = { set_temp_variable = { rn_newtab = 2 } rn_set_tab = yes }
-			rn_tab_3_click = { set_temp_variable = { rn_newtab = 3 } rn_set_tab = yes }
-			rn_tab_4_click = { set_temp_variable = { rn_newtab = 4 } rn_set_tab = yes }
-			rn_leader_rename_click = { rn_target_leader = yes }
-			rn_cname_edit_click = { set_variable = { rn_ttype = 4 } rn_open_input = yes }
-			rn_cadj_edit_click = { set_variable = { rn_ttype = 5 } rn_open_input = yes }
-			rn_country_apply_click = {
+			rn_close_click = { ROOT = { rn_gui_touch = yes } rn_close_all = yes }
+			rn_tab_1_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 1 } rn_set_tab = yes }
+			rn_tab_2_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 2 } rn_set_tab = yes }
+			rn_tab_3_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 3 } rn_set_tab = yes }
+			rn_tab_4_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 4 } rn_set_tab = yes }
+			rn_leader_rename_click = { ROOT = { rn_gui_touch = yes } rn_target_leader = yes }
+			rn_cname_edit_click = { ROOT = { rn_gui_touch = yes } set_variable = { rn_ttype = 4 } rn_open_input = yes }
+			rn_cadj_edit_click = { ROOT = { rn_gui_touch = yes } set_variable = { rn_ttype = 5 } rn_open_input = yes }
+			rn_country_apply_click = { ROOT = { rn_gui_touch = yes }
 				# The cooldown starts only in the same branch as the setter (its limit repeats the
 				# rn_apply_country_name limit). Without the editor bridge the button does nothing.
 				if = {
@@ -36,7 +37,7 @@ scripted_gui = {
 					rn_ip_cooldown_start_country = yes
 				}
 			}
-			rn_country_reset_click = { rn_reset_country_name = yes }
+			rn_country_reset_click = { ROOT = { rn_gui_touch = yes } rn_reset_country_name = yes }
 		}
 		triggers = {
 			rn_tab_1_click_enabled = { always = no }
@@ -61,15 +62,16 @@ scripted_gui = {
 			check_variable = { rn_tab = 2 }
 		}
 		ai_enabled = { always = no }
+		dirty = rn_gui_dirty
 		effects = {
-			rn_close_click = { rn_close_all = yes }
-			rn_tab_1_click = { set_temp_variable = { rn_newtab = 1 } rn_set_tab = yes }
-			rn_tab_2_click = { set_temp_variable = { rn_newtab = 2 } rn_set_tab = yes }
-			rn_tab_3_click = { set_temp_variable = { rn_newtab = 3 } rn_set_tab = yes }
-			rn_tab_4_click = { set_temp_variable = { rn_newtab = 4 } rn_set_tab = yes }
-			rn_char_rename_click = { var:rn_row_character = { ROOT = { rn_target_character = yes } } }
-			rn_cpage_prev_click = { subtract_from_variable = { rn_cpage = 1 } rn_build_char_page = yes }
-			rn_cpage_next_click = { add_to_variable = { rn_cpage = 1 } rn_build_char_page = yes }
+			rn_close_click = { ROOT = { rn_gui_touch = yes } rn_close_all = yes }
+			rn_tab_1_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 1 } rn_set_tab = yes }
+			rn_tab_2_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 2 } rn_set_tab = yes }
+			rn_tab_3_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 3 } rn_set_tab = yes }
+			rn_tab_4_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 4 } rn_set_tab = yes }
+			rn_char_rename_click = { ROOT = { rn_gui_touch = yes } var:rn_row_character = { ROOT = { rn_target_character = yes } } }
+			rn_cpage_prev_click = { ROOT = { rn_gui_touch = yes } subtract_from_variable = { rn_cpage = 1 } rn_build_char_page = yes }
+			rn_cpage_next_click = { ROOT = { rn_gui_touch = yes } add_to_variable = { rn_cpage = 1 } rn_build_char_page = yes }
 		}
 		triggers = {
 			rn_tab_2_click_enabled = { always = no }
@@ -100,33 +102,34 @@ scripted_gui = {
 			check_variable = { rn_tab = 3 }
 		}
 		ai_enabled = { always = no }
+		dirty = rn_gui_dirty
 		effects = {
-			rn_close_click = { rn_close_all = yes }
-			rn_tab_1_click = { set_temp_variable = { rn_newtab = 1 } rn_set_tab = yes }
-			rn_tab_2_click = { set_temp_variable = { rn_newtab = 2 } rn_set_tab = yes }
-			rn_tab_3_click = { set_temp_variable = { rn_newtab = 3 } rn_set_tab = yes }
-			rn_tab_4_click = { set_temp_variable = { rn_newtab = 4 } rn_set_tab = yes }
-			rn_state_rename_click = {
+			rn_close_click = { ROOT = { rn_gui_touch = yes } rn_close_all = yes }
+			rn_tab_1_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 1 } rn_set_tab = yes }
+			rn_tab_2_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 2 } rn_set_tab = yes }
+			rn_tab_3_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 3 } rn_set_tab = yes }
+			rn_tab_4_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 4 } rn_set_tab = yes }
+			rn_state_rename_click = { ROOT = { rn_gui_touch = yes }
 				if = {
 					limit = { is_owned_by = ROOT }
 					ROOT = { rn_target_state = yes }
 				}
 			}
-			rn_state_reset_click = {
+			rn_state_reset_click = { ROOT = { rn_gui_touch = yes }
 				if = {
 					limit = { is_owned_by = ROOT }
 					reset_state_name = yes
 				}
 			}
-			rn_state_cities_click = {
+			rn_state_cities_click = { ROOT = { rn_gui_touch = yes }
 				ROOT = {
 					set_variable = { rn_sel_state = PREV }
 					set_temp_variable = { rn_newtab = 4 }
 					rn_set_tab = yes
 				}
 			}
-			rn_spage_prev_click = { subtract_from_variable = { rn_spage = 1 } rn_build_state_page = yes }
-			rn_spage_next_click = { add_to_variable = { rn_spage = 1 } rn_build_state_page = yes }
+			rn_spage_prev_click = { ROOT = { rn_gui_touch = yes } subtract_from_variable = { rn_spage = 1 } rn_build_state_page = yes }
+			rn_spage_next_click = { ROOT = { rn_gui_touch = yes } add_to_variable = { rn_spage = 1 } rn_build_state_page = yes }
 		}
 		triggers = {
 			rn_tab_3_click_enabled = { always = no }
@@ -152,22 +155,23 @@ scripted_gui = {
 			check_variable = { rn_tab = 4 }
 		}
 		ai_enabled = { always = no }
+		dirty = rn_gui_dirty
 		effects = {
-			rn_close_click = { rn_close_all = yes }
-			rn_tab_1_click = { set_temp_variable = { rn_newtab = 1 } rn_set_tab = yes }
-			rn_tab_2_click = { set_temp_variable = { rn_newtab = 2 } rn_set_tab = yes }
-			rn_tab_3_click = { set_temp_variable = { rn_newtab = 3 } rn_set_tab = yes }
-			rn_tab_4_click = { set_temp_variable = { rn_newtab = 4 } rn_set_tab = yes }
-			rn_vp_rename_0_click = { set_temp_variable = { rn_k = 0 } rn_target_vp = yes rn_open_input = yes }
-			rn_vp_reset_0_click = { set_temp_variable = { rn_k = 0 } rn_reset_vp = yes }
-			rn_vp_rename_1_click = { set_temp_variable = { rn_k = 1 } rn_target_vp = yes rn_open_input = yes }
-			rn_vp_reset_1_click = { set_temp_variable = { rn_k = 1 } rn_reset_vp = yes }
-			rn_vp_rename_2_click = { set_temp_variable = { rn_k = 2 } rn_target_vp = yes rn_open_input = yes }
-			rn_vp_reset_2_click = { set_temp_variable = { rn_k = 2 } rn_reset_vp = yes }
-			rn_vp_rename_3_click = { set_temp_variable = { rn_k = 3 } rn_target_vp = yes rn_open_input = yes }
-			rn_vp_reset_3_click = { set_temp_variable = { rn_k = 3 } rn_reset_vp = yes }
-			rn_vp_rename_4_click = { set_temp_variable = { rn_k = 4 } rn_target_vp = yes rn_open_input = yes }
-			rn_vp_reset_4_click = { set_temp_variable = { rn_k = 4 } rn_reset_vp = yes }
+			rn_close_click = { ROOT = { rn_gui_touch = yes } rn_close_all = yes }
+			rn_tab_1_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 1 } rn_set_tab = yes }
+			rn_tab_2_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 2 } rn_set_tab = yes }
+			rn_tab_3_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 3 } rn_set_tab = yes }
+			rn_tab_4_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_newtab = 4 } rn_set_tab = yes }
+			rn_vp_rename_0_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_k = 0 } rn_target_vp = yes rn_open_input = yes }
+			rn_vp_reset_0_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_k = 0 } rn_reset_vp = yes }
+			rn_vp_rename_1_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_k = 1 } rn_target_vp = yes rn_open_input = yes }
+			rn_vp_reset_1_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_k = 1 } rn_reset_vp = yes }
+			rn_vp_rename_2_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_k = 2 } rn_target_vp = yes rn_open_input = yes }
+			rn_vp_reset_2_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_k = 2 } rn_reset_vp = yes }
+			rn_vp_rename_3_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_k = 3 } rn_target_vp = yes rn_open_input = yes }
+			rn_vp_reset_3_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_k = 3 } rn_reset_vp = yes }
+			rn_vp_rename_4_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_k = 4 } rn_target_vp = yes rn_open_input = yes }
+			rn_vp_reset_4_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_k = 4 } rn_reset_vp = yes }
 		}
 		triggers = {
 			rn_tab_4_click_enabled = { always = no }
@@ -213,87 +217,88 @@ scripted_gui = {
 		window_name = "rn_input_window"
 		visible = { has_country_flag = rn_input }
 		ai_enabled = { always = no }
+		dirty = rn_gui_dirty
 		effects = {
-			rn_key_1_click = { set_temp_variable = { rn_c = 54 } rn_add_char = yes }
-			rn_key_2_click = { set_temp_variable = { rn_c = 55 } rn_add_char = yes }
-			rn_key_3_click = { set_temp_variable = { rn_c = 56 } rn_add_char = yes }
-			rn_key_4_click = { set_temp_variable = { rn_c = 57 } rn_add_char = yes }
-			rn_key_5_click = { set_temp_variable = { rn_c = 58 } rn_add_char = yes }
-			rn_key_6_click = { set_temp_variable = { rn_c = 59 } rn_add_char = yes }
-			rn_key_7_click = { set_temp_variable = { rn_c = 60 } rn_add_char = yes }
-			rn_key_8_click = { set_temp_variable = { rn_c = 61 } rn_add_char = yes }
-			rn_key_9_click = { set_temp_variable = { rn_c = 62 } rn_add_char = yes }
-			rn_key_0_click = { set_temp_variable = { rn_c = 53 } rn_add_char = yes }
-			rn_key_minus_click = { set_temp_variable = { rn_c = 64 } rn_add_char = yes }
-			rn_key_dot_click = { set_temp_variable = { rn_c = 65 } rn_add_char = yes }
-			rn_key_apos_click = { set_temp_variable = { rn_c = 66 } rn_add_char = yes }
-			rn_key_q_click = { set_temp_variable = { rn_c = 17 } rn_add_letter = yes }
-			rn_key_w_click = { set_temp_variable = { rn_c = 23 } rn_add_letter = yes }
-			rn_key_e_click = { set_temp_variable = { rn_c = 5 } rn_add_letter = yes }
-			rn_key_r_click = { set_temp_variable = { rn_c = 18 } rn_add_letter = yes }
-			rn_key_t_click = { set_temp_variable = { rn_c = 20 } rn_add_letter = yes }
-			rn_key_y_click = { set_temp_variable = { rn_c = 25 } rn_add_letter = yes }
-			rn_key_u_click = { set_temp_variable = { rn_c = 21 } rn_add_letter = yes }
-			rn_key_i_click = { set_temp_variable = { rn_c = 9 } rn_add_letter = yes }
-			rn_key_o_click = { set_temp_variable = { rn_c = 15 } rn_add_letter = yes }
-			rn_key_p_click = { set_temp_variable = { rn_c = 16 } rn_add_letter = yes }
-			rn_key_a_click = { set_temp_variable = { rn_c = 1 } rn_add_letter = yes }
-			rn_key_s_click = { set_temp_variable = { rn_c = 19 } rn_add_letter = yes }
-			rn_key_d_click = { set_temp_variable = { rn_c = 4 } rn_add_letter = yes }
-			rn_key_f_click = { set_temp_variable = { rn_c = 6 } rn_add_letter = yes }
-			rn_key_g_click = { set_temp_variable = { rn_c = 7 } rn_add_letter = yes }
-			rn_key_h_click = { set_temp_variable = { rn_c = 8 } rn_add_letter = yes }
-			rn_key_j_click = { set_temp_variable = { rn_c = 10 } rn_add_letter = yes }
-			rn_key_k_click = { set_temp_variable = { rn_c = 11 } rn_add_letter = yes }
-			rn_key_l_click = { set_temp_variable = { rn_c = 12 } rn_add_letter = yes }
-			rn_key_z_click = { set_temp_variable = { rn_c = 26 } rn_add_letter = yes }
-			rn_key_x_click = { set_temp_variable = { rn_c = 24 } rn_add_letter = yes }
-			rn_key_c_click = { set_temp_variable = { rn_c = 3 } rn_add_letter = yes }
-			rn_key_v_click = { set_temp_variable = { rn_c = 22 } rn_add_letter = yes }
-			rn_key_b_click = { set_temp_variable = { rn_c = 2 } rn_add_letter = yes }
-			rn_key_n_click = { set_temp_variable = { rn_c = 14 } rn_add_letter = yes }
-			rn_key_m_click = { set_temp_variable = { rn_c = 13 } rn_add_letter = yes }
-			rn_key_pl0_click = { set_temp_variable = { rn_c = 67 } rn_add_letter = yes }
-			rn_key_pl1_click = { set_temp_variable = { rn_c = 68 } rn_add_letter = yes }
-			rn_key_pl2_click = { set_temp_variable = { rn_c = 69 } rn_add_letter = yes }
-			rn_key_pl3_click = { set_temp_variable = { rn_c = 70 } rn_add_letter = yes }
-			rn_key_pl4_click = { set_temp_variable = { rn_c = 71 } rn_add_letter = yes }
-			rn_key_pl5_click = { set_temp_variable = { rn_c = 72 } rn_add_letter = yes }
-			rn_key_pl6_click = { set_temp_variable = { rn_c = 73 } rn_add_letter = yes }
-			rn_key_pl7_click = { set_temp_variable = { rn_c = 74 } rn_add_letter = yes }
-			rn_key_pl8_click = { set_temp_variable = { rn_c = 75 } rn_add_letter = yes }
-			rn_key_caps_click = { rn_toggle_shift = yes }
-			rn_key_backspace_click = { rn_backspace = yes }
-			rn_key_space_click = { set_temp_variable = { rn_c = 63 } rn_add_char = yes }
-			rn_key_clear_click = { rn_clear_buf = yes }
-			rn_keyS_a_click = { set_temp_variable = { rn_c = 27 } rn_add_char = yes }
-			rn_keyS_b_click = { set_temp_variable = { rn_c = 28 } rn_add_char = yes }
-			rn_keyS_c_click = { set_temp_variable = { rn_c = 29 } rn_add_char = yes }
-			rn_keyS_d_click = { set_temp_variable = { rn_c = 30 } rn_add_char = yes }
-			rn_keyS_e_click = { set_temp_variable = { rn_c = 31 } rn_add_char = yes }
-			rn_keyS_f_click = { set_temp_variable = { rn_c = 32 } rn_add_char = yes }
-			rn_keyS_g_click = { set_temp_variable = { rn_c = 33 } rn_add_char = yes }
-			rn_keyS_h_click = { set_temp_variable = { rn_c = 34 } rn_add_char = yes }
-			rn_keyS_i_click = { set_temp_variable = { rn_c = 35 } rn_add_char = yes }
-			rn_keyS_j_click = { set_temp_variable = { rn_c = 36 } rn_add_char = yes }
-			rn_keyS_k_click = { set_temp_variable = { rn_c = 37 } rn_add_char = yes }
-			rn_keyS_l_click = { set_temp_variable = { rn_c = 38 } rn_add_char = yes }
-			rn_keyS_m_click = { set_temp_variable = { rn_c = 39 } rn_add_char = yes }
-			rn_keyS_n_click = { set_temp_variable = { rn_c = 40 } rn_add_char = yes }
-			rn_keyS_o_click = { set_temp_variable = { rn_c = 41 } rn_add_char = yes }
-			rn_keyS_p_click = { set_temp_variable = { rn_c = 42 } rn_add_char = yes }
-			rn_keyS_q_click = { set_temp_variable = { rn_c = 43 } rn_add_char = yes }
-			rn_keyS_r_click = { set_temp_variable = { rn_c = 44 } rn_add_char = yes }
-			rn_keyS_s_click = { set_temp_variable = { rn_c = 45 } rn_add_char = yes }
-			rn_keyS_t_click = { set_temp_variable = { rn_c = 46 } rn_add_char = yes }
-			rn_keyS_u_click = { set_temp_variable = { rn_c = 47 } rn_add_char = yes }
-			rn_keyS_v_click = { set_temp_variable = { rn_c = 48 } rn_add_char = yes }
-			rn_keyS_w_click = { set_temp_variable = { rn_c = 49 } rn_add_char = yes }
-			rn_keyS_x_click = { set_temp_variable = { rn_c = 50 } rn_add_char = yes }
-			rn_keyS_y_click = { set_temp_variable = { rn_c = 51 } rn_add_char = yes }
-			rn_keyS_z_click = { set_temp_variable = { rn_c = 52 } rn_add_char = yes }
-			rn_cancel_click = { rn_cancel_input = yes }
-			rn_apply_click = { rn_apply_input = yes }
+			rn_key_1_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 54 } rn_add_char = yes }
+			rn_key_2_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 55 } rn_add_char = yes }
+			rn_key_3_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 56 } rn_add_char = yes }
+			rn_key_4_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 57 } rn_add_char = yes }
+			rn_key_5_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 58 } rn_add_char = yes }
+			rn_key_6_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 59 } rn_add_char = yes }
+			rn_key_7_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 60 } rn_add_char = yes }
+			rn_key_8_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 61 } rn_add_char = yes }
+			rn_key_9_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 62 } rn_add_char = yes }
+			rn_key_0_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 53 } rn_add_char = yes }
+			rn_key_minus_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 64 } rn_add_char = yes }
+			rn_key_dot_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 65 } rn_add_char = yes }
+			rn_key_apos_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 66 } rn_add_char = yes }
+			rn_key_q_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 17 } rn_add_letter = yes }
+			rn_key_w_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 23 } rn_add_letter = yes }
+			rn_key_e_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 5 } rn_add_letter = yes }
+			rn_key_r_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 18 } rn_add_letter = yes }
+			rn_key_t_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 20 } rn_add_letter = yes }
+			rn_key_y_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 25 } rn_add_letter = yes }
+			rn_key_u_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 21 } rn_add_letter = yes }
+			rn_key_i_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 9 } rn_add_letter = yes }
+			rn_key_o_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 15 } rn_add_letter = yes }
+			rn_key_p_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 16 } rn_add_letter = yes }
+			rn_key_a_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 1 } rn_add_letter = yes }
+			rn_key_s_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 19 } rn_add_letter = yes }
+			rn_key_d_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 4 } rn_add_letter = yes }
+			rn_key_f_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 6 } rn_add_letter = yes }
+			rn_key_g_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 7 } rn_add_letter = yes }
+			rn_key_h_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 8 } rn_add_letter = yes }
+			rn_key_j_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 10 } rn_add_letter = yes }
+			rn_key_k_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 11 } rn_add_letter = yes }
+			rn_key_l_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 12 } rn_add_letter = yes }
+			rn_key_z_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 26 } rn_add_letter = yes }
+			rn_key_x_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 24 } rn_add_letter = yes }
+			rn_key_c_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 3 } rn_add_letter = yes }
+			rn_key_v_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 22 } rn_add_letter = yes }
+			rn_key_b_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 2 } rn_add_letter = yes }
+			rn_key_n_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 14 } rn_add_letter = yes }
+			rn_key_m_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 13 } rn_add_letter = yes }
+			rn_key_pl0_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 67 } rn_add_letter = yes }
+			rn_key_pl1_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 68 } rn_add_letter = yes }
+			rn_key_pl2_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 69 } rn_add_letter = yes }
+			rn_key_pl3_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 70 } rn_add_letter = yes }
+			rn_key_pl4_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 71 } rn_add_letter = yes }
+			rn_key_pl5_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 72 } rn_add_letter = yes }
+			rn_key_pl6_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 73 } rn_add_letter = yes }
+			rn_key_pl7_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 74 } rn_add_letter = yes }
+			rn_key_pl8_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 75 } rn_add_letter = yes }
+			rn_key_caps_click = { ROOT = { rn_gui_touch = yes } rn_toggle_shift = yes }
+			rn_key_backspace_click = { ROOT = { rn_gui_touch = yes } rn_backspace = yes }
+			rn_key_space_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 63 } rn_add_char = yes }
+			rn_key_clear_click = { ROOT = { rn_gui_touch = yes } rn_clear_buf = yes }
+			rn_keyS_a_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 27 } rn_add_char = yes }
+			rn_keyS_b_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 28 } rn_add_char = yes }
+			rn_keyS_c_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 29 } rn_add_char = yes }
+			rn_keyS_d_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 30 } rn_add_char = yes }
+			rn_keyS_e_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 31 } rn_add_char = yes }
+			rn_keyS_f_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 32 } rn_add_char = yes }
+			rn_keyS_g_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 33 } rn_add_char = yes }
+			rn_keyS_h_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 34 } rn_add_char = yes }
+			rn_keyS_i_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 35 } rn_add_char = yes }
+			rn_keyS_j_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 36 } rn_add_char = yes }
+			rn_keyS_k_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 37 } rn_add_char = yes }
+			rn_keyS_l_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 38 } rn_add_char = yes }
+			rn_keyS_m_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 39 } rn_add_char = yes }
+			rn_keyS_n_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 40 } rn_add_char = yes }
+			rn_keyS_o_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 41 } rn_add_char = yes }
+			rn_keyS_p_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 42 } rn_add_char = yes }
+			rn_keyS_q_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 43 } rn_add_char = yes }
+			rn_keyS_r_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 44 } rn_add_char = yes }
+			rn_keyS_s_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 45 } rn_add_char = yes }
+			rn_keyS_t_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 46 } rn_add_char = yes }
+			rn_keyS_u_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 47 } rn_add_char = yes }
+			rn_keyS_v_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 48 } rn_add_char = yes }
+			rn_keyS_w_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 49 } rn_add_char = yes }
+			rn_keyS_x_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 50 } rn_add_char = yes }
+			rn_keyS_y_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 51 } rn_add_char = yes }
+			rn_keyS_z_click = { ROOT = { rn_gui_touch = yes } set_temp_variable = { rn_c = 52 } rn_add_char = yes }
+			rn_cancel_click = { ROOT = { rn_gui_touch = yes } rn_cancel_input = yes }
+			rn_apply_click = { ROOT = { rn_gui_touch = yes } rn_apply_input = yes }
 		}
 		triggers = {
 			rn_apply_click_enabled = { check_variable = { rn_len > 0 } }
@@ -339,6 +344,7 @@ scripted_gui = {
 				if = {
 					limit = { is_owned_by = ROOT }
 					reset_state_name = yes
+					ROOT = { rn_gui_touch = yes }
 				}
 			}
 		}

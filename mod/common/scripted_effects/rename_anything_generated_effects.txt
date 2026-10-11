@@ -1151,8 +1151,8 @@ rn_apply_input = {
 		limit = { check_variable = { rn_len > 0 } }
 		if = {
 			limit = { check_variable = { rn_ttype = 1 } }
-			# Rebuild the player's current characters; a target can transfer/retire while the input stays open.
-			rn_refresh_lists = yes
+			# Rebuild only the character list (not states): a target can transfer/retire while the input stays open.
+			rn_refresh_chars = yes
 			for_each_scope_loop = {
 				array = rn_tchar
 				if = {
@@ -1231,6 +1231,12 @@ rn_cd_vp_start = {
 	rn_cd_days = yes
 	set_variable = { rn_cd_vp_until = global.num_days }
 	add_to_variable = { rn_cd_vp_until = temp_var:rn_cd_days }
+}
+
+# Legacy editor refresh gate: any change of rn_gui_dirty updates its windows (COUNTRY scope).
+rn_gui_touch = {
+	add_to_variable = { rn_gui_dirty = 1 }
+	if = { limit = { check_variable = { rn_gui_dirty > 999999 } } set_variable = { rn_gui_dirty = 0 } }
 }
 
 # Reset a city (VP province) name by clearing the override. This also works for VPs without a loc key.

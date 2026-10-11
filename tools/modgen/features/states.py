@@ -141,6 +141,7 @@ def state_view_gui() -> str:
 				if = {{
 					limit = {{ is_owned_by = ROOT }}
 					reset_state_name = yes
+					ROOT = {{ rn_gui_touch = yes }}
 				}}
 			}}
 		}}
