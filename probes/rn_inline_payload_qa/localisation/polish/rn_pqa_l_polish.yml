@@ -1,0 +1,9 @@
+﻿l_polish:
+ RN_PQA_TITLE: "QA semantyki payloadu"
+ RN_PQA_NAMESPACE: "Namespace"
+ RN_PQA_VALID_ONE: "Waliduj 1"
+ RN_PQA_VALID_32: "Waliduj 32"
+ RN_PQA_INVALID_SET: "Błędne dane"
+ RN_PQA_COPY_VALID: "Kopia poprawna"
+ RN_PQA_COPY_REJECT: "Odrzuć kopię"
+ RN_PQA_NOTE: "Tylko logi; bez zmiany nazw."

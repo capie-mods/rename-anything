@@ -1,0 +1,26 @@
+# UNLOADED script-only diagnostic model. Deliberately outside native bridge whitelist.
+# Default main-window parent, right side of map; does not overlap politics native probe.
+scripted_gui = {
+	rn_pqa_gui = {
+		context_type = player_context
+		window_name = "rn_pqa_window"
+		visible = { tag = POL is_ai = no }
+		ai_enabled = { always = no }
+		effects = {
+			rn_pqa_namespace_click = { if = { limit = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } } rn_pqa_namespace = yes } }
+			rn_pqa_valid_one_click = { if = { limit = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } } rn_pqa_valid_one = yes } }
+			rn_pqa_valid_32_click = { if = { limit = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } } rn_pqa_valid_32 = yes } }
+			rn_pqa_invalid_set_click = { if = { limit = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } } rn_pqa_invalid_set = yes } }
+			rn_pqa_copy_valid_click = { if = { limit = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } } rn_pqa_copy_valid = yes } }
+			rn_pqa_copy_reject_click = { if = { limit = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } } rn_pqa_copy_reject = yes } }
+		}
+		triggers = {
+			rn_pqa_namespace_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } }
+			rn_pqa_valid_one_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } }
+			rn_pqa_valid_32_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } }
+			rn_pqa_invalid_set_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } }
+			rn_pqa_copy_valid_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } }
+			rn_pqa_copy_reject_click_enabled = { tag = POL is_ai = no NOT = { has_country_flag = rn_input } }
+		}
+	}
+}

@@ -1,0 +1,292 @@
+# UNLOADED deterministic script diagnostics, own POL player_context only.
+# No rename, target assignment, rn_apply_input, rn_open_input or native edit field.
+# Exact copied rn_inline_payload.txt is the subject, NOT a renamed implementation.
+# Do not load together with rn_in_place_ui: helper definitions would duplicate.
+# Private backup writes use existing implicit loop-temp syntax, not temp_var:.
+# Six buttons; all payload producers reset all34 records on every invocation.
+
+rn_pqa_reset_payload = {
+	set_temp_variable = { rn_native_ok = 0 }
+	set_temp_variable = { rn_native_len = 0 }
+	set_temp_variable = { rn_native_0 = 0 }
+	set_temp_variable = { rn_native_1 = 0 }
+	set_temp_variable = { rn_native_2 = 0 }
+	set_temp_variable = { rn_native_3 = 0 }
+	set_temp_variable = { rn_native_4 = 0 }
+	set_temp_variable = { rn_native_5 = 0 }
+	set_temp_variable = { rn_native_6 = 0 }
+	set_temp_variable = { rn_native_7 = 0 }
+	set_temp_variable = { rn_native_8 = 0 }
+	set_temp_variable = { rn_native_9 = 0 }
+	set_temp_variable = { rn_native_10 = 0 }
+	set_temp_variable = { rn_native_11 = 0 }
+	set_temp_variable = { rn_native_12 = 0 }
+	set_temp_variable = { rn_native_13 = 0 }
+	set_temp_variable = { rn_native_14 = 0 }
+	set_temp_variable = { rn_native_15 = 0 }
+	set_temp_variable = { rn_native_16 = 0 }
+	set_temp_variable = { rn_native_17 = 0 }
+	set_temp_variable = { rn_native_18 = 0 }
+	set_temp_variable = { rn_native_19 = 0 }
+	set_temp_variable = { rn_native_20 = 0 }
+	set_temp_variable = { rn_native_21 = 0 }
+	set_temp_variable = { rn_native_22 = 0 }
+	set_temp_variable = { rn_native_23 = 0 }
+	set_temp_variable = { rn_native_24 = 0 }
+	set_temp_variable = { rn_native_25 = 0 }
+	set_temp_variable = { rn_native_26 = 0 }
+	set_temp_variable = { rn_native_27 = 0 }
+	set_temp_variable = { rn_native_28 = 0 }
+	set_temp_variable = { rn_native_29 = 0 }
+	set_temp_variable = { rn_native_30 = 0 }
+	set_temp_variable = { rn_native_31 = 0 }
+}
+
+rn_pqa_payload_one = {
+	rn_pqa_reset_payload = yes
+	set_temp_variable = { rn_native_ok = 1 }
+	set_temp_variable = { rn_native_len = 1 }
+	set_temp_variable = { rn_native_0 = 1 }
+}
+
+rn_pqa_payload_32 = {
+	rn_pqa_reset_payload = yes
+	set_temp_variable = { rn_native_ok = 1 }
+	set_temp_variable = { rn_native_len = 32 }
+	set_temp_variable = { rn_native_0 = 1 }
+	set_temp_variable = { rn_native_1 = 2 }
+	set_temp_variable = { rn_native_2 = 3 }
+	set_temp_variable = { rn_native_3 = 4 }
+	set_temp_variable = { rn_native_4 = 5 }
+	set_temp_variable = { rn_native_5 = 6 }
+	set_temp_variable = { rn_native_6 = 7 }
+	set_temp_variable = { rn_native_7 = 8 }
+	set_temp_variable = { rn_native_8 = 9 }
+	set_temp_variable = { rn_native_9 = 10 }
+	set_temp_variable = { rn_native_10 = 11 }
+	set_temp_variable = { rn_native_11 = 12 }
+	set_temp_variable = { rn_native_12 = 13 }
+	set_temp_variable = { rn_native_13 = 14 }
+	set_temp_variable = { rn_native_14 = 15 }
+	set_temp_variable = { rn_native_15 = 16 }
+	set_temp_variable = { rn_native_16 = 17 }
+	set_temp_variable = { rn_native_17 = 18 }
+	set_temp_variable = { rn_native_18 = 19 }
+	set_temp_variable = { rn_native_19 = 20 }
+	set_temp_variable = { rn_native_20 = 21 }
+	set_temp_variable = { rn_native_21 = 22 }
+	set_temp_variable = { rn_native_22 = 23 }
+	set_temp_variable = { rn_native_23 = 24 }
+	set_temp_variable = { rn_native_24 = 25 }
+	set_temp_variable = { rn_native_25 = 26 }
+	set_temp_variable = { rn_native_26 = 27 }
+	set_temp_variable = { rn_native_27 = 28 }
+	set_temp_variable = { rn_native_28 = 29 }
+	set_temp_variable = { rn_native_29 = 30 }
+	set_temp_variable = { rn_native_30 = 31 }
+	set_temp_variable = { rn_native_31 = 32 }
+}
+
+rn_pqa_snapshot = {
+	clear_array = rn_pqa_before_buf
+	set_variable = { rn_pqa_before_len = rn_len }
+	set_variable = { rn_pqa_had_len = 0 }
+	if = { limit = { has_variable = rn_len } set_variable = { rn_pqa_had_len = 1 } }
+	for_each_loop = {
+		array = rn_buf
+		value = rn_pqa_v
+		add_to_array = { rn_pqa_before_buf = rn_pqa_v }
+	}
+}
+
+rn_pqa_compare_snapshot = {
+	set_temp_variable = { rn_pqa_diff = 0 }
+	if = {
+		limit = { NOT = { check_variable = { rn_len = rn_pqa_before_len } } }
+		add_to_temp_variable = { rn_pqa_diff = 1 }
+	}
+	if = {
+		limit = { NOT = { check_variable = { rn_buf^num = rn_pqa_before_buf^num } } }
+		add_to_temp_variable = { rn_pqa_diff = 1 }
+	}
+	if = {
+		limit = { check_variable = { rn_pqa_had_len = 0 } has_variable = rn_len }
+		add_to_temp_variable = { rn_pqa_diff = 1 }
+	}
+	if = {
+		limit = { check_variable = { rn_pqa_had_len = 1 } NOT = { has_variable = rn_len } }
+		add_to_temp_variable = { rn_pqa_diff = 1 }
+	}
+	for_each_loop = {
+		array = rn_buf
+		value = rn_pqa_v
+		index = rn_pqa_i
+		if = {
+			limit = { NOT = { check_variable = { rn_pqa_v = rn_pqa_before_buf^rn_pqa_i } } }
+			add_to_temp_variable = { rn_pqa_diff = 1 }
+		}
+	}
+}
+
+rn_pqa_restore_snapshot = {
+	clear_array = rn_buf
+	for_each_loop = {
+		array = rn_pqa_before_buf
+		value = rn_pqa_v
+		add_to_array = { rn_buf = rn_pqa_v }
+	}
+	if = {
+		limit = { check_variable = { rn_pqa_had_len = 1 } }
+		set_variable = { rn_len = rn_pqa_before_len }
+	}
+	else = { clear_variable = rn_len }
+	rn_pqa_compare_snapshot = yes
+	if = {
+		limit = { check_variable = { rn_pqa_diff = 0 } }
+		log = "RN_PQA restored PASS"
+	}
+	else = { log = "RN_PQA restored FAIL diff=[?rn_pqa_diff|0]" }
+}
+
+rn_pqa_finish_snapshot = {
+	rn_pqa_compare_snapshot = yes
+	# Roll back even a failed diagnostic; do not silently report it as unchanged.
+	if = { limit = { check_variable = { rn_pqa_diff > 0 } } rn_pqa_restore_snapshot = yes }
+	clear_array = rn_pqa_before_buf
+	clear_variable = rn_pqa_before_len
+	clear_variable = rn_pqa_had_len
+}
+
+rn_pqa_check_validation = {
+	rn_inline_validate_payload = yes
+	rn_pqa_compare_snapshot = yes
+	if = {
+		limit = {
+			check_variable = { temp_var:rn_inline_error = rn_pqa_expected }
+			check_variable = { temp_var:rn_inline_bad_index = rn_pqa_expected_bad }
+			check_variable = { rn_pqa_diff = 0 }
+		}
+		log = "RN_PQA case=[?rn_pqa_case|0] PASS err=[?rn_inline_error|0] bad=[?rn_inline_bad_index|0] unchanged=1"
+	}
+	else = { log = "RN_PQA case=[?rn_pqa_case|0] FAIL err=[?rn_inline_error|0] bad=[?rn_inline_bad_index|0] diff=[?rn_pqa_diff|0]" }
+}
+
+rn_pqa_namespace = {
+	# Collision control: explicit temp_var: must select7, not persistent scalar99.
+	set_variable = { rn_pqa_source = 99 }
+	set_temp_variable = { rn_pqa_source = 7 }
+	set_temp_variable = { rn_pqa_rhs = temp_var:rn_pqa_source }
+	set_variable = { rn_pqa_scalar = temp_var:rn_pqa_source }
+	clear_array = rn_pqa_array
+	add_to_array = { rn_pqa_array = temp_var:rn_pqa_source }
+	if = {
+		limit = {
+			check_variable = { temp_var:rn_pqa_source = 7 }
+			check_variable = { temp_var:rn_pqa_rhs = 7 }
+			check_variable = { rn_pqa_scalar = 7 }
+			check_variable = { rn_pqa_array^num = 1 }
+			check_variable = { rn_pqa_array^0 = 7 }
+		}
+		log = "RN_PQA namespace PASS temp=[?rn_pqa_rhs|0] scalar=[?rn_pqa_scalar|0] array=[?rn_pqa_array^0|0]"
+	}
+	else = { log = "RN_PQA namespace FAIL temp=[?temp_var:rn_pqa_source] rhs=[?rn_pqa_rhs] scalar=[?rn_pqa_scalar] array=[?rn_pqa_array^0]" }
+	clear_variable = rn_pqa_source
+	clear_variable = rn_pqa_scalar
+	clear_array = rn_pqa_array
+}
+
+rn_pqa_valid_one = {
+	rn_pqa_snapshot = yes
+	rn_pqa_payload_one = yes
+	set_temp_variable = { rn_pqa_case = 1 }
+	set_temp_variable = { rn_pqa_expected = 0 }
+	set_temp_variable = { rn_pqa_expected_bad = -1 }
+	rn_pqa_check_validation = yes
+	rn_pqa_finish_snapshot = yes
+}
+
+rn_pqa_valid_32 = {
+	rn_pqa_snapshot = yes
+	rn_pqa_payload_32 = yes
+	set_temp_variable = { rn_pqa_case = 2 }
+	set_temp_variable = { rn_pqa_expected = 0 }
+	set_temp_variable = { rn_pqa_expected_bad = -1 }
+	rn_pqa_check_validation = yes
+	rn_pqa_finish_snapshot = yes
+}
+
+rn_pqa_invalid_set = {
+	rn_pqa_snapshot = yes
+	# Sentinel0 must not reuse a previously accepted payload.
+	rn_pqa_payload_one = yes
+	set_temp_variable = { rn_native_ok = 0 }
+	set_temp_variable = { rn_pqa_case = 31 }
+	set_temp_variable = { rn_pqa_expected = 1 }
+	set_temp_variable = { rn_pqa_expected_bad = -1 }
+	rn_pqa_check_validation = yes
+	# Fractional length must fail before reading active/padding slots.
+	rn_pqa_payload_one = yes
+	set_temp_variable = { rn_native_len = 1.5 }
+	set_temp_variable = { rn_pqa_case = 32 }
+	set_temp_variable = { rn_pqa_expected = 4 }
+	rn_pqa_check_validation = yes
+	# First active slot outside1..84.
+	rn_pqa_payload_one = yes
+	set_temp_variable = { rn_native_0 = 85 }
+	set_temp_variable = { rn_pqa_case = 33 }
+	set_temp_variable = { rn_pqa_expected = 5 }
+	set_temp_variable = { rn_pqa_expected_bad = 0 }
+	rn_pqa_check_validation = yes
+	# Fractional active slot is not silently rounded into a code.
+	rn_pqa_payload_one = yes
+	set_temp_variable = { rn_native_0 = 1.5 }
+	set_temp_variable = { rn_pqa_case = 34 }
+	rn_pqa_check_validation = yes
+	# Last padding slot must also be checked.
+	rn_pqa_payload_one = yes
+	set_temp_variable = { rn_native_31 = 1 }
+	set_temp_variable = { rn_pqa_case = 35 }
+	set_temp_variable = { rn_pqa_expected = 6 }
+	set_temp_variable = { rn_pqa_expected_bad = 31 }
+	rn_pqa_check_validation = yes
+	rn_pqa_finish_snapshot = yes
+}
+
+rn_pqa_copy_valid = {
+	rn_pqa_snapshot = yes
+	rn_pqa_payload_one = yes
+	set_temp_variable = { rn_native_len = 2 }
+	set_temp_variable = { rn_native_1 = 84 }
+	rn_inline_copy_payload = yes
+	if = {
+		limit = {
+			check_variable = { temp_var:rn_inline_error = 0 }
+			check_variable = { rn_len = 2 }
+			check_variable = { rn_buf^num = 2 }
+			check_variable = { rn_buf^0 = 1 }
+			check_variable = { rn_buf^1 = 84 }
+		}
+		log = "RN_PQA copy-valid PASS err=[?rn_inline_error|0] len=[?rn_len|0] codes=[?rn_buf^0|0],[?rn_buf^1|0]"
+	}
+	else = { log = "RN_PQA copy-valid FAIL err=[?rn_inline_error|0] len=[?rn_len] count=[?rn_buf^num] first=[?rn_buf^0] last=[?rn_buf^1]" }
+	rn_pqa_restore_snapshot = yes
+	rn_pqa_finish_snapshot = yes
+}
+
+rn_pqa_copy_reject = {
+	rn_pqa_snapshot = yes
+	rn_pqa_payload_one = yes
+	set_temp_variable = { rn_native_31 = 1 }
+	rn_inline_copy_payload = yes
+	rn_pqa_compare_snapshot = yes
+	if = {
+		limit = {
+			check_variable = { temp_var:rn_inline_error = 6 }
+			check_variable = { temp_var:rn_inline_bad_index = 31 }
+			check_variable = { rn_pqa_diff = 0 }
+		}
+		log = "RN_PQA copy-reject PASS err=6 bad=31 unchanged=1"
+	}
+	else = { log = "RN_PQA copy-reject FAIL err=[?rn_inline_error|0] bad=[?rn_inline_bad_index|0] diff=[?rn_pqa_diff|0]" }
+	rn_pqa_finish_snapshot = yes
+}

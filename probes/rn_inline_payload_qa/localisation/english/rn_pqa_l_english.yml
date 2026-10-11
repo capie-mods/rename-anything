@@ -1,0 +1,9 @@
+﻿l_english:
+ RN_PQA_TITLE: "Payload semantics QA"
+ RN_PQA_NAMESPACE: "Namespace"
+ RN_PQA_VALID_ONE: "Validate 1"
+ RN_PQA_VALID_32: "Validate 32"
+ RN_PQA_INVALID_SET: "Invalid set"
+ RN_PQA_COPY_VALID: "Copy valid"
+ RN_PQA_COPY_REJECT: "Copy reject"
+ RN_PQA_NOTE: "Logs only; no name changes."
