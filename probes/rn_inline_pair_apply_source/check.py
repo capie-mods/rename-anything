@@ -118,6 +118,54 @@ OTHER_PANEL_FLAGS = (
 )
 """Every rename panel flag; Open must refuse while any of them is set."""
 
+LAST_CODE = 84
+"""Highest character code of the main mod (``RN_CH_84``); 85 is out of range."""
+
+QA_TAG = "POL"
+"""Own country of the base VM state (the QA country of the inactive candidates)."""
+
+START_EPOCH = 7
+"""Panel epoch and command epoch of the base VM state."""
+
+NEUTRALITY_GROUP = 4
+"""Logical party group of the base neutrality ideology."""
+
+ERR_CONTEXT = 7
+"""``rn_pair_err``: wrong country, AI player, panel flags not as required."""
+
+ERR_EPOCH = 8
+"""``rn_pair_err``: epoch not a positive integer or not the command epoch."""
+
+ERR_PIN = 9
+"""``rn_pair_err``: typed pin or party group/government does not match."""
+
+ERR_CAPABILITY = 10
+"""``rn_pair_err``: fresh native country capability missing."""
+
+FIELD_A = 1
+"""``rn_pair_field`` of payload A (``rn_native_*``)."""
+
+FIELD_B = 2
+"""``rn_pair_field`` of payload B (``rn_nativeb_*``)."""
+
+PAYLOAD_PREFIXES = {FIELD_A: "rn_native_", FIELD_B: "rn_nativeb_"}
+"""Temp variable prefix of each payload field."""
+
+KIND_NAMES = {
+    "country": ("rn_ip_country_open", "rn_ip_country_target"),
+    "party": ("rn_ip_party_neutrality_open", "rn_ip_party_target"),
+}
+"""Own open flag and typed pin array of each Apply kind."""
+
+KIND_BUFFERS = {
+    "country": (("rn_cname", "rn_cname_len"), ("rn_cadj", "rn_cadj_len")),
+    "party": (("rn_pshort", "rn_pshort_len"), ("rn_plong", "rn_plong_len")),
+}
+"""Destination (array, length) of payload A and payload B for each Apply kind."""
+
+PARTY_LOC_BUFFERS = (("PS", "rn_pshort", "rn_pshort_len"), ("PL", "rn_plong", "rn_plong_len"))
+"""Party buffers as (scripted loc prefix, array, length variable)."""
+
 Node = tuple[str, str, Any]
 """Parsed script node as (key, operator, value); the value is a string or a node list."""
 
@@ -126,22 +174,41 @@ class Country:
     """Minimal stand-in for a typed country scope, compared by tag."""
 
     def __init__(self, tag: str) -> None:
-        """Create a country scope for ``tag``."""
+        """Create a country scope.
+
+        Args:
+            tag: Country tag.
+        """
         self.tag = tag
 
     @override
     def __eq__(self, other: object) -> bool:
-        """Return True when ``other`` is a Country with the same tag."""
+        """Compare by tag.
+
+        Args:
+            other: Any value.
+
+        Returns:
+            True when ``other`` is a Country with the same tag.
+        """
         return isinstance(other, Country) and self.tag == other.tag
 
     @override
     def __hash__(self) -> int:
-        """Hash by tag, consistent with equality."""
+        """Hash by tag, consistent with equality.
+
+        Returns:
+            The hash of the tag.
+        """
         return hash(self.tag)
 
     @override
     def __repr__(self) -> str:
-        """Return ``Country(<tag>)``."""
+        """Show the tag.
+
+        Returns:
+            ``Country(<tag>)``.
+        """
         return "Country(" + self.tag + ")"
 
 
@@ -168,16 +235,21 @@ class ApplyVM(VM):
             chars: ``RN_CH_<n>`` key to character.
             kind: ``country`` or ``party``.
         """
-        tag = "POL"
+        tag = QA_TAG
         temp = {
-            **payload("rn_native_", 1, 84),
-            **payload("rn_nativeb_", 32, 1),
-            "rn_ip_cmd_epoch": Decimal(7),
+            **payload(PAYLOAD_PREFIXES[FIELD_A], 1, LAST_CODE),
+            **payload(PAYLOAD_PREFIXES[FIELD_B], PARTY_SLOTS, 1),
+            "rn_ip_cmd_epoch": Decimal(START_EPOCH),
             "rn_native_cap": Decimal(1),
         }
-        persistent = {"rn_ip_epoch": Decimal(7), "rn_ip_party_group": Decimal(4)}
+        persistent = {
+            "rn_ip_epoch": Decimal(START_EPOCH),
+            "rn_ip_party_group": Decimal(NEUTRALITY_GROUP),
+        }
+        # Distinct non-empty contents per buffer, so an unintended write is visible.
         arrays: dict[str, list[object]] = {
-            name: [Decimal(11 + i), Decimal(84 - i)] for i, (name, _length) in enumerate(BUFFERS)
+            name: [Decimal(11 + i), Decimal(LAST_CODE - i)]
+            for i, (name, _length) in enumerate(BUFFERS)
         }
         for i, (_, length) in enumerate(BUFFERS):
             persistent[length] = Decimal(i + 2)
@@ -186,7 +258,7 @@ class ApplyVM(VM):
         super().__init__(effects, temp, persistent, arrays)
         self.tag, self.ai, self.government = tag, False, "neutrality"
         self.kind = kind
-        self.flags = {"rn_ip_country_open" if kind == "country" else "rn_ip_party_neutrality_open"}
+        self.flags = {KIND_NAMES[kind][0]}
         self.locs: dict[str, list[Node]] = locs
         self.chars: dict[str, str] = chars
         self.requests: list[list[Node]] = []
@@ -197,14 +269,28 @@ class ApplyVM(VM):
 
     @override
     def value(self, token: str) -> Any:
-        """Resolve THIS/ROOT to the player country, otherwise defer to the base VM."""
+        """Resolve THIS/ROOT to the player country, otherwise defer to the base VM.
+
+        Args:
+            token: Script value or variable reference.
+
+        Returns:
+            The resolved value.
+        """
         if token in {"THIS", "ROOT"}:
             return Country(self.tag)
         return super().value(token)
 
     @override
     def condition(self, nodes: list[Node]) -> bool:
-        """Evaluate trigger nodes, adding the country triggers Apply relies on."""
+        """Evaluate trigger nodes, adding the country triggers Apply relies on.
+
+        Args:
+            nodes: Trigger nodes; all must hold.
+
+        Returns:
+            Whether every trigger holds.
+        """
         for key, _, value in nodes:
             if key == "tag":
                 answer = self.tag == value
@@ -231,6 +317,9 @@ class ApplyVM(VM):
 
         After the first successful pair validation a pending ``late_mutation``
         callback is applied once, before the late guard runs.
+
+        Args:
+            name: Effect name.
         """
         super().run(name)
         if name == "rn_inline_pair_validate":
@@ -243,7 +332,14 @@ class ApplyVM(VM):
             self.guard_count += 1
 
     def assert_write_barrier(self, key: str) -> None:
-        """Fail if a persistent write happens before both validations and both guards."""
+        """Fail if a persistent write happens before both validations and both guards.
+
+        A failed ``assert`` (only while ``enforce`` is set) raises AssertionError,
+        which the checker reports as FAIL.
+
+        Args:
+            key: The write command, recorded in :attr:`trace`.
+        """
         if self.enforce:
             assert self.pair_count == 1, ("write before both payloads valid", key)
             assert self.pair_complete, ("write before both payloads valid", key)
@@ -259,6 +355,9 @@ class ApplyVM(VM):
 
         Returns:
             The text of the first entry whose trigger holds.
+
+        Raises:
+            AssertionError: No entry matched.
         """
         for _, _, text in self.locs[name]:
             if not isinstance(text, list):
@@ -274,6 +373,9 @@ class ApplyVM(VM):
         """Execute effect nodes, handling persistent writes and ``meta_effect`` here.
 
         Base VM owns branch control; only the missing primitive operations are added.
+
+        Args:
+            nodes: Effect nodes.
         """
         if len(nodes) != 1 or nodes[0][0] in {"if", "else_if", "else"}:
             self._execute_block(nodes)
@@ -301,7 +403,11 @@ class ApplyVM(VM):
             super().execute(nodes)
 
     def _execute_block(self, nodes: list[Node]) -> None:
-        """Execute a node list one statement at a time with if/else_if/else chaining."""
+        """Execute a node list one statement at a time with if/else_if/else chaining.
+
+        Args:
+            nodes: Effect nodes.
+        """
         branch_taken = None
         for key, op, value in nodes:
             if key in {"if", "else_if", "else"}:
@@ -316,7 +422,14 @@ class ApplyVM(VM):
                 self.execute([(key, op, value)])
 
     def _meta_effect_request(self, value: list[Node]) -> list[Node]:
-        """Return the ``text`` block of a ``meta_effect`` with its parameters substituted."""
+        """Return the ``text`` block of a ``meta_effect`` with its parameters substituted.
+
+        Args:
+            value: Body of the ``meta_effect``.
+
+        Returns:
+            The ``text`` nodes with every ``[NAME]`` placeholder replaced.
+        """
         params = {k: v for k, _, v in value}
         substitutions = {
             k: re.sub(r"\[ROOT\.([^]]+)\]", lambda m: self.localized(m[1]), v)
@@ -326,7 +439,14 @@ class ApplyVM(VM):
         text = copy.deepcopy(params["text"])
 
         def substitute(items: list[Node]) -> list[Node]:
-            """Replace ``[NAME]`` placeholders in every string value, recursively."""
+            """Replace ``[NAME]`` placeholders in every string value, recursively.
+
+            Args:
+                items: Nodes to copy.
+
+            Returns:
+                The substituted copy.
+            """
             out = []
             for k, op, v in items:
                 if isinstance(v, list):
@@ -341,7 +461,11 @@ class ApplyVM(VM):
         return substitute(text)
 
     def state(self) -> tuple[Any, ...]:
-        """Return a deep copy of the persistent variables, arrays and flags."""
+        """Return a deep copy of the persistent variables, arrays and flags.
+
+        Returns:
+            ``(persistent, arrays, flags)``.
+        """
         return copy.deepcopy((self.persistent, self.arrays, self.flags))
 
 
@@ -359,7 +483,14 @@ def parse_file(path: Path, encoding: str = "utf-8-sig") -> list[Node]:
 
 
 def loc_name(body: list[Node]) -> str:
-    """Return the ``name`` of a ``defined_text`` body."""
+    """Return the ``name`` of a ``defined_text`` body.
+
+    Args:
+        body: Parsed ``defined_text`` body.
+
+    Returns:
+        The scripted localisation name.
+    """
     return cast("str", next(v for k, _, v in body if k == "name"))
 
 
@@ -425,16 +556,26 @@ class KindChecks:
         chars: dict[str, str],
         kind: str,
     ) -> None:
-        """Store the loaded sources for ``kind`` (``country`` or ``party``)."""
+        """Store the loaded sources for one kind.
+
+        Args:
+            effects: Effect name to parsed body.
+            locs: Scripted loc name to its ``text`` entries.
+            chars: ``RN_CH_<n>`` key to character.
+            kind: ``country`` or ``party``.
+        """
         self.effects, self.locs, self.chars, self.kind = effects, locs, chars, kind
-        self.own_flag = "rn_ip_country_open" if kind == "country" else "rn_ip_party_neutrality_open"
-        self.target = "rn_ip_country_target" if kind == "country" else "rn_ip_party_target"
+        self.own_flag, self.target = KIND_NAMES[kind]
         self.rejection_cases = 0
         self.success_cases = 0
         self.lifecycle_cases = 0
 
     def fresh(self) -> ApplyVM:
-        """Return a new VM in the valid starting state."""
+        """Return a new VM in the valid starting state.
+
+        Returns:
+            A fresh :class:`ApplyVM` for this kind.
+        """
         return ApplyVM(self.effects, self.locs, self.chars, self.kind)
 
     def reject(
@@ -462,7 +603,11 @@ class KindChecks:
         if late:
 
             def callback(current: ApplyVM) -> None:
-                """Mutate the VM mid-Apply and remember the resulting state."""
+                """Mutate the VM mid-Apply and remember the resulting state.
+
+                Args:
+                    current: The VM being run.
+                """
                 mutate(current)
                 expected.append(current.state())
 
@@ -483,9 +628,9 @@ class KindChecks:
     def rejections(self) -> None:
         """Run every context, epoch, pin, capability and payload rejection case."""
         kind, own_flag, target, reject = self.kind, self.own_flag, self.target, self.reject
-        reject(lambda vm: setattr(vm, "tag", "GER"), 7)
-        reject(lambda vm: setattr(vm, "ai", True), 7)
-        reject(lambda vm: vm.flags.discard(own_flag), 7)
+        reject(lambda vm: setattr(vm, "tag", "GER"), ERR_CONTEXT)
+        reject(lambda vm: setattr(vm, "ai", True), ERR_CONTEXT)
+        reject(lambda vm: vm.flags.discard(own_flag), ERR_CONTEXT)
         other_flags = [
             "rn_open",
             "rn_input",
@@ -493,27 +638,27 @@ class KindChecks:
             "rn_ip_party_neutrality_open" if kind == "country" else "rn_ip_country_open",
         ]
         for flag in other_flags:
-            reject(lambda vm, f=flag: vm.flags.add(f), 7)
-        reject(lambda vm: vm.persistent.update(rn_ip_epoch=Decimal(0)), 8)
-        reject(lambda vm: vm.temp.update(rn_ip_cmd_epoch=Decimal(8)), 8)
-        reject(lambda vm: vm.temp.pop("rn_ip_cmd_epoch"), 8)
+            reject(lambda vm, f=flag: vm.flags.add(f), ERR_CONTEXT)
+        reject(lambda vm: vm.persistent.update(rn_ip_epoch=Decimal(0)), ERR_EPOCH)
+        reject(lambda vm: vm.temp.update(rn_ip_cmd_epoch=Decimal(START_EPOCH + 1)), ERR_EPOCH)
+        reject(lambda vm: vm.temp.pop("rn_ip_cmd_epoch"), ERR_EPOCH)
         reject(
             lambda vm: (
                 vm.persistent.update(rn_ip_epoch=Decimal("7.5")),
                 vm.temp.update(rn_ip_cmd_epoch=Decimal("7.5")),
             ),
-            8,
+            ERR_EPOCH,
         )
-        for wrong in ([], [Country("GER")], [Decimal(1)], [Country("POL"), Country("POL")]):
-            reject(lambda vm, values=wrong: vm.arrays.update({target: values}), 9)
+        for wrong in ([], [Country("GER")], [Decimal(1)], [Country(QA_TAG), Country(QA_TAG)]):
+            reject(lambda vm, values=wrong: vm.arrays.update({target: values}), ERR_PIN)
         if kind == "country":
             for capability in (Decimal(0), Decimal(2), Decimal("1.00001")):
-                reject(lambda vm, c=capability: vm.temp.update(rn_native_cap=c), 10)
-            reject(lambda vm: vm.temp.pop("rn_native_cap"), 10)
+                reject(lambda vm, c=capability: vm.temp.update(rn_native_cap=c), ERR_CAPABILITY)
+            reject(lambda vm: vm.temp.pop("rn_native_cap"), ERR_CAPABILITY)
         else:
-            reject(lambda vm: vm.persistent.update(rn_ip_party_group=Decimal(3)), 9)
-            reject(lambda vm: setattr(vm, "government", "fascism"), 9)
-        for prefix, field in (("rn_native_", 1), ("rn_nativeb_", 2)):
+            reject(lambda vm: vm.persistent.update(rn_ip_party_group=Decimal(3)), ERR_PIN)
+            reject(lambda vm: setattr(vm, "government", "fascism"), ERR_PIN)
+        for field, prefix in PAYLOAD_PREFIXES.items():
             for suffix, value, err, bad in [
                 ("ok", "0", 1, -1),
                 ("len", "1.00001", 4, -1),
@@ -528,28 +673,37 @@ class KindChecks:
                 )
 
             def bad_padding(vm: ApplyVM, p: str = prefix) -> None:
-                """Declare length 1 but leave a non-zero fraction in slot 31."""
-                vm.temp[p + "len"] = Decimal(1)
-                for i in range(1, 32):
-                    vm.temp[p + str(i)] = Decimal(0)
-                vm.temp[p + "31"] = Decimal("0.00001")
+                """Declare length 1 but leave a non-zero fraction in the last slot.
 
-            reject(bad_padding, 6, field, 31)
-        reject(lambda vm: vm.flags.add("rn_input"), 7, late=True)
-        reject(lambda vm: vm.persistent.update(rn_ip_epoch=Decimal(8)), 8, late=True)
-        reject(lambda vm: vm.arrays.update({target: [Country("GER")]}), 9, late=True)
+                Args:
+                    vm: VM to change.
+                    p: Payload temp variable prefix.
+                """
+                vm.temp[p + "len"] = Decimal(1)
+                for i in range(1, PARTY_SLOTS):
+                    vm.temp[p + str(i)] = Decimal(0)
+                vm.temp[p + str(PARTY_SLOTS - 1)] = Decimal("0.00001")
+
+            reject(bad_padding, 6, field, PARTY_SLOTS - 1)
+        reject(lambda vm: vm.flags.add("rn_input"), ERR_CONTEXT, late=True)
+        reject(
+            lambda vm: vm.persistent.update(rn_ip_epoch=Decimal(START_EPOCH + 1)),
+            ERR_EPOCH,
+            late=True,
+        )
+        reject(lambda vm: vm.arrays.update({target: [Country("GER")]}), ERR_PIN, late=True)
         if kind == "country":
-            reject(lambda vm: vm.temp.update(rn_native_cap=Decimal(0)), 10, late=True)
+            reject(lambda vm: vm.temp.update(rn_native_cap=Decimal(0)), ERR_CAPABILITY, late=True)
         else:
-            reject(lambda vm: setattr(vm, "government", "democratic"), 9, late=True)
+            reject(lambda vm: setattr(vm, "government", "democratic"), ERR_PIN, late=True)
 
     def successes(self) -> None:
         """Apply valid payloads and check the single setter request and every buffer."""
         kind, chars = self.kind, self.chars
-        for alen, blen in [(1, 32), (32, 1)]:
+        for alen, blen in [(1, PARTY_SLOTS), (PARTY_SLOTS, 1)]:
             vm = self.fresh()
-            vm.temp.update(payload("rn_native_", alen, 84))
-            vm.temp.update(payload("rn_nativeb_", blen, 1))
+            vm.temp.update(payload(PAYLOAD_PREFIXES[FIELD_A], alen, LAST_CODE))
+            vm.temp.update(payload(PAYLOAD_PREFIXES[FIELD_B], blen, 1))
             before = vm.state()
             vm.run("rn_inline_pair_apply_" + kind)
             assert vm.guard_count == GUARD_RUNS_BEFORE_WRITE
@@ -559,15 +713,9 @@ class KindChecks:
             assert vm.value("temp_var:rn_pair_field") == 0
             assert vm.arrays["rn_buf"] == before[1]["rn_buf"]
             assert vm.persistent["rn_len"] == before[0]["rn_len"]
-            destinations = (
-                ("rn_cname", "rn_cadj") if kind == "country" else ("rn_pshort", "rn_plong")
-            )
-            lengths = (
-                ("rn_cname_len", "rn_cadj_len")
-                if kind == "country"
-                else ("rn_pshort_len", "rn_plong_len")
-            )
-            assert vm.arrays[destinations[0]] == [Decimal(84 - i) for i in range(alen)]
+            destinations = tuple(array for array, _ in KIND_BUFFERS[kind])
+            lengths = tuple(length for _, length in KIND_BUFFERS[kind])
+            assert vm.arrays[destinations[0]] == [Decimal(LAST_CODE - i) for i in range(alen)]
             assert vm.arrays[destinations[1]] == [Decimal(1 + i) for i in range(blen)]
             assert vm.persistent[lengths[0]] == alen
             assert vm.persistent[lengths[1]] == blen
@@ -577,8 +725,8 @@ class KindChecks:
                     assert vm.persistent[length] == before[0][length]
             assert self.own_flag not in vm.flags
             assert vm.arrays[self.target] == []
-            assert vm.persistent["rn_ip_epoch"] == 8  # noqa: PLR2004
-            first_name = "".join(chars[f"RN_CH_{84 - i}"] for i in range(alen))
+            assert vm.persistent["rn_ip_epoch"] == START_EPOCH + 1
+            first_name = "".join(chars[f"RN_CH_{LAST_CODE - i}"] for i in range(alen))
             second_name = "".join(chars[f"RN_CH_{1 + i}"] for i in range(blen))
             if kind == "party":
                 assert "rn_ip_party_group" not in vm.persistent
@@ -604,16 +752,16 @@ class KindChecks:
         vm.flags.clear()
         before_buffers = {name: list(vm.arrays[name]) for name, _ in BUFFERS}
         vm.run("rn_inline_pair_open_" + kind)
-        assert vm.arrays[target] == [Country("POL")]
+        assert vm.arrays[target] == [Country(QA_TAG)]
         assert own_flag in vm.flags
-        assert vm.persistent["rn_ip_epoch"] == 8  # noqa: PLR2004
+        assert vm.persistent["rn_ip_epoch"] == START_EPOCH + 1
         assert not vm.requests
         if kind == "party":
-            assert vm.persistent["rn_ip_party_group"] == 4  # noqa: PLR2004
+            assert vm.persistent["rn_ip_party_group"] == NEUTRALITY_GROUP
         vm.run("rn_inline_pair_cancel_" + kind)
         assert vm.arrays[target] == []
         assert own_flag not in vm.flags
-        assert vm.persistent["rn_ip_epoch"] == 9  # noqa: PLR2004
+        assert vm.persistent["rn_ip_epoch"] == START_EPOCH + 2
         assert {name: vm.arrays[name] for name, _ in BUFFERS} == before_buffers
         assert not vm.requests
         self.lifecycle_cases += 1
@@ -633,19 +781,21 @@ def party_slot_checks(
 ) -> int:
     """Render every party buffer slot with every character code and past the length.
 
+    Args:
+        effects: Effect name to parsed body.
+        locs: Scripted loc name to its ``text`` entries.
+        chars: ``RN_CH_<n>`` key to character.
+
     Returns:
         The number of slot renderings checked.
     """
     loc_checks = 0
     vm = ApplyVM(effects, locs, chars, "party")
-    for prefix, array, length in (
-        ("PS", "rn_pshort", "rn_pshort_len"),
-        ("PL", "rn_plong", "rn_plong_len"),
-    ):
-        vm.persistent[length] = Decimal(32)
+    for prefix, array, length in PARTY_LOC_BUFFERS:
+        vm.persistent[length] = Decimal(PARTY_SLOTS)
         for slot in range(PARTY_SLOTS):
-            for code in range(1, 85):
-                vm.arrays[array] = [Decimal(code)] * 32
+            for code in range(1, LAST_CODE + 1):
+                vm.arrays[array] = [Decimal(code)] * PARTY_SLOTS
                 assert vm.localized(f"RN_{prefix}_{slot}") == chars[f"RN_CH_{code}"]
                 loc_checks += 1
             vm.persistent[length] = Decimal(slot)
@@ -654,7 +804,7 @@ def party_slot_checks(
                 prefix,
                 slot,
             )
-            vm.persistent[length] = Decimal(32)
+            vm.persistent[length] = Decimal(PARTY_SLOTS)
             loc_checks += 1
     return loc_checks
 
@@ -662,13 +812,27 @@ def party_slot_checks(
 def late_guard_mutation(
     effects: dict[str, list[Node]], locs: dict[str, list[Node]], chars: dict[str, str]
 ) -> None:
-    """Remove the late country guard and require the write barrier to fire."""
+    """Remove the late country guard and require the write barrier to fire.
+
+    Args:
+        effects: Effect name to parsed body.
+        locs: Scripted loc name to its ``text`` entries.
+        chars: ``RN_CH_<n>`` key to character.
+
+    Raises:
+        AssertionError: The mutated Apply wrote before the barrier, failed for
+            another reason, or was not rejected at all.
+    """
     # Removing the second guard must trip the write barrier before any write.
     mutated = copy.deepcopy(effects)
     seen = 0
 
     def remove_late_guard(nodes: list[Node]) -> None:
-        """Delete the nested (late) guard call, walking the tree in reverse."""
+        """Delete the nested (late) guard call, walking the tree in reverse.
+
+        Args:
+            nodes: Effect nodes, changed in place.
+        """
         nonlocal seen
         for i in range(len(nodes) - 1, -1, -1):
             key, _, value = nodes[i]
@@ -680,7 +844,7 @@ def late_guard_mutation(
                     del nodes[i]
 
     remove_late_guard(mutated["rn_inline_pair_apply_country"])
-    assert seen == 2  # noqa: PLR2004
+    assert seen == GUARD_RUNS_BEFORE_WRITE
     vm = ApplyVM(mutated, locs, chars, "country")
     try:
         vm.run("rn_inline_pair_apply_country")

@@ -47,6 +47,10 @@ The checks run in this order, and their findings are printed in the same order:
   ``l_<lang>:`` header, and every other non-comment line must match the loc line
   format.
 
+The vanilla state inventory is read with the same parser the generator uses
+(``rncommon.game_data``); the check therefore verifies that the generated chain
+matches the parsed inventory, not that the parsing rules themselves are right.
+
 This is a static check built on regular expressions. It does not replace the
 game's own parser, a save and load test, a check of scope evaluation at runtime
 or a multiplayer test.
@@ -62,23 +66,115 @@ import re
 import sys
 from pathlib import Path
 
-DEFAULT_GAME = r"C:\Program Files (x86)\Steam\steamapps\common\Hearts of Iron IV"
-"""Game folder used when no path is given on the command line."""
+from rncommon.game_data import (
+    DEFAULT_GAME,
+    GameData,
+    GameInstallation,
+    read_state_inventory,
+    vp_key_ids,
+)
+from rncommon.loc_files import UTF8_BOM, loc_entries
 
 MOD = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "mod")
 """Absolute path of the ``mod/`` folder; the script runs with this as its working directory."""
 
-LOC_LINE = r' (\S+?):\d? "(.*)"\s*$'
-"""Regex for one ``KEY:N "value"`` localisation line (key and value are captured)."""
+GUI_FILE = "interface/rename_anything.gui"
+"""Legacy editor layout, relative to ``mod/``."""
 
-UTF8_BOM = b"\xef\xbb\xbf"
-"""Byte order mark every HOI4 localisation file must start with."""
+GFX_FILE = "interface/rename_anything.gfx"
+"""Legacy editor sprites, relative to ``mod/``."""
 
-MAX_VP_SLOTS = 5
-"""Number of VP provinces per state that the generated table keeps."""
+GENERATED_EFFECTS_FILE = "common/scripted_effects/rename_anything_generated_effects.txt"
+"""Generated effects holding ``rn_load_selected_state``, relative to ``mod/``."""
+
+SCRIPTED_GUI_FILE = "common/scripted_guis/rename_anything_scripted_gui.txt"
+"""Legacy editor scripted GUIs, relative to ``mod/``."""
 
 BAD_LOC_LINE_PREVIEW = 60
 """How many characters of a malformed loc line are shown in its finding."""
+
+LOC_SUFFIX = ".yml"
+"""File extension of localisation files; cut off the file name to get the language."""
+
+CHARS_TABLE_MARKER = "_chars_l_"
+"""File name part of the language-independent character tables."""
+
+REFERENCE_LANGUAGE = "english"
+"""Language whose key set and character table every other language must match."""
+
+NESTED_LOC_REF = re.compile(r"\$(RN_[A-Za-z0-9_]+)\$")
+"""A nested ``$RN_...$`` localisation reference."""
+
+GUI_TEXT_KEY = re.compile(r'(?:buttonText|text|pdx_tooltip)\s*=\s*"([^"]+)"')
+"""A text, button caption or tooltip key in a ``.gui`` file."""
+
+GUI_SPRITE = re.compile(r'(?:spriteType|quadTextureSprite)\s*=\s*"([^"]+)"')
+"""A sprite reference in a ``.gui`` file."""
+
+GFX_TEXTURE = re.compile(r'texturefile = "([^"]+)"')
+"""A texture path in a ``.gfx`` file."""
+
+ROOT_SCRIPTED_LOC = re.compile(r"\[ROOT\.(RN_\w+)\]")
+"""A ``[ROOT.RN_...]`` scripted localisation call."""
+
+DEFINED_TEXT_NAME = re.compile(r"name = (\S+)")
+"""The name of a ``defined_text`` block."""
+
+LOCALIZATION_KEY = re.compile(r"localization_key = (\S+)")
+"""A ``localization_key`` inside a ``defined_text`` block."""
+
+TOP_LEVEL_RN_DEFINITION = re.compile(r"^(rn_\w+) = \{", re.MULTILINE)
+"""A top-level ``rn_*`` effect or trigger definition."""
+
+CHECK_VARIABLE_BODY = re.compile(r"check_variable\s*=\s*\{([^{}]*)\}")
+"""The body of a one-level ``check_variable`` block."""
+
+SEL_STATE_VARIABLE = re.compile(r"\brn_sel_state\b")
+"""The typed ``rn_sel_state`` scope variable."""
+
+THIS_ID_ASSIGNMENT = re.compile(r"rn_sel_state_id\s*=\s*THIS\.id\b", re.IGNORECASE)
+"""Assignment of the typed ``THIS.id`` to the numeric state ID."""
+
+STATE_MAPPING = re.compile(
+    r"(?:if|else_if)\s*=\s*\{\s*limit\s*=\s*\{\s*state\s*=\s*(\d+)\s*\}\s*"
+    r"ROOT\s*=\s*\{\s*set_variable\s*=\s*\{\s*rn_sel_state_id\s*=\s*(\d+)\s*\}\s*"
+    r"set_variable\s*=\s*\{\s*rn_vp_cnt\s*=\s*(\d+)\s*\}"
+    r"((?:\s*set_variable\s*=\s*\{\s*rn_vp_\d\s*=\s*\d+\s*\})*)\s*\}\s*\}"
+)
+"""One branch of ``rn_load_selected_state``: state, numeric ID, VP count and VP slots."""
+
+VP_SLOT_ASSIGNMENT = re.compile(r"rn_vp_(\d)\s*=\s*(\d+)")
+"""One ``rn_vp_<slot> = <province>`` assignment inside a state mapping."""
+
+YES_CALL = re.compile(r"\b(rn_\w+) = yes")
+"""A call of an ``rn_*`` effect or trigger."""
+
+GUI_BUTTON_NAME = re.compile(r'buttonType = \{\s*name = "([^"]+)"')
+"""The name of a ``buttonType`` element."""
+
+GUI_ELEMENT_NAME = re.compile(r'name = "([^"]+)"')
+"""The name of any ``.gui`` element."""
+
+CLICK_EFFECT = re.compile(r"(\w+)_click = \{")
+"""A scripted GUI ``<element>_click`` effect."""
+
+VISIBLE_TRIGGER = re.compile(r"(\w+)_visible = \{")
+"""A scripted GUI ``<element>_visible`` trigger."""
+
+ENABLED_TRIGGER = re.compile(r"(\w+)_click_enabled = \{")
+"""A scripted GUI ``<element>_click_enabled`` trigger."""
+
+WINDOW_NAME = re.compile(r'window_name = "([^"]+)"')
+"""The window a scripted GUI belongs to."""
+
+QUOTED = re.compile(r'"[^"\n]*"')
+"""A quoted string on one line (braces inside it do not count)."""
+
+COMMENT = re.compile(r"#[^\n]*")
+"""A ``#`` comment up to the end of its line."""
+
+LOC_FORMAT_LINE = re.compile(r'^ [A-Za-z0-9_.]+:\d? ".*"$')
+"""A well-formed localisation entry line (without line ending)."""
 
 
 def rd(f: str) -> str:
@@ -94,6 +190,18 @@ def rd(f: str) -> str:
         return fh.read()
 
 
+def read_joined(pattern: str) -> str:
+    """Read and concatenate every file matching a glob pattern, in sorted order.
+
+    Args:
+        pattern: Glob pattern relative to ``mod/``.
+
+    Returns:
+        The concatenated contents.
+    """
+    return "".join(rd(f) for f in sorted(glob.glob(pattern)))
+
+
 def english_loc() -> dict[str, str]:
     """Collect key/value pairs from the mod's English localisation files.
 
@@ -101,12 +209,8 @@ def english_loc() -> dict[str, str]:
         Mapping of loc key to value; a later file wins when a key repeats.
     """
     loc: dict[str, str] = {}
-    for f in glob.glob("localisation/english/*.yml"):
-        with Path(f).open(encoding="utf-8-sig") as fh:
-            for line in fh:
-                m = re.match(LOC_LINE, line)
-                if m:
-                    loc[m.group(1)] = m.group(2)
+    for f in glob.glob(f"localisation/{REFERENCE_LANGUAGE}/*.yml"):
+        loc.update(loc_entries(f))
     return loc
 
 
@@ -128,39 +232,33 @@ def locale_tables_check(
         lang = os.path.basename(os.path.dirname(f))
         table = locale_tables.setdefault(lang, {})
         chars = char_tables.setdefault(lang, {})
-        with Path(f).open(encoding="utf-8-sig") as fh:
-            for line in fh:
-                m = re.match(LOC_LINE, line)
-                if m:
-                    key, value = m.groups()
-                    if key in table:
-                        bad.append(f"duplicate loc key {lang}: {key}")
-                    table[key] = value
-                    if "_chars_l_" in os.path.basename(f):
-                        chars[key] = value
+        for key, value in loc_entries(f):
+            if key in table:
+                bad.append(f"duplicate loc key {lang}: {key}")
+            table[key] = value
+            if CHARS_TABLE_MARKER in os.path.basename(f):
+                chars[key] = value
     for lang, table in sorted(locale_tables.items()):
         bad += [f"missing loc key {lang}: {k}" for k in sorted(loc.keys() - table.keys())]
         bad += [f"unexpected loc key {lang}: {k}" for k in sorted(table.keys() - loc.keys())]
-        reference = char_tables.get("english", {})
+        reference = char_tables.get(REFERENCE_LANGUAGE, {})
         bad += [
             f"language-dependent character table {lang}: {k}"
             for k in sorted(reference.keys() | char_tables[lang].keys())
             if reference.get(k) != char_tables[lang].get(k)
         ]
-        dollar_refs = {
-            key for value in table.values() for key in re.findall(r"\$(RN_[A-Za-z0-9_]+)\$", value)
-        }
+        dollar_refs = {key for value in table.values() for key in NESTED_LOC_REF.findall(value)}
         bad += [
             f"missing nested loc key {lang}: {key}" for key in sorted(dollar_refs - table.keys())
         ]
     return locale_tables, char_tables
 
 
-def interface_check(game: str, gui: str, loc: dict[str, str]) -> list[str]:
+def interface_check(game: GameData, gui: str, loc: dict[str, str]) -> list[str]:
     """Check GUI loc keys, sprites and textures.
 
     Args:
-        game: HOI4 installation folder.
+        game: Vanilla installation (for its sprite definitions).
         gui: Contents of ``interface/rename_anything.gui``.
         loc: English key/value table.
 
@@ -168,75 +266,89 @@ def interface_check(game: str, gui: str, loc: dict[str, str]) -> list[str]:
         Findings in the order they were detected.
     """
     bad: list[str] = []
-    keys = set(re.findall(r'(?:buttonText|text|pdx_tooltip)\s*=\s*"([^"]+)"', gui))
+    keys = set(GUI_TEXT_KEY.findall(gui))
     bad += [f"missing loc key {k}" for k in sorted(keys) if not k.startswith("[") and k not in loc]
-    sprites = set(re.findall(r'(?:spriteType|quadTextureSprite)\s*=\s*"([^"]+)"', gui))
-    gfx = rd("interface/rename_anything.gfx")
-    vanilla_parts = []
-    for f in glob.glob(os.path.join(game, "interface", "*.gfx")):
-        with Path(f).open(encoding="utf-8", errors="replace") as fh:
-            vanilla_parts.append(fh.read())
-    van = "".join(vanilla_parts)
+    sprites = set(GUI_SPRITE.findall(gui))
+    gfx = rd(GFX_FILE)
+    van = game.interface_sprites_text()
     bad += [
         f"missing sprite {s}"
         for s in sorted(sprites)
         if f'"{s}"' not in gfx and f'"{s}"' not in van
     ]
+    bad += [f"missing texture {tex}" for tex in GFX_TEXTURE.findall(gfx) if not os.path.exists(tex)]
+    return bad
+
+
+def scripted_loc_check(
+    game: GameData,
+    locale_tables: dict[str, dict[str, str]],
+    loc: dict[str, str],
+    sources: tuple[str, str, str],
+) -> list[str]:
+    """Check that scripted loc calls are defined and its keys exist.
+
+    Args:
+        game: Vanilla installation (for ``VICTORY_POINTS_<id>`` keys).
+        locale_tables: Every language's table from :func:`locale_tables_check`.
+        loc: English key/value table.
+        sources: The concatenated scripted localisation files, the GUI and the
+            generated effects.
+
+    Returns:
+        Findings in the order they were detected.
+    """
+    sl, gui, eff = sources
+    defs = set(DEFINED_TEXT_NAME.findall(sl))
+    refs: set[str] = set()
+    for v in [v for table in locale_tables.values() for v in table.values()] + [gui, eff]:
+        refs |= set(ROOT_SCRIPTED_LOC.findall(v))
+    bad = [f"undefined scripted loc {r}" for r in sorted(refs - defs)]
+    vk = {f"VICTORY_POINTS_{i}" for i in vp_key_ids(game.english_localisation_lines())}
     bad += [
-        f"missing texture {tex}"
-        for tex in re.findall(r'texturefile = "([^"]+)"', gfx)
-        if not os.path.exists(tex)
+        f"missing loc for scripted loc key {k}"
+        for k in sorted(set(LOCALIZATION_KEY.findall(sl)))
+        if k not in loc and k not in vk
     ]
     return bad
 
 
-def vanilla_vp_keys(game: str) -> set[str]:
-    """Collect ``VICTORY_POINTS_<id>`` keys from the vanilla English localisation.
+def typed_scope_check(scripts: str, effects: str) -> list[str]:
+    """Report numeric use of the typed ``rn_sel_state`` scope.
 
     Args:
-        game: HOI4 installation folder.
+        scripts: Scripted GUIs, effects and scripted localisation, concatenated.
+        effects: Every scripted effect file, concatenated.
 
     Returns:
-        The set of key names found.
+        Findings in the order they were detected.
     """
-    vk: set[str] = set()
-    for f in glob.glob(os.path.join(game, "localisation", "english", "*.yml")):
-        with Path(f).open(encoding="utf-8-sig", errors="replace") as fh:
-            for line in fh:
-                m = re.match(r"\s*(VICTORY_POINTS_\d+):", line)
-                if m:
-                    vk.add(m.group(1))
-    return vk
+    bad = []
+    # rn_sel_state stores a typed state scope (PREV), not the numeric map ID.
+    if any(SEL_STATE_VARIABLE.search(m.group(1)) for m in CHECK_VARIABLE_BODY.finditer(scripts)):
+        bad.append("typed rn_sel_state compared numerically; use rn_sel_state_id")
+    if THIS_ID_ASSIGNMENT.search(effects):
+        bad.append("THIS.id is a typed scope, not the numeric rn_sel_state_id")
+    return bad
 
 
-def state_inventory_check(game: str, bad: list[str]) -> dict[int, list[int]]:
+def state_inventory_check(game: GameData, bad: list[str]) -> dict[int, list[int]]:
     """Build the vanilla state to VP-province inventory.
 
     Args:
-        game: HOI4 installation folder.
+        game: Vanilla installation.
         bad: Findings list; files without an ID and duplicate IDs are appended.
 
     Returns:
         State ID mapped to its first five distinct VP provinces in file order.
     """
-    state_inventory: dict[int, list[int]] = {}
-    for f in sorted(glob.glob(os.path.join(game, "history", "states", "*.txt"))):
-        with Path(f).open(encoding="utf-8-sig", errors="replace") as fh:
-            history = re.sub(r"#[^\n]*", "", fh.read())
-        state_match = re.search(r"\bid\s*=\s*(\d+)", history)
-        if not state_match:
-            bad.append(f"state history without ID: {f}")
-            continue
-        state_id = int(state_match.group(1))
-        if state_id in state_inventory:
-            bad.append(f"duplicate state ID in game inventory: {state_id}")
-        provinces: list[int] = []
-        for province_text in re.findall(r"victory_points\s*=\s*\{\s*(\d+)\s+[-\d.]+\s*\}", history):
-            province = int(province_text)
-            if province not in provinces:
-                provinces.append(province)
-        state_inventory[state_id] = provinces[:MAX_VP_SLOTS]
-    return state_inventory
+    inventory = read_state_inventory(game.state_histories())
+    for issue in inventory.issues:
+        if issue.kind == "missing_id":
+            bad.append(f"state history without ID: {issue.detail}")
+        else:
+            bad.append(f"duplicate state ID in game inventory: {issue.detail}")
+    return inventory.states
 
 
 def generated_states_check(eff: str, bad: list[str]) -> dict[int, list[int]]:
@@ -249,25 +361,79 @@ def generated_states_check(eff: str, bad: list[str]) -> dict[int, list[int]]:
     Returns:
         State ID mapped to the VP provinces the generated effect loads.
     """
-    state_entries = re.findall(
-        r"(?:if|else_if)\s*=\s*\{\s*limit\s*=\s*\{\s*state\s*=\s*(\d+)\s*\}\s*"
-        r"ROOT\s*=\s*\{\s*set_variable\s*=\s*\{\s*rn_sel_state_id\s*=\s*(\d+)\s*\}\s*"
-        r"set_variable\s*=\s*\{\s*rn_vp_cnt\s*=\s*(\d+)\s*\}"
-        r"((?:\s*set_variable\s*=\s*\{\s*rn_vp_\d\s*=\s*\d+\s*\})*)\s*\}\s*\}",
-        eff,
-    )
     generated_states: dict[int, list[int]] = {}
-    for state_text, numeric_text, count_text, slots in state_entries:
+    for state_text, numeric_text, count_text, slots in STATE_MAPPING.findall(eff):
         state_id, numeric_id, count = int(state_text), int(numeric_text), int(count_text)
         if state_id in generated_states:
             bad.append(f"duplicate generated state mapping: {state_id}")
         if numeric_id != state_id:
             bad.append(f"state mapping {state_id} writes numeric ID {numeric_id}")
-        vp_slots = [(int(k), int(p)) for k, p in re.findall(r"rn_vp_(\d)\s*=\s*(\d+)", slots)]
+        vp_slots = [(int(k), int(p)) for k, p in VP_SLOT_ASSIGNMENT.findall(slots)]
         if [k for k, _ in vp_slots] != list(range(count)):
             bad.append(f"state mapping {state_id} has inconsistent VP count/slots")
         generated_states[state_id] = [p for _, p in vp_slots]
     return generated_states
+
+
+def state_table_check(game: GameData, eff: str, bad: list[str]) -> None:
+    """Compare the generated state to literal ID / VP table with the game inventory.
+
+    This includes states without VPs. It checks data coverage, not runtime scope
+    evaluation; the Cities paths still need an in-game test.
+
+    Args:
+        game: Vanilla installation.
+        eff: Contents of the generated scripted effects file.
+        bad: Findings list; findings are appended in place.
+    """
+    state_inventory = state_inventory_check(game, bad)
+    generated_states = generated_states_check(eff, bad)
+    bad += [
+        f"missing generated state mapping: {s}"
+        for s in sorted(state_inventory.keys() - generated_states.keys())
+    ]
+    bad += [
+        f"unexpected generated state mapping: {s}"
+        for s in sorted(generated_states.keys() - state_inventory.keys())
+    ]
+    bad += [
+        f"wrong VP mapping for state {s}: {generated_states[s]} != {state_inventory[s]}"
+        for s in sorted(state_inventory.keys() & generated_states.keys())
+        if generated_states[s] != state_inventory[s]
+    ]
+
+
+def wiring_check(gui: str, sg: str, scripts: str, definitions: str) -> list[str]:
+    """Check effect calls and the wiring between buttons, effects and triggers.
+
+    Args:
+        gui: Contents of ``interface/rename_anything.gui``.
+        sg: Contents of the legacy scripted GUI file.
+        scripts: Scripted GUIs, effects and scripted localisation, concatenated.
+        definitions: Every scripted effect and trigger file, concatenated.
+
+    Returns:
+        Findings in the order they were detected.
+    """
+    fxdefs = set(TOP_LEVEL_RN_DEFINITION.findall(definitions))
+    used = set(YES_CALL.findall(scripts))
+    bad = [f"undefined effect/trigger {u}" for u in sorted(used - fxdefs)]
+    btns = set(GUI_BUTTON_NAME.findall(gui))
+    clicks = set(CLICK_EFFECT.findall(sg))
+    bad += [f"button without effect {b}" for b in sorted(btns - clicks)]
+    bad += [f"effect without button {c}" for c in sorted(clicks - btns)]
+    names = set(GUI_ELEMENT_NAME.findall(gui))
+    bad += [
+        f"trigger for unknown element {v}" for v in sorted(set(VISIBLE_TRIGGER.findall(sg)) - names)
+    ]
+    bad += [
+        f"enabled trigger for unknown button {v}"
+        for v in sorted(set(ENABLED_TRIGGER.findall(sg)) - btns)
+    ]
+    bad += [
+        f"scripted GUI for unknown window {v}" for v in sorted(set(WINDOW_NAME.findall(sg)) - names)
+    ]
+    return bad
 
 
 def brace_check() -> list[str]:
@@ -283,7 +449,7 @@ def brace_check() -> list[str]:
         + glob.glob("interface/*.gfx")
     )
     for f in files:
-        t = re.sub(r"#[^\n]*", "", re.sub(r'"[^"\n]*"', '""', rd(f)))
+        t = COMMENT.sub("", QUOTED.sub('""', rd(f)))
         d = 0
         for ch in t:
             d += (ch == "{") - (ch == "}")
@@ -303,103 +469,68 @@ def loc_format_check() -> list[str]:
     bad: list[str] = []
     for f in glob.glob("localisation/*/*.yml"):
         b = Path(f).read_bytes()
-        lang = f.replace("\\", "/").split("_l_")[-1][:-4]
-        if b[:3] != UTF8_BOM:
+        lang = f.replace("\\", "/").split("_l_")[-1][: -len(LOC_SUFFIX)]
+        if b[: len(UTF8_BOM)] != UTF8_BOM:
             bad.append(f"no BOM {f}")
-        lines = b[3:].decode("utf-8").split("\n")
+        lines = b[len(UTF8_BOM) :].decode("utf-8").split("\n")
         if lines[0] != f"l_{lang}:":
             bad.append(f"bad header {f}")
         bad += [
             f"bad loc line {f}: {line[:BAD_LOC_LINE_PREVIEW]}"
             for line in lines[1:]
-            if line.strip()
-            and not line.strip().startswith("#")
-            and not re.match(r'^ [A-Za-z0-9_.]+:\d? ".*"$', line)
+            if line.strip() and not line.strip().startswith("#") and not LOC_FORMAT_LINE.match(line)
         ]
     return bad
 
 
-def main() -> None:
-    """Run every check in order, print the findings and exit with 0 or 1."""
-    game = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_GAME
-    os.chdir(MOD)
+def run_checks(game: GameData) -> list[str]:
+    """Run every check in order on the current working directory (``mod/``).
+
+    Args:
+        game: Vanilla installation.
+
+    Returns:
+        Every finding, in check order.
+    """
     bad: list[str] = []
-    if not os.path.isdir(os.path.join(game, "history", "states")):
-        sys.exit(f"game directory is missing history/states: {game}")
-    gui = rd("interface/rename_anything.gui")
+    gui = rd(GUI_FILE)
     loc = english_loc()
     locale_tables, _ = locale_tables_check(loc, bad)
     bad += interface_check(game, gui, loc)
     # Every scripted localisation, effect and trigger file counts: the generator also writes
     # the in-place editor (rn_inline_*) and the cooldown triggers next to the legacy files.
-    sl = "".join(rd(f) for f in sorted(glob.glob("common/scripted_localisation/*.txt")))
-    defs = set(re.findall(r"name = (\S+)", sl))
-    eff = rd("common/scripted_effects/rename_anything_generated_effects.txt")
-    refs = set()
-    for v in [v for table in locale_tables.values() for v in table.values()] + [gui, eff]:
-        refs |= set(re.findall(r"\[ROOT\.(RN_\w+)\]", v))
-    bad += [f"undefined scripted loc {r}" for r in sorted(refs - defs)]
-    vk = vanilla_vp_keys(game)
-    bad += [
-        f"missing loc for scripted loc key {k}"
-        for k in sorted(set(re.findall(r"localization_key = (\S+)", sl)))
-        if k not in loc and k not in vk
-    ]
-    allfx = "".join(rd(f) for f in sorted(glob.glob("common/scripted_effects/*.txt")))
-    trig = "".join(rd(f) for f in sorted(glob.glob("common/scripted_triggers/*.txt")))
-    fxdefs = set(re.findall(r"^(rn_\w+) = \{", allfx + trig, re.MULTILINE))
-    sg = rd("common/scripted_guis/rename_anything_scripted_gui.txt")
-    # rn_sel_state stores a typed state scope (PREV), not the numeric map ID.
-    if any(
-        re.search(r"\brn_sel_state\b", m.group(1))
-        for m in re.finditer(r"check_variable\s*=\s*\{([^{}]*)\}", sg + allfx + sl)
-    ):
-        bad.append("typed rn_sel_state compared numerically; use rn_sel_state_id")
-    if re.search(r"rn_sel_state_id\s*=\s*THIS\.id\b", allfx, re.IGNORECASE):
-        bad.append("THIS.id is a typed scope, not the numeric rn_sel_state_id")
-    # Check the generated state -> literal ID / VP table against the read-only game
-    # inventory, including states without VPs. This checks data coverage, not runtime
-    # scope evaluation; that still requires the Cities paths to be tested in game.
-    state_inventory = state_inventory_check(game, bad)
-    generated_states = generated_states_check(eff, bad)
-    bad += [
-        f"missing generated state mapping: {s}"
-        for s in sorted(state_inventory.keys() - generated_states.keys())
-    ]
-    bad += [
-        f"unexpected generated state mapping: {s}"
-        for s in sorted(generated_states.keys() - state_inventory.keys())
-    ]
-    bad += [
-        f"wrong VP mapping for state {s}: {generated_states[s]} != {state_inventory[s]}"
-        for s in sorted(state_inventory.keys() & generated_states.keys())
-        if generated_states[s] != state_inventory[s]
-    ]
-    used = set(re.findall(r"\b(rn_\w+) = yes", sg + allfx + sl))
-    bad += [f"undefined effect/trigger {u}" for u in sorted(used - fxdefs)]
-    btns = set(re.findall(r'buttonType = \{\s*name = "([^"]+)"', gui))
-    clicks = set(re.findall(r"(\w+)_click = \{", sg))
-    bad += [f"button without effect {b}" for b in sorted(btns - clicks)]
-    bad += [f"effect without button {c}" for c in sorted(clicks - btns)]
-    names = set(re.findall(r'name = "([^"]+)"', gui))
-    bad += [
-        f"trigger for unknown element {v}"
-        for v in sorted(set(re.findall(r"(\w+)_visible = \{", sg)) - names)
-    ]
-    bad += [
-        f"enabled trigger for unknown button {v}"
-        for v in sorted(set(re.findall(r"(\w+)_click_enabled = \{", sg)) - btns)
-    ]
-    bad += [
-        f"scripted GUI for unknown window {v}"
-        for v in sorted(set(re.findall(r'window_name = "([^"]+)"', sg)) - names)
-    ]
+    sl = read_joined("common/scripted_localisation/*.txt")
+    eff = rd(GENERATED_EFFECTS_FILE)
+    bad += scripted_loc_check(game, locale_tables, loc, (sl, gui, eff))
+    allfx = read_joined("common/scripted_effects/*.txt")
+    trig = read_joined("common/scripted_triggers/*.txt")
+    sg = rd(SCRIPTED_GUI_FILE)
+    bad += typed_scope_check(sg + allfx + sl, allfx)
+    state_table_check(game, eff, bad)
+    bad += wiring_check(gui, sg, sg + allfx + sl, allfx + trig)
     bad += brace_check()
     bad += loc_format_check()
+    return bad
+
+
+def main() -> None:
+    """Run every check in order, print the findings and exit with 0 or 1.
+
+    Raises:
+        SystemExit: Always; with a message when the game folder has no state
+            history, otherwise with 1 when anything was found and 0 when not.
+    """
+    game_path = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_GAME
+    game = GameInstallation(game_path)
+    os.chdir(MOD)
+    if not game.has_state_history():
+        msg = f"game directory is missing history/states: {game_path}"
+        raise SystemExit(msg)
+    bad = run_checks(game)
     for b_ in bad:
         print(b_)
     print(f"{len(bad)} findings")
-    sys.exit(1 if bad else 0)
+    raise SystemExit(1 if bad else 0)
 
 
 if __name__ == "__main__":

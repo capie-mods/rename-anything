@@ -57,6 +57,7 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
+from typing import NamedTuple
 
 HERE = Path(__file__).resolve().parent
 """This probe folder (``probes/rn_inline_pair_apply_source``)."""
@@ -84,6 +85,73 @@ CHAR_CODES = 84
 
 MAX_KEY_BYTES = 15
 """Longest allowed ASCII length of a native record variable name."""
+
+QA_TAG = "POL"
+"""The only country tag the inactive candidates accept (QA own country)."""
+
+NEUTRALITY_GROUP = 4
+"""Logical party group number of the base neutrality ideology."""
+
+ERR_OK = 0
+"""``rn_pair_err`` after every guard passed."""
+
+ERR_CONTEXT = 7
+"""``rn_pair_err``: wrong country, AI player, panel flags not as required."""
+
+ERR_EPOCH = 8
+"""``rn_pair_err``: epoch not a positive integer or not the command epoch."""
+
+ERR_PIN = 9
+"""``rn_pair_err``: typed pin or party group/government does not match."""
+
+ERR_CAPABILITY = 10
+"""``rn_pair_err``: fresh native country capability missing."""
+
+NO_BAD_SLOT = -1
+"""``rn_pair_bad`` when no slot is at fault."""
+
+PANEL_FLAGS = [
+    "rn_open",
+    "rn_input",
+    "rn_ip_leader_open",
+    "rn_ip_country_open",
+    "rn_ip_party_neutrality_open",
+]
+"""Every rename panel flag, in the order the context trigger lists them."""
+
+PAYLOAD_PREFIXES = ("rn_native_", "rn_nativeb_")
+"""Temp variable prefixes of payload A and payload B."""
+
+
+class Kind(NamedTuple):
+    """Script names of one Apply kind."""
+
+    open_flag: str
+    """Country flag of the kind's own open panel."""
+
+    target: str
+    """Typed pin array of the kind."""
+
+    buffers: tuple[tuple[str, str], tuple[str, str]]
+    """Destination (array, length variable) of payload A and payload B."""
+
+
+KINDS = {
+    "country": Kind(
+        "rn_ip_country_open",
+        "rn_ip_country_target",
+        (("rn_cname", "rn_cname_len"), ("rn_cadj", "rn_cadj_len")),
+    ),
+    "party": Kind(
+        "rn_ip_party_neutrality_open",
+        "rn_ip_party_target",
+        (("rn_pshort", "rn_pshort_len"), ("rn_plong", "rn_plong_len")),
+    ),
+}
+"""``country`` and ``party`` kinds; payload A/B go to name/adjective or short/long name."""
+
+PARTY_BUFFERS = [("PS", "rn_pshort", "rn_pshort_len"), ("PL", "rn_plong", "rn_plong_len")]
+"""Party buffers as (scripted loc prefix, array, length variable)."""
 
 
 def temp(name: str, value: str) -> str:
@@ -123,20 +191,13 @@ def context(kind: str, *, opening: bool = False) -> list[str]:
     Returns:
         Trigger lines: POL, human player, and the required flag state.
     """
-    own = "rn_ip_country_open" if kind == "country" else "rn_ip_party_neutrality_open"
-    lines = ["tag = POL", "is_ai = no"]
-    flags = [
-        "rn_open",
-        "rn_input",
-        "rn_ip_leader_open",
-        "rn_ip_country_open",
-        "rn_ip_party_neutrality_open",
-    ]
+    own = KINDS[kind].open_flag
+    lines = [f"tag = {QA_TAG}", "is_ai = no"]
     lines.extend(
         f"has_country_flag = {flag}"
         if flag == own and not opening
         else f"NOT = {{ has_country_flag = {flag} }}"
-        for flag in flags
+        for flag in PANEL_FLAGS
     )
     if opening and kind == "party":
         lines.append("has_government = neutrality")
@@ -152,18 +213,18 @@ def guard(kind: str) -> str:
     Returns:
         The ``rn_inline_pair_guard_<kind>`` effect.
     """
-    target = "rn_ip_country_target" if kind == "country" else "rn_ip_party_target"
+    target = KINDS[kind].target
     lines = [
-        temp("rn_pair_err", "7"),
+        temp("rn_pair_err", str(ERR_CONTEXT)),
         temp("rn_pair_field", "0"),
-        temp("rn_pair_bad", "-1"),
+        temp("rn_pair_bad", str(NO_BAD_SLOT)),
         "if = {",
         "\tlimit = {",
     ]
     lines += ["\t\t" + line for line in context(kind)]
     lines += [
         "\t}",
-        "\t" + temp("rn_pair_err", "8"),
+        "\t" + temp("rn_pair_err", str(ERR_EPOCH)),
         "\t" + temp("rn_pair_epoch_round", "rn_ip_epoch"),
         "\tround_temp_variable = rn_pair_epoch_round",
         "\tif = {",
@@ -172,7 +233,7 @@ def guard(kind: str) -> str:
         "\t\t\tcheck_variable = { temp_var:rn_pair_epoch_round = rn_ip_epoch }",
         "\t\t\tcheck_variable = { temp_var:rn_ip_cmd_epoch = rn_ip_epoch }",
         "\t\t}",
-        "\t\t" + temp("rn_pair_err", "9"),
+        "\t\t" + temp("rn_pair_err", str(ERR_PIN)),
         "\t\tif = {",
         "\t\t\tlimit = {",
         f"\t\t\t\tcheck_variable = {{ {target}^num = 1 }}",
@@ -180,20 +241,20 @@ def guard(kind: str) -> str:
     ]
     if kind == "party":
         lines += [
-            "\t\t\t\tcheck_variable = { rn_ip_party_group = 4 }",
+            f"\t\t\t\tcheck_variable = {{ rn_ip_party_group = {NEUTRALITY_GROUP} }}",
             "\t\t\t\thas_government = neutrality",
         ]
     lines += ["\t\t\t}"]
     if kind == "country":
         lines += [
-            "\t\t\t" + temp("rn_pair_err", "10"),
+            "\t\t\t" + temp("rn_pair_err", str(ERR_CAPABILITY)),
             "\t\t\tif = {",
             "\t\t\t\tlimit = { check_variable = { temp_var:rn_native_cap = 1 } }",
-            "\t\t\t\t" + temp("rn_pair_err", "0"),
+            "\t\t\t\t" + temp("rn_pair_err", str(ERR_OK)),
             "\t\t\t}",
         ]
     else:
-        lines += ["\t\t\t" + temp("rn_pair_err", "0")]
+        lines += ["\t\t\t" + temp("rn_pair_err", str(ERR_OK))]
     lines += ["\t\t}", "\t}", "}"]
     return effect("rn_inline_pair_guard_" + kind, lines)
 
@@ -207,8 +268,7 @@ def cleanup(kind: str) -> list[str]:
     Returns:
         Lines clearing the open flag and pin (and the party group) and bumping the epoch.
     """
-    flag = "rn_ip_country_open" if kind == "country" else "rn_ip_party_neutrality_open"
-    target = "rn_ip_country_target" if kind == "country" else "rn_ip_party_target"
+    flag, target = KINDS[kind].open_flag, KINDS[kind].target
     lines = [f"clr_country_flag = {flag}", f"clear_array = {target}"]
     if kind == "party":
         lines += ["clear_variable = rn_ip_party_group"]
@@ -224,15 +284,14 @@ def lifecycle(kind: str) -> str:
     Returns:
         The ``rn_inline_pair_open_<kind>`` and ``rn_inline_pair_cancel_<kind>`` effects.
     """
-    flag = "rn_ip_country_open" if kind == "country" else "rn_ip_party_neutrality_open"
-    target = "rn_ip_country_target" if kind == "country" else "rn_ip_party_target"
+    flag, target = KINDS[kind].open_flag, KINDS[kind].target
     lines = ["if = {", "\tlimit = {", *["\t\t" + line for line in context(kind, opening=True)]]
     lines += ["\t}", f"\tclear_array = {target}", f"\tadd_to_array = {{ {target} = THIS }}"]
     if kind == "party":
-        lines += ["\tset_variable = { rn_ip_party_group = 4 }"]
+        lines += [f"\tset_variable = {{ rn_ip_party_group = {NEUTRALITY_GROUP} }}"]
     lines += ["\tadd_to_variable = { rn_ip_epoch = 1 }", f"\tset_country_flag = {flag}", "}"]
     result = effect("rn_inline_pair_open_" + kind, lines)
-    lines = ["if = {", f"\tlimit = {{ tag = POL is_ai = no has_country_flag = {flag} }}"]
+    lines = ["if = {", f"\tlimit = {{ tag = {QA_TAG} is_ai = no has_country_flag = {flag} }}"]
     lines += ["\t" + line for line in cleanup(kind)] + ["}"]
     return result + effect("rn_inline_pair_cancel_" + kind, lines)
 
@@ -291,18 +350,7 @@ def apply(kind: str) -> str:
         "\t\t\tlimit = { check_variable = { temp_var:rn_pair_err = 0 } }",
         "\t\t\t# First persistent write below: every guard and both inputs passed.",
     ]
-    destinations = (
-        [
-            ("rn_cname", "rn_cname_len", "rn_native_"),
-            ("rn_cadj", "rn_cadj_len", "rn_nativeb_"),
-        ]
-        if kind == "country"
-        else [
-            ("rn_pshort", "rn_pshort_len", "rn_native_"),
-            ("rn_plong", "rn_plong_len", "rn_nativeb_"),
-        ]
-    )
-    for array, length, prefix in destinations:
+    for (array, length), prefix in zip(KINDS[kind].buffers, PAYLOAD_PREFIXES, strict=True):
         lines += ["\t\t\t" + line for line in copy_buffer(array, length, prefix)]
     if kind == "country":
         lines += [
@@ -317,8 +365,8 @@ def apply(kind: str) -> str:
                 "\t\t\t\ttext = { set_party_name = "
                 '{ ideology = neutrality name = "[S]" long_name = "[L]" } }'
             ),
-            '\t\t\t\tS = "' + slots("PS") + '"',
-            '\t\t\t\tL = "' + slots("PL") + '"',
+            '\t\t\t\tS = "' + slots(PARTY_BUFFERS[0][0]) + '"',
+            '\t\t\t\tL = "' + slots(PARTY_BUFFERS[1][0]) + '"',
             "\t\t\t}",
         ]
     lines += ["\t\t\t" + line for line in cleanup(kind)]
@@ -349,10 +397,7 @@ def party_loc() -> str:
         "# RN_PS/RN_PL are slot prefixes; RN_PS_0..31 and RN_PL_0..31 are defined.",
         "",
     ]
-    for prefix, array, length in [
-        ("PS", "rn_pshort", "rn_pshort_len"),
-        ("PL", "rn_plong", "rn_plong_len"),
-    ]:
+    for prefix, array, length in PARTY_BUFFERS:
         for i in range(SLOTS):
             lines += [
                 "defined_text = {",
@@ -410,8 +455,7 @@ def main() -> None:
     LOC.write_text(party_loc(), encoding="utf-8", newline="\n")
     suffixes = ["ok", "len", *map(str, range(SLOTS))]
     record_keys = [
-        *["rn_native_" + s for s in suffixes],
-        *["rn_nativeb_" + s for s in suffixes],
+        *[prefix + s for prefix in PAYLOAD_PREFIXES for s in suffixes],
         "rn_ip_cmd_epoch",
     ]
     lengths = {key: len(key.encode("ascii")) for key in [*record_keys, "rn_native_cap"]}
@@ -436,7 +480,8 @@ def main() -> None:
         "party_group": (
             "base neutrality only, pinned logical4; no custom subtype/all-ideology claim"
         ),
-        "native_record_counts": {"party": 69, "country": 70},
+        # The party record has both payloads and the epoch; the country one adds the capability.
+        "native_record_counts": {"party": len(record_keys), "country": len(lengths)},
         "ascii_key_lengths": lengths,
         "capability": (
             "fresh rn_native_cap=1 only from active versioned country DLL export; "
