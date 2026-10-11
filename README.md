@@ -11,7 +11,9 @@ Interfejs jest po polsku i angielsku; pozostałe języki gry dostają angielskie
   przeszła nowy test PL: własny Apply zmienił VP362 na „Nowy Gdańsk” na mapie i w panelu
   prowincji. Nazwa przetrwała pełny restart i wczytanie własnego zapisu QA.
   Przycisk przy panelu stanu poprawnie otworzył trzy miasta Gdyni.
-  Weryfikacja lidera i finalnego zapisu nadal trwa. Nie jest to gotowe wydanie. Szczegóły i granice
+  Własny Apply lidera „Jan Żółć” jest widoczny w natywnym panelu polityki; lista postaci
+  pokazuje poprawne cele i zmienionego cywilnego „Adam QA”. Finalny zapis nadal jest sprawdzany.
+  Nie jest to gotowe wydanie. Szczegóły i granice
   potwierdzenia są w [raporcie testów](docs/test-report.md) i [handoffie](docs/HANDOFF-20261011.md).
 - `mod/` zawiera implementację skryptową i `descriptor.mod`. Generator oraz kontrola referencji
   przechodzą lokalnie; wynik bieżących testów w grze opisuje [raport testów](docs/test-report.md).
@@ -24,6 +26,10 @@ Interfejs jest po polsku i angielsku; pozostałe języki gry dostają angielskie
   Postacie, stany i miasta korzystają z części skryptowej bez DLL.
 - Multiplayer nie został jeszcze potwierdzony na dwóch klientach. Nie traktuj tej wersji jako
   wydania ze zweryfikowaną zgodnością MP.
+- Trwa wdrażanie edycji kraju, lidera i partii w ich panelach, na wzór zmiany nazwy
+  dywizji/armii/floty. Obecny interfejs nadal używa bufora ekranowego; osobny natywny
+  probe i konwerter tekstu nie oznaczają jeszcze gotowej edycji in-place.
+  [Zakres i kontrakty](docs/in-place-editing-plan.md).
 
 Dowody wcześniejszych prób: [probe 1](docs/stage0-probe-results.md),
 [probe 2](docs/stage0-probe2-results.md). Uzasadnienie ograniczenia nazw krajów i stan badań
@@ -71,7 +77,8 @@ Przymiotnik jest dostępny w tekstach gry odwołujących się do `GetAdjective`.
 Istniejące dosłowne nazwy dywizji, szablonów i partii nie są z niego tworzone:
 vanilla POL używa m.in. `Dywizja Piechoty` i `Sanacja`. Mod nie przepisuje tych tekstów.
 Nazwy jednostek i szablonów można zmienić osobno w standardowym interfejsie gry;
-nazwy partii wymagają osobnej lokalizacji. Ten zakres DoD pozostaje ograniczony.
+edycja nazw partii jest osobnym nowym zakresem, obecnie w trakcie weryfikacji.
+Ten zakres DoD pozostaje ograniczony.
 
 ## Obsługa
 
@@ -118,7 +125,8 @@ Badana wersja gry to **Windows / Steam, HOI4 1.19.3.0**. Deklaracja `supported_v
 w deskryptorze ogranicza ostrzeżenia launchera; nie stanowi dowodu działania na innych patchach.
 Tabela miast pochodzi z vanilli 1.19.3 (955 stanów z VP, 1500 punktów). Mody zmieniające mapę,
 ID stanów/prowincji lub dodające VP wymagają regeneracji tabel i ponownego testu. VP dodane
-w trakcie kampanii nie pojawią się automatycznie. Mod nie obejmuje nazw partii politycznych.
+w trakcie kampanii nie pojawią się automatycznie. Bieżąca część `mod/` nie obejmuje jeszcze
+edycji nazw partii politycznych; nowe pole i efekty partii są badane w odrębnym probe.
 
 ## Odinstalowanie
 
