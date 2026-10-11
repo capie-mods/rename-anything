@@ -1,0 +1,4 @@
+﻿l_english:
+ RN_IEAQA_APPLY_LEADER:0 "Apply the native field to the pinned own active ruler. Real rename QA; complete fresh payload and matching epoch required."
+ RN_IEAQA_APPLY_PARTY:0 "Apply both fields to the pinned own current neutrality party. Real rename QA; both fields must validate."
+ RN_IEAQA_APPLY_COUNTRY:0 "Apply own country name and adjective together. Real rename QA; both fields and fresh versioned country capability required."

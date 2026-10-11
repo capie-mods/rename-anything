@@ -1,0 +1,20 @@
+--- a/probes/rn_inline_editor_transport_qa/interface/rn_in_place_ui.gui
++++ b/probes/rn_inline_editor_transport_qa/interface/rn_in_place_ui.gui
+@@ -24,7 +24,7 @@
+ 		size = { width = 155 height = 36 }
+ 		orientation = upper_left
+ 		clipping = no
+-		background = { name = "Background" quadTextureSprite = "GFX_tiled_window_1b_border" }
++		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
+ 		# Read-only dynamic carrier in the SAME player/country context.
+ 		# Hidden state is a scripted-GUI trigger; candidate bridge copies this at opening.
+ 		instantTextboxType = {
+@@ -96,7 +96,7 @@
+ 		size = { width = 196 height = 62 }
+ 		orientation = upper_left
+ 		clipping = no
+-		background = { name = "Background" quadTextureSprite = "GFX_tiled_window_1b_border" }
++		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
+ 		instantTextboxType = {
+ 			name = "rn_ip_party_neutrality_epoch"
+ 			position = { x = 0 y = 0 }

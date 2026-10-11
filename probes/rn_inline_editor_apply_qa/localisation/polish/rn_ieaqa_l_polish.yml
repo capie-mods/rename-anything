@@ -1,0 +1,4 @@
+﻿l_polish:
+ RN_IEAQA_APPLY_LEADER:0 "Zapisz pole dla przypiętego własnego aktualnego lidera. Rzeczywista zmiana QA wymaga pełnego świeżego payloadu i zgodnej epoki."
+ RN_IEAQA_APPLY_PARTY:0 "Zapisz oba pola dla przypiętej własnej aktualnej partii neutrality. Rzeczywista zmiana QA wymaga poprawności obu pól."
+ RN_IEAQA_APPLY_COUNTRY:0 "Zapisz razem nazwę i przymiotnik własnego kraju. Rzeczywista zmiana QA wymaga obu poprawnych pól i świeżej wersjonowanej capability kraju."
