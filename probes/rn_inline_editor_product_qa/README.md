@@ -180,8 +180,8 @@ edytor kraju, pojemność pól i globalny przycisk do poprawy) oraz review M1–
   nasz przycisk. Wszystkie modele edytorów nadal mają `parent_window_token = politics_tab`.
   To, że edytor został na ekranie po zamknięciu panelu, jest **otwartym defektem runtime**
   (hipoteza: fokus CEditBox). Flaga, pin i epoka zostają, więc po ponownym otwarciu panelu
-  edytor wraca z draftem bez zmiany nazwy, a Anuluj działa. Podpowiedź: „Enter: zatwierdź ·
-  maks. 32 znaki”.
+  edytor wraca z draftem bez zmiany nazwy, a Anuluj działa. Podpowiedź: „Enter: zatwierdź”
+  (bez obietnicy 32 znaków, dopóki pojemność pól jest niezmierzona).
 - **Kraj:** nazwa i ołówek są w linii tytułu panelu (150,8): nazwa `hoi_18mbs`,
   `format = right`, kończy się przy ołówku 20 px (434..454), więc dłuższa rośnie w lewo; przed
   ikoną zasad (x460). Vanilla nie ma tu tekstu nazwy kraju (tylko `political_title`), więc
@@ -192,8 +192,10 @@ edytor kraju, pojemność pól i globalny przycisk do poprawy) oraz review M1–
   `state.epoch!=epoch` → nowe `attempted`), chyba że pole ma fokus (wtedy zachowuje draft).
   Grupa nie musi rządzić: `set_party_name` z dowolną ideologią jest używany przez vanilla
   (np. `national_focus/poland.txt:11717`). Krótka nazwa nierządzącej partii z
-  `Get<Grupa>Party`; długiej gra nie podaje, więc pole długie dostaje krótką nazwę, a status
-  mówi „wpisz pełną nazwę”. Każdy kraj ma partie 4 bazowych grup (także przy 0% poparcia).
+  `Get<Grupa>Party`; długiej gra nie podaje, więc pole długie dostaje znak „?”
+  spoza alfabetu (I4-M1): niezmienione Zapisz natywny enkoder odrzuca (ok=0 -> błąd 1, pole 2),
+  setter się nie wykonuje, a status mówi „Wpisz pełną nazwę partii w miejsce „?””.
+  Przełączenia zakładki przy fokusie w polu skrypt nie wykrywa (bridge nie wystawia tego stanu). Każdy kraj ma partie 4 bazowych grup (także przy 0% poparcia).
   Cooldown partii pozostaje jeden dla wszystkich partii (prostszy, spójny z kategoriami).
 - **Podmioty:** ukryty placeholder `rn_ip_subject_gui` (`diplomacy_target_context`) z trzema
   ołówkami; przełączniki `rn_ip_subject_rename_enabled` i `rn_ip_subject_country_capability`

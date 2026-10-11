@@ -161,8 +161,8 @@ def structural(effects, models, gui, triggers, locs):
     assert sum(n[0]=='rn_inline_party_copy_validated' for body in effects.values() for n in walk(body))==4
     assert not any(n[0]=='rn_inline_party_copy_validated' for body in models.values() for n in walk(body))
     status_texts=[n for n in locs['RN_IPP_PARTY_STATUS'] if n[0]=='text']
-    assert [get(t[2],'localization_key') for t in status_texts]==['RN_IP_ERR_CD_PARTY','RN_IP_ERR_PARTY_SHORT','RN_IP_ERR_PARTY_LONG','RN_IP_LONG_NAME','RN_IPP_LONG_UNKNOWN','RN_IPP_TARGET_CHANGED']
-    assert all(('rn_ipp_party_target_matches','=','yes') in get(t[2],'trigger') for t in status_texts[:5])
+    assert [get(t[2],'localization_key') for t in status_texts]==['RN_IP_ERR_CD_PARTY','RN_IP_ERR_PARTY_SHORT','RN_IP_ERR_PARTY_LONG_UNKNOWN','RN_IP_ERR_PARTY_LONG','RN_IP_LONG_NAME','RN_IPP_LONG_UNKNOWN','RN_IPP_TARGET_CHANGED']
+    assert all(('rn_ipp_party_target_matches','=','yes') in get(t[2],'trigger') for t in status_texts[:6])
     assert [get(t[2],'localization_key') for t in locs['RN_IP_STATUS'] if t[0]=='text']==['RN_IP_HINT','RN_IP_ERR_CD_LEADER','RN_IP_ERR_CD_COUNTRY','RN_IP_ERR_STALE','RN_IP_ERR_LEADER','RN_IP_ERR_COUNTRY_ADJ','RN_IP_ERR_COUNTRY_NAME']
     cooldown_audit(effects,models,triggers,locs)
     # Status variables are display-only: written only by rn_ip_status_*, never read by guards/triggers/other effects.
@@ -176,7 +176,8 @@ def structural(effects, models, gui, triggers, locs):
     for name,ruling in [('RN_IPP_PARTY_SHORT','RN_IPP_PARTY_SHORT_CURRENT'),('RN_IPP_PARTY_LONG','RN_IPP_PARTY_LONG_CURRENT')]:
         texts=[n[2] for n in locs[name] if n[0]=='text']
         want=[[('trigger','=',[('rn_ipp_party_target_matches','=','yes'),('check_variable','=',[('rn_ip_party_group','=',str(i))]),('has_government','=',g)]),('localization_key','=',ruling)] for i,g in GROUPS]
-        want+=[[('trigger','=',[('rn_ipp_party_target_matches','=','yes'),('check_variable','=',[('rn_ip_party_group','=',str(i))])]),('localization_key','=','RN_IPP_PARTY_SHORT_'+GK[i-1])] for i,_ in GROUPS]
+        # I4-M1: a non-ruling LONG carrier is the out-of-alphabet placeholder, never the short name.
+        want+=[[('trigger','=',[('rn_ipp_party_target_matches','=','yes'),('check_variable','=',[('rn_ip_party_group','=',str(i))])]),('localization_key','=','RN_IPP_PARTY_SHORT_'+GK[i-1] if name=='RN_IPP_PARTY_SHORT' else 'RN_IPP_LONG_PLACEHOLDER')] for i,_ in GROUPS]
         want+=[[('localization_key','=','RN_IPP_EMPTY')]]
         assert texts==want, ('party carrier branches',name)
     fields={'rn_ip_leader_edit','rn_ip_party_neutrality_edit','rn_ip_party_neutrality_long_edit','rn_ip_country_name_edit','rn_ip_country_adj_edit'}
@@ -281,6 +282,10 @@ def cooldown_audit(effects,models,triggers,locs):
     tail=next(v for kk,_,v in reversed(leader) if kk=='if')
     assert get(tail,'limit')==[('check_variable','=',[('temp_var:rn_ip_leader_error','=','0')])] and ('rn_ip_cooldown_start_leader','=','yes') in tail, 'leader cooldown only on success'
 
+_src=(REPO/'plugin/src/editor_input.hpp').read_text(encoding='utf-8')
+NATIVE_ALPHABET=''.join(re.findall(r'U"([^"]*)"',_src[_src.index('constexpr std::u32string_view alphabet'):_src.index('constexpr std::u32string_view delimiters')]))
+assert len(NATIVE_ALPHABET)==84, 'native alphabet parse'
+
 class ProductVM(ApplyVM):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
@@ -371,10 +376,21 @@ def main():
                 nr.government=other; nr.persistent['rn_ip_party_group']=Decimal(group)
                 assert nr.condition(TRIGGERS['rn_ipp_party_target_matches'])
                 gk='RN_IPP_PARTY_SHORT_'+['DEMOCRATIC','COMMUNISM','FASCISM','NEUTRALITY'][group-1]
-                assert nr.localized('RN_IPP_PARTY_SHORT')==chars[gk] and nr.localized('RN_IPP_PARTY_LONG')==chars[gk]
+                assert nr.localized('RN_IPP_PARTY_SHORT')==chars[gk] and nr.localized('RN_IPP_PARTY_LONG')==chars['RN_IPP_LONG_PLACEHOLDER']=='?'
                 assert nr.localized('RN_IPP_PARTY_STATUS')==chars['RN_IPP_LONG_UNKNOWN']
                 nr.run('rn_inline_pair_apply_party')
                 assert len(nr.requests)==1 and get(get(nr.requests[0],'set_party_name'),'ideology')==government, ('non-ruling group apply',group,other)
+                cases+=1
+            # I4-M1: an unchanged placeholder in field B is rejected by the native encoder (actual
+            # plugin/src/editor_input.hpp alphabet) and therefore by the script, with no setter.
+            ph=chars['RN_IPP_LONG_PLACEHOLDER']
+            assert ph and all(c not in NATIVE_ALPHABET for c in ph) and all(c not in set(chars[k] for k in chars if k.startswith('RN_CH_')) for c in ph)
+            for label,mut,want in (('native ok=0',lambda v:v.temp.update(rn_nativeb_ok=Decimal(0),rn_nativeb_len=Decimal(0),**{'rn_nativeb_'+str(i):Decimal(0) for i in range(32)}),1),('forged code 85',lambda v:v.temp.update(rn_nativeb_0=Decimal(85)),5)):
+                ph_vm=ProductVM(effects,locmap,chars,'party',tag=tag); ph_vm.government='custom_ideology'; ph_vm.persistent['rn_ip_party_group']=Decimal(group)
+                mut(ph_vm); state=ph_vm.state(); ph_vm.run('rn_inline_pair_apply_party')
+                assert ph_vm.state()==state and not ph_vm.requests and ph_vm.temp['rn_pair_err']==want and ph_vm.temp['rn_pair_field']==2, ('placeholder rejected',label)
+                ph_vm.enforce=False; ph_vm.run('rn_ip_status_record_pair')
+                assert ph_vm.localized('RN_IPP_PARTY_STATUS')==chars['RN_IP_ERR_PARTY_LONG_UNKNOWN'], 'readable field-2 message'
                 cases+=1
             # Out-of-range group pin is refused before any write and blanks the carriers.
             bad=ProductVM(effects,locmap,chars,'party',tag=tag); bad.persistent['rn_ip_party_group']=Decimal(5)
@@ -486,7 +502,7 @@ def main():
     else: raise AssertionError('negative fixture missing late guard survived')
     # Other contract mutations are rejected by the independent structural checks.
     rejected=1
-    for mutate in ('partial group gate','ctor temp enabled','country geometry','raw party carrier','unscaled icon','cancel under apply','missing enter','narrow field','status in guard','pencil ignores cooldown','cooldown on reject','escape back','government gate back','tab writes name'):
+    for mutate in ('partial group gate','ctor temp enabled','country geometry','raw party carrier','unscaled icon','cancel under apply','missing enter','narrow field','status in guard','pencil ignores cooldown','cooldown on reject','escape back','government gate back','tab writes name','short as long prefill'):
         ee,mm,gg,tt,ll=map(copy.deepcopy,( {k:effects[k] for k in own_effects},models,gui,TRIGGERS,locs))
         if mutate=='partial group gate': get(tt['rn_ipp_party_target_matches'],'OR').pop()
         elif mutate=='ctor temp enabled': get(get(mm['rn_ip_country_gui'],'triggers'),'rn_ip_country_apply_click_enabled').append(('check_variable','=',[('temp_var:rn_native_cap','=','1')]))
@@ -496,6 +512,9 @@ def main():
         elif mutate=='narrow field': node=named(gg)['rn_ip_country_adj_edit']; node[:]=[(k,op,[('x','=','176'),('y','=','20')] if k=='size' else v) for k,op,v in node]
         elif mutate=='status in guard': tt['rn_ipp_party_target_matches'].append(('has_variable','=','rn_ip_status_err'))
         elif mutate=='pencil ignores cooldown': get(get(mm['rn_ip_party_neutrality_launcher_gui'],'triggers'),'rn_ip_party_neutrality_open_click_enabled').remove(('NOT','=',[('rn_ip_cooldown_active_party','=','yes')]))
+        elif mutate=='short as long prefill':
+            node=next(t for t in ll['RN_IPP_PARTY_LONG'] if t[0]=='text' and ('localization_key','=','RN_IPP_LONG_PLACEHOLDER') in t[2])
+            node[2][:]=[(k,op,'RN_IPP_PARTY_SHORT_DEMOCRATIC' if k=='localization_key' else v) for k,op,v in node[2]]
         elif mutate=='escape back': named(gg)['rn_ip_leader_cancel'].append(('shortcut','=','ESCAPE'))
         elif mutate=='government gate back': tt['rn_ipp_party_target_matches'].append(('has_government','=','neutrality'))
         elif mutate=='tab writes name': get(ee['rn_inline_pair_switch_party'],'if').append(('rn_inline_party_finish','=','yes'))
@@ -507,7 +526,7 @@ def main():
         except AssertionError: rejected+=1
         else: raise AssertionError(('negative contract mutation survived',mutate))
     files={p.relative_to(HERE).as_posix():sha(p) for p in sorted(HERE.rglob('*')) if p.is_file() and p.name!='static-review.json'}
-    report={'date':'2026-10-11','scope':'Inactive source-only product QA; limited VM records setter requests, no engine/UI/native/MP acceptance','activated':False,'blockers':[], 'protected_files_unchanged':len(protected),'game_files':len(gamefiles),'models':len(models),'native_fields':5,'actual_pair_source_cases':cases,'negative_contract_mutations_rejected':rejected,'pure_helpers_byte_identical':True,'iteration':4,'party_tabs':'4 base groups, tab = re-pin + group + new epoch (bridge re-prefills on epoch change), any government','tab_vm_cases':tab_cases,'escape':'removed; vanilla politics close_button owns Esc','country_launcher':'title line, name right-aligned (hoi_18mbs) ending at the 20px pencil','subjects':'hidden placeholder rn_ip_subject_gui (diplomacy_target_context), switches always=no','editors':'framed overlays 420px wide, five hoi_18 fields 356x20 (>=32x11px widest glyph), ignore_enter, Apply RETURN (no ESCAPE), status line; party editor 18,266 420x102 with 4 group tabs','leader_pencil':'154,242 20px above leader_name, outside its text box','party_pencil':'228,310 20px in ruling_party_info','country_editor':'18,28 420x74 two framed rows','global_entry_override':OVERRIDE,'shortcut_buttons':3,'cooldown':'5 game days per type (rn_ip_cooldown_days), expiry day = global.num_days+5 on success, error 11, pencils disabled with remaining-day tooltip','cooldown_vm_cases':cooldown_cases,'icon_buttons_scaled':sum(1 for kind,_,body in walk(gui) if kind=='buttonType' and any(k=='scale' for k,_,_ in body)),'party_base_groups':dict(GROUPS),'cancel_after_government_change':True,'empty_prefill_on_bad_pin':True,'runtime_open':['new 4-group script parser/branches and generic own-country leader guard','conditional empty carriers and target-mismatch label','Esc closes the politics panel: editor must hide with it (PID49352 left it on screen; parent_window_token=politics_tab is already set)','tab switch re-prefill while a field has focus (bridge skips focused drafts)','non-ruling party getters GetDemocraticParty/... and set_party_name on a non-ruling group','country name on the title line vs long names','subject placeholder position in the diplomacy view','CEditBox character capacity vs field width (PID42644: 19/16 chars)','editor overlays covering faction/pie/portrait while open','status line after rejected Apply','cooldown: subtract_from_temp_variable inside scripted trigger/loc, global.num_days/global.date, GetDateStringNoHourLong on a stored date, disabled-pencil tooltip; needs unpaused time','dependencies-based load order of the rn_entry_gui override','native vanilla leader/party caption refresh currently requires panel reopen','local player lifecycle/menu-load/draft/Enter/focus and multiplayer not accepted here'],'files':files}
+    report={'date':'2026-10-11','scope':'Inactive source-only product QA; limited VM records setter requests, no engine/UI/native/MP acceptance','activated':False,'blockers':[], 'protected_files_unchanged':len(protected),'game_files':len(gamefiles),'models':len(models),'native_fields':5,'actual_pair_source_cases':cases,'negative_contract_mutations_rejected':rejected,'pure_helpers_byte_identical':True,'iteration':4,'party_tabs':'4 base groups, tab = re-pin + group + new epoch (bridge re-prefills on epoch change), any government','tab_vm_cases':tab_cases,'escape':'removed; vanilla politics close_button owns Esc','non_ruling_long_prefill':'placeholder ? outside the 84-code alphabet (I4-M1): unchanged Apply -> native ok=0 -> err 1 field 2, no setter','country_launcher':'title line, name right-aligned (hoi_18mbs) ending at the 20px pencil','subjects':'hidden placeholder rn_ip_subject_gui (diplomacy_target_context), switches always=no','editors':'framed overlays 420px wide, five hoi_18 fields 356x20 (>=32x11px widest glyph), ignore_enter, Apply RETURN (no ESCAPE), status line; party editor 18,266 420x102 with 4 group tabs','leader_pencil':'154,242 20px above leader_name, outside its text box','party_pencil':'228,310 20px in ruling_party_info','country_editor':'18,28 420x74 two framed rows','global_entry_override':OVERRIDE,'shortcut_buttons':3,'cooldown':'5 game days per type (rn_ip_cooldown_days), expiry day = global.num_days+5 on success, error 11, pencils disabled with remaining-day tooltip','cooldown_vm_cases':cooldown_cases,'icon_buttons_scaled':sum(1 for kind,_,body in walk(gui) if kind=='buttonType' and any(k=='scale' for k,_,_ in body)),'party_base_groups':dict(GROUPS),'cancel_after_government_change':True,'empty_prefill_on_bad_pin':True,'runtime_open':['new 4-group script parser/branches and generic own-country leader guard','conditional empty carriers and target-mismatch label','Esc closes the politics panel: editor must hide with it (PID49352 left it on screen; parent_window_token=politics_tab is already set)','tab switch re-prefill while a field has focus (bridge skips focused drafts)','non-ruling party getters GetDemocraticParty/... and set_party_name on a non-ruling group','country name on the title line vs long names','subject placeholder position in the diplomacy view','CEditBox character capacity vs field width (PID42644: 19/16 chars)','editor overlays covering faction/pie/portrait while open','status line after rejected Apply','cooldown: subtract_from_temp_variable inside scripted trigger/loc, global.num_days/global.date, GetDateStringNoHourLong on a stored date, disabled-pencil tooltip; needs unpaused time','dependencies-based load order of the rn_entry_gui override','native vanilla leader/party caption refresh currently requires panel reopen','local player lifecycle/menu-load/draft/Enter/focus and multiplayer not accepted here'],'files':files}
     if '--write-report' in sys.argv: (HERE/'static-review.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({k:v for k,v in report.items() if k!='files'},ensure_ascii=False,indent=2))
 
