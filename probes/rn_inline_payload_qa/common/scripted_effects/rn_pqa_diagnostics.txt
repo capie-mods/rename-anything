@@ -249,6 +249,38 @@ rn_pqa_invalid_set = {
 	set_temp_variable = { rn_pqa_expected = 6 }
 	set_temp_variable = { rn_pqa_expected_bad = 31 }
 	rn_pqa_check_validation = yes
+	# Small fractions around integers must not pass through rounding/equality.
+	rn_pqa_payload_one = yes
+	set_temp_variable = { rn_native_len = 1.00001 }
+	set_temp_variable = { rn_pqa_case = 36 }
+	set_temp_variable = { rn_pqa_expected = 4 }
+	set_temp_variable = { rn_pqa_expected_bad = -1 }
+	rn_pqa_check_validation = yes
+	rn_pqa_payload_one = yes
+	set_temp_variable = { rn_native_len = 31.99999 }
+	set_temp_variable = { rn_pqa_case = 37 }
+	rn_pqa_check_validation = yes
+	rn_pqa_payload_one = yes
+	set_temp_variable = { rn_native_0 = 1.00001 }
+	set_temp_variable = { rn_pqa_case = 38 }
+	set_temp_variable = { rn_pqa_expected = 5 }
+	set_temp_variable = { rn_pqa_expected_bad = 0 }
+	rn_pqa_check_validation = yes
+	rn_pqa_payload_one = yes
+	set_temp_variable = { rn_native_0 = 83.99999 }
+	set_temp_variable = { rn_pqa_case = 39 }
+	rn_pqa_check_validation = yes
+	# Full length boundaries; do not infer them solely from the native codec.
+	rn_pqa_payload_one = yes
+	set_temp_variable = { rn_native_len = 0 }
+	set_temp_variable = { rn_pqa_case = 40 }
+	set_temp_variable = { rn_pqa_expected = 4 }
+	set_temp_variable = { rn_pqa_expected_bad = -1 }
+	rn_pqa_check_validation = yes
+	rn_pqa_payload_one = yes
+	set_temp_variable = { rn_native_len = 33 }
+	set_temp_variable = { rn_pqa_case = 41 }
+	rn_pqa_check_validation = yes
 	rn_pqa_finish_snapshot = yes
 }
 

@@ -1,4 +1,5 @@
-# UNLOADED inline-editor payload helpers. Parser/runtime remain unverified.
+# Inline-editor payload helpers. Fractional check repaired after failed QA;
+# the round-and-compare revision still requires parser/runtime verification.
 # Inputs: complete fresh command rn_native_ok/len/0..31, logical integer CHARS codes.
 # Native producer replaces the exact34 reserved records; fixed-point scale100000.
 # Validate every active code and zero padding BEFORE persistent writes.
@@ -15,15 +16,17 @@ rn_inline_validate_slot = {
 		limit = { check_variable = { temp_var:rn_inline_error = 0 } }
 		if = {
 			limit = { check_variable = { temp_var:rn_inline_index < temp_var:rn_native_len } }
-			set_temp_variable = { rn_inline_remainder = temp_var:rn_inline_char }
-			modulo_temp_variable = { var = rn_inline_remainder value = 1 }
+			# Engine modulo did not detect fractional values in live QA. Compare
+			# a rounded private copy with the untouched command value instead.
+			set_temp_variable = { rn_inline_rounded = temp_var:rn_inline_char }
+			round_temp_variable = rn_inline_rounded
 			if = {
 				limit = {
 					NOT = {
 						AND = {
 							check_variable = { temp_var:rn_inline_char > 0 }
 							check_variable = { temp_var:rn_inline_char < 85 }
-							check_variable = { temp_var:rn_inline_remainder = 0 }
+							check_variable = { temp_var:rn_inline_rounded = temp_var:rn_inline_char }
 						}
 					}
 				}
@@ -48,13 +51,13 @@ rn_inline_validate_payload = {
 		set_temp_variable = { rn_inline_error = 1 }
 	}
 	else = {
-		set_temp_variable = { rn_inline_remainder = temp_var:rn_native_len }
-		modulo_temp_variable = { var = rn_inline_remainder value = 1 }
+		set_temp_variable = { rn_inline_rounded = temp_var:rn_native_len }
+		round_temp_variable = rn_inline_rounded
 		if = {
 			limit = {
 				check_variable = { temp_var:rn_native_len > 0 }
 				check_variable = { temp_var:rn_native_len < 33 }
-				check_variable = { temp_var:rn_inline_remainder = 0 }
+				check_variable = { temp_var:rn_inline_rounded = temp_var:rn_native_len }
 			}
 			set_temp_variable = { rn_inline_index = 0 }
 			set_temp_variable = { rn_inline_char = temp_var:rn_native_0 }

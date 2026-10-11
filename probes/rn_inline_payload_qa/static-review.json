@@ -63,12 +63,18 @@
       "32",
       "33",
       "34",
-      "35"
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41"
     ],
     "native_transport_or_runtime_observed": false,
     "rename_calls": 0
   },
-  "copy_helper_sha256": "7e87635824c11e266f6f5b016e1630002c307309f3af117fd0704208f9adf0f7",
+  "copy_helper_sha256": "cd171d6203bd66dc7905c7c3d0e1a2750c4b8eabab45f0540d75d3af2ce10800",
   "limits": [
     "No parser or game execution",
     "Copy valid deliberately touches buffer then restores; use disposable own POL after pure checks",
@@ -78,13 +84,13 @@
   ],
   "sha256": {
     "descriptor.mod": "a2c30b5f1bfbf69497a0f32b89e308b0a9fced134698c1052efc68f88f9d2b04",
-    "README.md": "2b927fa710f5b445d299c185fec6e6bc5795b1e44c2c8410b70a1d90fc97e0d8",
+    "README.md": "1f291ec091f19fccc58d4579cedc893c0b1fc62183daa565d0251f666fb8ed9c",
     "interface/rn_pqa.gui": "2b14854fb041d3eb37023628bf045d8f1076887e19c3a62382f6f9818ce5544f",
     "localisation/english/rn_pqa_l_english.yml": "3d3aa330c36ecaa4016915a4e4d5920be1658afe02e6bc04b2681c80e78ad4bc",
     "localisation/polish/rn_pqa_l_polish.yml": "f6dcbb33e10ea569dd6d5e8eb81789bf346e7d9ef147b7b520e5962e19f9ec4e",
-    "common/scripted_effects/rn_inline_payload.txt": "7e87635824c11e266f6f5b016e1630002c307309f3af117fd0704208f9adf0f7",
-    "common/scripted_effects/rn_pqa_diagnostics.txt": "f29afdaa90b86d065baf072061a37be62af9a2131276d4845c5eb2b3df68aa9b",
+    "common/scripted_effects/rn_inline_payload.txt": "cd171d6203bd66dc7905c7c3d0e1a2750c4b8eabab45f0540d75d3af2ce10800",
+    "common/scripted_effects/rn_pqa_diagnostics.txt": "36b2881b3d01054e6d6b47721499b6a9c690817f5d02b717b00b22b88fd0227a",
     "common/scripted_guis/rn_pqa_gui.txt": "bd5538a7f49995ee5e65412680e1286a3011d993fa8ae1adeb9dffeeb3f2aba9"
   },
-  "review_note": "PASS logs print observed scalar/array/copy output values, not only hard-coded expected constants."
+  "review_note": "PASS logs print observed scalar/array/copy output values, not only hard-coded expected constants. 2026-10-11 root post-PID16992 revision: replace modulo1 with rounded private copy exact comparison, extend fractional/boundary diagnostics36..41; candidate awaits new runtime."
 }

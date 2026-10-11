@@ -104,4 +104,17 @@ Zero findings kontroli statycznej nie oznacza PASS runtime. Dalszy etap musi
 osobno połączyć rzeczywistą świeżą komendę native z validator/copy; ten model
 nie znajduje się w native whitelist i nie wolno udawać, że testuje transport.
 
-Copied helper SHA256: 7e87635824c11e266f6f5b016e1630002c307309f3af117fd0704208f9adf0f7
+Copied helper SHA256: cd171d6203bd66dc7905c7c3d0e1a2750c4b8eabab45f0540d75d3af2ce10800
+
+## Korekta po pierwszym przebiegu
+
+PID16992 zaliczył namespace, Validate1/32 i cases31/33/35. Cases32/34 FAIL:
+`modulo_temp_variable` z dzielnikiem1 nie odrzuciło wartości1.5. QA przerwał
+przed Copy valid/reject; nie wykonano zmiany nazwy. Sam parser nie zgłosił błędu.
+Helper zastąpiono porównaniem zaokrąglonej prywatnej kopii z nienaruszonym
+wejściem. Ta poprawka wymaga nowego procesu i pełnej powtórki.
+
+Invalid set ma dodatkowo cases36/37 (len1.00001/31.99999, err4,bad-1),
+38/39 (pierwszy kod1.00001/83.99999, err5,bad0), 40/41 (len0/33,err4,bad-1).
+Każdy ma wymagać unchanged1. To także sprawdzenie dokładności porównania
+w natywnym fixed-point silnika, bez założenia tolerancji liczb zmiennoprzecinkowych.

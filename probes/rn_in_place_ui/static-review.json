@@ -54,7 +54,7 @@
   ],
   "sha256": {
     "common/scripted_effects/rn_inline_leader.txt": "aef0bef740c160fdab7dc057227a9d5c02a2ce4e1bacf3c128a4b809d1010e34",
-    "common/scripted_effects/rn_inline_payload.txt": "7e87635824c11e266f6f5b016e1630002c307309f3af117fd0704208f9adf0f7",
+    "common/scripted_effects/rn_inline_payload.txt": "cd171d6203bd66dc7905c7c3d0e1a2750c4b8eabab45f0540d75d3af2ce10800",
     "common/scripted_guis/rn_in_place_ui.txt": "82b7855438d49e74395370cefb0f6f2d2e76695d463d32b6e5b5f7dfcf8bd9f1",
     "descriptor.mod": "a80aa796964449643f58856d3cfc0ac58e9987515b776b2ef9a8b03e7d46f1bd",
     "interface/rn_in_place_ui.gui": "462853b6e168b9f6de9c5bd0610e7363d7445db8c62fb2cbda7f2c6ab8b7a967",
@@ -63,7 +63,7 @@
     "native-contract.json": "6ca48286e99ffa77103ab1fc7005a378743ade0896bd75d1f2a4a0cd09babce9",
     "README.md": "f72e2e60fb316a3a86353b7762509a5323e07050f07e7d4899b890fa25bde907"
   },
-  "review_note": "Initial disposable inventory regex mishandled CRLF localisation bytes; corrected by splitlines. Source files required no localisation change. Root-approved follow-up changes ONLY the two unloaded epoch carriers and manifest to explicit |0 for the digits-only native parser; candidate static review, rendering/runtime still unobserved. Root-approved unloaded shared-fixture follow-up adds only country-open gates (plus old rn_input on party Open), documentation and manifest metadata. No native or active fixture change. Disposable inventory parser was corrected for comparison operators and repeated if blocks without altering game sources.",
+  "review_note": "Initial disposable inventory regex mishandled CRLF localisation bytes; corrected by splitlines. Source files required no localisation change. Root-approved follow-up changes ONLY the two unloaded epoch carriers and manifest to explicit |0 for the digits-only native parser; candidate static review, rendering/runtime still unobserved. Root-approved unloaded shared-fixture follow-up adds only country-open gates (plus old rn_input on party Open), documentation and manifest metadata. No native or active fixture change. Disposable inventory parser was corrected for comparison operators and repeated if blocks without altering game sources. 2026-10-11 root post-PID16992 revision: replace modulo1 with rounded private copy exact comparison, extend fractional/boundary diagnostics36..41; candidate awaits new runtime.",
   "shared_fixture_review": {
     "status": "source-only candidate; no activation or game parser/runtime proof",
     "findings": [],
