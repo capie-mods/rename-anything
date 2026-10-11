@@ -37,10 +37,11 @@ guiTypes = {
 	}
 	containerWindowType = {
 		name = "rn_ip_country_window"
-		# Opened overlay 18..438 x 28..102 temporarily covers the title subtitle row, the top of the
-		# portrait (from y58) and the top of the national-focus box.
+		# Opened overlay 18..438 x 28..124 temporarily covers the title subtitle row, the top of the
+		# portrait (from y58) and the top of the national-focus box. Design-system grid: each field
+		# has its own label (a labelled row adds 12 px, rows repeat every 42 px), status line last.
 		position = { x = 18 y = 28 }
-		size = { width = 420 height = 74 }
+		size = { width = 420 height = 96 }
 		orientation = upper_left
 		clipping = no
 		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
@@ -78,21 +79,42 @@ guiTypes = {
 		}
 		containerWindowType = {
 			name = "rn_ipc_name_frame"
-			position = { x = 0 y = 0 }
+			position = { x = 0 y = 12 }
 			size = { width = 364 height = 26 }
 			clipping = no
 			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
 		}
 		containerWindowType = {
 			name = "rn_ipc_adj_frame"
-			position = { x = 0 y = 30 }
+			position = { x = 0 y = 54 }
 			size = { width = 364 height = 26 }
 			clipping = no
 			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
 		}
+		# Visible field labels (design system: a tooltip alone is not enough).
+		instantTextboxType = {
+			name = "rn_ipc_name_label"
+			position = { x = 6 y = 0 }
+			font = "Arial12"
+			text = "RN_IPC_LABEL_NAME"
+			maxWidth = 356
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextboxType = {
+			name = "rn_ipc_adj_label"
+			position = { x = 6 y = 42 }
+			font = "Arial12"
+			text = "RN_IPC_LABEL_ADJ"
+			maxWidth = 356
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
 		editBoxType = {
 			name = "rn_ip_country_name_edit"
-			position = { x = 4 y = 3 }
+			position = { x = 4 y = 15 }
 			size = { x = 356 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
@@ -101,7 +123,7 @@ guiTypes = {
 		}
 		editBoxType = {
 			name = "rn_ip_country_adj_edit"
-			position = { x = 4 y = 33 }
+			position = { x = 4 y = 57 }
 			size = { x = 356 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
@@ -110,7 +132,7 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_ip_country_apply"
-			position = { x = 370 y = 3 }
+			position = { x = 370 y = 15 }
 			scale = 0.67 # 20x20
 			quadTextureSprite = "GFX_preset_button_save"
 			buttonFont = "hoi_18mbs"
@@ -120,14 +142,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_ip_country_cancel"
-			position = { x = 396 y = 5 }
+			position = { x = 396 y = 17 }
 			quadTextureSprite = "GFX_closebutton_16"
 			clicksound = click_close
 			pdx_tooltip = "RN_IPC_CANCEL"
 		}
 		instantTextboxType = {
 			name = "rn_ip_country_status"
-			position = { x = 6 y = 58 }
+			position = { x = 6 y = 82 }
 			font = "Arial12"
 			text = "[ROOT.RN_IP_STATUS]"
 			maxWidth = 408

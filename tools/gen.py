@@ -28,13 +28,16 @@ touched:
 * ``common/scripted_localisation/rename_anything_scripted_loc.txt``: the
   ``RN_<B|N|J>_<slot>`` tables that render the three name buffers (input,
   country name, country adjective), province ID digits, VP names per slot split
-  into buckets of 64 state IDs, keyboard key labels that follow the caps
-  toggle, the target type label and the country status line.
+  into buckets of 64 state IDs, the Cities rows ("Original (now New)" from the
+  ``RN_VC<k>_<slot>`` tables), the role icon of a Characters row, keyboard key
+  labels that follow the caps toggle, the target type label and the country
+  status line.
 * ``common/scripted_effects/rename_anything_generated_effects.txt``:
   ``rn_load_selected_state`` (one ``if``/``else_if`` per state that stores the
-  literal state ID and its VP provinces on the player country), and the
-  ``meta_effect`` based ``rn_apply_input``, ``rn_reset_vp`` and
-  ``rn_apply_country_name`` effects.
+  literal state ID and its VP provinces on the player country), the effects
+  that keep a city name applied here on its state, and the ``meta_effect``
+  based ``rn_apply_input``, ``rn_reset_vp`` and ``rn_apply_country_name``
+  effects.
 * ``common/scripted_guis/rename_anything_scripted_gui.txt``: one scripted GUI
   per main tab (a child container's own ``_visible`` trigger
   did not work in 1.19.3, so each tab is a separate window), the input window
@@ -204,6 +207,14 @@ BUFFERS = [  # (loc prefix, array, length variable)
 ]
 """Name buffers as (scripted loc prefix, code array, length variable)."""
 
+VP_NAME_BUFFERS = [(f"VC{k}", f"rn_vpc_{k}", f"rn_vpc_{k}_len") for k in range(VP_SLOTS)]
+"""Cities rows: ROOT copies of the names applied here, one buffer per VP slot.
+
+No localisation getter returns a province's custom name, so the codes applied by
+``set_province_name`` are also kept on the state (``rn_vpn_<k>``) and copied to
+ROOT when the Cities tab loads a state.
+"""
+
 
 def slots_expr(prefix: str) -> str:
     """Return the localisation text that renders every slot of one buffer.
@@ -219,9 +230,9 @@ def slots_expr(prefix: str) -> str:
 
 # ----------------------------------------------------------------------------- UI strings
 UI = {
-    # Each value holds the English text first, then the Polish text.
-    # The en dash below is part of the displayed Polish title (RUF001 suppressed).
-    "RN_MAIN_TITLE": ("Rename Anything", "Rename Anything – zmiana nazw"),  # noqa: RUF001
+    # Each value holds the English text first, then the Polish text. Wording follows
+    # docs/design/DESIGN-SYSTEM.md (Voice and Tone): no dashes, no internal words.
+    "RN_MAIN_TITLE": ("Rename Anything", "Rename Anything"),
     "RN_TAB_1": ("Country", "Kraj"),
     "RN_TAB_2": ("Characters", "Postacie"),
     "RN_TAB_3": ("States", "Stany"),
@@ -244,12 +255,12 @@ UI = {
     "RN_BTN_COUNTRY_RESET": ("Original name", "Przywróć oryginalną nazwę"),
     "RN_COUNTRY_APPLY_TT": (
         (
-            "Requires the Rename Anything extension (launcher). Without it the name "
-            "is stored but the displayed country name stays unchanged."
+            "Rename Anything needs CAPIE, which is not loaded. Start the game with the "
+            "CAPIE launcher. Nothing was changed."
         ),
         (
-            "Wymaga rozszerzenia Rename Anything (launcher). Bez niego nazwa zostanie "
-            "zapisana, ale wyświetlana nazwa kraju się nie zmieni."
+            "Rename Anything wymaga CAPIE, które nie jest załadowane. Uruchom grę przez "
+            "launcher CAPIE. Nic nie zmieniono."
         ),
     ),
     "RN_COUNTRY_RESET_TT": (
@@ -258,25 +269,27 @@ UI = {
     ),
     "RN_COUNTRY_NOTE": (
         (
-            "Country names require the Rename Anything extension (launcher) in every game "
-            "session. Without it, Apply stores text but the displayed name stays unchanged. "
-            "Reset removes the cosmetic tag."
+            "Custom country names need CAPIE in every game session. Start the game with the "
+            "CAPIE launcher. Without it the country shows its original name."
         ),
         (
-            "Nazwa kraju wymaga rozszerzenia Rename Anything (launcher) w każdej sesji gry. "
-            "Bez niego Zastosuj zapisuje tekst, ale wyświetlana nazwa się nie zmienia. "
-            "Reset usuwa tag kosmetyczny."
+            "Własna nazwa kraju wymaga CAPIE w każdej sesji gry. Uruchom grę przez launcher "
+            "CAPIE. Bez niego kraj ma swoją pierwotną nazwę."
         ),
     ),
     "RN_COUNTRY_STATUS_READY": (
-        "Enter both fields; native plugin required.",
-        "Wpisz oba pola; wymagana wtyczka natywna.",
+        "Fill in both fields. Needs CAPIE.",
+        "Wypełnij oba pola. Wymaga CAPIE.",
     ),
     "RN_COUNTRY_STATUS_STORED": (
         "Custom text stored. Check the current name above.",
         "Tekst zapisany. Sprawdź obecną nazwę powyżej.",
     ),
-    "RN_PLUGIN_STATUS": ("DLL: INACTIVE (RN1)", "DLL: NIEAKTYWNA (RN1)"),
+    # Fallback text; the native library overrides this key while it is loaded.
+    "RN_PLUGIN_STATUS": (
+        "CAPIE missing: Rename Anything needs it",
+        "Brak CAPIE: wymaga go Rename Anything",
+    ),
     "RN_COUNTRY_PLUGIN": ("$RN_PLUGIN_STATUS$", "$RN_PLUGIN_STATUS$"),
     "RN_PAGE": (
         "Page [?ROOT.rn_cpage_disp|0] / [?ROOT.rn_cpages|0]",
@@ -288,7 +301,15 @@ UI = {
     ),
     "RN_BTN_PREV": ("< Prev", "< Wstecz"),
     "RN_BTN_NEXT": ("Next >", "Dalej >"),
-    "RN_CHAR_NAME": ("[?rn_row_character.GetName]", "[?rn_row_character.GetName]"),
+    # Role icon (country flag, army, navy, adviser) before the name; see gen_char_icon_loc.
+    "RN_CHAR_NAME": (
+        "[RN_CharRoleIcon][?rn_row_character.GetName]",
+        "[RN_CharRoleIcon][?rn_row_character.GetName]",
+    ),
+    "RN_CHAR_ICON_LEADER": ("[ROOT.GetFlag] ", "[ROOT.GetFlag] "),
+    "RN_CHAR_ICON_ARMY": ("£army_experience ", "£army_experience "),
+    "RN_CHAR_ICON_NAVY": ("£navy_experience ", "£navy_experience "),
+    "RN_CHAR_ICON_ADVISER": ("£pol_power ", "£pol_power "),
     "RN_STATE_NAME": ("[This.GetName]", "[This.GetName]"),
     "RN_SEL_STATE_LBL": ("State:", "Stan:"),
     "RN_CITIES_HINT": (
@@ -301,12 +322,12 @@ UI = {
     ),
     "RN_CITIES_NOTE": (
         (
-            "City names are shown as originally named; "
-            "the new name is visible on the map and in tooltips."
+            "A city renamed here shows its original name and the new one in brackets. "
+            "Names changed before this version show only the original name."
         ),
         (
-            "Lista pokazuje pierwotne nazwy miast; "
-            "nowa nazwa jest widoczna na mapie i w podpowiedziach."
+            "Miasto, którego nazwę zmieniono tutaj, ma pierwotną nazwę i nową w nawiasie. "
+            "Nazwy zmienione przed tą wersją pokazują tylko nazwę pierwotną."
         ),
     ),
     "RN_CLOSE_TT": ("Close", "Zamknij"),
@@ -465,6 +486,15 @@ def vp_key(p: int, keys: set[int]) -> str:
 # ----------------------------------------------------------------------------- scripted loc
 
 
+CHAR_ROLES = [
+    ("is_country_leader", "LEADER"),
+    ("is_army_leader", "ARMY"),
+    ("is_navy_leader", "NAVY"),
+    ("is_advisor", "ADVISER"),
+]
+"""Character role trigger and icon key suffix; the first match wins (a leader can also advise)."""
+
+
 def gen_scripted_loc(states: dict[int, list[int]], keys: set[int]) -> str:
     """Generate the scripted localisation file.
 
@@ -489,7 +519,7 @@ def gen_scripted_loc(states: dict[int, list[int]], keys: set[int]) -> str:
         + list(range(53, 63))
         + list(range(67, 85))
     )
-    for prefix, arr, lenvar in BUFFERS:
+    for prefix, arr, lenvar in BUFFERS + VP_NAME_BUFFERS:
         for k in range(MAXLEN):
             out.append(f"defined_text = {{\n\tname = RN_{prefix}_{k}\n")
             out.append(
@@ -581,10 +611,77 @@ def gen_scripted_loc(states: dict[int, list[int]], keys: set[int]) -> str:
         " localization_key = RN_COUNTRY_STATUS_STORED }\n"
         "\ttext = { localization_key = RN_COUNTRY_STATUS_READY }\n}\n"
     )
+    # Cities rows: "Original (now New)" when a name applied here is stored for the slot.
+    out.extend(
+        f"defined_text = {{\n\tname = RN_VpRow_{k}\n"
+        f"\ttext = {{ trigger = {{ check_variable = {{ rn_vpc_{k}_len > 0 }} }}"
+        f" localization_key = RN_VPROW_NOW_{k} }}\n"
+        f"\ttext = {{ localization_key = RN_VPROW_ORIG_{k} }}\n}}\n"
+        for k in range(VP_SLOTS)
+    )
+    # Characters list: one role icon per row. Scripted GUI cannot reach a character's
+    # portrait sprite (no localisation getter), so the row shows its role instead.
+    out.append("defined_text = {\n\tname = RN_CharRoleIcon\n")
+    out.extend(
+        f"\ttext = {{ trigger = {{ var:rn_row_character = {{ {trigger} = yes }} }}"
+        f" localization_key = RN_CHAR_ICON_{role} }}\n"
+        for trigger, role in CHAR_ROLES
+    )
+    out.append("\ttext = { localization_key = RN_CH_0 }\n}\n")
     return "".join(out)
 
 
 # ----------------------------------------------------------------------------- generated effects
+
+
+def gen_vp_name_effects() -> str:
+    """Generate the effects that keep the city names applied by this mod.
+
+    ``set_province_name`` leaves no trace that localisation can read, so the
+    applied codes are also stored on the state, one array per VP slot
+    (``rn_vpn_<k>`` and ``rn_vpn_<k>_len``). ``rn_vp_names_to_root`` copies them
+    to ROOT (``rn_vpc_<k>``) for the Cities rows, which print them through the
+    ``RN_VC<k>_<i>`` buffers. Names changed before this existed are not known.
+
+    Returns:
+        The ``rn_vp_store_name``, ``rn_vp_forget_name`` and ``rn_vp_names_to_root``
+        effects (all in STATE scope; ROOT is the player country).
+    """
+    o = [
+        (
+            "# City names applied here, kept per VP slot on the STATE (no getter returns a\n"
+            "# custom province name). STATE scope; ROOT.rn_tslot is the slot and ROOT.rn_buf\n"
+            "# holds the applied codes.\n"
+            "rn_vp_store_name = {\n"
+        )
+    ]
+    o.extend(
+        f"\tif = {{ limit = {{ check_variable = {{ ROOT.rn_tslot = {k} }} }}\n"
+        f"\t\tclear_array = rn_vpn_{k}\n"
+        "\t\tfor_each_loop = { array = ROOT.rn_buf value = rn_v"
+        f" add_to_array = {{ rn_vpn_{k} = rn_v }} }}\n"
+        f"\t\tset_variable = {{ rn_vpn_{k}_len = ROOT.rn_len }}\n\t}}\n"
+        for k in range(VP_SLOTS)
+    )
+    o.append("}\n# Reset of a city name: forget the stored codes of slot ROOT.rn_tslot.\n")
+    o.append("rn_vp_forget_name = {\n")
+    o.extend(
+        f"\tif = {{ limit = {{ check_variable = {{ ROOT.rn_tslot = {k} }} }}"
+        f" clear_array = rn_vpn_{k} clear_variable = rn_vpn_{k}_len }}\n"
+        for k in range(VP_SLOTS)
+    )
+    o.append("}\n# Copy this state's stored names to ROOT for the Cities rows.\n")
+    o.append("rn_vp_names_to_root = {\n")
+    o.extend(
+        f"\tROOT = {{ clear_array = rn_vpc_{k} set_variable = {{ rn_vpc_{k}_len = 0 }} }}\n"
+        f"\tfor_each_loop = {{ array = rn_vpn_{k} value = rn_v"
+        f" add_to_array = {{ array = ROOT.rn_vpc_{k} value = rn_v }} }}\n"
+        f"\tif = {{ limit = {{ has_variable = rn_vpn_{k}_len }}"
+        f" ROOT = {{ set_variable = {{ rn_vpc_{k}_len = PREV.rn_vpn_{k}_len }} }} }}\n"
+        for k in range(VP_SLOTS)
+    )
+    o.append("}\n\n")
+    return "".join(o)
 
 
 def gen_effects(states: dict[int, list[int]]) -> str:
@@ -616,7 +713,8 @@ def gen_effects(states: dict[int, list[int]]) -> str:
             f"set_variable = {{ rn_sel_state_id = {s} }} "
             f"set_variable = {{ rn_vp_cnt = {len(vps)} }}{sets} }} }}\n"
         )
-    out.append("}\n\n")
+    out.append("\trn_vp_names_to_root = yes\n}\n\n")
+    out.append(gen_vp_name_effects())
     # apply. The template below is emitted verbatim, so its long comment lines are
     # generated output and stay unwrapped (hence the E501 suppression at its end).
     out.append(f"""# Apply the input buffer to the current target. meta_effect turns the scripted loc into a literal string,
@@ -676,6 +774,8 @@ rn_apply_input = {{
 						N = "{n_expr}"
 					}}
 					ROOT = {{ rn_cd_vp_start = yes }}
+					rn_vp_store_name = yes
+					rn_vp_names_to_root = yes
 				}}
 			}}
 		}}
@@ -719,6 +819,8 @@ rn_reset_vp = {{ # temp rn_k = slot
 					text = {{ reset_province_name = [P] }}
 					P = "{p_expr}"
 				}}
+				rn_vp_forget_name = yes
+				rn_vp_names_to_root = yes
 			}}
 		}}
 	}}
@@ -1144,7 +1246,17 @@ def _cities_tab(y0: int) -> list[str]:
     ]
     for k in range(VP_SLOTS):
         y = y0 + 86 + k * 44
-        o.append(txt(f"rn_vp_name_{k}", 20, y + 8, f"RN_VPROW_{k}", w=300))
+        o.append(
+            txt(
+                f"rn_vp_name_{k}",
+                20,
+                y + 2,
+                f"RN_VPROW_{k}",
+                w=300,
+                h=40,
+                extra=" vertical_alignment = center",
+            )
+        )
         o.append(
             btn(
                 f"rn_vp_rename_{k}",
@@ -1898,7 +2010,8 @@ def gen_char_loc(lang: str, states: dict[int, list[int]], keys: set[int]) -> str
             if any(s // STATE_BUCKET == b and len(v) > k for s, v in states.items())
         )
         o.append(f' RN_TPROV_{k}: "[ROOT.RN_VpName_{k}]"\n')
-        o.append(f' RN_VPROW_{k}: "[ROOT.RN_VpName_{k}]"\n')
+        o.append(f' RN_VPROW_{k}: "[ROOT.RN_VpRow_{k}]"\n')
+        o.append(f' RN_VPROW_ORIG_{k}: "[ROOT.RN_VpName_{k}]"\n')
     o.extend(f' RN_KL_{c}: "[ROOT.RN_KeyLabel_{c}]"\n' for c in LOWER)
     o.extend(f' RN_KL_pl{i}: "[ROOT.RN_KeyLabel_pl{i}]"\n' for i in range(len(PL_LOWER)))
     missing = sorted({p for v in states.values() for p in v if p not in keys})
@@ -1920,8 +2033,8 @@ def gen_ui_loc(lang: str) -> str:
     o = [f"l_{lang}:\n", " # GENERATED by tools/gen.py (UI strings)\n"]
     o.extend(f' {k}: "{yml_escape(v[idx].replace("{days}", days))}"\n' for k, v in UI.items())
     for cat, en, pl in (
-        ("STATE", "A state was renamed recently", "Niedawno zmieniono nazwę stanu"),
-        ("VP", "A city was renamed recently", "Niedawno zmieniono nazwę miasta"),
+        ("STATE", "Next state rename possible in", "Kolejna zmiana nazwy stanu możliwa za"),
+        ("VP", "Next city rename possible in", "Kolejna zmiana nazwy miasta możliwa za"),
     ):
         for n in [*range(1, COOLDOWN_LABEL_LIMIT + 1), "MORE"]:
             if lang == "polish":
@@ -1930,15 +2043,20 @@ def gen_ui_loc(lang: str) -> str:
                     if n == "MORE"
                     else ("1 dzień" if n == 1 else f"{n} dni")
                 )
-                text = f"§R{pl}: kolejna zmiana za {left}.§!"
+                text = f"§R{pl} {left}.§!"
             else:
                 left = (
                     f"more than {COOLDOWN_LABEL_LIMIT} days"
                     if n == "MORE"
                     else ("1 day" if n == 1 else f"{n} days")
                 )
-                text = f"§R{en}: next change in {left}.§!"
+                text = f"§R{en} {left}.§!"
             o.append(f' RN_CD_{cat}_WAIT_{n}: "{text}"\n')
+    now = "obecnie" if lang == "polish" else "now"
+    o.extend(
+        f' RN_VPROW_NOW_{k}: "[ROOT.RN_VpName_{k}] ({now} {slots_expr(f"VC{k}")})"\n'
+        for k in range(VP_SLOTS)
+    )
     return "".join(o)
 
 

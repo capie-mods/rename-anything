@@ -6,10 +6,40 @@
 # Codes: 1 native ok=0 (empty, more than 32 characters or a character outside the alphabet),
 # 4 length, 5 character code, 6 padding; 7..10 guard (editor closed/stale epoch/target changed);
 # 12 = no command epoch from the native editor bridge (extension not running, DLL-less mode).
+# rn_ip_status_why (display only) names the problem of a code-1 field for the status line:
+# 1 empty, 2 too long, 3 character the game cannot show; absent = the bridge sent no reason.
 
 rn_ip_status_clear = {
 	clear_variable = rn_ip_status_err
 	clear_variable = rn_ip_status_field
+	clear_variable = rn_ip_status_why
+}
+
+# Reason of a native ok=0 field. Optional bridge temps rn_native_err / rn_nativeb_err carry the
+# encoder's InputError (1 empty, 2 too_long, 3..6 character classes); a missing temp reads as 0
+# and leaves the reason unknown, so an older bridge still gets the generic line.
+rn_ip_status_reason = {
+	clear_variable = rn_ip_status_why
+	if = {
+		limit = { check_variable = { rn_ip_status_err = 1 } }
+		if = {
+			limit = { check_variable = { rn_ip_status_field = 2 } }
+			set_temp_variable = { rn_ip_status_code = temp_var:rn_nativeb_err }
+		}
+		else = { set_temp_variable = { rn_ip_status_code = temp_var:rn_native_err } }
+		if = {
+			limit = { check_variable = { temp_var:rn_ip_status_code = 1 } }
+			set_variable = { rn_ip_status_why = 1 }
+		}
+		else_if = {
+			limit = { check_variable = { temp_var:rn_ip_status_code = 2 } }
+			set_variable = { rn_ip_status_why = 2 }
+		}
+		else_if = {
+			limit = { check_variable = { temp_var:rn_ip_status_code > 2 } check_variable = { temp_var:rn_ip_status_code < 7 } }
+			set_variable = { rn_ip_status_why = 3 }
+		}
+	}
 }
 
 # Rejected Apply without the bridge's command epoch: the extension is not running (INT-M1).
@@ -26,6 +56,7 @@ rn_ip_status_record_pair = {
 		limit = { check_variable = { temp_var:rn_pair_err > 0 } }
 		set_variable = { rn_ip_status_err = temp_var:rn_pair_err }
 		set_variable = { rn_ip_status_field = temp_var:rn_pair_field }
+		rn_ip_status_reason = yes
 		rn_ip_status_no_bridge = yes
 	}
 	else = { rn_ip_status_clear = yes }
@@ -37,6 +68,7 @@ rn_ip_status_record_leader = {
 		limit = { check_variable = { temp_var:rn_ip_leader_error > 0 } }
 		set_variable = { rn_ip_status_err = temp_var:rn_ip_leader_error }
 		set_variable = { rn_ip_status_field = 1 }
+		rn_ip_status_reason = yes
 		rn_ip_status_no_bridge = yes
 	}
 	else = { rn_ip_status_clear = yes }

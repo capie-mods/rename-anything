@@ -30,19 +30,28 @@ defined_text = {
 	text = { localization_key = RN_IPP_EMPTY }
 }
 
+# Status line of the party editor: CAPIE missing, cooldown, field error (reason when the bridge
+# sends one), the neutral hint, then the stale-target line (also for guard errors 7..10).
 defined_text = {
 	name = RN_IPP_PARTY_STATUS
 	text = { trigger = { check_variable = { rn_ip_status_err = 12 } } localization_key = RN_IP_ERR_NO_BRIDGE }
 	text = { trigger = { rn_ipp_party_target_matches = yes check_variable = { rn_ip_status_err = 11 } } localization_key = RN_IP_ERR_CD_PARTY }
+	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } check_variable = { rn_ip_status_field = 1 } check_variable = { rn_ip_status_why = 1 } } localization_key = RN_IP_ERR_PARTY_SHORT_EMPTY }
+	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } check_variable = { rn_ip_status_field = 1 } check_variable = { rn_ip_status_why = 2 } } localization_key = RN_IP_ERR_PARTY_SHORT_LONG }
+	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } check_variable = { rn_ip_status_field = 1 } check_variable = { rn_ip_status_why = 3 } } localization_key = RN_IP_ERR_PARTY_SHORT_CHAR }
 	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } check_variable = { rn_ip_status_field = 1 } } localization_key = RN_IP_ERR_PARTY_SHORT }
+	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } check_variable = { rn_ip_status_why = 1 } } localization_key = RN_IP_ERR_PARTY_LONG_EMPTY }
+	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } check_variable = { rn_ip_status_why = 2 } } localization_key = RN_IP_ERR_PARTY_LONG_LONG }
 	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } NOT = { rn_ipp_party_pinned_rules = yes } } localization_key = RN_IP_ERR_PARTY_LONG_UNKNOWN }
+	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } check_variable = { rn_ip_status_why = 3 } } localization_key = RN_IP_ERR_PARTY_LONG_CHAR }
 	text = { trigger = { rn_ipp_party_target_matches = yes has_variable = rn_ip_status_err check_variable = { rn_ip_status_err < 7 } } localization_key = RN_IP_ERR_PARTY_LONG }
-	text = { trigger = { rn_ipp_party_target_matches = yes NOT = { has_variable = rn_ip_status_err } rn_ipp_party_pinned_rules = yes } localization_key = RN_IP_LONG_NAME }
+	text = { trigger = { rn_ipp_party_target_matches = yes NOT = { has_variable = rn_ip_status_err } rn_ipp_party_pinned_rules = yes } localization_key = RN_IP_HINT }
 	text = { trigger = { rn_ipp_party_target_matches = yes NOT = { has_variable = rn_ip_status_err } } localization_key = RN_IPP_LONG_UNKNOWN }
 	text = { localization_key = RN_IPP_TARGET_CHANGED }
 }
 
-# Iteration 3 (M3): status line of the leader and country editors (display only).
+# Status line of the leader and country editors (display only): hint, CAPIE missing, cooldown,
+# stale editor (guard errors 7..10), then the field error with its reason when known.
 defined_text = {
 	name = RN_IP_STATUS
 	text = { trigger = { NOT = { has_variable = rn_ip_status_err } } localization_key = RN_IP_HINT }
@@ -50,8 +59,17 @@ defined_text = {
 	text = { trigger = { check_variable = { rn_ip_status_err = 11 } has_country_flag = rn_ip_leader_open } localization_key = RN_IP_ERR_CD_LEADER }
 	text = { trigger = { check_variable = { rn_ip_status_err = 11 } } localization_key = RN_IP_ERR_CD_COUNTRY }
 	text = { trigger = { check_variable = { rn_ip_status_err > 6 } } localization_key = RN_IP_ERR_STALE }
+	text = { trigger = { has_country_flag = rn_ip_leader_open check_variable = { rn_ip_status_why = 1 } } localization_key = RN_IP_ERR_LEADER_EMPTY }
+	text = { trigger = { has_country_flag = rn_ip_leader_open check_variable = { rn_ip_status_why = 2 } } localization_key = RN_IP_ERR_LEADER_LONG }
+	text = { trigger = { has_country_flag = rn_ip_leader_open check_variable = { rn_ip_status_why = 3 } } localization_key = RN_IP_ERR_LEADER_CHAR }
 	text = { trigger = { has_country_flag = rn_ip_leader_open } localization_key = RN_IP_ERR_LEADER }
+	text = { trigger = { check_variable = { rn_ip_status_field = 2 } check_variable = { rn_ip_status_why = 1 } } localization_key = RN_IP_ERR_COUNTRY_ADJ_EMPTY }
+	text = { trigger = { check_variable = { rn_ip_status_field = 2 } check_variable = { rn_ip_status_why = 2 } } localization_key = RN_IP_ERR_COUNTRY_ADJ_LONG }
+	text = { trigger = { check_variable = { rn_ip_status_field = 2 } check_variable = { rn_ip_status_why = 3 } } localization_key = RN_IP_ERR_COUNTRY_ADJ_CHAR }
 	text = { trigger = { check_variable = { rn_ip_status_field = 2 } } localization_key = RN_IP_ERR_COUNTRY_ADJ }
+	text = { trigger = { check_variable = { rn_ip_status_why = 1 } } localization_key = RN_IP_ERR_COUNTRY_NAME_EMPTY }
+	text = { trigger = { check_variable = { rn_ip_status_why = 2 } } localization_key = RN_IP_ERR_COUNTRY_NAME_LONG }
+	text = { trigger = { check_variable = { rn_ip_status_why = 3 } } localization_key = RN_IP_ERR_COUNTRY_NAME_CHAR }
 	text = { localization_key = RN_IP_ERR_COUNTRY_NAME }
 }
 
