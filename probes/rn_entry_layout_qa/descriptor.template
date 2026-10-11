@@ -1,0 +1,5 @@
+name="Rename Anything - entry layout QA"
+version="0.1.0-qa"
+supported_version="1.19.*"
+path="@FIXTURE_ABSOLUTE_PATH@"
+tags={ "Utilities" }

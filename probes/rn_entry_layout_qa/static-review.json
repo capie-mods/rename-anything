@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-11",
+  "activated": false,
+  "scope": "Static single visibility delta and guarded decision entry; no parser/UI/MP acceptance",
+  "source_sg_sha256": "84BD9C8033BB6A3A7F7148B878BA6D78B05D558F6620578C8E7AAAE924F6FF64",
+  "exact_sg_delta": "rn_entry_gui.visible always=yes to always=no; all other bytes unchanged",
+  "game_files": 5,
+  "checks": {
+    "sole_visibility_delta": true,
+    "closed_flags_before_and_actual_effect": true,
+    "one_existing_open_effect": true,
+    "brace_balance": true,
+    "PL_EN_BOM_and_equal_keys": true
+  },
+  "runtime_pending": [
+    "visible overlap/pixels/hit testing",
+    "paused decision repeat without cooldown/cost",
+    "scope/queue and inline-draft rejection",
+    "selected state/cities entry remains usable",
+    "same-process error comparison"
+  ],
+  "inventory_sha256": {
+    "common/decisions/categories/rn_entry_layout.txt": "6495AD50A534C521555C858847A501EF369B55DD0A61D746CC9681B6001A088D",
+    "common/decisions/rn_entry_layout.txt": "0C1EF6B6876F06F6AE9E465B6FB3C85C65F5F56276B995BFD00D67514C141B16",
+    "common/scripted_guis/rename_anything_scripted_gui.txt": "22E076F149270DF73BB8A137DDE7F1495BF0F60AD2C925A23C852A62379CBEBB",
+    "descriptor.template": "F91641EED473729EC906ECC93DD2FF6FA361BB310CC121649668344405787E94",
+    "localisation/english/rn_entry_layout_l_english.yml": "617F7B1EF9507BD2EF5B49A35A769439AF4471BD7CB9084059CEB98B952F7BB3",
+    "localisation/polish/rn_entry_layout_l_polish.yml": "054E7E318DB09E591D9FE35D8C41062F37849D5261C5509E4EA34E67BEFCAFAD",
+    "README.md": "F4D1BAFF37827BBC0887AA57011127AFA03AC20AFED3C974FD37FACCE0B1EC74"
+  }
+}

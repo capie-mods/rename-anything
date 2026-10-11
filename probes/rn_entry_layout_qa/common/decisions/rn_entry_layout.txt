@@ -1,0 +1,31 @@
+rn_entry_layout = {
+	rn_open_name_editor = {
+		icon = generic_political_actions
+		allowed = { always = yes }
+		visible = { is_ai = no }
+		available = {
+			NOT = { has_country_flag = rn_open }
+			NOT = { has_country_flag = rn_input }
+			NOT = { has_country_flag = rn_ip_leader_open }
+			NOT = { has_country_flag = rn_ip_party_neutrality_open }
+			NOT = { has_country_flag = rn_ip_country_open }
+		}
+		cost = 0
+		fire_only_once = no
+		days_re_enable = 0
+		ai_will_do = { base = 0 }
+		complete_effect = {
+			if = {
+				limit = {
+					is_ai = no
+					NOT = { has_country_flag = rn_open }
+					NOT = { has_country_flag = rn_input }
+					NOT = { has_country_flag = rn_ip_leader_open }
+					NOT = { has_country_flag = rn_ip_party_neutrality_open }
+					NOT = { has_country_flag = rn_ip_country_open }
+				}
+				rn_open_main = yes
+			}
+		}
+	}
+}
