@@ -299,6 +299,7 @@ def check_status(
         "RN_IP_ERR_NO_BRIDGE",
         "RN_IP_ERR_NO_COUNTER",
         "RN_IP_ERR_RENAME_LIMIT",
+        "RN_IPP_TARGET_CHANGED",
         "RN_IP_ERR_CD_PARTY",
         *(f"RN_IP_ERR_PARTY_SHORT_{r}" for r in REASONS),
         "RN_IP_ERR_PARTY_SHORT",
@@ -311,11 +312,10 @@ def check_status(
         "RN_IPP_LONG_UNKNOWN",
         "RN_IPP_TARGET_CHANGED",
     ]
-    assert all(
-        ("rn_ipp_party_target_matches", "=", "yes") in get(t[2], "trigger")
-        # NO_BRIDGE and the two cause-coded refusals apply to any target; so does the last line.
-        for t in party_status[3:-1]
-    )
+    # NO_BRIDGE and the two cause-coded refusals apply to any target. Then one target check
+    # (first match: every later branch is reached only when the target matches) and no repeats.
+    assert get(party_status[3][2], "trigger") == [("NOT", "=", [MATCHES])]
+    assert not any(MATCHES in get(t[2], "trigger") for t in party_status[4:-1])
     assert [get(t[2], "localization_key") for t in locs["RN_IP_STATUS"] if t[0] == "text"] == [
         "RN_IP_HINT",
         "RN_IP_ERR_NO_BRIDGE",
@@ -341,6 +341,10 @@ def check_status(
             assert not any("rn_ip_status_" in str(n) for n in walk(trig)), (name, key)
 
 
+MATCHES = ("rn_ipp_party_target_matches", "=", "yes")
+"""Parsed reference to the party target trigger."""
+
+
 def check_party_carriers(locs: dict[str, Any]) -> None:
     """Check the short and long party carriers (I4-M1 placeholder for non-ruling groups).
 
@@ -352,14 +356,16 @@ def check_party_carriers(locs: dict[str, Any]) -> None:
         ("RN_IPP_PARTY_LONG", "RN_IPP_PARTY_LONG_CURRENT"),
     ):
         texts = [n[2] for n in locs[name] if n[0] == "text"]
-        matches = ("rn_ipp_party_target_matches", "=", "yes")
-        want = [
+        # One target check first (empty carrier when it fails), then no repeated check.
+        want: list[list[Any]] = [
+            [("trigger", "=", [("NOT", "=", [MATCHES])]), ("localization_key", "=", "RN_IPP_EMPTY")]
+        ]
+        want += [
             [
                 (
                     "trigger",
                     "=",
                     [
-                        matches,
                         ("check_variable", "=", [("rn_ip_party_group", "=", str(i))]),
                         ("has_government", "=", g),
                     ],
@@ -375,7 +381,7 @@ def check_party_carriers(locs: dict[str, Any]) -> None:
                 else "RN_IPP_LONG_PLACEHOLDER"
             )
             group = ("check_variable", "=", [("rn_ip_party_group", "=", str(i))])
-            want.append([("trigger", "=", [matches, group]), ("localization_key", "=", key)])
+            want.append([("trigger", "=", [group]), ("localization_key", "=", key)])
         want.append([("localization_key", "=", "RN_IPP_EMPTY")])
         assert texts == want, ("party carrier branches", name)
 

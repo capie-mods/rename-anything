@@ -153,7 +153,7 @@ def vp_row_loc() -> str:
         defined_text(
             f"RN_VpRow_{k}",
             [(check_variable(f"rn_vpc_{k}_len > 0"), f"RN_VPROW_NOW_{k}")],
-            f"RN_VPROW_ORIG_{k}",
+            f"RN_TPROV_{k}",
         )
         for k in range(VP_SLOTS)
     )
@@ -406,7 +406,7 @@ def chars_loc_entries(states: StateTable) -> list[str]:
         states: State table.
 
     Returns:
-        ``RN_VPB``, ``RN_TPROV``, ``RN_VPROW`` and ``RN_VPROW_ORIG`` lines, slot by slot.
+        ``RN_VPB``, ``RN_TPROV`` and ``RN_VPROW`` lines, slot by slot.
     """
     buckets = state_buckets(states)
     out: list[str] = []
@@ -418,7 +418,6 @@ def chars_loc_entries(states: StateTable) -> list[str]:
         )
         out.append(f' RN_TPROV_{k}: "[ROOT.RN_VpName_{k}]"\n')
         out.append(f' RN_VPROW_{k}: "[ROOT.RN_VpRow_{k}]"\n')
-        out.append(f' RN_VPROW_ORIG_{k}: "[ROOT.RN_VpName_{k}]"\n')
     return out
 
 
