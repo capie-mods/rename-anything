@@ -88,15 +88,12 @@ UI: dict[str, tuple[str, str]] = {
     ),
     "RN_BTN_PREV": ("< Prev", "< Wstecz"),
     "RN_BTN_NEXT": ("Next >", "Dalej >"),
-    # Role icon (country flag, army, navy, adviser) before the name; see characters.role_icon_loc.
-    "RN_CHAR_NAME": (
-        "[RN_CharRoleIcon][?rn_row_character.GetName]",
-        "[RN_CharRoleIcon][?rn_row_character.GetName]",
-    ),
-    "RN_CHAR_ICON_LEADER": ("[ROOT.GetFlag] ", "[ROOT.GetFlag] "),
-    "RN_CHAR_ICON_ARMY": ("£army_experience ", "£army_experience "),
-    "RN_CHAR_ICON_NAVY": ("£navy_experience ", "£navy_experience "),
-    "RN_CHAR_ICON_ADVISER": ("£pol_power ", "£pol_power "),
+    "RN_CHAR_NAME": ("[?rn_row_character.GetName]", "[?rn_row_character.GetName]"),
+    # Tooltips of the role icons in the Characters list (see characters.CHAR_ROLES).
+    "RN_CHAR_ROLE_LEADER": ("Country leader", "Przywódca państwa"),
+    "RN_CHAR_ROLE_ARMY": ("General", "Generał"),
+    "RN_CHAR_ROLE_NAVY": ("Admiral", "Admirał"),
+    "RN_CHAR_ROLE_ADVISER": ("Adviser", "Doradca"),
     "RN_STATE_NAME": ("[This.GetName]", "[This.GetName]"),
     "RN_SEL_STATE_LBL": ("State:", "Stan:"),
     "RN_CITIES_HINT": (

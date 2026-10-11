@@ -81,7 +81,6 @@ def scripted_loc(states_table: StateTable, keys: set[int]) -> str:
             input_window.target_type_loc(),
             country.status_loc(),
             cities.vp_row_loc(),
-            characters.role_icon_loc(),
             cooldown.tooltip_loc(),
         ]
     )
