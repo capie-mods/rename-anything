@@ -41,9 +41,11 @@ original name.
 
 <img src="docs/assets/readme/launch-chain.svg" alt="Planned launch chain: Steam Play or a shortcut starts the CAPIE launcher, which starts the Paradox Launcher with your playset. On version 1.19.3.0 CAPIE is loaded into that game only. On an unknown version the game starts without CAPIE." width="880">
 
-The planned way to start the game keeps your habits: you press Play in Steam (or use a desktop
-shortcut), pick your playset in the Paradox Launcher, and play with your other mods. The CAPIE
-launcher only adds one step in between, and loads CAPIE only into the game it started.
+The default loading method adds a small `version.dll` proxy to the game folder. It forwards
+Windows version APIs to System32 and enables CAPIE only with `-capie` or the explicit bootstrap
+configuration. The existing launcher remains an alternative. See the
+[proxy loader and test limits](docs/proxy-loader.md); Steam/Paradox argument forwarding still
+needs an end-to-end check.
 
 ## What works today
 
@@ -79,11 +81,11 @@ and limits for every row.
 
 ## Safety
 
-- **No game files are changed.** Not `hoi4.exe`, not `steam_api64.dll`, nothing in the game
-  folder. CAPIE works in the game's memory while it runs and is gone when you close the game.
-- **No network.** CAPIE does not use the network. Current builds import only `KERNEL32` and
-  `bcrypt` (used for SHA-256 checks); no networking library is among their imports. The
-  installer script goes online only when you ask it to install or update.
+- **Original game files stay unchanged.** Proxy installation adds one `version.dll` to the
+  game folder; uninstall removes only the hash-verified file it owns. Existing foreign DLLs
+  are refused. The launcher alternative adds no file there.
+- **No network.** CAPIE and the proxy open no network connections. The installer script
+  goes online only when you ask it to install or update.
 - **Pinned to one exact game build.** CAPIE checks the SHA-256 of `hoi4.exe` and the code it
   hooks. If anything differs it refuses to start and the game runs without it.
 - **Fails closed.** Bad input (empty, too long, characters the game cannot show) is rejected and
@@ -97,7 +99,7 @@ and limits for every row.
 ### First release (coming)
 
 The plan: subscribe on the Steam Workshop, then run one PowerShell line that installs the CAPIE
-launcher and, if you agree, adds it to Steam's launch options or creates a shortcut. The command
+proxy or the launcher alternative and configures the chosen activation method. The command
 will be published with the first release. Until then there is nothing to install this way, and
 the installer refuses to run on purpose. Its design and options are in
 [tools/bootstrap/README.md](tools/bootstrap/README.md).
