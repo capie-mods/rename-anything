@@ -258,19 +258,79 @@ def _gui_blocks(text: str) -> dict[str, str]:
     return blocks
 
 
+def _click_bodies(block: str) -> dict[str, str]:
+    """Return the body of every click effect of one scripted GUI block.
+
+    Args:
+        block: Text of one scripted GUI.
+
+    Returns:
+        Click effect name to the text between its braces.
+    """
+    bodies = {}
+    for line_start, line in _line_offsets(block):
+        name = line.strip().split(" ", 1)[0]
+        if not name.endswith("_click") or "= {" not in line:
+            continue
+        opening = line_start + line.index("{")
+        depth = 0
+        for i in range(opening, len(block)):
+            depth += {"{": 1, "}": -1}.get(block[i], 0)
+            if depth == 0:
+                bodies[name] = block[opening + 1 : i]
+                break
+    return bodies
+
+
+def _line_offsets(text: str) -> list[tuple[int, str]]:
+    """Return every line with the offset where it starts.
+
+    Args:
+        text: Any text.
+
+    Returns:
+        ``(offset, line)`` pairs.
+    """
+    out = []
+    offset = 0
+    for line in text.splitlines(keepends=True):
+        out.append((offset, line))
+        offset += len(line)
+    return out
+
+
+def test_every_keyboard_key_bumps_after_changing_the_buffer() -> None:
+    """Each key (digits, letters, Polish letters, shift twins, Caps, Backspace, Space, Clear).
+
+    Its click effect in the input window runs the key's own effect first and
+    the refresh bump last.
+    """
+    bodies = _click_bodies(_gui_blocks(build.scripted_gui())["rn_input_gui"])
+    keys = input_window.keyboard_keys()
+    assert {f"{name}_click" for name, *_ in keys} <= set(bodies)
+    assert len([k for k in keys if k[0].startswith("rn_key_pl")]) == len(PL_UPPER)
+    for name, *_rest, effect in keys:
+        body = bodies[f"{name}_click"].strip()
+        assert body == f"{effect} {refresh.TOUCH}", name
+    for name in ("rn_cancel_click", "rn_apply_click"):
+        assert bodies[name].strip().endswith(refresh.TOUCH), name
+
+
 def test_refresh_gate_covers_every_click() -> None:
-    """Gated GUIs carry ``dirty`` and every click effect bumps the counter on ROOT first."""
+    """Gated GUIs carry ``dirty`` and every click effect bumps the counter on ROOT last."""
     blocks = _gui_blocks(build.scripted_gui())
     assert set(GATED_GUIS) | {"rn_state_view_gui"} == set(blocks)
-    touch = f"ROOT = {{ {refresh.TOUCH_EFFECT} = yes }}"
+    touch = refresh.TOUCH
     for name in GATED_GUIS:
         block = blocks[name]
         assert refresh.dirty_line() in block, name
-        clicks = [
-            line for line in block.splitlines() if line.strip().split(" ")[0].endswith("_click")
-        ]
-        assert clicks, name
-        assert all(line.split("{", 1)[1].strip().startswith(touch) for line in clicks), name
+        bodies = _click_bodies(block)
+        assert bodies, name
+        for click, body in bodies.items():
+            # Last statement, once: the window refreshes only after every change (PID45148).
+            assert body.rstrip().endswith(touch), (name, click)
+            assert body.count(touch) == 1, (name, click)
+            assert body.rstrip()[: -len(touch)].strip(), (name, click)
     view = blocks["rn_state_view_gui"]
     assert "dirty" not in view, "the state view scope changes without an effect"
     assert touch in view, "the state view reset bumps the player's gate"
@@ -297,7 +357,9 @@ def test_hand_written_entries_bump_the_gate_and_character_apply_is_light() -> No
     )
     for name in ENTRY_EFFECTS:
         body = hand.split(f"\n{name} = {{", 1)[1].split("\n}", 1)[0]
-        assert f"{refresh.TOUCH_EFFECT} = yes" in body, name
+        last = body.rstrip().splitlines()[-1].split("#", 1)[0].strip()
+        assert last == f"{refresh.TOUCH_EFFECT} = yes", name
+        assert body.count(f"{refresh.TOUCH_EFFECT} = yes") == 1, name
     lists = hand.split("\nrn_refresh_lists = {", 1)[1].split("\n}", 1)[0]
     chars = hand.split("\nrn_refresh_chars = {", 1)[1].split("\n}", 1)[0]
     assert "rn_refresh_chars = yes" in lists

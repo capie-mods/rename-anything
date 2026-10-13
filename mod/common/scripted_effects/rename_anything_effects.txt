@@ -21,7 +21,6 @@
 #   rn_gui_dirty    refresh gate (scripted GUI dirty) of the legacy windows; bumped by rn_gui_touch
 
 rn_open_main = {
-	rn_gui_touch = yes # refresh gate (dirty) of the legacy windows
 	set_country_flag = rn_open
 	clr_country_flag = rn_input
 	if = {
@@ -33,25 +32,26 @@ rn_open_main = {
 		limit = { check_variable = { rn_tab = 4 } }
 		rn_select_state = yes
 	}
+	rn_gui_touch = yes # last: refresh gate (dirty) of the legacy windows, after every change
 }
 
 rn_close_all = {
-	rn_gui_touch = yes # refresh gate (dirty) of the legacy windows
 	clr_country_flag = rn_open
 	clr_country_flag = rn_input
 	clear_array = rn_display_target
 	clear_array = rn_buf
 	set_variable = { rn_len = 0 }
+	rn_gui_touch = yes # last: refresh gate (dirty) of the legacy windows, after every change
 }
 
 rn_set_tab = { # temp rn_newtab
-	rn_gui_touch = yes # refresh gate (dirty) of the legacy windows
 	set_variable = { rn_tab = rn_newtab }
 	rn_refresh_lists = yes
 	if = {
 		limit = { check_variable = { rn_tab = 4 } }
 		rn_select_state = yes
 	}
+	rn_gui_touch = yes # last: refresh gate (dirty) of the legacy windows, after every change
 }
 
 rn_refresh_lists = {
@@ -201,7 +201,6 @@ rn_select_state = {
 # ---------------------------------------------------------------- text input
 
 rn_open_input = { # requires rn_ttype (+ target arrays/variables) set by the caller
-	rn_gui_touch = yes # refresh gate (dirty) of the legacy windows
 	# Keep only current header data. Overlapping target grids showed stale state data
 	# despite their visibility triggers after a city selection.
 	clear_array = rn_display_target
@@ -226,14 +225,15 @@ rn_open_input = { # requires rn_ttype (+ target arrays/variables) set by the cal
 	clear_array = rn_buf
 	set_variable = { rn_len = 0 }
 	set_variable = { rn_shift = 0 }
+	rn_gui_touch = yes # last: refresh gate (dirty) of the legacy windows, after every change
 }
 
 rn_cancel_input = {
-	rn_gui_touch = yes # refresh gate (dirty) of the legacy windows
 	clear_array = rn_display_target
 	clr_country_flag = rn_input
 	clear_array = rn_buf
 	set_variable = { rn_len = 0 }
+	rn_gui_touch = yes # last: refresh gate (dirty) of the legacy windows, after every change
 }
 
 rn_add_char = { # temp rn_c = char code

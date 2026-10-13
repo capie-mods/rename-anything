@@ -64,6 +64,41 @@ class ProductVM(ApplyVM):
         self.triggers = triggers
         self.persistent["global.num_days"] = Decimal(VM_TODAY)
 
+    def execute(self, nodes: list[Any]) -> None:
+        """Execute effect nodes, adding two primitives of the legacy keyboard effects.
+
+        ``remove_from_array = { array = X }`` drops the last element (Backspace),
+        ``subtract_from_variable`` lowers a country variable (its length),
+        and ``ROOT = { ... }`` runs its body here, because the VM's scope is the
+        player country itself. Every other node goes to the base VM in runs, so
+        ``if``/``else_if``/``else`` chains stay intact.
+
+        Args:
+            nodes: Effect nodes.
+        """
+        run: list[Any] = []
+        for node in nodes:
+            key, _, value = node
+            if key not in {"remove_from_array", "subtract_from_variable", "ROOT"}:
+                run.append(node)
+                continue
+            if run:
+                super().execute(run)
+                run = []
+            if key == "ROOT":
+                assert self.tag == self.root_tag, "ROOT scope switch in a foreign scope"
+                self.execute(value)
+            elif key == "subtract_from_variable":
+                name, _, source = value[0]
+                self.persistent[name] = self.persistent.get(name, Decimal(0)) - self.value(source)
+            else:
+                array = get(value, "array")
+                assert [k for k, _, _ in value] == ["array"], "only the last-element form"
+                if self.arrays.get(array):
+                    self.arrays[array].pop()
+        if run:
+            super().execute(run)
+
     def condition(self, nodes: list[Any]) -> bool:
         """Evaluate a trigger list.
 
@@ -627,6 +662,57 @@ def run_refresh_gate(ctx: Context) -> int:
         assert vm.persistent["rn_gui_dirty"] == want, start
         assert vm.persistent["rn_gui_dirty"] != start, "every bump is a change"
         cases += 1
+    return cases
+
+
+TOUCH_NODE = ("ROOT", "=", [("rn_gui_touch", "=", "yes")])
+"""Parsed refresh bump that must close every click of the legacy input window."""
+
+
+def run_keyboard_refresh(ctx: Context, input_gui: list[Any]) -> int:
+    """Press every key of the legacy input window, with Caps off and on (PID45148).
+
+    For each key the VM runs the real click effect from the generated mod. The
+    refresh counter must change, the bump must be the last statement (after the
+    buffer changed), and a typing key must append exactly one code to the
+    buffer: the key's own code, its upper-case twin with Caps on for letters
+    (Polish letters +9), the upper case always for the invisible shift keys.
+
+    Args:
+        ctx: Shared VM inputs.
+        input_gui: Parsed ``rn_input_gui`` model of the generated mod.
+
+    Returns:
+        Number of key presses.
+    """
+    cases = 0
+    typed = 0
+    for click, _, body in get(input_gui, "effects"):
+        if click in {"rn_apply_click", "rn_cancel_click"}:
+            continue
+        assert body[-1] == TOUCH_NODE, click
+        assert body.count(TOUCH_NODE) == 1, click
+        for shift in (0, 1):
+            vm = ctx.vm("country")
+            vm.enforce = False
+            vm.flags.add("rn_input")
+            vm.arrays["rn_buf"] = [Decimal(1)]
+            vm.persistent["rn_len"] = Decimal(1)
+            vm.persistent["rn_shift"] = Decimal(shift)
+            vm.persistent["rn_gui_dirty"] = Decimal(5)
+            vm.execute(body)
+            assert vm.persistent["rn_gui_dirty"] == Decimal(6), (click, shift)
+            sets = [v for k, _, v in body if k == "set_temp_variable"]
+            if sets:
+                code = int(sets[0][0][2])
+                letter = any(k == "rn_add_letter" for k, _, _ in body)
+                if letter and shift == 1:
+                    code += 26 if code < 27 else 9  # noqa: PLR2004 - Latin a..z, then Polish
+                assert vm.arrays["rn_buf"] == [Decimal(1), Decimal(code)], (click, shift)
+                assert vm.persistent["rn_len"] == Decimal(2), (click, shift)
+                typed += 1
+            cases += 1
+    assert typed, "no typing key found"
     return cases
 
 
