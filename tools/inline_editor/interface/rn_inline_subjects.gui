@@ -1,45 +1,378 @@
-# Placeholder (iteration 4): subject rename entry in the diplomacy view of a subject.
-# Hidden by rn_ip_subject_rename_enabled (always = no). Position is a candidate, runtime QA needed.
+# Subject rename (overlord renames a subject) in the diplomacy view of the selected country.
+# Launcher: three pencils on the view's title line. Editors: CAPIE v1.1 grammar windows
+# (capie_v1_ed__rn__<editor>, fields capie_v1_f__..., carriers capie_v1_pf__/ep__...), the same
+# grid as the politics editors (420 wide, labelled rows every 42 px, status line last).
 guiTypes = {
 	containerWindowType = {
-		name = "rn_ip_subject_window"
-		position = { x = 380 y = 60 }
-		size = { width = 132 height = 24 }
+		name = "rn_sub_launcher_window"
+		# Title line of the diplomacy view (vanilla countrydiplomacyview.gui: diplomacy_title 45,8
+		# hoi_36header maxWidth 240, close_button at x 507). The strip ends at x 500, before the
+		# close button; the header below (flag, names, opinions) stays uncovered.
+		position = { x = 304 y = 9 }
+		size = { width = 196 height = 22 }
 		orientation = upper_left
 		clipping = no
 		instantTextboxType = {
-			name = "rn_ips_label"
-			position = { x = 0 y = 4 }
+			name = "rn_sub_label"
+			position = { x = 0 y = 3 }
+			font = "hoi_16mbs"
+			text = "RN_SUB_LABEL"
+			maxWidth = 124
+			maxHeight = 18
+			fixedsize = yes
+			format = right
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_sub_country_open"
+			position = { x = 128 y = 1 }
+			scale = 0.67 # 30x30 frame -> 20x20, as the politics pencils
+			quadTextureSprite = "GFX_edit_designer_notes_button"
+			buttonFont = "hoi_18mbs"
+			clicksound = click_default
+			pdx_tooltip = "RN_SUB_EDIT_COUNTRY"
+		}
+		buttonType = {
+			name = "rn_sub_leader_open"
+			position = { x = 152 y = 1 }
+			scale = 0.67 # 30x30 frame -> 20x20, as the politics pencils
+			quadTextureSprite = "GFX_edit_designer_notes_button"
+			buttonFont = "hoi_18mbs"
+			clicksound = click_default
+			pdx_tooltip = "RN_SUB_EDIT_LEADER"
+		}
+		buttonType = {
+			name = "rn_sub_party_open"
+			position = { x = 176 y = 1 }
+			scale = 0.67 # 30x30 frame -> 20x20, as the politics pencils
+			quadTextureSprite = "GFX_edit_designer_notes_button"
+			buttonFont = "hoi_18mbs"
+			clicksound = click_default
+			pdx_tooltip = "RN_SUB_EDIT_PARTY"
+		}
+	}
+	containerWindowType = {
+		name = "capie_v1_ed__rn__subcountry"
+		# Subject editor overlay: 65..485 x 34..130 in the diplomacy view,
+		# under the title line; it covers the flag, name and leader rows only while it is open.
+		position = { x = 65 y = 34 }
+		size = { width = 420 height = 96 }
+		orientation = upper_left
+		clipping = no
+		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
+		# CAPIE carriers (hidden): opening epoch and the current names for the prefill.
+		instantTextboxType = {
+			name = "capie_v1_ep__rn__subcountry"
+			position = { x = 0 y = 0 }
 			font = "Arial12"
-			text = "RN_IPS_LABEL"
-			maxWidth = 60
+			text = "[?ROOT.rn_sub_epoch|0]"
+			maxWidth = 120
 			maxHeight = 14
 			fixedsize = yes
 			alwaystransparent = yes
 		}
-		buttonType = {
-			name = "rn_ips_leader"
-			position = { x = 64 y = 2 }
-			scale = 0.67
-			quadTextureSprite = "GFX_edit_designer_notes_button"
-			clicksound = click_default
-			pdx_tooltip = "RN_IPS_LEADER_TT"
+		instantTextboxType = {
+			name = "capie_v1_pf__rn__subcountry__1"
+			position = { x = 0 y = 0 }
+			font = "hoi_18"
+			text = "[This.GetName]"
+			maxWidth = 356
+			maxHeight = 20
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextboxType = {
+			name = "capie_v1_pf__rn__subcountry__2"
+			position = { x = 0 y = 0 }
+			font = "hoi_18"
+			text = "[This.GetAdjective]"
+			maxWidth = 356
+			maxHeight = 20
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		containerWindowType = {
+			name = "rn_subf_subcountry_1"
+			position = { x = 0 y = 12 }
+			size = { width = 364 height = 26 }
+			clipping = no
+			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
+		}
+		instantTextboxType = {
+			name = "rn_subl_subcountry_1"
+			position = { x = 6 y = 0 }
+			font = "Arial12"
+			text = "RN_SUB_LABEL_NAME"
+			maxWidth = 356
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		editBoxType = {
+			name = "capie_v1_f__rn__subcountry__1"
+			position = { x = 4 y = 15 }
+			size = { x = 356 y = 20 }
+			font = "hoi_18"
+			borderSize = { x = 0 y = 0 }
+			text = ""
+			ignore_enter = yes
+		}
+		containerWindowType = {
+			name = "rn_subf_subcountry_2"
+			position = { x = 0 y = 54 }
+			size = { width = 364 height = 26 }
+			clipping = no
+			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
+		}
+		instantTextboxType = {
+			name = "rn_subl_subcountry_2"
+			position = { x = 6 y = 42 }
+			font = "Arial12"
+			text = "RN_SUB_LABEL_ADJ"
+			maxWidth = 356
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		editBoxType = {
+			name = "capie_v1_f__rn__subcountry__2"
+			position = { x = 4 y = 57 }
+			size = { x = 356 y = 20 }
+			font = "hoi_18"
+			borderSize = { x = 0 y = 0 }
+			text = ""
+			ignore_enter = yes
 		}
 		buttonType = {
-			name = "rn_ips_party"
-			position = { x = 88 y = 2 }
-			scale = 0.67
-			quadTextureSprite = "GFX_edit_designer_notes_button"
+			name = "capie_v1_ed__rn__subcountry_apply"
+			position = { x = 370 y = 15 }
+			scale = 0.67 # 20x20
+			quadTextureSprite = "GFX_preset_button_save"
+			buttonFont = "hoi_18mbs"
 			clicksound = click_default
-			pdx_tooltip = "RN_IPS_PARTY_TT"
+			pdx_tooltip = "RN_SUB_APPLY_SUBCOUNTRY"
+			shortcut = "RETURN"
 		}
 		buttonType = {
-			name = "rn_ips_country"
-			position = { x = 112 y = 2 }
-			scale = 0.67
-			quadTextureSprite = "GFX_edit_designer_notes_button"
+			name = "rn_sub_subcountry_cancel"
+			position = { x = 396 y = 17 }
+			quadTextureSprite = "GFX_closebutton_16"
+			clicksound = click_close
+			pdx_tooltip = "RN_IP_CANCEL"
+		}
+		instantTextboxType = {
+			name = "rn_sub_subcountry_status"
+			position = { x = 6 y = 82 }
+			font = "Arial12"
+			text = "[This.RN_SUB_STATUS]"
+			maxWidth = 408
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+	}
+	containerWindowType = {
+		name = "capie_v1_ed__rn__subleader"
+		# Subject editor overlay: 65..485 x 34..88 in the diplomacy view,
+		# under the title line; it covers the flag, name and leader rows only while it is open.
+		position = { x = 65 y = 34 }
+		size = { width = 420 height = 54 }
+		orientation = upper_left
+		clipping = no
+		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
+		# CAPIE carriers (hidden): opening epoch and the current names for the prefill.
+		instantTextboxType = {
+			name = "capie_v1_ep__rn__subleader"
+			position = { x = 0 y = 0 }
+			font = "Arial12"
+			text = "[?ROOT.rn_sub_epoch|0]"
+			maxWidth = 120
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextboxType = {
+			name = "capie_v1_pf__rn__subleader__1"
+			position = { x = 0 y = 0 }
+			font = "hoi_18"
+			text = "[This.GetLeader]"
+			maxWidth = 356
+			maxHeight = 20
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		containerWindowType = {
+			name = "rn_subf_subleader_1"
+			position = { x = 0 y = 12 }
+			size = { width = 364 height = 26 }
+			clipping = no
+			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
+		}
+		instantTextboxType = {
+			name = "rn_subl_subleader_1"
+			position = { x = 6 y = 0 }
+			font = "Arial12"
+			text = "RN_SUB_LABEL_LEADER"
+			maxWidth = 356
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		editBoxType = {
+			name = "capie_v1_f__rn__subleader__1"
+			position = { x = 4 y = 15 }
+			size = { x = 356 y = 20 }
+			font = "hoi_18"
+			borderSize = { x = 0 y = 0 }
+			text = ""
+			ignore_enter = yes
+		}
+		buttonType = {
+			name = "capie_v1_ed__rn__subleader_apply"
+			position = { x = 370 y = 15 }
+			scale = 0.67 # 20x20
+			quadTextureSprite = "GFX_preset_button_save"
+			buttonFont = "hoi_18mbs"
 			clicksound = click_default
-			pdx_tooltip = "RN_IPS_COUNTRY_TT"
+			pdx_tooltip = "RN_SUB_APPLY_SUBLEADER"
+			shortcut = "RETURN"
+		}
+		buttonType = {
+			name = "rn_sub_subleader_cancel"
+			position = { x = 396 y = 17 }
+			quadTextureSprite = "GFX_closebutton_16"
+			clicksound = click_close
+			pdx_tooltip = "RN_IP_CANCEL"
+		}
+		instantTextboxType = {
+			name = "rn_sub_subleader_status"
+			position = { x = 6 y = 40 }
+			font = "Arial12"
+			text = "[This.RN_SUB_STATUS]"
+			maxWidth = 408
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+	}
+	containerWindowType = {
+		name = "capie_v1_ed__rn__subparty"
+		# Subject editor overlay: 65..485 x 34..130 in the diplomacy view,
+		# under the title line; it covers the flag, name and leader rows only while it is open.
+		position = { x = 65 y = 34 }
+		size = { width = 420 height = 96 }
+		orientation = upper_left
+		clipping = no
+		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
+		# CAPIE carriers (hidden): opening epoch and the current names for the prefill.
+		instantTextboxType = {
+			name = "capie_v1_ep__rn__subparty"
+			position = { x = 0 y = 0 }
+			font = "Arial12"
+			text = "[?ROOT.rn_sub_epoch|0]"
+			maxWidth = 120
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextboxType = {
+			name = "capie_v1_pf__rn__subparty__1"
+			position = { x = 0 y = 0 }
+			font = "hoi_18"
+			text = "[This.GetRulingParty]"
+			maxWidth = 356
+			maxHeight = 20
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextboxType = {
+			name = "capie_v1_pf__rn__subparty__2"
+			position = { x = 0 y = 0 }
+			font = "hoi_18"
+			text = "[This.GetRulingPartyLong]"
+			maxWidth = 356
+			maxHeight = 20
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		containerWindowType = {
+			name = "rn_subf_subparty_1"
+			position = { x = 0 y = 12 }
+			size = { width = 364 height = 26 }
+			clipping = no
+			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
+		}
+		instantTextboxType = {
+			name = "rn_subl_subparty_1"
+			position = { x = 6 y = 0 }
+			font = "Arial12"
+			text = "RN_SUB_LABEL_SHORT"
+			maxWidth = 356
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		editBoxType = {
+			name = "capie_v1_f__rn__subparty__1"
+			position = { x = 4 y = 15 }
+			size = { x = 356 y = 20 }
+			font = "hoi_18"
+			borderSize = { x = 0 y = 0 }
+			text = ""
+			ignore_enter = yes
+		}
+		containerWindowType = {
+			name = "rn_subf_subparty_2"
+			position = { x = 0 y = 54 }
+			size = { width = 364 height = 26 }
+			clipping = no
+			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
+		}
+		instantTextboxType = {
+			name = "rn_subl_subparty_2"
+			position = { x = 6 y = 42 }
+			font = "Arial12"
+			text = "RN_SUB_LABEL_LONG"
+			maxWidth = 356
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		editBoxType = {
+			name = "capie_v1_f__rn__subparty__2"
+			position = { x = 4 y = 57 }
+			size = { x = 356 y = 20 }
+			font = "hoi_18"
+			borderSize = { x = 0 y = 0 }
+			text = ""
+			ignore_enter = yes
+		}
+		buttonType = {
+			name = "capie_v1_ed__rn__subparty_apply"
+			position = { x = 370 y = 15 }
+			scale = 0.67 # 20x20
+			quadTextureSprite = "GFX_preset_button_save"
+			buttonFont = "hoi_18mbs"
+			clicksound = click_default
+			pdx_tooltip = "RN_SUB_APPLY_SUBPARTY"
+			shortcut = "RETURN"
+		}
+		buttonType = {
+			name = "rn_sub_subparty_cancel"
+			position = { x = 396 y = 17 }
+			quadTextureSprite = "GFX_closebutton_16"
+			clicksound = click_close
+			pdx_tooltip = "RN_IP_CANCEL"
+		}
+		instantTextboxType = {
+			name = "rn_sub_subparty_status"
+			position = { x = 6 y = 82 }
+			font = "Arial12"
+			text = "[This.RN_SUB_STATUS]"
+			maxWidth = 408
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
 		}
 	}
 }

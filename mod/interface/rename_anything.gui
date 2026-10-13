@@ -1140,6 +1140,68 @@ guiTypes = {
 			clicksound = click_default
 		}
 		instantTextBoxType = { name = "rn_input_hint" position = { x = 20 y = 406 } font = "hoi_16mbs" text = "RN_INPUT_HINT" maxWidth = 520 maxHeight = 44 format = left fixedsize = yes }
+		buttonType = {
+			name = "rn_lg_use_field"
+			position = { x = 20 y = 368 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_LG_BTN_FIELD"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_LG_BTN_FIELD_TT"
+			clicksound = click_default
+		}
+		instantTextBoxType = { name = "rn_lg_kb_status" position = { x = 20 y = 450 } font = "Arial12" text = "[ROOT.RN_LG_KB_STATUS]" maxWidth = 520 maxHeight = 14 format = left fixedsize = yes }
+	}
+
+	containerWindowType = {
+		name = "capie_v1_ed__rn__legacy"
+		orientation = center
+		position = { x = -280 y = -95 }
+		size = { width = 560 height = 190 }
+		clipping = no
+		background = { name = "rn_lg_bg" quadTextureSprite = "GFX_tiled_window_2b_border" }
+		instantTextBoxType = { name = "rn_lg_title" position = { x = 20 y = 12 } font = "hoi_18mbs" text = "RN_INPUT_TITLE" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
+		gridBoxType = {
+			name = "rn_lg_target_grid"
+			position = { x = 20 y = 40 }
+			size = { width = 500 height = 30 }
+			slotsize = { width = 500 height = 30 }
+			max_slots_horizontal = 1
+			format = "UPPER_LEFT"
+		}
+		instantTextBoxType = { name = "rn_lg_target_prov" position = { x = 20 y = 42 } font = "hoi_18mbs" text = "RN_TARGET_PROV" maxWidth = 500 maxHeight = 24 format = left fixedsize = yes }
+		instantTextBoxType = { name = "rn_lg_target_country" position = { x = 20 y = 42 } font = "hoi_18mbs" text = "RN_TARGET_COUNTRY" maxWidth = 500 maxHeight = 24 format = left fixedsize = yes }
+		instantTextBoxType = { name = "capie_v1_ep__rn__legacy" position = { x = 0 y = 0 } font = "Arial12" text = "[?ROOT.rn_lg_epoch|0]" maxWidth = 120 maxHeight = 14 fixedsize = yes }
+		containerWindowType = { name = "rn_lg_field_frame" position = { x = 20 y = 86 } size = { width = 364 height = 26 } clipping = no background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes } }
+		instantTextBoxType = { name = "rn_lg_label" position = { x = 26 y = 74 } font = "Arial12" text = "RN_LG_LABEL" maxWidth = 356 maxHeight = 14 format = left fixedsize = yes }
+		editBoxType = { name = "capie_v1_f__rn__legacy__1" position = { x = 24 y = 89 } size = { x = 356 y = 20 } font = "hoi_18" borderSize = { x = 0 y = 0 } text = "" ignore_enter = yes }
+		instantTextBoxType = { name = "rn_lg_status" position = { x = 26 y = 114 } font = "Arial12" text = "[ROOT.RN_LG_STATUS]" maxWidth = 408 maxHeight = 14 format = left fixedsize = yes }
+		buttonType = {
+			name = "rn_lg_use_keyboard"
+			position = { x = 20 y = 142 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_LG_BTN_KEYBOARD"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_LG_BTN_KEYBOARD_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_lg_cancel"
+			position = { x = 150 y = 140 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_BTN_CANCEL"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "capie_v1_ed__rn__legacy_apply"
+			position = { x = 290 y = 140 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_BTN_APPLY"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_LG_APPLY_TT"
+			shortcut = "RETURN"
+			clicksound = click_default
+		}
 	}
 
 	containerWindowType = {

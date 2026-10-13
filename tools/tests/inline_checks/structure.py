@@ -22,14 +22,14 @@ from modgen.features.cooldown import COOLDOWN_DAYS
 
 
 def check_models(models: dict[str, Any], triggers: dict[str, Any]) -> dict[str, Any]:
-    """Check the model set, the subject placeholder and the per-model guards.
+    """Check the model set and the per-model guards of the politics editors.
 
     Args:
         models: Source scripted GUI models.
         triggers: Source scripted triggers.
 
     Returns:
-        The six politics models (without the subject placeholder).
+        The six politics models (without the subject editors).
     """
     assert set(models) == {
         "rn_ip_leader_launcher_gui",
@@ -38,17 +38,14 @@ def check_models(models: dict[str, Any], triggers: dict[str, Any]) -> dict[str, 
         "rn_ip_party_neutrality_gui",
         "rn_ip_country_launcher_gui",
         "rn_ip_country_gui",
-        "rn_ip_subject_gui",
+        "rn_sub_launcher_gui",
+        "capie_v1_ed__rn__subcountry",
+        "capie_v1_ed__rn__subleader",
+        "capie_v1_ed__rn__subparty",
     }
-    subject = models["rn_ip_subject_gui"]
-    assert get(subject, "context_type") == "diplomacy_target_context"
-    assert ("rn_ip_subject_rename_enabled", "=", "yes") in get(subject, "visible")
-    assert triggers["rn_ip_subject_rename_enabled"] == [("always", "=", "no")]
-    assert triggers["rn_ip_subject_country_capability"] == [("always", "=", "no")]
-    country_enabled = get(get(subject, "triggers"), "rn_ips_country_click_enabled")
-    assert ("rn_ip_subject_country_capability", "=", "yes") in country_enabled
-    assert all([k for k, _, _ in body] == ["log"] for _, _, body in get(subject, "effects"))
-    politics = {k: v for k, v in models.items() if k != "rn_ip_subject_gui"}
+    assert "rn_ip_subject_rename_enabled" not in triggers, "placeholder switch retired"
+    # The subject models are checked by inline_checks.capie_cases.check_capie_structure.
+    politics = {k: v for k, v in models.items() if k.startswith("rn_ip_")}
     for name, body in politics.items():
         assert get(body, "context_type") == "player_context"
         assert get(body, "parent_window_token") == "politics_tab"
@@ -252,8 +249,14 @@ def check_guards(effects: dict[str, Any], triggers: dict[str, Any]) -> None:
     assert ("check_variable", "=", [("rn_ip_leader_current^num", "=", "1")]) in list(walk(final))
     assert len([n for n in walk(leader) if n[0] == "set_character_name"]) == 1
     assert not any(v == "POL" or v.startswith("POL_") for b in effects.values() for v in tokens(b))
+    # Own party Apply: one copy per group branch. Subject setters reuse the copy as scratch
+    # (checked in inline_checks.capie_cases), so they are counted apart.
     copies = [
-        n for b in effects.values() for n in walk(b) if n[0] == "rn_inline_party_copy_validated"
+        n
+        for name, b in effects.items()
+        if not name.startswith("rn_sub_")
+        for n in walk(b)
+        if n[0] == "rn_inline_party_copy_validated"
     ]
     assert len(copies) == len(GROUPS)
 
@@ -453,7 +456,8 @@ def check_cooldown(
             for n, b in effects.items()
             if any(x[0] == f"rn_ip_cooldown_start_{k}" for x in walk(b))
         ]
-        assert callers == [starters[k]], ("start callers", k, callers)
+        # The subject setter starts the same cooldown, on the subject (capie_cases checks it).
+        assert sorted(callers) == sorted([starters[k], f"rn_sub_apply_{k}"]), ("callers", k)
         assert ("NOT", "=", [(active, "=", "yes")]) in get(get(effects[openers[k]], "if"), "limit")
         launcher = models[prefixes[k] + "_launcher_gui"]
         enabled = get(get(launcher, "triggers"), prefixes[k] + "_open_click_enabled")
@@ -485,7 +489,12 @@ def check_widgets(gui: list[Any]) -> None:
         "rn_ip_country_name_edit",
         "rn_ip_country_adj_edit",
     }
-    assert {get(body, "name") for kind, _, body in walk(gui) if kind == "editBoxType"} == fields
+    own = {
+        get(body, "name")
+        for kind, _, body in walk(gui)
+        if kind == "editBoxType" and not get(body, "name").startswith("capie_")
+    }
+    assert own == fields
     widgets = named(gui)
     label = widgets["rn_ip_country_label"]
     assert get(label, "font") == "hoi_18mbs"

@@ -66,6 +66,14 @@ if str(TOOLS) not in sys.path:
     sys.path.append(str(TOOLS))
 
 # The imports have to follow the sys.path change above.
+from inline_checks.capie_cases import (  # noqa: E402
+    check_capie_structure,
+    run_capie_fields,
+    run_capie_header,
+    run_legacy_field,
+    run_subject_apply,
+    run_subject_rejections,
+)
 from inline_checks.constants import MOD  # noqa: E402
 from inline_checks.generated import (  # noqa: E402
     check_generated_mod,
@@ -107,7 +115,8 @@ def main() -> int:
     effects, own, models, gui, triggers, locs = load_source()
     structural(effects, models, gui, triggers, locs)
     ctx = load_context(effects, triggers, locs)
-    politics = {k: v for k, v in models.items() if k != "rn_ip_subject_gui"}
+    politics = {k: v for k, v in models.items() if k.startswith("rn_ip_")}
+    check_capie_structure(models, gui, triggers)
     counts = {
         "party_group_cases": run_party_groups(ctx),
         "tab_cases": run_tabs(ctx),
@@ -117,6 +126,11 @@ def main() -> int:
         "refused_sentinel_cases": run_refused_sentinels(ctx),
         "party_loc_equivalence_cases": run_party_loc_equivalence(ctx),
         "refresh_gate_cases": run_refresh_gate(ctx),
+        "capie_header_cases": run_capie_header(ctx),
+        "capie_field_cases": run_capie_fields(ctx),
+        "subject_apply_cases": run_subject_apply(ctx),
+        "subject_rejection_cases": run_subject_rejections(ctx),
+        "legacy_field_cases": run_legacy_field(ctx),
         "keyboard_refresh_cases": run_keyboard_refresh(
             ctx,
             models_of(MOD / "common" / "scripted_guis", "rename_anything_*.txt")["rn_input_gui"],

@@ -75,7 +75,12 @@ def load_context(
     chars = {
         k: json.loads(v) for k, v in re.findall(r'^ (RN_CH_\d+):\s*(".*")\s*$', table, re.MULTILINE)
     }
-    for name in ("rn_inline_product_l_english.yml", "rn_in_place_ui_l_english.yml"):
+    for name in (
+        "rn_inline_product_l_english.yml",
+        "rn_in_place_ui_l_english.yml",
+        "rn_inline_subjects_l_english.yml",
+        "rn_capie_legacy_l_english.yml",
+    ):
         text = (SOURCE / "localisation" / "english" / name).read_text(encoding="utf-8-sig")
         chars.update(
             {k: json.loads(v) for k, v in re.findall(r'^ (\w+):\d* (".*")$', text, re.MULTILINE)}

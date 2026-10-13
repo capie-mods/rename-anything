@@ -20,6 +20,7 @@ from modgen.features import (
     cooldown,
     inline_editor,
     input_window,
+    legacy_field,
     localisation,
     refresh,
 )
@@ -319,7 +320,13 @@ def test_every_keyboard_key_bumps_after_changing_the_buffer() -> None:
 def test_refresh_gate_covers_every_click() -> None:
     """Gated GUIs carry ``dirty`` and every click effect bumps the counter on ROOT last."""
     blocks = _gui_blocks(build.scripted_gui())
-    assert set(GATED_GUIS) | {"rn_state_view_gui"} == set(blocks)
+    assert set(GATED_GUIS) | {"rn_state_view_gui", legacy_field.MODEL} == set(blocks)
+    # The CAPIE field window is not gated (CAPIE reads it), but it bumps the gate after
+    # Apply and the mode switch, because the keyboard window it hands over to is gated.
+    field = _click_bodies(blocks[legacy_field.MODEL])
+    assert "dirty" not in blocks[legacy_field.MODEL]
+    for click in (f"{legacy_field.MODEL}_apply_click", "rn_lg_use_keyboard_click"):
+        assert field[click].strip().endswith(f"{refresh.TOUCH_EFFECT} = yes"), click
     touch = refresh.TOUCH
     for name in GATED_GUIS:
         block = blocks[name]
@@ -369,3 +376,27 @@ def test_hand_written_entries_bump_the_gate_and_character_apply_is_light() -> No
     apply = input_window.apply_input_effect()
     assert "rn_refresh_chars = yes" in apply
     assert "rn_refresh_lists" not in apply
+
+
+def test_legacy_field_follows_the_capie_grammar() -> None:
+    """The field mode is a CAPIE v1.1 grammar editor and the two modes exclude each other."""
+    blocks = _gui_blocks(build.scripted_gui())
+    field = blocks[legacy_field.MODEL]
+    keyboard = blocks["rn_input_gui"]
+    flag = legacy_field.KEYBOARD_FLAG
+    assert (
+        f"visible = {{ has_country_flag = rn_input NOT = {{ has_country_flag = {flag} }} }}"
+        in field
+    )
+    assert f"visible = {{ has_country_flag = rn_input has_country_flag = {flag} }}" in keyboard
+    assert f"{legacy_field.EPOCH_CARRIER}_visible = {{ always = no }}" in field
+    assert "rn_apply_click" in keyboard
+    assert "rn_lg_use_field_click" in keyboard
+    gui = build.gui()
+    window = gui.split(f'name = "{legacy_field.MODEL}"', 1)[1].split("\n\t}\n", 1)[0]
+    assert f'editBoxType = {{ name = "{legacy_field.FIELD}"' in window
+    assert "ignore_enter = yes" in window
+    assert f'name = "{legacy_field.MODEL}_apply"' in window
+    assert 'shortcut = "RETURN"' in window
+    assert f'name = "{legacy_field.EPOCH_CARRIER}"' in window
+    assert "[?ROOT.rn_lg_epoch|0]" in window

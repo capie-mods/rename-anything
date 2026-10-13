@@ -1,0 +1,20 @@
+# Status line of the legacy window's text field ([ROOT.RN_LG_STATUS], display only) and the
+# keyboard window's CAPIE line ([ROOT.RN_LG_KB_STATUS]). Variables: rn_cv1_st_* on ROOT.
+defined_text = {
+	name = RN_LG_STATUS
+	text = { trigger = { NOT = { has_variable = rn_cv1_st_err } } localization_key = RN_LG_HINT }
+	text = { trigger = { check_variable = { rn_cv1_st_err = 10 } } localization_key = RN_LG_ERR_NO_CAPIE }
+	text = { trigger = { check_variable = { rn_cv1_st_err = 13 } } localization_key = RN_CV1_ERR_SETUP }
+	text = { trigger = { check_variable = { rn_cv1_st_err = 12 } } localization_key = RN_IP_ERR_STALE }
+	text = { trigger = { check_variable = { rn_cv1_st_why = 1 } } localization_key = RN_IP_ERR_LEADER_EMPTY }
+	text = { trigger = { check_variable = { rn_cv1_st_why = 2 } } localization_key = RN_IP_ERR_LEADER_LONG }
+	text = { trigger = { check_variable = { rn_cv1_st_why = 3 } } localization_key = RN_IP_ERR_LEADER_CHAR }
+	text = { trigger = { check_variable = { rn_cv1_st_why = 4 } } localization_key = RN_CV1_ERR_ALPHABET }
+	text = { localization_key = RN_IP_ERR_LEADER }
+}
+
+defined_text = {
+	name = RN_LG_KB_STATUS
+	text = { trigger = { check_variable = { rn_cv1_st_err = 10 } } localization_key = RN_LG_KB_NO_CAPIE }
+	text = { localization_key = RN_IPP_EMPTY }
+}
