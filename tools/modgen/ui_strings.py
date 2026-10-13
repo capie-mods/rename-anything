@@ -51,8 +51,14 @@ UI: dict[str, tuple[str, str]] = {
         ),
     ),
     "RN_COUNTRY_RESET_TT": (
-        "Drops the current cosmetic tag. A previous cosmetic tag is not restored.",
-        "Usuwa bieżący tag kosmetyczny. Poprzedni tag kosmetyczny nie zostanie przywrócony.",
+        (
+            "Removes the name you gave. The country shows the game's name again (its current "
+            "cosmetic name, if any). Flag and colour do not change."
+        ),
+        (
+            "Usuwa nadaną nazwę. Kraj wraca do nazwy z gry (bieżącej nazwy kosmetycznej, jeśli "
+            "jest). Flaga i kolor się nie zmieniają."
+        ),
     ),
     "RN_COUNTRY_NOTE": (
         (

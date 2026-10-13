@@ -19,7 +19,7 @@
  RN_BTN_COUNTRY_APPLY: "Zastosuj"
  RN_BTN_COUNTRY_RESET: "Przywróć oryginalną nazwę"
  RN_COUNTRY_APPLY_TT: "Rename Anything wymaga CAPIE, które nie jest załadowane. Uruchom grę przez launcher CAPIE. Nic nie zmieniono."
- RN_COUNTRY_RESET_TT: "Usuwa bieżący tag kosmetyczny. Poprzedni tag kosmetyczny nie zostanie przywrócony."
+ RN_COUNTRY_RESET_TT: "Usuwa nadaną nazwę. Kraj wraca do nazwy z gry (bieżącej nazwy kosmetycznej, jeśli jest). Flaga i kolor się nie zmieniają."
  RN_COUNTRY_NOTE: "Własna nazwa kraju wymaga CAPIE w każdej sesji gry. Uruchom grę przez launcher CAPIE. Bez niego kraj ma swoją pierwotną nazwę."
  RN_COUNTRY_STATUS_READY: "Wypełnij oba pola. Wymaga CAPIE."
  RN_COUNTRY_STATUS_STORED: "Tekst zapisany. Sprawdź obecną nazwę powyżej."

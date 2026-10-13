@@ -19,7 +19,7 @@
  RN_BTN_COUNTRY_APPLY: "Apply"
  RN_BTN_COUNTRY_RESET: "Original name"
  RN_COUNTRY_APPLY_TT: "Rename Anything needs CAPIE, which is not loaded. Start the game with the CAPIE launcher. Nothing was changed."
- RN_COUNTRY_RESET_TT: "Drops the current cosmetic tag. A previous cosmetic tag is not restored."
+ RN_COUNTRY_RESET_TT: "Removes the name you gave. The country shows the game's name again (its current cosmetic name, if any). Flag and colour do not change."
  RN_COUNTRY_NOTE: "Custom country names need CAPIE in every game session. Start the game with the CAPIE launcher. Without it the country shows its original name."
  RN_COUNTRY_STATUS_READY: "Fill in both fields. Needs CAPIE."
  RN_COUNTRY_STATUS_STORED: "Custom text stored. Check the current name above."

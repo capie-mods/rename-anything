@@ -50,7 +50,7 @@ scripted_gui = {
 				check_variable = { rn_cname_len > 0 }
 				check_variable = { rn_cadj_len > 0 }
 			}
-			rn_country_reset_click_enabled = { has_country_flag = rn_custom_name }
+			rn_country_reset_click_enabled = { OR = { has_country_flag = rn_custom_name has_variable = capie_cn_ver } }
 		}
 	}
 

@@ -899,7 +899,13 @@ def run_rejections(ctx: Context) -> int:
         before = vm.state()
         vm.run("rn_inline_pair_apply_country")
         assert vm.temp["rn_pair_err"] == want
-        assert (vm.state() == before) if want else (len(vm.requests) == 1)
+        if want:
+            assert vm.state() == before
+        else:  # the name layer (CAPIE API 4): variables only, no cosmetic tag request
+            assert not vm.requests
+            assert vm.persistent["capie_cn_ver"] == 1
+            assert vm.arrays["capie_cn_n"] == vm.arrays["rn_cname"]
+            assert vm.arrays["capie_cn_a"] == vm.arrays["rn_cadj"]
         cases += 1
     for group, government in [*GROUPS, (0, "custom_ideology")]:
         vm = ctx.vm("party")

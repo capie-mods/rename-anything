@@ -1,62 +1,15 @@
-# Subject rename (overlord renames a subject) in the diplomacy view of the selected country.
-# Launcher: three pencils on the view's title line. Editors: CAPIE v1.1 grammar windows
-# (capie_v1_ed__rn__<editor>, fields capie_v1_f__..., carriers capie_v1_pf__/ep__...), the same
-# grid as the politics editors (420 wide, labelled rows every 42 px, status line last).
+# Subject rename (overlord renames a subject) in the selected country's Diplomacy view
+# (selected_country_context + parent_window_token selected_country_view_diplomacy). The entry is
+# the diplomatic action rn_rename_subject in the view's action list; it opens these editors:
+# CAPIE v1.1 grammar windows (capie_v1_ed__rn__<editor>) on the politics editors' grid, with a
+# row of object tabs (country, leader, ruling party).
 guiTypes = {
 	containerWindowType = {
-		name = "rn_sub_launcher_window"
-		# Title line of the diplomacy view (vanilla countrydiplomacyview.gui: diplomacy_title 45,8
-		# hoi_36header maxWidth 240, close_button at x 507). The strip ends at x 500, before the
-		# close button; the header below (flag, names, opinions) stays uncovered.
-		position = { x = 304 y = 9 }
-		size = { width = 196 height = 22 }
-		orientation = upper_left
-		clipping = no
-		instantTextboxType = {
-			name = "rn_sub_label"
-			position = { x = 0 y = 3 }
-			font = "hoi_16mbs"
-			text = "RN_SUB_LABEL"
-			maxWidth = 124
-			maxHeight = 18
-			fixedsize = yes
-			format = right
-			alwaystransparent = yes
-		}
-		buttonType = {
-			name = "rn_sub_country_open"
-			position = { x = 128 y = 1 }
-			scale = 0.67 # 30x30 frame -> 20x20, as the politics pencils
-			quadTextureSprite = "GFX_edit_designer_notes_button"
-			buttonFont = "hoi_18mbs"
-			clicksound = click_default
-			pdx_tooltip = "RN_SUB_EDIT_COUNTRY"
-		}
-		buttonType = {
-			name = "rn_sub_leader_open"
-			position = { x = 152 y = 1 }
-			scale = 0.67 # 30x30 frame -> 20x20, as the politics pencils
-			quadTextureSprite = "GFX_edit_designer_notes_button"
-			buttonFont = "hoi_18mbs"
-			clicksound = click_default
-			pdx_tooltip = "RN_SUB_EDIT_LEADER"
-		}
-		buttonType = {
-			name = "rn_sub_party_open"
-			position = { x = 176 y = 1 }
-			scale = 0.67 # 30x30 frame -> 20x20, as the politics pencils
-			quadTextureSprite = "GFX_edit_designer_notes_button"
-			buttonFont = "hoi_18mbs"
-			clicksound = click_default
-			pdx_tooltip = "RN_SUB_EDIT_PARTY"
-		}
-	}
-	containerWindowType = {
 		name = "capie_v1_ed__rn__subcountry"
-		# Subject editor overlay: 65..485 x 34..130 in the diplomacy view,
-		# under the title line; it covers the flag, name and leader rows only while it is open.
-		position = { x = 65 y = 34 }
-		size = { width = 420 height = 96 }
+		# Overlay 65..485 x 37..167 of the Diplomacy view, under its title line;
+		# it covers the header and the tab row only while it is open.
+		position = { x = 65 y = 37 }
+		size = { width = 420 height = 130 }
 		orientation = upper_left
 		clipping = no
 		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
@@ -91,16 +44,44 @@ guiTypes = {
 			fixedsize = yes
 			alwaystransparent = yes
 		}
+		# Object tabs (as the party tabs of the politics editor); the open one is disabled.
+		buttonType = {
+			name = "rn_sub_subcountry_tab_country"
+			position = { x = 0 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_SUB_TAB_COUNTRY"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_SUB_TAB_COUNTRY_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_sub_subcountry_tab_leader"
+			position = { x = 96 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_SUB_TAB_LEADER"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_SUB_TAB_LEADER_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_sub_subcountry_tab_party"
+			position = { x = 192 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_SUB_TAB_PARTY"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_SUB_TAB_PARTY_TT"
+			clicksound = click_default
+		}
 		containerWindowType = {
 			name = "rn_subf_subcountry_1"
-			position = { x = 0 y = 12 }
+			position = { x = 0 y = 46 }
 			size = { width = 364 height = 26 }
 			clipping = no
 			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
 		}
 		instantTextboxType = {
 			name = "rn_subl_subcountry_1"
-			position = { x = 6 y = 0 }
+			position = { x = 6 y = 34 }
 			font = "Arial12"
 			text = "RN_SUB_LABEL_NAME"
 			maxWidth = 356
@@ -110,7 +91,7 @@ guiTypes = {
 		}
 		editBoxType = {
 			name = "capie_v1_f__rn__subcountry__1"
-			position = { x = 4 y = 15 }
+			position = { x = 4 y = 49 }
 			size = { x = 356 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
@@ -119,14 +100,14 @@ guiTypes = {
 		}
 		containerWindowType = {
 			name = "rn_subf_subcountry_2"
-			position = { x = 0 y = 54 }
+			position = { x = 0 y = 88 }
 			size = { width = 364 height = 26 }
 			clipping = no
 			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
 		}
 		instantTextboxType = {
 			name = "rn_subl_subcountry_2"
-			position = { x = 6 y = 42 }
+			position = { x = 6 y = 76 }
 			font = "Arial12"
 			text = "RN_SUB_LABEL_ADJ"
 			maxWidth = 356
@@ -136,7 +117,7 @@ guiTypes = {
 		}
 		editBoxType = {
 			name = "capie_v1_f__rn__subcountry__2"
-			position = { x = 4 y = 57 }
+			position = { x = 4 y = 91 }
 			size = { x = 356 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
@@ -145,7 +126,7 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "capie_v1_ed__rn__subcountry_apply"
-			position = { x = 370 y = 15 }
+			position = { x = 370 y = 49 }
 			scale = 0.67 # 20x20
 			quadTextureSprite = "GFX_preset_button_save"
 			buttonFont = "hoi_18mbs"
@@ -155,14 +136,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_sub_subcountry_cancel"
-			position = { x = 396 y = 17 }
+			position = { x = 396 y = 51 }
 			quadTextureSprite = "GFX_closebutton_16"
 			clicksound = click_close
 			pdx_tooltip = "RN_IP_CANCEL"
 		}
 		instantTextboxType = {
 			name = "rn_sub_subcountry_status"
-			position = { x = 6 y = 82 }
+			position = { x = 6 y = 116 }
 			font = "Arial12"
 			text = "[This.RN_SUB_STATUS]"
 			maxWidth = 408
@@ -173,10 +154,10 @@ guiTypes = {
 	}
 	containerWindowType = {
 		name = "capie_v1_ed__rn__subleader"
-		# Subject editor overlay: 65..485 x 34..88 in the diplomacy view,
-		# under the title line; it covers the flag, name and leader rows only while it is open.
-		position = { x = 65 y = 34 }
-		size = { width = 420 height = 54 }
+		# Overlay 65..485 x 37..125 of the Diplomacy view, under its title line;
+		# it covers the header and the tab row only while it is open.
+		position = { x = 65 y = 37 }
+		size = { width = 420 height = 88 }
 		orientation = upper_left
 		clipping = no
 		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
@@ -201,16 +182,44 @@ guiTypes = {
 			fixedsize = yes
 			alwaystransparent = yes
 		}
+		# Object tabs (as the party tabs of the politics editor); the open one is disabled.
+		buttonType = {
+			name = "rn_sub_subleader_tab_country"
+			position = { x = 0 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_SUB_TAB_COUNTRY"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_SUB_TAB_COUNTRY_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_sub_subleader_tab_leader"
+			position = { x = 96 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_SUB_TAB_LEADER"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_SUB_TAB_LEADER_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_sub_subleader_tab_party"
+			position = { x = 192 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_SUB_TAB_PARTY"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_SUB_TAB_PARTY_TT"
+			clicksound = click_default
+		}
 		containerWindowType = {
 			name = "rn_subf_subleader_1"
-			position = { x = 0 y = 12 }
+			position = { x = 0 y = 46 }
 			size = { width = 364 height = 26 }
 			clipping = no
 			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
 		}
 		instantTextboxType = {
 			name = "rn_subl_subleader_1"
-			position = { x = 6 y = 0 }
+			position = { x = 6 y = 34 }
 			font = "Arial12"
 			text = "RN_SUB_LABEL_LEADER"
 			maxWidth = 356
@@ -220,7 +229,7 @@ guiTypes = {
 		}
 		editBoxType = {
 			name = "capie_v1_f__rn__subleader__1"
-			position = { x = 4 y = 15 }
+			position = { x = 4 y = 49 }
 			size = { x = 356 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
@@ -229,7 +238,7 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "capie_v1_ed__rn__subleader_apply"
-			position = { x = 370 y = 15 }
+			position = { x = 370 y = 49 }
 			scale = 0.67 # 20x20
 			quadTextureSprite = "GFX_preset_button_save"
 			buttonFont = "hoi_18mbs"
@@ -239,14 +248,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_sub_subleader_cancel"
-			position = { x = 396 y = 17 }
+			position = { x = 396 y = 51 }
 			quadTextureSprite = "GFX_closebutton_16"
 			clicksound = click_close
 			pdx_tooltip = "RN_IP_CANCEL"
 		}
 		instantTextboxType = {
 			name = "rn_sub_subleader_status"
-			position = { x = 6 y = 40 }
+			position = { x = 6 y = 74 }
 			font = "Arial12"
 			text = "[This.RN_SUB_STATUS]"
 			maxWidth = 408
@@ -257,10 +266,10 @@ guiTypes = {
 	}
 	containerWindowType = {
 		name = "capie_v1_ed__rn__subparty"
-		# Subject editor overlay: 65..485 x 34..130 in the diplomacy view,
-		# under the title line; it covers the flag, name and leader rows only while it is open.
-		position = { x = 65 y = 34 }
-		size = { width = 420 height = 96 }
+		# Overlay 65..485 x 37..167 of the Diplomacy view, under its title line;
+		# it covers the header and the tab row only while it is open.
+		position = { x = 65 y = 37 }
+		size = { width = 420 height = 130 }
 		orientation = upper_left
 		clipping = no
 		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
@@ -295,16 +304,44 @@ guiTypes = {
 			fixedsize = yes
 			alwaystransparent = yes
 		}
+		# Object tabs (as the party tabs of the politics editor); the open one is disabled.
+		buttonType = {
+			name = "rn_sub_subparty_tab_country"
+			position = { x = 0 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_SUB_TAB_COUNTRY"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_SUB_TAB_COUNTRY_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_sub_subparty_tab_leader"
+			position = { x = 96 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_SUB_TAB_LEADER"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_SUB_TAB_LEADER_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_sub_subparty_tab_party"
+			position = { x = 192 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_SUB_TAB_PARTY"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_SUB_TAB_PARTY_TT"
+			clicksound = click_default
+		}
 		containerWindowType = {
 			name = "rn_subf_subparty_1"
-			position = { x = 0 y = 12 }
+			position = { x = 0 y = 46 }
 			size = { width = 364 height = 26 }
 			clipping = no
 			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
 		}
 		instantTextboxType = {
 			name = "rn_subl_subparty_1"
-			position = { x = 6 y = 0 }
+			position = { x = 6 y = 34 }
 			font = "Arial12"
 			text = "RN_SUB_LABEL_SHORT"
 			maxWidth = 356
@@ -314,7 +351,7 @@ guiTypes = {
 		}
 		editBoxType = {
 			name = "capie_v1_f__rn__subparty__1"
-			position = { x = 4 y = 15 }
+			position = { x = 4 y = 49 }
 			size = { x = 356 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
@@ -323,14 +360,14 @@ guiTypes = {
 		}
 		containerWindowType = {
 			name = "rn_subf_subparty_2"
-			position = { x = 0 y = 54 }
+			position = { x = 0 y = 88 }
 			size = { width = 364 height = 26 }
 			clipping = no
 			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
 		}
 		instantTextboxType = {
 			name = "rn_subl_subparty_2"
-			position = { x = 6 y = 42 }
+			position = { x = 6 y = 76 }
 			font = "Arial12"
 			text = "RN_SUB_LABEL_LONG"
 			maxWidth = 356
@@ -340,7 +377,7 @@ guiTypes = {
 		}
 		editBoxType = {
 			name = "capie_v1_f__rn__subparty__2"
-			position = { x = 4 y = 57 }
+			position = { x = 4 y = 91 }
 			size = { x = 356 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
@@ -349,7 +386,7 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "capie_v1_ed__rn__subparty_apply"
-			position = { x = 370 y = 15 }
+			position = { x = 370 y = 49 }
 			scale = 0.67 # 20x20
 			quadTextureSprite = "GFX_preset_button_save"
 			buttonFont = "hoi_18mbs"
@@ -359,14 +396,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_sub_subparty_cancel"
-			position = { x = 396 y = 17 }
+			position = { x = 396 y = 51 }
 			quadTextureSprite = "GFX_closebutton_16"
 			clicksound = click_close
 			pdx_tooltip = "RN_IP_CANCEL"
 		}
 		instantTextboxType = {
 			name = "rn_sub_subparty_status"
-			position = { x = 6 y = 82 }
+			position = { x = 6 y = 116 }
 			font = "Arial12"
 			text = "[This.RN_SUB_STATUS]"
 			maxWidth = 408

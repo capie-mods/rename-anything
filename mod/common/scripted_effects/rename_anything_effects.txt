@@ -382,9 +382,5 @@ rn_store_country_adj = {
 }
 
 rn_reset_country_name = {
-	if = {
-		limit = { has_country_flag = rn_custom_name }
-		drop_cosmetic_tag = yes
-		clr_country_flag = rn_custom_name
-	}
+	rn_country_name_carrier_clear = yes # the single country-name carrier (rn_country_name_carrier.txt)
 }

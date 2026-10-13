@@ -1,0 +1,28 @@
+# Entry of the subject rename: a scripted diplomatic action in the Diplomacy view's action list
+# (vanilla common/scripted_diplomatic_actions documentation: ROOT is the sender, THIS the target).
+# No cost and no acceptance; the AI never sends it. complete_effect re-checks the rules and opens
+# the country editor (capie_v1_ed__rn__subcountry), which shows in the same Diplomacy view.
+scripted_diplomatic_actions = {
+	rn_rename_subject = {
+		allowed = { always = yes }
+		visible = { rn_editor_bridge_available = yes rn_sub_may_edit = yes ROOT = { is_ai = no } }
+		selectable = { ROOT = { NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+		requires_acceptance = no
+		cost = 0
+		command_power = 0
+		show_acceptance_on_action_button = no
+		icon = 1
+		complete_effect = {
+			if = {
+				limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+				rn_sub_open_common = yes
+				ROOT = { set_country_flag = rn_sub_open_country }
+			}
+		}
+		send_description = RN_RENAME_SUBJECT_SEND
+		receive_description = RN_RENAME_SUBJECT_RECEIVE
+		accept_title = RN_RENAME_SUBJECT_ACCEPT
+		accept_description = RN_RENAME_SUBJECT_ACCEPT_DESC
+		ai_desire = { base = 0 }
+	}
+}
