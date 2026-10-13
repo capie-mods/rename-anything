@@ -66,6 +66,7 @@ if str(TOOLS) not in sys.path:
     sys.path.append(str(TOOLS))
 
 # The imports have to follow the sys.path change above.
+from inline_checks.constants import MOD  # noqa: E402
 from inline_checks.generated import (  # noqa: E402
     check_generated_mod,
     check_legacy_editor,
@@ -75,10 +76,12 @@ from inline_checks.generated import (  # noqa: E402
 from inline_checks.loading import load_context, load_source  # noqa: E402
 from inline_checks.mutations import run_mutations  # noqa: E402
 from inline_checks.structure import structural  # noqa: E402
+from inline_checks.tree import models_of  # noqa: E402
 from inline_checks.vm_cases import (  # noqa: E402
     run_caption_counter,
     run_cooldown,
     run_error_reasons,
+    run_keyboard_refresh,
     run_missing_late_guard,
     run_no_bridge,
     run_party_groups,
@@ -114,6 +117,10 @@ def main() -> int:
         "refused_sentinel_cases": run_refused_sentinels(ctx),
         "party_loc_equivalence_cases": run_party_loc_equivalence(ctx),
         "refresh_gate_cases": run_refresh_gate(ctx),
+        "keyboard_refresh_cases": run_keyboard_refresh(
+            ctx,
+            models_of(MOD / "common" / "scripted_guis", "rename_anything_*.txt")["rn_input_gui"],
+        ),
         "caption_counter_cases": run_caption_counter(ctx, politics),
         "cooldown_cases": run_cooldown(ctx),
         "rejection_cases": run_rejections(ctx),
