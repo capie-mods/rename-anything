@@ -159,7 +159,7 @@ rn_inline_pair_apply_country = {
 				if = { limit = { check_variable = { temp_var:rn_nativeb_len > 30 } } add_to_array = { rn_cadj = temp_var:rn_nativeb_30 } }
 				if = { limit = { check_variable = { temp_var:rn_nativeb_len > 31 } } add_to_array = { rn_cadj = temp_var:rn_nativeb_31 } }
 				set_variable = { rn_cadj_len = temp_var:rn_nativeb_len }
-				# Existing RN_N/RN_J encode both fields in ONE RN1 cosmetic tag.
+				# The single country-name carrier stores both fields in the name layer (CAPIE API 4).
 				rn_apply_country_name = yes
 				clr_country_flag = rn_ip_country_open
 				clear_array = rn_ip_country_target

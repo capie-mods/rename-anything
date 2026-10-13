@@ -1,0 +1,248 @@
+# Country-name carrier: the ONE place that stores a player-given country name and adjective.
+# Since CAPIE 1.2 (API level 4, plugin/capie/CONTRACT.md section 13) the name is its own layer in the
+# country's variables, not a cosmetic tag (decision 2026-10-13, docs/API-DECISIONS.md):
+#   capie_cn_n / capie_cn_a  arrays of character codes (name / adjective)
+#   capie_cn_ver = 1         the layer is set
+#   capie_cn_rev             set last by every change; capie_core.dll then refreshes the names
+# On screen: this layer > the current cosmetic tag > the base name. Flag and colour stay the game's,
+# a later cosmetic tag change by the game keeps the layer, and the reset removes only the layer.
+# Legacy: saves of CAPIE 1.0/1.1 carry the name as an RN1 cosmetic tag ("RN1|Name|Adjective|") with the
+# flag rn_custom_name. The first Apply or Reset on such a country drops that cosmetic tag (the tag it
+# replaced was never stored, so it cannot be restored) and sets rn_cn_migrated, so a later reset done
+# by another tool (CAPIE console) is never mistaken for a legacy tag.
+# Scope: the country to rename. ROOT holds the text in a buffer pair chosen by temp rn_cn_src:
+#   1 = rn_cname / rn_cadj (own country), 2 = rn_pshort / rn_plong (scratch of the subject editor).
+rn_country_name_carrier_set = {
+	ROOT = {
+		if = {
+			limit = { check_variable = { temp_var:rn_cn_src = 2 } }
+			set_temp_variable = { rn_cn_n_len = rn_pshort_len }
+			set_temp_variable = { rn_cn_a_len = rn_plong_len }
+			if = { limit = { check_variable = { rn_pshort_len > 0 } } set_temp_variable = { rn_cn_n_0 = rn_pshort^0 } }
+			if = { limit = { check_variable = { rn_pshort_len > 1 } } set_temp_variable = { rn_cn_n_1 = rn_pshort^1 } }
+			if = { limit = { check_variable = { rn_pshort_len > 2 } } set_temp_variable = { rn_cn_n_2 = rn_pshort^2 } }
+			if = { limit = { check_variable = { rn_pshort_len > 3 } } set_temp_variable = { rn_cn_n_3 = rn_pshort^3 } }
+			if = { limit = { check_variable = { rn_pshort_len > 4 } } set_temp_variable = { rn_cn_n_4 = rn_pshort^4 } }
+			if = { limit = { check_variable = { rn_pshort_len > 5 } } set_temp_variable = { rn_cn_n_5 = rn_pshort^5 } }
+			if = { limit = { check_variable = { rn_pshort_len > 6 } } set_temp_variable = { rn_cn_n_6 = rn_pshort^6 } }
+			if = { limit = { check_variable = { rn_pshort_len > 7 } } set_temp_variable = { rn_cn_n_7 = rn_pshort^7 } }
+			if = { limit = { check_variable = { rn_pshort_len > 8 } } set_temp_variable = { rn_cn_n_8 = rn_pshort^8 } }
+			if = { limit = { check_variable = { rn_pshort_len > 9 } } set_temp_variable = { rn_cn_n_9 = rn_pshort^9 } }
+			if = { limit = { check_variable = { rn_pshort_len > 10 } } set_temp_variable = { rn_cn_n_10 = rn_pshort^10 } }
+			if = { limit = { check_variable = { rn_pshort_len > 11 } } set_temp_variable = { rn_cn_n_11 = rn_pshort^11 } }
+			if = { limit = { check_variable = { rn_pshort_len > 12 } } set_temp_variable = { rn_cn_n_12 = rn_pshort^12 } }
+			if = { limit = { check_variable = { rn_pshort_len > 13 } } set_temp_variable = { rn_cn_n_13 = rn_pshort^13 } }
+			if = { limit = { check_variable = { rn_pshort_len > 14 } } set_temp_variable = { rn_cn_n_14 = rn_pshort^14 } }
+			if = { limit = { check_variable = { rn_pshort_len > 15 } } set_temp_variable = { rn_cn_n_15 = rn_pshort^15 } }
+			if = { limit = { check_variable = { rn_pshort_len > 16 } } set_temp_variable = { rn_cn_n_16 = rn_pshort^16 } }
+			if = { limit = { check_variable = { rn_pshort_len > 17 } } set_temp_variable = { rn_cn_n_17 = rn_pshort^17 } }
+			if = { limit = { check_variable = { rn_pshort_len > 18 } } set_temp_variable = { rn_cn_n_18 = rn_pshort^18 } }
+			if = { limit = { check_variable = { rn_pshort_len > 19 } } set_temp_variable = { rn_cn_n_19 = rn_pshort^19 } }
+			if = { limit = { check_variable = { rn_pshort_len > 20 } } set_temp_variable = { rn_cn_n_20 = rn_pshort^20 } }
+			if = { limit = { check_variable = { rn_pshort_len > 21 } } set_temp_variable = { rn_cn_n_21 = rn_pshort^21 } }
+			if = { limit = { check_variable = { rn_pshort_len > 22 } } set_temp_variable = { rn_cn_n_22 = rn_pshort^22 } }
+			if = { limit = { check_variable = { rn_pshort_len > 23 } } set_temp_variable = { rn_cn_n_23 = rn_pshort^23 } }
+			if = { limit = { check_variable = { rn_pshort_len > 24 } } set_temp_variable = { rn_cn_n_24 = rn_pshort^24 } }
+			if = { limit = { check_variable = { rn_pshort_len > 25 } } set_temp_variable = { rn_cn_n_25 = rn_pshort^25 } }
+			if = { limit = { check_variable = { rn_pshort_len > 26 } } set_temp_variable = { rn_cn_n_26 = rn_pshort^26 } }
+			if = { limit = { check_variable = { rn_pshort_len > 27 } } set_temp_variable = { rn_cn_n_27 = rn_pshort^27 } }
+			if = { limit = { check_variable = { rn_pshort_len > 28 } } set_temp_variable = { rn_cn_n_28 = rn_pshort^28 } }
+			if = { limit = { check_variable = { rn_pshort_len > 29 } } set_temp_variable = { rn_cn_n_29 = rn_pshort^29 } }
+			if = { limit = { check_variable = { rn_pshort_len > 30 } } set_temp_variable = { rn_cn_n_30 = rn_pshort^30 } }
+			if = { limit = { check_variable = { rn_pshort_len > 31 } } set_temp_variable = { rn_cn_n_31 = rn_pshort^31 } }
+			if = { limit = { check_variable = { rn_plong_len > 0 } } set_temp_variable = { rn_cn_a_0 = rn_plong^0 } }
+			if = { limit = { check_variable = { rn_plong_len > 1 } } set_temp_variable = { rn_cn_a_1 = rn_plong^1 } }
+			if = { limit = { check_variable = { rn_plong_len > 2 } } set_temp_variable = { rn_cn_a_2 = rn_plong^2 } }
+			if = { limit = { check_variable = { rn_plong_len > 3 } } set_temp_variable = { rn_cn_a_3 = rn_plong^3 } }
+			if = { limit = { check_variable = { rn_plong_len > 4 } } set_temp_variable = { rn_cn_a_4 = rn_plong^4 } }
+			if = { limit = { check_variable = { rn_plong_len > 5 } } set_temp_variable = { rn_cn_a_5 = rn_plong^5 } }
+			if = { limit = { check_variable = { rn_plong_len > 6 } } set_temp_variable = { rn_cn_a_6 = rn_plong^6 } }
+			if = { limit = { check_variable = { rn_plong_len > 7 } } set_temp_variable = { rn_cn_a_7 = rn_plong^7 } }
+			if = { limit = { check_variable = { rn_plong_len > 8 } } set_temp_variable = { rn_cn_a_8 = rn_plong^8 } }
+			if = { limit = { check_variable = { rn_plong_len > 9 } } set_temp_variable = { rn_cn_a_9 = rn_plong^9 } }
+			if = { limit = { check_variable = { rn_plong_len > 10 } } set_temp_variable = { rn_cn_a_10 = rn_plong^10 } }
+			if = { limit = { check_variable = { rn_plong_len > 11 } } set_temp_variable = { rn_cn_a_11 = rn_plong^11 } }
+			if = { limit = { check_variable = { rn_plong_len > 12 } } set_temp_variable = { rn_cn_a_12 = rn_plong^12 } }
+			if = { limit = { check_variable = { rn_plong_len > 13 } } set_temp_variable = { rn_cn_a_13 = rn_plong^13 } }
+			if = { limit = { check_variable = { rn_plong_len > 14 } } set_temp_variable = { rn_cn_a_14 = rn_plong^14 } }
+			if = { limit = { check_variable = { rn_plong_len > 15 } } set_temp_variable = { rn_cn_a_15 = rn_plong^15 } }
+			if = { limit = { check_variable = { rn_plong_len > 16 } } set_temp_variable = { rn_cn_a_16 = rn_plong^16 } }
+			if = { limit = { check_variable = { rn_plong_len > 17 } } set_temp_variable = { rn_cn_a_17 = rn_plong^17 } }
+			if = { limit = { check_variable = { rn_plong_len > 18 } } set_temp_variable = { rn_cn_a_18 = rn_plong^18 } }
+			if = { limit = { check_variable = { rn_plong_len > 19 } } set_temp_variable = { rn_cn_a_19 = rn_plong^19 } }
+			if = { limit = { check_variable = { rn_plong_len > 20 } } set_temp_variable = { rn_cn_a_20 = rn_plong^20 } }
+			if = { limit = { check_variable = { rn_plong_len > 21 } } set_temp_variable = { rn_cn_a_21 = rn_plong^21 } }
+			if = { limit = { check_variable = { rn_plong_len > 22 } } set_temp_variable = { rn_cn_a_22 = rn_plong^22 } }
+			if = { limit = { check_variable = { rn_plong_len > 23 } } set_temp_variable = { rn_cn_a_23 = rn_plong^23 } }
+			if = { limit = { check_variable = { rn_plong_len > 24 } } set_temp_variable = { rn_cn_a_24 = rn_plong^24 } }
+			if = { limit = { check_variable = { rn_plong_len > 25 } } set_temp_variable = { rn_cn_a_25 = rn_plong^25 } }
+			if = { limit = { check_variable = { rn_plong_len > 26 } } set_temp_variable = { rn_cn_a_26 = rn_plong^26 } }
+			if = { limit = { check_variable = { rn_plong_len > 27 } } set_temp_variable = { rn_cn_a_27 = rn_plong^27 } }
+			if = { limit = { check_variable = { rn_plong_len > 28 } } set_temp_variable = { rn_cn_a_28 = rn_plong^28 } }
+			if = { limit = { check_variable = { rn_plong_len > 29 } } set_temp_variable = { rn_cn_a_29 = rn_plong^29 } }
+			if = { limit = { check_variable = { rn_plong_len > 30 } } set_temp_variable = { rn_cn_a_30 = rn_plong^30 } }
+			if = { limit = { check_variable = { rn_plong_len > 31 } } set_temp_variable = { rn_cn_a_31 = rn_plong^31 } }
+		}
+		else = {
+			set_temp_variable = { rn_cn_n_len = rn_cname_len }
+			set_temp_variable = { rn_cn_a_len = rn_cadj_len }
+			if = { limit = { check_variable = { rn_cname_len > 0 } } set_temp_variable = { rn_cn_n_0 = rn_cname^0 } }
+			if = { limit = { check_variable = { rn_cname_len > 1 } } set_temp_variable = { rn_cn_n_1 = rn_cname^1 } }
+			if = { limit = { check_variable = { rn_cname_len > 2 } } set_temp_variable = { rn_cn_n_2 = rn_cname^2 } }
+			if = { limit = { check_variable = { rn_cname_len > 3 } } set_temp_variable = { rn_cn_n_3 = rn_cname^3 } }
+			if = { limit = { check_variable = { rn_cname_len > 4 } } set_temp_variable = { rn_cn_n_4 = rn_cname^4 } }
+			if = { limit = { check_variable = { rn_cname_len > 5 } } set_temp_variable = { rn_cn_n_5 = rn_cname^5 } }
+			if = { limit = { check_variable = { rn_cname_len > 6 } } set_temp_variable = { rn_cn_n_6 = rn_cname^6 } }
+			if = { limit = { check_variable = { rn_cname_len > 7 } } set_temp_variable = { rn_cn_n_7 = rn_cname^7 } }
+			if = { limit = { check_variable = { rn_cname_len > 8 } } set_temp_variable = { rn_cn_n_8 = rn_cname^8 } }
+			if = { limit = { check_variable = { rn_cname_len > 9 } } set_temp_variable = { rn_cn_n_9 = rn_cname^9 } }
+			if = { limit = { check_variable = { rn_cname_len > 10 } } set_temp_variable = { rn_cn_n_10 = rn_cname^10 } }
+			if = { limit = { check_variable = { rn_cname_len > 11 } } set_temp_variable = { rn_cn_n_11 = rn_cname^11 } }
+			if = { limit = { check_variable = { rn_cname_len > 12 } } set_temp_variable = { rn_cn_n_12 = rn_cname^12 } }
+			if = { limit = { check_variable = { rn_cname_len > 13 } } set_temp_variable = { rn_cn_n_13 = rn_cname^13 } }
+			if = { limit = { check_variable = { rn_cname_len > 14 } } set_temp_variable = { rn_cn_n_14 = rn_cname^14 } }
+			if = { limit = { check_variable = { rn_cname_len > 15 } } set_temp_variable = { rn_cn_n_15 = rn_cname^15 } }
+			if = { limit = { check_variable = { rn_cname_len > 16 } } set_temp_variable = { rn_cn_n_16 = rn_cname^16 } }
+			if = { limit = { check_variable = { rn_cname_len > 17 } } set_temp_variable = { rn_cn_n_17 = rn_cname^17 } }
+			if = { limit = { check_variable = { rn_cname_len > 18 } } set_temp_variable = { rn_cn_n_18 = rn_cname^18 } }
+			if = { limit = { check_variable = { rn_cname_len > 19 } } set_temp_variable = { rn_cn_n_19 = rn_cname^19 } }
+			if = { limit = { check_variable = { rn_cname_len > 20 } } set_temp_variable = { rn_cn_n_20 = rn_cname^20 } }
+			if = { limit = { check_variable = { rn_cname_len > 21 } } set_temp_variable = { rn_cn_n_21 = rn_cname^21 } }
+			if = { limit = { check_variable = { rn_cname_len > 22 } } set_temp_variable = { rn_cn_n_22 = rn_cname^22 } }
+			if = { limit = { check_variable = { rn_cname_len > 23 } } set_temp_variable = { rn_cn_n_23 = rn_cname^23 } }
+			if = { limit = { check_variable = { rn_cname_len > 24 } } set_temp_variable = { rn_cn_n_24 = rn_cname^24 } }
+			if = { limit = { check_variable = { rn_cname_len > 25 } } set_temp_variable = { rn_cn_n_25 = rn_cname^25 } }
+			if = { limit = { check_variable = { rn_cname_len > 26 } } set_temp_variable = { rn_cn_n_26 = rn_cname^26 } }
+			if = { limit = { check_variable = { rn_cname_len > 27 } } set_temp_variable = { rn_cn_n_27 = rn_cname^27 } }
+			if = { limit = { check_variable = { rn_cname_len > 28 } } set_temp_variable = { rn_cn_n_28 = rn_cname^28 } }
+			if = { limit = { check_variable = { rn_cname_len > 29 } } set_temp_variable = { rn_cn_n_29 = rn_cname^29 } }
+			if = { limit = { check_variable = { rn_cname_len > 30 } } set_temp_variable = { rn_cn_n_30 = rn_cname^30 } }
+			if = { limit = { check_variable = { rn_cname_len > 31 } } set_temp_variable = { rn_cn_n_31 = rn_cname^31 } }
+			if = { limit = { check_variable = { rn_cadj_len > 0 } } set_temp_variable = { rn_cn_a_0 = rn_cadj^0 } }
+			if = { limit = { check_variable = { rn_cadj_len > 1 } } set_temp_variable = { rn_cn_a_1 = rn_cadj^1 } }
+			if = { limit = { check_variable = { rn_cadj_len > 2 } } set_temp_variable = { rn_cn_a_2 = rn_cadj^2 } }
+			if = { limit = { check_variable = { rn_cadj_len > 3 } } set_temp_variable = { rn_cn_a_3 = rn_cadj^3 } }
+			if = { limit = { check_variable = { rn_cadj_len > 4 } } set_temp_variable = { rn_cn_a_4 = rn_cadj^4 } }
+			if = { limit = { check_variable = { rn_cadj_len > 5 } } set_temp_variable = { rn_cn_a_5 = rn_cadj^5 } }
+			if = { limit = { check_variable = { rn_cadj_len > 6 } } set_temp_variable = { rn_cn_a_6 = rn_cadj^6 } }
+			if = { limit = { check_variable = { rn_cadj_len > 7 } } set_temp_variable = { rn_cn_a_7 = rn_cadj^7 } }
+			if = { limit = { check_variable = { rn_cadj_len > 8 } } set_temp_variable = { rn_cn_a_8 = rn_cadj^8 } }
+			if = { limit = { check_variable = { rn_cadj_len > 9 } } set_temp_variable = { rn_cn_a_9 = rn_cadj^9 } }
+			if = { limit = { check_variable = { rn_cadj_len > 10 } } set_temp_variable = { rn_cn_a_10 = rn_cadj^10 } }
+			if = { limit = { check_variable = { rn_cadj_len > 11 } } set_temp_variable = { rn_cn_a_11 = rn_cadj^11 } }
+			if = { limit = { check_variable = { rn_cadj_len > 12 } } set_temp_variable = { rn_cn_a_12 = rn_cadj^12 } }
+			if = { limit = { check_variable = { rn_cadj_len > 13 } } set_temp_variable = { rn_cn_a_13 = rn_cadj^13 } }
+			if = { limit = { check_variable = { rn_cadj_len > 14 } } set_temp_variable = { rn_cn_a_14 = rn_cadj^14 } }
+			if = { limit = { check_variable = { rn_cadj_len > 15 } } set_temp_variable = { rn_cn_a_15 = rn_cadj^15 } }
+			if = { limit = { check_variable = { rn_cadj_len > 16 } } set_temp_variable = { rn_cn_a_16 = rn_cadj^16 } }
+			if = { limit = { check_variable = { rn_cadj_len > 17 } } set_temp_variable = { rn_cn_a_17 = rn_cadj^17 } }
+			if = { limit = { check_variable = { rn_cadj_len > 18 } } set_temp_variable = { rn_cn_a_18 = rn_cadj^18 } }
+			if = { limit = { check_variable = { rn_cadj_len > 19 } } set_temp_variable = { rn_cn_a_19 = rn_cadj^19 } }
+			if = { limit = { check_variable = { rn_cadj_len > 20 } } set_temp_variable = { rn_cn_a_20 = rn_cadj^20 } }
+			if = { limit = { check_variable = { rn_cadj_len > 21 } } set_temp_variable = { rn_cn_a_21 = rn_cadj^21 } }
+			if = { limit = { check_variable = { rn_cadj_len > 22 } } set_temp_variable = { rn_cn_a_22 = rn_cadj^22 } }
+			if = { limit = { check_variable = { rn_cadj_len > 23 } } set_temp_variable = { rn_cn_a_23 = rn_cadj^23 } }
+			if = { limit = { check_variable = { rn_cadj_len > 24 } } set_temp_variable = { rn_cn_a_24 = rn_cadj^24 } }
+			if = { limit = { check_variable = { rn_cadj_len > 25 } } set_temp_variable = { rn_cn_a_25 = rn_cadj^25 } }
+			if = { limit = { check_variable = { rn_cadj_len > 26 } } set_temp_variable = { rn_cn_a_26 = rn_cadj^26 } }
+			if = { limit = { check_variable = { rn_cadj_len > 27 } } set_temp_variable = { rn_cn_a_27 = rn_cadj^27 } }
+			if = { limit = { check_variable = { rn_cadj_len > 28 } } set_temp_variable = { rn_cn_a_28 = rn_cadj^28 } }
+			if = { limit = { check_variable = { rn_cadj_len > 29 } } set_temp_variable = { rn_cn_a_29 = rn_cadj^29 } }
+			if = { limit = { check_variable = { rn_cadj_len > 30 } } set_temp_variable = { rn_cn_a_30 = rn_cadj^30 } }
+			if = { limit = { check_variable = { rn_cadj_len > 31 } } set_temp_variable = { rn_cn_a_31 = rn_cadj^31 } }
+		}
+	}
+	if = {
+		limit = { check_variable = { temp_var:rn_cn_n_len > 0 } check_variable = { temp_var:rn_cn_a_len > 0 } }
+		rn_country_name_carrier_drop_legacy = yes
+		clear_array = capie_cn_n
+		clear_array = capie_cn_a
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 0 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_0 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 1 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_1 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 2 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_2 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 3 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_3 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 4 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_4 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 5 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_5 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 6 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_6 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 7 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_7 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 8 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_8 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 9 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_9 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 10 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_10 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 11 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_11 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 12 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_12 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 13 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_13 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 14 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_14 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 15 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_15 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 16 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_16 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 17 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_17 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 18 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_18 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 19 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_19 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 20 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_20 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 21 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_21 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 22 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_22 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 23 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_23 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 24 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_24 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 25 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_25 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 26 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_26 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 27 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_27 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 28 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_28 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 29 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_29 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 30 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_30 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_n_len > 31 } } add_to_array = { capie_cn_n = temp_var:rn_cn_n_31 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 0 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_0 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 1 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_1 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 2 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_2 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 3 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_3 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 4 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_4 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 5 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_5 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 6 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_6 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 7 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_7 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 8 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_8 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 9 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_9 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 10 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_10 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 11 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_11 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 12 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_12 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 13 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_13 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 14 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_14 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 15 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_15 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 16 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_16 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 17 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_17 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 18 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_18 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 19 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_19 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 20 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_20 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 21 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_21 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 22 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_22 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 23 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_23 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 24 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_24 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 25 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_25 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 26 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_26 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 27 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_27 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 28 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_28 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 29 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_29 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 30 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_30 } }
+		if = { limit = { check_variable = { temp_var:rn_cn_a_len > 31 } } add_to_array = { capie_cn_a = temp_var:rn_cn_a_31 } }
+		set_variable = { capie_cn_ver = 1 }
+		set_country_flag = rn_custom_name
+		set_variable = { capie_cn_rev = 1 }
+	}
+}
+
+# Remove a player-given name: the country shows its current cosmetic tag again, or its base name.
+# Scope: the country. Never touches a cosmetic tag of the game or another mod (only a legacy RN1 tag).
+rn_country_name_carrier_clear = {
+	rn_country_name_carrier_drop_legacy = yes
+	clear_array = capie_cn_n
+	clear_array = capie_cn_a
+	clear_variable = capie_cn_ver
+	clr_country_flag = rn_custom_name
+	set_variable = { capie_cn_rev = 1 }
+}
+
+# Legacy RN1 migration (once per country). Scope: the country.
+rn_country_name_carrier_drop_legacy = {
+	if = {
+		limit = { has_country_flag = rn_custom_name NOT = { has_country_flag = rn_cn_migrated } }
+		drop_cosmetic_tag = yes
+	}
+	set_country_flag = rn_cn_migrated
+}

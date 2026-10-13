@@ -1,26 +1,31 @@
-"""Country tab: country name, adjective and leader, and the native RN1 carrier.
+"""Country tab: country name, adjective and leader, stored in the country-name layer.
 
 The country name and adjective are typed into their own buffers
 (:data:`~modgen.features.text_buffers.COUNTRY_NAME_BUFFER` and
-:data:`~modgen.features.text_buffers.COUNTRY_ADJ_BUFFER`). Apply stores both in
-one cosmetic tag ``RN1|<name>|<adjective>|``; the native plugin decodes it when
-the game looks up country localisation keys. The legacy Apply shares the
-in-place editor's country cooldown and is gated by the editor bridge.
+:data:`~modgen.features.text_buffers.COUNTRY_ADJ_BUFFER`). Apply hands both to the
+single country-name carrier (``rn_country_name_carrier_set`` in
+``tools/inline_editor/common/scripted_effects/rn_country_name_carrier.txt``), which
+stores them as the name layer of CAPIE API level 4 (country variables, not a cosmetic
+tag, so flag and colour stay). The legacy Apply shares the in-place editor's country
+cooldown and is gated by the editor bridge.
 """
 
 from __future__ import annotations
 
-from modgen.common import TAB_COUNTRY, TARGET_COUNTRY_ADJ, TARGET_COUNTRY_NAME, slots_expr
+from modgen.common import TAB_COUNTRY, TARGET_COUNTRY_ADJ, TARGET_COUNTRY_NAME
 from modgen.features.main_window import TabSpec
 from modgen.features.text_buffers import COUNTRY_ADJ_BUFFER, COUNTRY_NAME_BUFFER
 from modgen.gui import BUTTON_MEDIUM, BUTTON_WIDE, TITLE_FONT, btn, txt
 from modgen.script import defined_text
 
 COUNTRY_FLAG = "rn_custom_name"
-"""Country flag set after the cosmetic tag was written (not proof that the plugin runs)."""
+"""Country flag set by the carrier with the name (not proof that CAPIE runs)."""
 
-RN1_PREFIX = "RN1"
-"""Protocol tag of the cosmetic tag the native plugin decodes; a native contract."""
+LAYER_VERSION = "capie_cn_ver"
+"""Country variable that marks the name layer (CAPIE API level 4); a native contract."""
+
+CARRIER_SOURCE = 1
+"""``rn_cn_src`` value of the carrier for the own country's buffers (``rn_cname`` / ``rn_cadj``)."""
 
 _EFFECTS = f"""			rn_leader_rename_click = {{ rn_target_leader = yes }}
 			rn_cname_edit_click = {{ set_variable = {{ rn_ttype = {TARGET_COUNTRY_NAME} }} rn_open_input = yes }}
@@ -52,7 +57,7 @@ _TRIGGERS = f"""			rn_leader_rename_click_enabled = {{ NOT = {{ rn_ip_cooldown_a
 				check_variable = {{ rn_cname_len > 0 }}
 				check_variable = {{ rn_cadj_len > 0 }}
 			}}
-			rn_country_reset_click_enabled = {{ has_country_flag = {COUNTRY_FLAG} }}
+			rn_country_reset_click_enabled = {{ OR = {{ has_country_flag = {COUNTRY_FLAG} has_variable = {LAYER_VERSION} }} }}
 """  # noqa: E501 - generated script lines are emitted verbatim
 """Scripted GUI triggers of the Country tab."""
 
@@ -125,16 +130,16 @@ def status_loc() -> str:
 
 
 def apply_country_name_effect() -> str:
-    """Return the ``rn_apply_country_name`` effect (native RN1 protocol).
+    """Return the ``rn_apply_country_name`` effect (the country-name carrier, API level 4).
 
     Returns:
         The effect with its explanatory comment banner.
     """
     name, adjective = COUNTRY_NAME_BUFFER, COUNTRY_ADJ_BUFFER
-    return f"""# ============================================================== COUNTRY NAME - NATIVE RN1 PROTOCOL
-# The cosmetic tag is the game's saved/synchronised carrier. The native plugin decodes both fields
-# when looking up country localisation keys. Without it, the tag remains saved but display falls back
-# to the original country name. Never treat {COUNTRY_FLAG} as proof that the plugin is active.
+    return f"""# ============================================================== COUNTRY NAME - NAME LAYER (CAPIE API 4)
+# The single carrier (rn_country_name_carrier.txt) stores the name in the country's own variables;
+# capie_core.dll shows it in front of the cosmetic tag. Without CAPIE the variables stay saved and the
+# game shows its own name. Never treat {COUNTRY_FLAG} as proof that the plugin is active.
 rn_apply_country_name = {{
 	if = {{
 		limit = {{
@@ -142,13 +147,9 @@ rn_apply_country_name = {{
 			check_variable = {{ {name.length} > 0 }}
 			check_variable = {{ {adjective.length} > 0 }}
 		}}
-		meta_effect = {{
-			text = {{ set_cosmetic_tag = "{RN1_PREFIX}|[N]|[J]|" }}
-			N = "{slots_expr(name.prefix)}"
-			J = "{slots_expr(adjective.prefix)}"
-		}}
-		set_country_flag = {COUNTRY_FLAG}
+		set_temp_variable = {{ rn_cn_src = {CARRIER_SOURCE} }}
+		rn_country_name_carrier_set = yes
 	}}
 }}
-# ============================================================== END COUNTRY NAME - NATIVE RN1 PROTOCOL
+# ============================================================== END COUNTRY NAME - NAME LAYER (CAPIE API 4)
 """  # noqa: E501 - generated script lines are emitted verbatim

@@ -20,17 +20,17 @@ import re
 from decimal import Decimal
 from typing import TYPE_CHECKING, Any, override
 
-from inline_checks.constants import MAX_NAME
-from inline_checks.fixtures import Country
-from inline_checks.tree import get, named, walk, xy
+from inline_checks.constants import MAX_NAME, MOD, SOURCE
+from inline_checks.fixtures import NATIVE_ALPHABET, Country
+from inline_checks.tree import declarations, get, named, walk, xy
 from inline_checks.vm_cases import Context, ProductVM
 from modgen.charset import CODE
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterator
 
-CAPIE_API = 2
-"""API level CAPIE 1.1 sends as ``capie_cap``."""
+CAPIE_API = 4
+"""API level CAPIE 1.2 sends as ``capie_cap``."""
 
 SUB_EPOCH = 4
 """Opening epoch of the subject editor in every VM case."""
@@ -71,11 +71,8 @@ SUBJECT_EDITORS = {"subcountry": 2, "subleader": 1, "subparty": 2}
 DIPLOMACY_WIDTH = 550
 """Width of the vanilla diplomacy view (``countrydiplomacyview``)."""
 
-DIPLOMACY_CLOSE_X = 507
-"""Left edge of the vanilla diplomacy view's close button."""
-
-DIPLOMACY_TITLE_BOTTOM = 32
-"""Lowest y of the diplomacy view's title line."""
+DIPLOMACY_HEADER_TOP = 37
+"""Top of the Diplomacy view's header (flag and names) under its title line."""
 
 KIND_FLAGS = {1: "rn_sub_open_country", 2: "rn_sub_open_leader", 3: "rn_sub_open_party"}
 """rn_sub_kind to the opening flag on the player."""
@@ -100,7 +97,8 @@ def check_capie_structure(models: dict[str, Any], gui: list[Any], triggers: dict
     for editor, count in SUBJECT_EDITORS.items():
         model = f"capie_v1_ed__rn__{editor}"
         body = models[model]
-        assert get(body, "context_type") == "diplomacy_target_context", editor
+        assert get(body, "context_type") == "selected_country_context", editor
+        assert get(body, "parent_window_token") == "selected_country_view_diplomacy", editor
         assert get(body, "window_name") == model, editor
         fields = [f"capie_v1_f__rn__{editor}__{n}" for n in range(1, 5)]
         present = [f for f in fields if f in widgets]
@@ -122,19 +120,77 @@ def check_capie_structure(models: dict[str, Any], gui: list[Any], triggers: dict
         assert apply_[0][0] == "ROOT", "Apply runs on the player only"
         visible = get(body, "visible")
         assert ("rn_sub_may_edit", "=", "yes") in visible, editor
+        own = {"subcountry": "country", "subleader": "leader", "subparty": "party"}[editor]
+        for key in ("country", "leader", "party"):
+            enabled = get(hidden, f"rn_sub_{editor}_tab_{key}_click_enabled")
+            assert (enabled == [("always", "=", "no")]) == (key == own), (editor, key)
+            tab = get(get(body, "effects"), f"rn_sub_{editor}_tab_{key}_click")
+            assert ("rn_sub_may_edit", "=", "yes") in get(get(tab, "if"), "limit"), (editor, key)
         assert any(k == "is_in_array" for k, _, _ in visible), "pinned target only"
-    launcher = models["rn_sub_launcher_gui"]
-    assert get(launcher, "context_type") == "diplomacy_target_context"
-    assert ("rn_sub_may_edit", "=", "yes") in get(launcher, "visible")
-    for click, _, body in get(launcher, "effects"):
-        guard = get(body, "if")
-        assert ("rn_sub_may_edit", "=", "yes") in get(guard, "limit"), click
+    assert "rn_sub_launcher_gui" not in models, "no title-line button any more"
+    _check_action()
+    _check_carrier()
     assert triggers["rn_sub_may_edit"] == [
         ("exists", "=", "yes"),
         ("is_subject_of", "=", "ROOT"),
         ("NOT", "=", [("tag", "=", "ROOT")]),
     ]
     _subject_geometry(widgets)
+
+
+def _check_action() -> None:
+    """The entry is a free diplomatic action, only for the player's own subjects.
+
+    It costs nothing, needs no answer, is never sent by the AI and opens the
+    country editor through the same guard as everything else. Its list title
+    starts with the vanilla edit icon. No title-line button or test text is left.
+    """
+    actions = declarations(SOURCE / "common" / "scripted_diplomatic_actions")
+    assert set(actions) == {"scripted_diplomatic_actions"}
+    action = get(actions["scripted_diplomatic_actions"], "rn_rename_subject")
+    visible = get(action, "visible")
+    assert ("rn_sub_may_edit", "=", "yes") in visible
+    assert ("ROOT", "=", [("is_ai", "=", "no")]) in visible
+    for key, value in (
+        ("requires_acceptance", "no"),
+        ("cost", "0"),
+        ("command_power", "0"),
+        ("show_acceptance_on_action_button", "no"),
+    ):
+        assert get(action, key) == value, key
+    assert get(action, "ai_desire") == [("base", "=", "0")]
+    guard = get(get(action, "complete_effect"), "if")
+    assert ("rn_sub_may_edit", "=", "yes") in get(guard, "limit")
+    assert ("ROOT", "=", [("set_country_flag", "=", "rn_sub_open_country")]) in guard
+    for lang in ("english", "polish"):
+        text = (SOURCE / "localisation" / lang / f"rn_inline_subjects_l_{lang}.yml").read_text(
+            encoding="utf-8-sig"
+        )
+        assert re.search(r'^ RN_RENAME_SUBJECT_TITLE:0 "£edit_list_icon ', text, re.MULTILINE)
+        assert "RN_SUB_DEBUG" not in text, lang
+        assert "RN_SUB_BUTTON" not in text, lang
+
+
+def _check_carrier() -> None:
+    """The country-name carrier is written in one source file only.
+
+    ``rn_country_name_carrier.txt`` holds the only ``set_cosmetic_tag`` and
+    ``drop_cosmetic_tag`` of the in-place source and of the hand-written legacy
+    effects, so the planned non-cosmetic carrier replaces one file. The legacy
+    generator (``modgen/features/country.py``, ``rn_apply_country_name``) still has
+    its own copy; that file belongs to the stage-2 agent.
+    """
+    carrier = SOURCE / "common" / "scripted_effects" / "rn_country_name_carrier.txt"
+    files = [
+        *sorted((SOURCE / "common").rglob("*.txt")),
+        MOD / "common" / "scripted_effects" / "rename_anything_effects.txt",
+    ]
+    for path in files:
+        text = path.read_text(encoding="utf-8-sig")
+        uses = len(re.findall(r"(?<![a-z_])(?:set|drop)_cosmetic_tag(?![a-z_])", text))
+        assert (uses > 0) == (path == carrier), path.name
+    hand = files[-1].read_text(encoding="utf-8-sig")
+    assert "rn_country_name_carrier_clear = yes" in hand
 
 
 def _name(body: list[Any]) -> str:
@@ -150,26 +206,25 @@ def _name(body: list[Any]) -> str:
 
 
 def _subject_geometry(widgets: dict[str, Any]) -> None:
-    """The launcher strip stays on the title line; editors stay in the view, on the grid.
+    """Editors stay in the Diplomacy view, under its header line, on the design-system grid.
 
     Args:
         widgets: Element name to body.
     """
-    lx, ly = xy(widgets["rn_sub_launcher_window"])
-    lw, lh = xy(widgets["rn_sub_launcher_window"], "size")
-    assert lx + lw <= DIPLOMACY_CLOSE_X - 4, "pencils before the close button"
-    assert ly + lh <= DIPLOMACY_TITLE_BOTTOM, "pencils on the title line"
+    assert "rn_sub_launcher_window" not in widgets, "no title-line button any more"
     for editor, count in SUBJECT_EDITORS.items():
         win = widgets[f"capie_v1_ed__rn__{editor}"]
         x, y = xy(win)
         w, h = xy(win, "size")
         assert w == 420, editor  # noqa: PLR2004 - design-system editor width
         assert x + w <= DIPLOMACY_WIDTH, editor
-        assert y >= ly + lh, editor
+        assert y >= DIPLOMACY_HEADER_TOP, editor
         tops = [xy(widgets[f"rn_subf_{editor}_{n}"])[1] for n in range(1, count + 1)]
         for n, top in enumerate(tops, start=1):
             assert xy(widgets[f"rn_subl_{editor}_{n}"])[1] + 12 == top, (editor, n)
         assert all(b - a == 42 for a, b in itertools.pairwise(tops)), editor  # noqa: PLR2004
+        tabs = [widgets[f"rn_sub_{editor}_tab_{k}"] for k in ("country", "leader", "party")]
+        assert all(xy(tab)[1] + 31 <= tops[0] - 12 for tab in tabs), editor
         status = widgets[f"rn_sub_{editor}_status"]
         assert xy(status)[1] >= tops[-1] + 26, editor
         assert xy(status)[1] + 14 <= h, editor
@@ -209,10 +264,11 @@ class CapieVM(ProductVM):
             "is_subject": True,
             "persistent": {"global.num_days": self.persistent["global.num_days"]},
             "flags": set(),
+            "arrays": {},
             "government": "fascism",
         }
         self.in_subject: bool = False
-        self.temp.update(capie_cap=Decimal(CAPIE_API), capie_ver=Decimal(10100))
+        self.temp.update(capie_cap=Decimal(CAPIE_API), capie_ver=Decimal(10200))
         self.temp["capie_epoch"] = Decimal(SUB_EPOCH)
 
     def fields(self, *names: str) -> None:
@@ -234,14 +290,19 @@ class CapieVM(ProductVM):
         """Return a comparable copy of the subject's variables and flags.
 
         Returns:
-            ``(persistent, flags)``.
+            ``(persistent, flags, arrays)``.
         """
-        return (dict(self.subject["persistent"]), set(self.subject["flags"]))
+        return (
+            dict(self.subject["persistent"]),
+            set(self.subject["flags"]),
+            {k: list(v) for k, v in self.subject["arrays"].items()},
+        )
 
     def _swap(self) -> None:
-        """Exchange the player's and the subject's variables, flags, tag and government."""
+        """Exchange the player's and the subject's variables, arrays, flags, tag and government."""
         s = self.subject
         self.persistent, s["persistent"] = s["persistent"], self.persistent
+        self.arrays, s["arrays"] = s["arrays"], self.arrays
         self.flags, s["flags"] = s["flags"], self.flags
         self.government, s["government"] = s["government"], self.government
         self.tag = SUBJECT_TAG if not self.in_subject else self.root_tag
@@ -327,6 +388,13 @@ class CapieVM(ProductVM):
         run: list[Any] = []
         for node in nodes:
             key, _, value = node
+            if key == "drop_cosmetic_tag":
+                if run:
+                    super().execute(run)
+                    run = []
+                assert value == "yes", value
+                self.requests.append([("drop_cosmetic_tag", "=", self.tag)])
+                continue
             if not (self._in_scope(key) or (key == "every_character" and self.in_subject)):
                 run.append(node)
                 continue
@@ -468,11 +536,18 @@ def run_subject_apply(ctx: Context) -> int:
     cases = 0
     vm = _case(ctx, kind=1, names=("Nowa Gdynia", "nowogdyński"))
     root_before = dict(vm.persistent)
+    root_arrays = {k: list(v) for k, v in vm.arrays.items() if k.startswith("capie_cn_")}
     vm.run(APPLY[1])
     assert vm.temp["rn_cv1_err"] == 0
-    assert len(vm.requests) == 1
-    assert get(vm.requests[0], "set_cosmetic_tag") == "RN1|Nowa Gdynia|nowogdyński|"
+    assert not vm.requests, "the name layer writes no cosmetic tag (flag and colour stay)"
+    assert _layer_text(vm.subject["arrays"]["capie_cn_n"]) == "Nowa Gdynia"
+    assert _layer_text(vm.subject["arrays"]["capie_cn_a"]) == "nowogdyński"
+    assert vm.subject["persistent"]["capie_cn_ver"] == 1
+    assert "capie_cn_rev" in vm.subject["persistent"], "the commit variable comes last"
+    assert {k: list(v) for k, v in vm.arrays.items() if k.startswith("capie_cn_")} == root_arrays
+    assert "capie_cn_ver" not in vm.persistent, "the layer is written on the subject only"
     assert "rn_custom_name" in vm.subject["flags"]
+    assert "rn_cn_migrated" in vm.subject["flags"]
     assert "rn_ip_cd_country_until" in vm.subject["persistent"]
     assert "rn_ip_cd_country_until" not in vm.persistent, "cooldown on the subject only"
     assert "rn_sub_open_country" not in vm.flags
@@ -499,7 +574,69 @@ def run_subject_apply(ctx: Context) -> int:
     vm = _case(ctx, kind=1, names=("Polska", "polski"))
     vm.run(APPLY[1])
     assert vm.localized("RN_SUB_STATUS") == ctx.chars["RN_IP_HINT"]
-    return cases + 1
+    cases += 1
+    return cases + run_layer_migration(ctx)
+
+
+def _layer_text(codes: list[Any]) -> str:
+    """Return the text of a code array of the name layer.
+
+    Args:
+        codes: Codes as stored by ``add_to_array``.
+
+    Returns:
+        The text (Rename Anything's 84-code table).
+    """
+    alphabet = str(NATIVE_ALPHABET)
+    return "".join(alphabet[int(c) - 1] for c in codes)
+
+
+def run_layer_migration(ctx: Context) -> int:
+    """Legacy RN1 names: the first Apply or Reset drops the RN1 cosmetic tag once, never again.
+
+    Args:
+        ctx: Shared VM inputs.
+
+    Returns:
+        Number of cases.
+    """
+    cases = 0
+    # A subject renamed with CAPIE 1.1 (RN1 cosmetic tag + flag, no layer): Apply migrates it.
+    vm = _case(ctx, kind=1, names=("Kanadia", "kanadyjski"))
+    vm.subject["flags"].add("rn_custom_name")
+    vm.run(APPLY[1])
+    assert vm.temp["rn_cv1_err"] == 0
+    assert vm.requests == [[("drop_cosmetic_tag", "=", SUBJECT_TAG)]], vm.requests
+    assert _layer_text(vm.subject["arrays"]["capie_cn_n"]) == "Kanadia"
+    assert "rn_cn_migrated" in vm.subject["flags"]
+    cases += 1
+    # Reset after a migration (or after a console reset of a layer) never drops a cosmetic tag.
+    vm.enforce = False
+    vm.requests.clear()
+    vm._scoped(lambda: vm.run("rn_country_name_carrier_clear"))  # noqa: SLF001 - VM scope helper
+    assert not vm.requests, "a migrated country keeps any cosmetic tag the game sets later"
+    assert "capie_cn_ver" not in vm.subject["persistent"]
+    assert not vm.subject["arrays"]["capie_cn_n"]
+    assert not vm.subject["arrays"]["capie_cn_a"]
+    assert "rn_custom_name" not in vm.subject["flags"]
+    assert "capie_cn_rev" in vm.subject["persistent"]
+    cases += 1
+    # Reset of a legacy country drops the RN1 tag once.
+    vm = _case(ctx, kind=1, names=("Kanadia", "kanadyjski"))
+    vm.enforce = False
+    vm.subject["flags"].add("rn_custom_name")
+    vm._scoped(lambda: vm.run("rn_country_name_carrier_clear"))  # noqa: SLF001 - VM scope helper
+    assert vm.requests == [[("drop_cosmetic_tag", "=", SUBJECT_TAG)]], vm.requests
+    vm.requests.clear()
+    vm._scoped(lambda: vm.run("rn_country_name_carrier_clear"))  # noqa: SLF001 - VM scope helper
+    assert not vm.requests, "the legacy tag is dropped once"
+    cases += 1
+    # A country renamed for the first time never loses a cosmetic tag.
+    vm = _case(ctx, kind=1, names=("Kanadia", "kanadyjski"))
+    vm.run(APPLY[1])
+    assert not vm.requests
+    cases += 1
+    return cases
 
 
 REJECTIONS: list[tuple[str, Callable[[CapieVM], object], int]] = [
