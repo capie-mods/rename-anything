@@ -219,7 +219,7 @@ scripted_gui = {
 	rn_input_gui = {
 		context_type = player_context
 		window_name = "rn_input_window"
-		visible = { has_country_flag = rn_input }
+		visible = { has_country_flag = rn_input has_country_flag = rn_lg_keyboard }
 		ai_enabled = { always = no }
 		dirty = rn_gui_dirty
 		effects = {
@@ -303,6 +303,7 @@ scripted_gui = {
 			rn_keyS_z_click = { set_temp_variable = { rn_c = 52 } rn_add_char = yes ROOT = { rn_gui_touch = yes } }
 			rn_cancel_click = { rn_cancel_input = yes ROOT = { rn_gui_touch = yes } }
 			rn_apply_click = { rn_apply_input = yes ROOT = { rn_gui_touch = yes } }
+			rn_lg_use_field_click = { clr_country_flag = rn_lg_keyboard rn_cv1_status_clear = yes ROOT = { rn_gui_touch = yes } }
 		}
 		triggers = {
 			rn_apply_click_enabled = { check_variable = { rn_len > 0 } }
@@ -311,6 +312,31 @@ scripted_gui = {
 		}
 		dynamic_lists = {
 			rn_target_grid = {
+				array = rn_display_target
+				value = rn_header_target
+				change_scope = no
+				entry_container = "rn_target_entry"
+			}
+		}
+	}
+
+	capie_v1_ed__rn__legacy = {
+		context_type = player_context
+		window_name = "capie_v1_ed__rn__legacy"
+		visible = { has_country_flag = rn_input NOT = { has_country_flag = rn_lg_keyboard } }
+		ai_enabled = { always = no }
+		effects = {
+			capie_v1_ed__rn__legacy_apply_click = { rn_lg_field_apply = yes rn_gui_touch = yes }
+			rn_lg_cancel_click = { rn_cancel_input = yes }
+			rn_lg_use_keyboard_click = { set_country_flag = rn_lg_keyboard rn_cv1_status_clear = yes rn_gui_touch = yes }
+		}
+		triggers = {
+			capie_v1_ep__rn__legacy_visible = { always = no }
+			rn_lg_target_prov_visible = { check_variable = { rn_ttype = 3 } }
+			rn_lg_target_country_visible = { check_variable = { rn_ttype > 3 } }
+		}
+		dynamic_lists = {
+			rn_lg_target_grid = {
 				array = rn_display_target
 				value = rn_header_target
 				change_scope = no

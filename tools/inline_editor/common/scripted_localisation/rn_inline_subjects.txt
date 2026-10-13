@@ -1,0 +1,55 @@
+# Status line of the subject editors (display only). Called as [This.RN_SUB_STATUS] in the subject's
+# scope: the status variables are on ROOT (the player), the cooldown days on the subject.
+defined_text = {
+	name = RN_SUB_STATUS
+	text = { trigger = { ROOT = { NOT = { has_variable = rn_cv1_st_err } } } localization_key = RN_IP_HINT }
+	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 10 } } } localization_key = RN_IP_ERR_NO_BRIDGE }
+	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 13 } } } localization_key = RN_CV1_ERR_SETUP }
+	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 20 } } } localization_key = RN_SUB_ERR_RIGHTS }
+	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 12 } } } localization_key = RN_IP_ERR_STALE }
+	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 11 } has_country_flag = rn_sub_open_country } } localization_key = RN_SUB_ERR_CD_COUNTRY }
+	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 11 } has_country_flag = rn_sub_open_leader } } localization_key = RN_SUB_ERR_CD_LEADER }
+	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 11 } has_country_flag = rn_sub_open_party } } localization_key = RN_SUB_ERR_CD_PARTY }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_country check_variable = { rn_cv1_st_field = 1 } check_variable = { rn_cv1_st_why = 1 } } } localization_key = RN_IP_ERR_COUNTRY_NAME_EMPTY }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_country check_variable = { rn_cv1_st_field = 1 } check_variable = { rn_cv1_st_why = 2 } } } localization_key = RN_IP_ERR_COUNTRY_NAME_LONG }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_country check_variable = { rn_cv1_st_field = 1 } check_variable = { rn_cv1_st_why = 3 } } } localization_key = RN_IP_ERR_COUNTRY_NAME_CHAR }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_country check_variable = { rn_cv1_st_field = 1 } check_variable = { rn_cv1_st_why = 4 } } } localization_key = RN_CV1_ERR_ALPHABET }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_country check_variable = { rn_cv1_st_field = 1 } } } localization_key = RN_IP_ERR_COUNTRY_NAME }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_country check_variable = { rn_cv1_st_field = 2 } check_variable = { rn_cv1_st_why = 1 } } } localization_key = RN_IP_ERR_COUNTRY_ADJ_EMPTY }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_country check_variable = { rn_cv1_st_field = 2 } check_variable = { rn_cv1_st_why = 2 } } } localization_key = RN_IP_ERR_COUNTRY_ADJ_LONG }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_country check_variable = { rn_cv1_st_field = 2 } check_variable = { rn_cv1_st_why = 3 } } } localization_key = RN_IP_ERR_COUNTRY_ADJ_CHAR }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_country check_variable = { rn_cv1_st_field = 2 } check_variable = { rn_cv1_st_why = 4 } } } localization_key = RN_CV1_ERR_ALPHABET }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_country check_variable = { rn_cv1_st_field = 2 } } } localization_key = RN_IP_ERR_COUNTRY_ADJ }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_leader check_variable = { rn_cv1_st_field = 1 } check_variable = { rn_cv1_st_why = 1 } } } localization_key = RN_IP_ERR_LEADER_EMPTY }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_leader check_variable = { rn_cv1_st_field = 1 } check_variable = { rn_cv1_st_why = 2 } } } localization_key = RN_IP_ERR_LEADER_LONG }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_leader check_variable = { rn_cv1_st_field = 1 } check_variable = { rn_cv1_st_why = 3 } } } localization_key = RN_IP_ERR_LEADER_CHAR }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_leader check_variable = { rn_cv1_st_field = 1 } check_variable = { rn_cv1_st_why = 4 } } } localization_key = RN_CV1_ERR_ALPHABET }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_leader check_variable = { rn_cv1_st_field = 1 } } } localization_key = RN_IP_ERR_LEADER }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_party check_variable = { rn_cv1_st_field = 1 } check_variable = { rn_cv1_st_why = 1 } } } localization_key = RN_IP_ERR_PARTY_SHORT_EMPTY }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_party check_variable = { rn_cv1_st_field = 1 } check_variable = { rn_cv1_st_why = 2 } } } localization_key = RN_IP_ERR_PARTY_SHORT_LONG }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_party check_variable = { rn_cv1_st_field = 1 } check_variable = { rn_cv1_st_why = 3 } } } localization_key = RN_IP_ERR_PARTY_SHORT_CHAR }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_party check_variable = { rn_cv1_st_field = 1 } check_variable = { rn_cv1_st_why = 4 } } } localization_key = RN_CV1_ERR_ALPHABET }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_party check_variable = { rn_cv1_st_field = 1 } } } localization_key = RN_IP_ERR_PARTY_SHORT }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_party check_variable = { rn_cv1_st_field = 2 } check_variable = { rn_cv1_st_why = 1 } } } localization_key = RN_IP_ERR_PARTY_LONG_EMPTY }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_party check_variable = { rn_cv1_st_field = 2 } check_variable = { rn_cv1_st_why = 2 } } } localization_key = RN_IP_ERR_PARTY_LONG_LONG }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_party check_variable = { rn_cv1_st_field = 2 } check_variable = { rn_cv1_st_why = 3 } } } localization_key = RN_IP_ERR_PARTY_LONG_CHAR }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_party check_variable = { rn_cv1_st_field = 2 } check_variable = { rn_cv1_st_why = 4 } } } localization_key = RN_CV1_ERR_ALPHABET }
+	text = { trigger = { ROOT = { has_country_flag = rn_sub_open_party check_variable = { rn_cv1_st_field = 2 } } } localization_key = RN_IP_ERR_PARTY_LONG }
+	text = { localization_key = RN_IP_ERR_STALE }
+}
+
+defined_text = {
+	name = RN_SUB_CD_COUNTRY
+	text = { trigger = { rn_ip_cooldown_active_country = yes } localization_key = RN_SUB_CD_COUNTRY_ACTIVE }
+	text = { localization_key = RN_IPP_EMPTY }
+}
+defined_text = {
+	name = RN_SUB_CD_LEADER
+	text = { trigger = { rn_ip_cooldown_active_leader = yes } localization_key = RN_SUB_CD_LEADER_ACTIVE }
+	text = { localization_key = RN_IPP_EMPTY }
+}
+defined_text = {
+	name = RN_SUB_CD_PARTY
+	text = { trigger = { rn_ip_cooldown_active_party = yes } localization_key = RN_SUB_CD_PARTY_ACTIVE }
+	text = { localization_key = RN_IPP_EMPTY }
+}

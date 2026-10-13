@@ -1,5 +1,9 @@
 """Input window: the text field, the on-screen keyboard and Apply.
 
+This is the keyboard mode of the legacy rename window. It shows while the
+country flag ``rn_lg_keyboard`` is set; otherwise the CAPIE text field of
+:mod:`modgen.features.legacy_field` takes its place.
+
 Every target (character, state, city, country name or adjective) is typed here
 into :data:`~modgen.features.text_buffers.INPUT_BUFFER`. Physical keys work
 through button shortcuts: a letter key types the letter in the current case,
@@ -32,7 +36,7 @@ from modgen.common import (
     TARGET_STATE,
     slots_expr,
 )
-from modgen.features import refresh
+from modgen.features import legacy_field, refresh
 from modgen.features.cities import province_expr
 from modgen.features.main_window import WINDOW_WIDTH
 from modgen.features.text_buffers import INPUT_BUFFER
@@ -299,10 +303,10 @@ def input_gui() -> str:
     return f"""	rn_input_gui = {{
 		context_type = player_context
 		window_name = "rn_input_window"
-		visible = {{ has_country_flag = rn_input }}
+		visible = {{ has_country_flag = rn_input has_country_flag = {legacy_field.KEYBOARD_FLAG} }}
 		ai_enabled = {{ always = no }}
 {refresh.dirty_line()}		effects = {{
-{refresh.touch_clicks(key_effects + _CLOSING_EFFECTS)}		}}
+{refresh.touch_clicks(key_effects + _CLOSING_EFFECTS + legacy_field.KEYBOARD_MODE_EFFECT)}		}}
 		triggers = {{
 			rn_apply_click_enabled = {{ check_variable = {{ {INPUT_BUFFER.length} > 0 }} }}
 			rn_target_prov_visible = {{ check_variable = {{ rn_ttype = {TARGET_CITY} }} }}
@@ -381,6 +385,7 @@ def input_window() -> list[str]:
         )
     )
     o.append(txt("rn_input_hint", 20, by + 40, "RN_INPUT_HINT", w=520, h=44))
+    o.extend(legacy_field.keyboard_mode_elements(by, by + 84))
     o.append(WINDOW_END + "\n")
     return o
 

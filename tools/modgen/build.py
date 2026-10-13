@@ -18,6 +18,7 @@ from modgen.features import (
     country,
     inline_editor,
     input_window,
+    legacy_field,
     localisation,
     main_window,
     refresh,
@@ -142,6 +143,8 @@ def scripted_gui() -> str:
         + "\n"
         + input_window.input_gui()
         + "\n"
+        + legacy_field.field_gui()
+        + "\n"
         + states.state_view_gui()
         + "}\n"
     )
@@ -161,6 +164,7 @@ def gui() -> str:
     parts += input_window.target_entry()
     parts.append("\n")
     parts += input_window.input_window()
+    parts += legacy_field.field_window()
     parts += states.state_view_window()
     parts.append("}\n")
     return "".join(parts)

@@ -19,6 +19,8 @@
 #   rn_cname / rn_cname_len, rn_cadj / rn_cadj_len (country name / adjective buffers)
 # Country flags: rn_open (main window), rn_input (text input window)
 #   rn_gui_dirty    refresh gate (scripted GUI dirty) of the legacy windows; bumped by rn_gui_touch
+#   rn_lg_epoch     opening epoch of the CAPIE text field mode (capie_v1_ed__rn__legacy)
+#   rn_lg_keyboard  (flag) the window uses the on-screen keyboard instead of the CAPIE field
 
 rn_open_main = {
 	set_country_flag = rn_open
@@ -225,6 +227,10 @@ rn_open_input = { # requires rn_ttype (+ target arrays/variables) set by the cal
 	clear_array = rn_buf
 	set_variable = { rn_len = 0 }
 	set_variable = { rn_shift = 0 }
+	# CAPIE text field of this window (capie_v1_ed__rn__legacy): new opening epoch, fresh status.
+	add_to_variable = { rn_lg_epoch = 1 }
+	if = { limit = { check_variable = { rn_lg_epoch > 999999 } } set_variable = { rn_lg_epoch = 1 } }
+	rn_cv1_status_clear = yes
 	rn_gui_touch = yes # last: refresh gate (dirty) of the legacy windows, after every change
 }
 
@@ -233,6 +239,10 @@ rn_cancel_input = {
 	clr_country_flag = rn_input
 	clear_array = rn_buf
 	set_variable = { rn_len = 0 }
+	# CAPIE text field of this window (capie_v1_ed__rn__legacy): new opening epoch, fresh status.
+	add_to_variable = { rn_lg_epoch = 1 }
+	if = { limit = { check_variable = { rn_lg_epoch > 999999 } } set_variable = { rn_lg_epoch = 1 } }
+	rn_cv1_status_clear = yes
 	rn_gui_touch = yes # last: refresh gate (dirty) of the legacy windows, after every change
 }
 

@@ -1,8 +1,9 @@
 """In-place editor: copy ``tools/inline_editor/`` into the mod.
 
 The in-place editor (country, leader and party editors, the party tabs, the
-rename cooldown, the status line, the decision that opens the Characters tab
-and a hidden placeholder for subjects) is hand-written source. This slice only
+rename cooldown, the status line, the decision that opens the Characters tab,
+the subject editors in the diplomacy view and the CAPIE v1.1 grammar adapters
+used by them and by the legacy window's text field) is hand-written source. This slice only
 copies it: script and GUI files get a generated-file header and the cooldown
 length, localisation goes to every language (Polish from the Polish source,
 the rest from English).

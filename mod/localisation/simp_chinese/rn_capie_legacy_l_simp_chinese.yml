@@ -1,0 +1,10 @@
+﻿l_simp_chinese:
+ RN_LG_LABEL:0 "§LNew name§!"
+ RN_LG_HINT:0 "§LType with your keyboard, Polish letters too. Enter: apply§!"
+ RN_LG_APPLY_TT:0 "Save the typed name."
+ RN_LG_ERR_NO_CAPIE:0 "§RCAPIE is not loaded, so typed text cannot be saved. Nothing was changed.§!"
+ RN_LG_KB_NO_CAPIE:0 "§LCAPIE is not loaded: type with the keys above.§!"
+ RN_LG_BTN_KEYBOARD:0 "Keyboard"
+ RN_LG_BTN_KEYBOARD_TT:0 "Type with the on-screen keyboard instead. Works without CAPIE."
+ RN_LG_BTN_FIELD:0 "Text field"
+ RN_LG_BTN_FIELD_TT:0 "Type in a text field with your own keyboard. Needs CAPIE."

@@ -62,8 +62,8 @@ touched:
   player's editor is open.
 * The in-place editor: every file of ``tools/inline_editor/`` is copied to the
   same relative path (country, leader and party editors, the party tabs, the
-  rename cooldown, the status line, the decision that opens the Characters tab
-  and a hidden placeholder for subjects). Script and GUI files get a header and
+  rename cooldown, the status line, the decision that opens the Characters tab,
+  the subject editors and the CAPIE v1.1 grammar adapters). Script and GUI files get a header and
   the cooldown length; localisation goes to every language (Polish from the
   Polish source, the rest from English).
 

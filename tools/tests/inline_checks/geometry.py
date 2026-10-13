@@ -215,8 +215,10 @@ def geometry_audit(gui: list[Any]) -> None:
         assert win[3] <= ACTIONS_Y, editor
         assert get(buttons[f"rn_ip_{editor}_apply"], "shortcut") == "RETURN"
         assert not any(k == "shortcut" for k, _, _ in buttons[f"rn_ip_{editor}_cancel"])
-    shortcuts = [b for b in buttons.values() if any(k == "shortcut" for k, _, _ in b)]
-    assert len(shortcuts) == len(("leader", "party", "country")), "only the Apply buttons"
+    shortcuts = {get(b, "name") for b in buttons.values() if any(k == "shortcut" for k, _, _ in b)}
+    applies = {f"rn_ip_{e}_apply" for e in ("leader", "party_neutrality", "country")}
+    subjects = {f"capie_v1_ed__rn__{e}_apply" for e in ("subcountry", "subleader", "subparty")}
+    assert shortcuts == applies | subjects, "only the Apply buttons"
     assert not any(v == "ESCAPE" for _, _, v in walk(gui)), "Esc belongs to the politics panel"
     tabs = [rects[f"rn_ipp_tab_{i}"] for i, _ in GROUPS]
     party_parts = [

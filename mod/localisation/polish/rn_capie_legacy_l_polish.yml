@@ -1,0 +1,10 @@
+﻿l_polish:
+ RN_LG_LABEL:0 "§LNowa nazwa§!"
+ RN_LG_HINT:0 "§LPisz z klawiatury komputera, także polskie litery. Enter: zatwierdź§!"
+ RN_LG_APPLY_TT:0 "Zatwierdź wpisaną nazwę."
+ RN_LG_ERR_NO_CAPIE:0 "§RCAPIE nie jest załadowane: tekstu nie da się zapisać. Nic nie zmieniono.§!"
+ RN_LG_KB_NO_CAPIE:0 "§LCAPIE nie jest załadowane: pisz klawiszami powyżej.§!"
+ RN_LG_BTN_KEYBOARD:0 "Klawiatura"
+ RN_LG_BTN_KEYBOARD_TT:0 "Pisz klawiaturą ekranową. Działa bez CAPIE."
+ RN_LG_BTN_FIELD:0 "Pole tekstu"
+ RN_LG_BTN_FIELD_TT:0 "Pisz w polu tekstowym własną klawiaturą. Wymaga CAPIE."
