@@ -36,6 +36,8 @@
                 # Installer of CAPIE (proxy version.dll or launcher) and the live proxy test.
                 'tools/bootstrap/'
                 'tools/test-proxy-loader.ps1'
+                # Local release tool (tools/release/release.py); each repository trims release.toml.
+                'tools/release/'
                 # Audits plugin/probes/inline_editor_debug_bridge.cpp and its build output.
                 'tools/audit-debug-bridge.py'
                 # PowerShell and Python lint used by the build scripts (copied to every repo that needs it).
@@ -117,6 +119,8 @@
             Paths       = @(
                 'mod/'
                 'descriptor.mod'
+                # Workshop change notes of the mod (tools/release/release.py).
+                'CHANGELOG.md'
                 # Generator, checks and tests of the mod. tools/bootstrap/, tools/test-proxy-loader.ps1
                 # and tools/audit-debug-bridge.py belong to CAPIE.
                 'tools/gen.py'
@@ -128,6 +132,7 @@
                 'tools/inline_editor/'
                 'tools/tests/'
                 'tools/repo-split/'
+                'tools/release/'
                 'tools/lint-powershell.ps1'
                 'tools/lint/'
                 'tools/check_constant_docstrings.py'
