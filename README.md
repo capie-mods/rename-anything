@@ -181,8 +181,9 @@ HOI4 script: a mod names its editor GUI by a fixed grammar, CAPIE adds the typed
 Apply command as temporary variables, and the mod's effect reads them. A mod written this way
 parses and runs the same with or without CAPIE; only the branch it takes differs.
 
-- [CONTRACT.md](plugin/capie/CONTRACT.md): API level 4. Text fields for any mod, status keys, the
-  alphabet, error codes, permissions, the multiplayer handshake and the country name layer.
+- [CONTRACT.md](plugin/capie/CONTRACT.md), now at API level 7: text fields for any mod, status
+  keys, the alphabet, error codes, permissions, the multiplayer handshake, and the name, flag and
+  portrait layers.
 - [CAPIE script SDK](sdk/capie-script-sdk/README.md): ready-made effects for reading, checking
   and storing text, with a demo mod.
 - [CAPIE site, for modders](sites/capie/docs/modders/index.md).
