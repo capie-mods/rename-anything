@@ -111,6 +111,7 @@ import sys
 from modgen.build import summary, write_all
 from modgen.common import MOD
 from modgen.features.flags import read_catalog
+from modgen.features.portraits import read_catalog as read_portraits
 from modgen.output import DiskSink
 from rncommon.game_data import (
     DEFAULT_GAME,
@@ -136,9 +137,11 @@ def main() -> int:
         return 1
     keys = {int(province) for province in vp_key_ids(game.english_localisation_lines())}
     catalog = read_catalog(args.game)
-    write_all(DiskSink(MOD), states, keys, catalog)
+    portrait_catalog = read_portraits(args.game)
+    write_all(DiskSink(MOD), states, keys, catalog, portrait_catalog)
     print(summary(states, keys))
     print("flags:", ", ".join(f"{k} {v}" for k, v in catalog.report.items()))
+    print("portraits:", ", ".join(f"{k} {v}" for k, v in portrait_catalog.report.items()))
     return 0
 
 
