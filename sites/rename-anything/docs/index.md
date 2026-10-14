@@ -21,6 +21,11 @@ party are stuck with whatever the game or a focus tree gives them. Rename Anythi
 real text field instead: any name you can type, Polish letters included, saved in your campaign.
 
 <figure class="diagram" markdown="span">
+  ![Hearts of Iron IV diplomacy screen with a subject renamed to Province of Rizzia, its leader Rizzler King and its Rizz Party; the map shows the new name across Canada.](assets/screenshots/hero.jpg)
+  <figcaption>Canada, renamed by its overlord to the Province of Rizzia: the new name on the map and in Diplomacy.</figcaption>
+</figure>
+
+<figure class="diagram" markdown="span">
   ![Renaming a leader: click the pencil, type Jan Żółć into the game's own text field, press Enter. The name is stored in the save.](assets/diagrams/edit-in-place.svg)
   <figcaption>Edit where you see the name. The new name is written into your save like any other change.</figcaption>
 </figure>
@@ -45,8 +50,8 @@ real text field instead: any name you can type, Polish letters included, saved i
 | Generals, admirals, advisers | The name editor, from the decision "Rename characters" | <span class="st st-today">Works today</span> |
 | Your subjects: name and adjective, leader, ruling party | Diplomacy, action "Rename this country" | <span class="st st-today">Works today</span> needs CAPIE |
 | Back to the game's country name | "Restore name" in the country editor | <span class="st st-progress">In progress</span> |
-| Your faction's name | Diplomacy, action "Rename faction" | <span class="st st-progress">In progress</span> needs a newer CAPIE |
-| Your country's flag | | <span class="st st-planned">Planned</span> |
+| Your faction's name | Diplomacy, action "Rename faction" | <span class="st st-progress">In progress</span> needs CAPIE 1.4; checked once on a developer build |
+| Your country's flag | Flag tab of the country and subject editors | <span class="st st-progress">In progress</span> needs CAPIE 1.4; checked once on a developer build |
 
 Names survive saving, loading and a full restart of the game. Map labels, diplomacy, tooltips
 and events pick up a new country name; decision titles keep their own text.
