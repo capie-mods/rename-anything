@@ -80,6 +80,7 @@ def load_context(
         "rn_in_place_ui_l_english.yml",
         "rn_inline_subjects_l_english.yml",
         "rn_capie_legacy_l_english.yml",
+        "rn_inline_factions_l_english.yml",
     ):
         text = (SOURCE / "localisation" / "english" / name).read_text(encoding="utf-8-sig")
         chars.update(

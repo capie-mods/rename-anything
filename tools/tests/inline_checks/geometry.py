@@ -39,8 +39,12 @@ def button_rect(body: list[Any], ox: int, oy: int) -> Rect:
         assert scale, ("30px icon button needs scale", get(body, "name"))
         assert not any(k == "size" for k, _, _ in body), get(body, "name")
         side = round(30 * scale[0])
-    elif [v for k, _, v in body if k == "spriteType"] == ["GFX_button_94x31"]:
-        return (ox + x, oy + y, ox + x + 94, oy + y + 31)
+    elif [v for k, _, v in body if k == "spriteType"] in (
+        ["GFX_button_94x31"],
+        ["GFX_button_123x34"],
+    ):
+        w, h = (94, 31) if get(body, "spriteType") == "GFX_button_94x31" else (123, 34)
+        return (ox + x, oy + y, ox + x + w, oy + y + h)
     else:
         assert sprite == ["GFX_closebutton_16"], get(body, "name")
         assert not scale, get(body, "name")
@@ -178,6 +182,17 @@ def label_audit(gui: list[Any], rects: dict[str, Rect]) -> None:
     tabs = [rects[f"rn_ipp_tab_{i}"] for i, _ in GROUPS]
     short_label = texts["rn_ip_party_neutrality_short_label"]
     assert all(disjoint(tab, short_label) for tab in tabs)
+    # Restore name: inside the country editor, under its status line, clear of every control.
+    reset = rects["rn_ip_country_reset"]
+    assert inside(reset, rects["rn_ip_country_window"])
+    assert reset[1] >= texts["rn_ip_country_status"][3]
+    for other in (
+        "rn_ipc_name_frame",
+        "rn_ipc_adj_frame",
+        "rn_ip_country_apply",
+        "rn_ip_country_cancel",
+    ):
+        assert disjoint(reset, rects[other]), other
 
 
 def geometry_audit(gui: list[Any]) -> None:
@@ -217,7 +232,9 @@ def geometry_audit(gui: list[Any]) -> None:
         assert not any(k == "shortcut" for k, _, _ in buttons[f"rn_ip_{editor}_cancel"])
     shortcuts = {get(b, "name") for b in buttons.values() if any(k == "shortcut" for k, _, _ in b)}
     applies = {f"rn_ip_{e}_apply" for e in ("leader", "party_neutrality", "country")}
-    subjects = {f"capie_v1_ed__rn__{e}_apply" for e in ("subcountry", "subleader", "subparty")}
+    subjects = {
+        f"capie_v1_ed__rn__{e}_apply" for e in ("subcountry", "subleader", "subparty", "faction")
+    }
     assert shortcuts == applies | subjects, "only the Apply buttons"
     assert not any(v == "ESCAPE" for _, _, v in walk(gui)), "Esc belongs to the politics panel"
     tabs = [rects[f"rn_ipp_tab_{i}"] for i, _ in GROUPS]

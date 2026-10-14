@@ -3,3 +3,5 @@
  RN_IPC_CANCEL:0 "Anuluj"
  RN_IPC_LABEL_NAME:0 "§LNazwa§!"
  RN_IPC_LABEL_ADJ:0 "§LPrzymiotnik§!"
+ RN_IP_RESET_NAME:0 "Przywróć nazwę"
+ RN_IP_RESET_NAME_TT:0 "Wraca do bieżącej nazwy z gry. Flaga i kolor bez zmian. Zużywa limit zmian jak nowa nazwa."

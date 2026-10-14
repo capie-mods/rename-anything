@@ -47,6 +47,11 @@ scripted_gui = {
 				rn_inline_pair_cancel_country = yes
 				rn_ip_status_clear = yes
 			}
+			# Restore the game's name: the same own-country checks and the same cooldown as Apply.
+			rn_ip_country_reset_click = {
+				rn_inline_country_reset = yes
+				rn_ip_status_clear = yes
+			}
 		}
 		triggers = {
 			rn_ip_country_name_prefill_visible = { always = no }
@@ -65,6 +70,7 @@ scripted_gui = {
 				is_in_array = { array = rn_ip_country_target value = THIS }
 			}
 			rn_ip_country_cancel_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_country_open }
+			rn_ip_country_reset_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_country_open rn_cn_has_custom = yes NOT = { rn_ip_cooldown_active_country = yes } }
 		}
 	}
 }

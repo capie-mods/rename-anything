@@ -38,11 +38,11 @@ guiTypes = {
 	}
 	containerWindowType = {
 		name = "rn_ip_country_window"
-		# Opened overlay 18..438 x 28..124 temporarily covers the title subtitle row, the top of the
+		# Opened overlay 18..438 x 28..160 temporarily covers the title subtitle row, the top of the
 		# portrait (from y58) and the top of the national-focus box. Design-system grid: each field
 		# has its own label (a labelled row adds 12 px, rows repeat every 42 px), status line last.
 		position = { x = 18 y = 28 }
-		size = { width = 420 height = 96 }
+		size = { width = 420 height = 132 }
 		orientation = upper_left
 		clipping = no
 		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
@@ -147,6 +147,17 @@ guiTypes = {
 			quadTextureSprite = "GFX_closebutton_16"
 			clicksound = click_close
 			pdx_tooltip = "RN_IPC_CANCEL"
+		}
+		# Restore name: a text button under the status line, right-aligned under Apply/Cancel. It
+		# removes the player-given name (rn_country_name_carrier_clear); flag and colour stay.
+		buttonType = {
+			name = "rn_ip_country_reset"
+			position = { x = 297 y = 98 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_IP_RESET_NAME"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+			pdx_tooltip = "RN_IP_RESET_NAME_TT"
 		}
 		instantTextboxType = {
 			name = "rn_ip_country_status"

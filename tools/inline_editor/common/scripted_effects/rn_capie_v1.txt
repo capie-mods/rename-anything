@@ -19,6 +19,9 @@
 rn_cv1_header = {
 	set_temp_variable = { rn_cv1_err = 0 }
 	set_temp_variable = { rn_cv1_field = 0 }
+	# Host identity for the rn_edit_rights rule: CAPIE marks the session host's commands with
+	# capie_host = 1 (proposed record; CAPIE strips incoming capie_* records, so script cannot forge it).
+	if = { limit = { check_variable = { temp_var:capie_cap > 1 } check_variable = { temp_var:capie_host = 1 } } set_country_flag = rn_is_host }
 	if = {
 		limit = { NOT = { check_variable = { temp_var:capie_cap > 1 } } }
 		set_temp_variable = { rn_cv1_err = 10 }

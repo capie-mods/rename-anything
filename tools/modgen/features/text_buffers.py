@@ -44,6 +44,13 @@ COUNTRY_ADJ_BUFFER = NameBuffer("J", "rn_cadj", "rn_cadj_len")
 BUFFERS = [INPUT_BUFFER, COUNTRY_NAME_BUFFER, COUNTRY_ADJ_BUFFER]
 """The three name buffers, in the order their tables are written."""
 
+PREVIOUS_NAME_BUFFER = NameBuffer("OLD", "rn_prev_n", "rn_prev_n_len")
+"""The name a country had before its last rename, kept for the rename news event.
+
+The arrays live on the renamed country, not on the player, so the event draws them as
+``[From.RN_OLD_<slot>]`` (``tools/inline_editor/common/scripted_effects/rn_rename_event.txt``).
+"""
+
 
 def slot_tables(buffers: Iterable[NameBuffer]) -> str:
     """Return the ``RN_<prefix>_<slot>`` tables of every buffer.

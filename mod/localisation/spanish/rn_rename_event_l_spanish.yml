@@ -1,0 +1,13 @@
+﻿l_spanish:
+ RN_RULE_RENAME_EVENT:0 "Rename Anything: news of a new country name"
+ RN_RULE_RENAME_EVENT_OFF:0 "Off"
+ RN_RULE_RENAME_EVENT_OFF_DESC:0 "Country names change quietly."
+ RN_RULE_RENAME_EVENT_ON:0 "On"
+ RN_RULE_RENAME_EVENT_ON_DESC:0 "Everyone gets a news event when a player renames a country or restores its original name."
+ rn_rename.1.t:0 "[From.RN_OLD_0][From.RN_OLD_1][From.RN_OLD_2][From.RN_OLD_3][From.RN_OLD_4][From.RN_OLD_5][From.RN_OLD_6][From.RN_OLD_7][From.RN_OLD_8][From.RN_OLD_9][From.RN_OLD_10][From.RN_OLD_11][From.RN_OLD_12][From.RN_OLD_13][From.RN_OLD_14][From.RN_OLD_15][From.RN_OLD_16][From.RN_OLD_17][From.RN_OLD_18][From.RN_OLD_19][From.RN_OLD_20][From.RN_OLD_21][From.RN_OLD_22][From.RN_OLD_23][From.RN_OLD_24][From.RN_OLD_25][From.RN_OLD_26][From.RN_OLD_27][From.RN_OLD_28][From.RN_OLD_29][From.RN_OLD_30][From.RN_OLD_31] Changes Its Name to [From.GetName]"
+ rn_rename.1.t_new:0 "[From.GetName] Takes a New Name"
+ rn_rename.1.d1:0 "Workmen in [From.Capital.GetName] spent the morning taking down the old signs. From today the country is called [From.GetName], and [From.GetAdjective] passports and stamps will change by the end of the year."
+ rn_rename.1.d2:0 "In a short radio address, [From.GetLeader] said the nation will be known as [From.GetName] from now on. Foreign ministries were told by telegram. Most sent polite congratulations; a few asked what was wrong with the old name."
+ rn_rename.1.d3:0 "The mapmakers are busy again. [From.GetName] adopted its new name by decree, and [From.GetAdjective] newspapers printed it across every front page. Foreign offices noted the change without comment."
+ rn_rename.1.d4:0 "The decision came quickly and without debate. Diplomats will have to get used to writing [From.GetName], and the [From.GetAdjective] delegation has already ordered new name cards."
+ rn_rename.1.a:0 "Noted."

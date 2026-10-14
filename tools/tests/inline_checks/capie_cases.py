@@ -20,11 +20,12 @@ import re
 from decimal import Decimal
 from typing import TYPE_CHECKING, Any, override
 
-from inline_checks.constants import MAX_NAME, MOD, SOURCE
+from inline_checks.constants import MAX_NAME, MOD, SOURCE, VM_TODAY
 from inline_checks.fixtures import NATIVE_ALPHABET, Country
 from inline_checks.tree import declarations, get, named, walk, xy
 from inline_checks.vm_cases import Context, ProductVM
 from modgen.charset import CODE
+from modgen.features.cooldown import COOLDOWN_DAYS
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterator
@@ -130,12 +131,78 @@ def check_capie_structure(models: dict[str, Any], gui: list[Any], triggers: dict
     assert "rn_sub_launcher_gui" not in models, "no title-line button any more"
     _check_action()
     _check_carrier()
-    assert triggers["rn_sub_may_edit"] == [
-        ("exists", "=", "yes"),
-        ("is_subject_of", "=", "ROOT"),
-        ("NOT", "=", [("tag", "=", "ROOT")]),
-    ]
+    country = models["capie_v1_ed__rn__subcountry"]
+    reset = get(get(country, "effects"), "rn_sub_subcountry_reset_click")
+    assert reset == [("ROOT", "=", [("rn_sub_reset_country", "=", "yes")])]
+    enabled = get(get(country, "triggers"), "rn_sub_subcountry_reset_click_enabled")
+    assert ("rn_cn_has_custom", "=", "yes") in enabled
+    _check_rights(triggers)
+    check_rename_event()
+    _check_faction_editor(models, widgets)
     _subject_geometry(widgets)
+
+
+RIGHTS_OPTIONS = ["RN_RIGHTS_SUBJECTS", "RN_RIGHTS_HOST", "RN_RIGHTS_OWN"]
+"""Options of the game rule rn_edit_rights; the first is the default."""
+
+
+def _check_rights(triggers: dict[str, Any]) -> None:
+    """The lobby rule has three options and no option-level text; triggers read it.
+
+    Args:
+        triggers: Source scripted triggers.
+    """
+    rules = declarations(SOURCE / "common" / "game_rules")
+    # A rule-level desc is what the parser rejected in the SDK rule file (fixed in b6f2a57);
+    # descriptions sit on the options, as in vanilla 00_game_rules.txt.
+    for name, want in (
+        ("rn_edit_rights", RIGHTS_OPTIONS),
+        ("rn_rename_event", ["RN_RENAME_EVENT_OFF", "RN_RENAME_EVENT_ON"]),
+    ):
+        rule = rules[name]
+        assert not any(k == "desc" for k, _, _ in rule), (name, "no rule-level desc")
+        options = [(k, body) for k, _, body in rule if k in {"default", "option"}]
+        assert [get(b, "name") for _, b in options] == want, name
+        assert options[0][0] == "default", name
+        for _, body in options:
+            assert get(body, "desc").endswith("_DESC"), name
+            assert get(body, "allow_achievements") == "yes", name
+    flat = str(triggers["rn_sub_may_edit"]) + str(triggers["rn_fac_may_edit"])
+    for option in ("RN_RIGHTS_HOST", "RN_RIGHTS_OWN"):
+        assert option in str(triggers["rn_sub_may_edit"]), option
+    assert "rn_rights_host" in flat
+    assert ("is_faction_leader", "=", "yes") in triggers["rn_fac_may_edit"]
+    host = triggers["rn_rights_host"]
+    assert ("is_ai", "=", "no") in host
+    assert ("has_country_flag", "=", "rn_is_host") in list(walk(host))
+
+
+def _check_faction_editor(models: dict[str, Any], widgets: dict[str, Any]) -> None:
+    """The faction editor: grammar model in the Diplomacy view, one field, hidden carriers, grid.
+
+    Args:
+        models: Source scripted GUI models.
+        widgets: Element name to body.
+    """
+    model = "capie_v1_ed__rn__faction"
+    body = models[model]
+    assert get(body, "context_type") == "selected_country_context"
+    assert get(body, "parent_window_token") == "selected_country_view_diplomacy"
+    hidden = get(body, "triggers")
+    for carrier in ("capie_v1_ep__rn__faction", "capie_v1_pf__rn__faction__1"):
+        assert get(hidden, f"{carrier}_visible") == [("always", "=", "no")], carrier
+    assert "capie_v1_f__rn__faction__2" not in widgets
+    assert ("shortcut", "=", "RETURN") in widgets[f"{model}_apply"]
+    w, h = xy(widgets[model], "size")
+    assert w == 420  # noqa: PLR2004 - design-system editor width
+    frame = xy(widgets["rn_facf_1"])[1]
+    assert xy(widgets["rn_facl_1"])[1] + 12 == frame
+    status = xy(widgets["rn_fac_status"])[1]
+    reset = xy(widgets["rn_fac_reset"])[1]
+    assert frame + 26 <= status < reset
+    assert reset + 34 <= h
+    for effect in (f"{model}_apply_click", "rn_fac_reset_click", "rn_fac_cancel_click"):
+        assert get(get(body, "effects"), effect)[0][0] == "ROOT", effect
 
 
 def _check_action() -> None:
@@ -228,9 +295,30 @@ def _subject_geometry(widgets: dict[str, Any]) -> None:
         status = widgets[f"rn_sub_{editor}_status"]
         assert xy(status)[1] >= tops[-1] + 26, editor
         assert xy(status)[1] + 14 <= h, editor
+        if editor == "subcountry":
+            reset = widgets["rn_sub_subcountry_reset"]
+            assert get(reset, "spriteType") == "GFX_button_123x34"
+            rx, ry = xy(reset)
+            assert ry >= xy(status)[1] + 14, "Restore name under the status line"
+            assert rx + 123 <= w, "Restore name inside the editor"
+            assert ry + 34 <= h, "Restore name inside the editor"
 
 
 # ----------------------------------------------------------------------------- VM
+
+
+SCRIPTED_TRIGGERS = {
+    "rn_sub_may_edit",
+    "rn_cn_has_custom",
+    "rn_rights_host",
+    "rn_fac_may_edit",
+    "rn_fac_cooldown_active",
+}
+"""Source scripted triggers the VM evaluates from their parse trees."""
+
+
+SPECIAL_EFFECTS = {"news_event", "random_list", "drop_cosmetic_tag", "every_character"}
+"""Effects CapieVM runs itself (every_character only inside the subject scope)."""
 
 
 class CapieVM(ProductVM):
@@ -268,6 +356,10 @@ class CapieVM(ProductVM):
             "government": "fascism",
         }
         self.in_subject: bool = False
+        self.rule = "RN_RIGHTS_SUBJECTS"
+        self.events: list[tuple[str, str]] = []
+        self.roll = 0
+        self.other_humans = False
         self.temp.update(capie_cap=Decimal(CAPIE_API), capie_ver=Decimal(10200))
         self.temp["capie_epoch"] = Decimal(SUB_EPOCH)
 
@@ -305,7 +397,7 @@ class CapieVM(ProductVM):
         self.arrays, s["arrays"] = s["arrays"], self.arrays
         self.flags, s["flags"] = s["flags"], self.flags
         self.government, s["government"] = s["government"], self.government
-        self.tag = SUBJECT_TAG if not self.in_subject else self.root_tag
+        self.tag = s.get("tag", SUBJECT_TAG) if not self.in_subject else self.root_tag
         self.in_subject = not self.in_subject
 
     def _in_scope(self, key: str) -> bool:
@@ -317,7 +409,34 @@ class CapieVM(ProductVM):
         Returns:
             True for ``var:rn_sub_target`` and ``ROOT``.
         """
-        return key == "var:rn_sub_target" or (key == "ROOT" and bool(self.in_subject))
+        targets = {"var:rn_sub_target", "var:rn_fac_target"}
+        return key in targets or (key == "ROOT" and bool(self.in_subject))
+
+    def _country_fact(self, key: str, value: Any) -> bool | None:  # noqa: ANN401 - parse-tree value
+        """Answer the country and game triggers this VM models, or None for the base VM.
+
+        Args:
+            key: Trigger key.
+            value: Trigger value.
+
+        Returns:
+            The answer, or None when the base VM decides.
+        """
+        if key == "has_game_rule":
+            rule = {k: v for k, _, v in value}
+            current = self.rule if rule["rule"] == "rn_edit_rights" else self.rules[rule["rule"]]
+            return bool(current == rule["option"])
+        if key == "any_other_country":
+            assert value == [("is_ai", "=", "no")], value
+            return bool(self.other_humans)
+        if key == "is_faction_leader":
+            leader = self.subject.get("faction_leader", False) if self.in_subject else False
+            return bool(leader == (value == "yes"))
+        if key == "exists":
+            return bool(self.subject["exists"] == (value == "yes")) if self.in_subject else True
+        if key == "is_subject_of":
+            return bool(self.in_subject and self.subject["is_subject"])
+        return None
 
     @override
     def condition(self, nodes: list[Any]) -> bool:
@@ -335,14 +454,11 @@ class CapieVM(ProductVM):
                 answer = self._scoped(lambda v=value: self.condition(v))
             elif key == "ROOT":
                 answer = self.condition(value)
-            elif key == "rn_sub_may_edit":
+            elif key in SCRIPTED_TRIGGERS:
                 answer = self.condition(self.triggers[key]) == (value == "yes")
-            elif key == "exists":
-                answer = self.subject["exists"] == (value == "yes") if self.in_subject else True
-            elif key == "is_subject_of":
-                answer = self.in_subject and self.subject["is_subject"]
             else:
-                answer = super().condition([node])
+                fact = self._country_fact(key, value)
+                answer = super().condition([node]) if fact is None else fact
             if not answer:
                 return False
         return True
@@ -378,9 +494,37 @@ class CapieVM(ProductVM):
         finally:
             self._swap()
 
+    def _special(self, key: str, value: Any) -> bool:  # noqa: ANN401 - parse-tree value
+        """Run one effect this VM models outside the base VM.
+
+        Args:
+            key: Effect key.
+            value: Effect value.
+
+        Returns:
+            Whether the effect was handled here.
+        """
+        if key == "news_event":
+            self.events.append((self.tag, get(value, "id")))
+        elif key == "random_list":
+            # Deterministic: the branch chosen by the test (the game rolls synced dice).
+            self.execute(value[self.roll][2])
+        elif key == "drop_cosmetic_tag":
+            assert value == "yes", value
+            self.requests.append([("drop_cosmetic_tag", "=", self.tag)])
+        elif key == "every_character" and self.in_subject:
+            limit = get(value, "limit")
+            assert limit == [("is_country_leader", "=", "yes")], limit
+            self.execute([n for n in value if n[0] != "limit"])
+        elif self._in_scope(key):
+            self._scoped(lambda v=value: self.execute(v))
+        else:
+            return False
+        return True
+
     @override
     def execute(self, nodes: list[Any]) -> None:
-        """Execute effects, with the subject scope and its character loop.
+        """Execute effects, with the subject scope, its character loop and the news event.
 
         Args:
             nodes: Effect nodes.
@@ -388,25 +532,14 @@ class CapieVM(ProductVM):
         run: list[Any] = []
         for node in nodes:
             key, _, value = node
-            if key == "drop_cosmetic_tag":
-                if run:
-                    super().execute(run)
-                    run = []
-                assert value == "yes", value
-                self.requests.append([("drop_cosmetic_tag", "=", self.tag)])
-                continue
-            if not (self._in_scope(key) or (key == "every_character" and self.in_subject)):
+            if key not in SPECIAL_EFFECTS and not self._in_scope(key):
                 run.append(node)
                 continue
             if run:
                 super().execute(run)
                 run = []
-            if key == "every_character":
-                limit = get(value, "limit")
-                assert limit == [("is_country_leader", "=", "yes")], limit
-                self.execute([n for n in value if n[0] != "limit"])
-            else:
-                self._scoped(lambda v=value: self.execute(v))
+            if not self._special(key, value):
+                super().execute([node])
         if run:
             super().execute(run)
 
@@ -756,3 +889,340 @@ def run_legacy_field(ctx: Context) -> int:
     assert vm.localized("RN_LG_STATUS") == ctx.chars["RN_LG_ERR_NO_CAPIE"]
     assert vm.localized("RN_LG_KB_STATUS") == ctx.chars["RN_LG_KB_NO_CAPIE"]
     return cases
+
+
+def _named_country(vm: CapieVM, persistent: dict[str, Any], flags: set[str]) -> None:
+    """Give a country a player-given name (CAPIE 1.2 layer, already migrated).
+
+    Args:
+        vm: VM whose arrays hold the layer of the player's country.
+        persistent: The country's variables.
+        flags: The country's flags.
+    """
+    persistent["capie_cn_ver"] = Decimal(1)
+    flags.update({"rn_custom_name", "rn_cn_migrated"})
+    vm.arrays["capie_cn_n"] = [Decimal(CODE["A"])]
+
+
+OWN_RESETS: list[tuple[str, Callable[[CapieVM], object], bool]] = [
+    ("own: ok", lambda _v: None, True),
+    (
+        "own: no given name",
+        lambda v: (v.persistent.pop("capie_cn_ver"), v.flags.discard("rn_custom_name")),
+        False,
+    ),
+    ("own: editor closed", lambda v: v.flags.discard("rn_ip_country_open"), False),
+    ("own: legacy window open", lambda v: v.flags.add("rn_open"), False),
+    (
+        "own: cooldown running",
+        lambda v: v.persistent.update(rn_ip_cd_country_until=Decimal(VM_TODAY + 2)),
+        False,
+    ),
+]
+"""Own-country Restore name cases: label, change to a ready VM, whether the name goes."""
+
+SUBJECT_RESETS: list[tuple[str, Callable[[CapieVM], object], int]] = [
+    ("subject: ok", lambda _v: None, 0),
+    ("subject: not a subject", lambda v: v.subject.update(is_subject=False), ERR_RIGHTS),
+    (
+        "subject: no given name",
+        lambda v: (
+            v.subject["persistent"].pop("capie_cn_ver"),
+            v.subject["flags"].discard("rn_custom_name"),
+        ),
+        ERR_RIGHTS,
+    ),
+    (
+        "subject: leader tab open",
+        lambda v: (v.flags.clear(), v.flags.add(KIND_FLAGS[2])),
+        ERR_RIGHTS,
+    ),
+    ("subject: legacy window open", lambda v: v.flags.add("rn_open"), ERR_RIGHTS),
+    (
+        "subject: cooldown running",
+        lambda v: v.subject["persistent"].update(rn_ip_cd_country_until=Decimal(VM_TODAY + 2)),
+        ERR_COOLDOWN,
+    ),
+]
+"""Subject Restore name cases: label, change to a ready VM, expected rn_cv1_err."""
+
+
+def _own_reset(
+    ctx: Context, label: str, mutate: Callable[[CapieVM], object], *, works: bool
+) -> None:
+    """Run one own-country Restore name case.
+
+    Args:
+        ctx: Shared VM inputs.
+        label: Case name.
+        mutate: Change to the ready VM.
+        works: Whether the name must be removed.
+    """
+    vm = CapieVM(ctx)
+    vm.flags.add("rn_ip_country_open")
+    vm.arrays["rn_ip_country_target"] = [Country(vm.tag)]
+    _named_country(vm, vm.persistent, vm.flags)
+    mutate(vm)
+    before = vm.state()
+    vm.run("rn_inline_country_reset")
+    if works:
+        assert "capie_cn_ver" not in vm.persistent, label
+        assert "rn_custom_name" not in vm.flags, label
+        assert "rn_ip_country_open" not in vm.flags, label
+        assert vm.persistent["capie_cn_rev"] == 1, label
+        until = vm.persistent["rn_ip_cd_country_until"]
+        assert until == VM_TODAY + COOLDOWN_DAYS, "a reset uses the rename cooldown"
+    else:
+        assert vm.state() == before, label
+
+
+def _subject_reset(
+    ctx: Context, label: str, mutate: Callable[[CapieVM], object], want: int
+) -> None:
+    """Run one subject Restore name case.
+
+    Args:
+        ctx: Shared VM inputs.
+        label: Case name.
+        mutate: Change to the ready VM.
+        want: Expected rn_cv1_err.
+    """
+    vm = _case(ctx, kind=1, names=("Polska", "polski"))
+    vm.subject["persistent"]["capie_cn_ver"] = Decimal(1)
+    vm.subject["flags"].update({"rn_custom_name", "rn_cn_migrated"})
+    mutate(vm)
+    subject = vm.subject_state()
+    vm.run("rn_sub_reset_country")
+    assert vm.temp["rn_cv1_err"] == want, label
+    if want == 0:
+        assert "capie_cn_ver" not in vm.subject["persistent"], label
+        assert "rn_custom_name" not in vm.subject["flags"], label
+        assert "rn_sub_open_country" not in vm.flags, label
+        until = vm.subject["persistent"]["rn_ip_cd_country_until"]
+        assert until == VM_TODAY + COOLDOWN_DAYS, "a reset uses the rename cooldown"
+    else:
+        assert vm.subject_state() == subject, label
+        if want == ERR_RIGHTS:
+            assert vm.localized("RN_SUB_STATUS") == ctx.chars["RN_SUB_ERR_RIGHTS"], label
+
+
+def run_name_resets(ctx: Context) -> int:
+    """Restore name, own country and subject: only the layer goes; it uses the rename cooldown.
+
+    Args:
+        ctx: Shared VM inputs.
+
+    Returns:
+        Number of cases.
+    """
+    for label, mutate, works in OWN_RESETS:
+        _own_reset(ctx, label, mutate, works=works)
+    for label, mutate, want in SUBJECT_RESETS:
+        _subject_reset(ctx, label, mutate, want)
+    return len(OWN_RESETS) + len(SUBJECT_RESETS)
+
+
+RIGHTS_CASES: list[tuple[str, str, bool, bool, bool, int]] = [
+    ("default: subject", "RN_RIGHTS_SUBJECTS", True, False, False, 0),
+    ("default: foreign country", "RN_RIGHTS_SUBJECTS", False, False, False, ERR_RIGHTS),
+    ("own only: subject", "RN_RIGHTS_OWN", True, False, False, ERR_RIGHTS),
+    ("host: subject", "RN_RIGHTS_HOST", True, True, False, 0),
+    ("host, single player: foreign", "RN_RIGHTS_HOST", False, False, False, 0),
+    ("host, multiplayer, not host: foreign", "RN_RIGHTS_HOST", False, True, False, ERR_RIGHTS),
+    ("host, multiplayer, host: foreign", "RN_RIGHTS_HOST", False, True, True, 0),
+]
+"""Country rename rights: label, rule option, subject?, other humans?, actor is host?, err."""
+
+
+def run_rights(ctx: Context) -> int:
+    """The game rule decides the subject/foreign country Apply; CAPIE's host record sets the host.
+
+    Args:
+        ctx: Shared VM inputs.
+
+    Returns:
+        Number of cases.
+    """
+    for label, rule, subject, others, host, want in RIGHTS_CASES:
+        vm = _case(ctx, kind=1, names=("Polska", "polski"))
+        vm.rule, vm.other_humans = rule, others
+        vm.subject["is_subject"] = subject
+        if host:
+            vm.temp["capie_host"] = Decimal(1)
+        vm.run(APPLY[1])
+        assert vm.temp["rn_cv1_err"] == want, label
+        assert ("rn_is_host" in vm.flags) == host, label
+        assert bool(vm.requests) or "capie_cn_ver" in vm.subject["persistent"] or want, label
+    vm = _case(ctx, kind=1, names=("Polska", "polski"))
+    vm.temp["capie_host"] = Decimal(1)
+    vm.temp.pop("capie_cap")
+    vm.run(APPLY[1])
+    assert "rn_is_host" not in vm.flags, "no host record without CAPIE"
+    return len(RIGHTS_CASES) + 1
+
+
+def _faction_case(ctx: Context, *, own: bool) -> CapieVM:
+    """Return a VM with the faction editor open on a pinned faction leader.
+
+    Args:
+        ctx: Shared VM inputs.
+        own: The player leads the faction (else another country does).
+
+    Returns:
+        The VM.
+    """
+    vm = CapieVM(ctx)
+    vm.flags.add("rn_fac_open")
+    vm.persistent["rn_fac_target"] = Country(SUBJECT_TAG)
+    vm.subject["faction_leader"] = True
+    if own:
+        vm.subject["tag"] = vm.root_tag
+    vm.temp["capie_cap"] = Decimal(5)
+    vm.fields("Oś Bałtycka")
+    return vm
+
+
+FACTION_CASES: list[tuple[str, Callable[[CapieVM], object], bool, int]] = [
+    ("own faction", lambda _v: None, True, 0),
+    ("CAPIE without faction layer", lambda v: v.temp.update(capie_cap=Decimal(2)), True, 15),
+    ("no longer leader", lambda v: v.subject.update(faction_leader=False), True, ERR_RIGHTS),
+    ("foreign faction", lambda _v: None, False, ERR_RIGHTS),
+    ("host, single player, foreign", lambda v: setattr(v, "rule", "RN_RIGHTS_HOST"), False, 0),
+    (
+        "cooldown",
+        lambda v: v.subject["persistent"].update(rn_fac_cd_until=Decimal(VM_TODAY + 2)),
+        True,
+        ERR_COOLDOWN,
+    ),
+    ("editor closed", lambda v: v.flags.discard("rn_fac_open"), True, ERR_RIGHTS),
+]
+"""Faction Apply: label, change to a ready VM, own faction, expected rn_cv1_err."""
+
+
+def run_factions(ctx: Context) -> int:
+    """Faction rename: rights, the CAPIE level gate, cooldown, the layer and Restore name.
+
+    Args:
+        ctx: Shared VM inputs.
+
+    Returns:
+        Number of cases.
+    """
+    for label, mutate, own, want in FACTION_CASES:
+        vm = _faction_case(ctx, own=own)
+        mutate(vm)
+        subject = vm.subject_state()
+        vm.run("rn_fac_apply")
+        assert vm.temp["rn_cv1_err"] == want, label
+        if want == 0:
+            layer = vm.subject["persistent"]
+            assert layer["capie_fn_ver"] == 1, label
+            assert layer["rn_fac_cd_until"] == VM_TODAY + COOLDOWN_DAYS, label
+            codes = vm.subject["arrays"]["capie_fn_n"]
+            assert codes == [Decimal(CODE[c]) for c in "Oś Bałtycka"], label
+            assert "rn_fac_open" not in vm.flags, label
+        else:
+            assert vm.subject_state() == subject, label
+            assert vm.localized("RN_FAC_STATUS") == ctx.chars[FACTION_STATUS[want]], label
+    vm = _faction_case(ctx, own=True)
+    vm.subject["persistent"]["capie_fn_ver"] = Decimal(1)
+    vm.run("rn_fac_reset")
+    assert vm.temp["rn_cv1_err"] == 0
+    assert "capie_fn_ver" not in vm.subject["persistent"]
+    assert vm.subject["persistent"]["rn_fac_cd_until"] == VM_TODAY + COOLDOWN_DAYS, "cooldown"
+    vm = _faction_case(ctx, own=True)
+    vm.run("rn_fac_reset")
+    assert vm.temp["rn_cv1_err"] == ERR_RIGHTS, "nothing to restore"
+    return len(FACTION_CASES) + 2
+
+
+FACTION_STATUS = {
+    15: "RN_FAC_ERR_CAPIE_OLD",
+    ERR_RIGHTS: "RN_SUB_ERR_RIGHTS",
+    ERR_COOLDOWN: "RN_FAC_ERR_CD",
+}
+"""Faction editor status line key per rejection code."""
+
+
+EVENT_ID = "rn_rename.1"
+"""The rename news event."""
+
+
+def _pf(vm: CapieVM, text: str) -> None:
+    """Put the editor's shown name (proposed CAPIE record capie_pf1_*) into the command.
+
+    Args:
+        vm: VM.
+        text: Name the editor showed at Apply.
+    """
+    codes = [CODE[c] for c in text]
+    vm.temp["capie_pf1_len"] = Decimal(len(codes))
+    for i in range(MAX_NAME):
+        vm.temp[f"capie_pf1_{i}"] = Decimal(codes[i] if i < len(codes) else 0)
+
+
+def run_rename_event(ctx: Context) -> int:
+    """The rule turns the news event on; the old name is kept as codes on the renamed country.
+
+    Args:
+        ctx: Shared VM inputs.
+
+    Returns:
+        Number of cases.
+    """
+    cases = 0
+    for label, shown, layer, rule_on, want_old in (
+        ("editor showed the old name", "Kanada", None, True, "Kanada"),
+        ("old player name, no record", None, "Nowa", True, "Nowa"),
+        ("game name, no record", None, None, True, ""),
+        ("rule off", "Kanada", None, False, "Kanada"),
+    ):
+        vm = _case(ctx, kind=1, names=("Dominium", "dominialny"))
+        vm.rules["rn_rename_event"] = "RN_RENAME_EVENT_ON" if rule_on else "RN_RENAME_EVENT_OFF"
+        vm.roll = cases % 4
+        if shown:
+            _pf(vm, shown)
+        if layer:
+            vm.subject["persistent"]["capie_cn_ver"] = Decimal(1)
+            vm.subject["arrays"]["capie_cn_n"] = [Decimal(CODE[c]) for c in layer]
+        vm.run(APPLY[1])
+        assert vm.temp["rn_cv1_err"] == 0, label
+        kept = vm.subject["arrays"].get("rn_prev_n", [])
+        assert kept == [Decimal(CODE[c]) for c in want_old], label
+        assert vm.subject["persistent"]["rn_prev_n_len"] == len(want_old), label
+        assert vm.events == ([(SUBJECT_TAG, EVENT_ID)] if rule_on else []), label
+        if rule_on:
+            assert vm.subject["persistent"]["rn_rename_variant"] == vm.roll + 1, label
+        cases += 1
+    vm = _case(ctx, kind=1, names=("Polska", "polski"))
+    vm.rules["rn_rename_event"] = "RN_RENAME_EVENT_ON"
+    vm.subject["persistent"]["capie_cn_ver"] = Decimal(1)
+    vm.subject["flags"].update({"rn_custom_name", "rn_cn_migrated"})
+    vm.subject["arrays"]["capie_cn_n"] = [Decimal(CODE[c]) for c in "Nowa"]
+    vm.run("rn_sub_reset_country")
+    assert vm.subject["arrays"]["rn_prev_n"] == [Decimal(CODE[c]) for c in "Nowa"], "reset"
+    assert vm.events == [(SUBJECT_TAG, EVENT_ID)], "a reset is news too"
+    return cases + 1
+
+
+def check_rename_event() -> None:
+    """The news event: major, triggered only, two titles, four descriptions, both languages."""
+    events = declarations(SOURCE / "events")
+    event = events["news_event"]
+    assert get(event, "id") == EVENT_ID
+    assert get(event, "major") == "yes"
+    assert get(event, "is_triggered_only") == "yes"
+    assert len([k for k, _, _ in event if k == "title"]) == 2  # noqa: PLR2004 - old name known or not
+    assert len([k for k, _, _ in event if k == "desc"]) == 4  # noqa: PLR2004 - four variants
+    keys = {f"{EVENT_ID}.{s}" for s in ("t", "t_new", "d1", "d2", "d3", "d4", "a")}
+    for lang in ("english", "polish"):
+        text = (SOURCE / "localisation" / lang / f"rn_rename_event_l_{lang}.yml").read_text(
+            encoding="utf-8-sig"
+        )
+        found = set(re.findall(r"^ (rn_rename[.][^:]+):0 ", text, re.MULTILINE))
+        assert found == keys, lang
+        assert "[From.RN_OLD_31]" in text, lang
+    loc = (MOD / "common" / "scripted_localisation" / "rename_anything_scripted_loc.txt").read_text(
+        encoding="utf-8"
+    )
+    assert "name = RN_OLD_31" in loc, "old-name tables generated"

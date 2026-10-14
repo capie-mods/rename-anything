@@ -1,0 +1,73 @@
+# Rename news event (game rule rn_rename_event, off by default). Called by the single country-name
+# carrier (rn_country_name_carrier.txt) around every change of a player-given name: a new name and a
+# reset, for the own country (politics editor, legacy window) and for a subject.
+#
+# The old name. After the change the old text is gone, so it is kept before, as character codes on the
+# renamed country (rn_prev_n, rn_prev_n_len), drawn by the RN_OLD_<slot> tables in the event:
+#   1. capie_pf1_len / capie_pf1_0..31: the name the editor showed at Apply (its prefill carrier),
+#      which is the displayed name (player name > cosmetic tag > base name). PROPOSED CAPIE record
+#      (API level 5): the codes of prefill carrier 1, added to the Apply of a grammar editor.
+#   2. otherwise the current player-given name layer (capie_cn_n), when there is one;
+#   3. otherwise nothing: the event uses its "new name only" title.
+# Codes above 84 (CAPIE's wider alphabet) are not drawn by Rename Anything's tables.
+
+# Scope: the country about to change its name.
+rn_rename_event_capture = {
+	clear_array = rn_prev_n
+	set_variable = { rn_prev_n_len = 0 }
+	if = {
+		limit = { check_variable = { temp_var:capie_pf1_len > 0 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 0 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_0 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 1 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_1 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 2 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_2 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 3 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_3 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 4 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_4 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 5 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_5 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 6 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_6 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 7 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_7 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 8 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_8 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 9 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_9 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 10 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_10 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 11 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_11 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 12 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_12 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 13 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_13 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 14 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_14 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 15 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_15 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 16 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_16 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 17 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_17 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 18 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_18 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 19 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_19 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 20 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_20 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 21 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_21 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 22 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_22 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 23 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_23 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 24 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_24 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 25 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_25 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 26 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_26 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 27 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_27 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 28 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_28 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 29 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_29 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 30 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_30 } }
+		if = { limit = { check_variable = { temp_var:capie_pf1_len > 31 } } add_to_array = { rn_prev_n = temp_var:capie_pf1_31 } }
+		set_variable = { rn_prev_n_len = temp_var:capie_pf1_len }
+	}
+	else_if = {
+		limit = { has_variable = capie_cn_ver }
+		for_each_loop = { array = capie_cn_n value = rn_v add_to_array = { rn_prev_n = rn_v } }
+		set_variable = { rn_prev_n_len = capie_cn_n^num }
+	}
+}
+
+# Scope: the country that just changed its name. A major news event, so every player reads it.
+rn_rename_event_fire = {
+	if = {
+		limit = { has_game_rule = { rule = rn_rename_event option = RN_RENAME_EVENT_ON } }
+		random_list = {
+			25 = { set_variable = { rn_rename_variant = 1 } }
+			25 = { set_variable = { rn_rename_variant = 2 } }
+			25 = { set_variable = { rn_rename_variant = 3 } }
+			25 = { set_variable = { rn_rename_variant = 4 } }
+		}
+		news_event = { id = rn_rename.1 }
+	}
+}
