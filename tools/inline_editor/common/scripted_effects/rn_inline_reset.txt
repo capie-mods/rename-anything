@@ -1,0 +1,56 @@
+# Restore a country's name: remove the player-given name through the single carrier
+# (rn_country_name_carrier_clear). The country shows the game's current name again (its cosmetic
+# tag, or its base name); flag and colour are the game's. A reset uses the same rename cooldown as
+# a new name (decision 2026-10-14): refused while it runs, and started by the reset. Every
+# effect repeats the checks of the matching Apply, because the game does not repeat a button's
+# enabled trigger before its effect.
+
+# Own country, from the politics editor (rn_ip_country_*). Scope: the player's country (ROOT).
+rn_inline_country_reset = {
+	if = {
+		limit = {
+			tag = ROOT
+			is_ai = no
+			has_country_flag = rn_ip_country_open
+			NOT = { has_country_flag = rn_ip_leader_open }
+			NOT = { has_country_flag = rn_ip_party_neutrality_open }
+			NOT = { has_country_flag = rn_open }
+			NOT = { has_country_flag = rn_input }
+			check_variable = { rn_ip_country_target^num = 1 }
+			is_in_array = { array = rn_ip_country_target value = THIS }
+			rn_cn_has_custom = yes
+			NOT = { rn_ip_cooldown_active_country = yes }
+		}
+		rn_country_name_carrier_clear = yes
+		rn_ip_cooldown_start_country = yes
+		rn_inline_pair_cancel_country = yes
+	}
+}
+
+# Subject, from the subject editor's Country tab. Scope: the player (ROOT); the target is the pinned
+# rn_sub_target, checked like an Apply (rn_sub_may_edit, one pin, the Country editor open).
+rn_sub_reset_country = {
+	set_temp_variable = { rn_cv1_err = 20 }
+	set_temp_variable = { rn_cv1_field = 0 }
+	if = {
+		limit = {
+			is_ai = no
+			has_country_flag = rn_sub_open_country
+			NOT = { has_country_flag = rn_open }
+			NOT = { has_country_flag = rn_input }
+			has_variable = rn_sub_target
+			check_variable = { rn_sub_target_arr^num = 1 }
+			var:rn_sub_target = { rn_sub_may_edit = yes rn_cn_has_custom = yes }
+		}
+		set_temp_variable = { rn_cv1_err = 0 }
+		if = {
+			limit = { var:rn_sub_target = { rn_ip_cooldown_active_country = yes } }
+			set_temp_variable = { rn_cv1_err = 11 }
+		}
+		else = {
+			var:rn_sub_target = { rn_country_name_carrier_clear = yes rn_ip_cooldown_start_country = yes }
+			rn_sub_close = yes
+		}
+	}
+	rn_cv1_status_record = yes
+}

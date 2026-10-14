@@ -1,0 +1,110 @@
+# Faction rename. Entry: the diplomatic action rn_rename_faction on any member of a faction (the
+# leader cannot target itself), which pins the faction LEADER in ROOT.rn_fac_target and the viewed
+# country in rn_fac_view_arr. Rights: rn_fac_may_edit (game rule rn_edit_rights). Checked in every
+# effect: the command scope is never trusted. Errors as rn_capie_v1.txt, plus 15: CAPIE too old for
+# faction names (no capie_cap >= 5).
+
+# Opening (scope: the viewed faction member; ROOT: the player).
+rn_fac_open = {
+	if = {
+		limit = {
+			is_in_faction = yes
+			ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
+			var:faction_leader = { rn_fac_may_edit = yes }
+		}
+		ROOT = {
+			rn_sub_close = yes
+			clear_array = rn_fac_view_arr
+			add_to_array = { rn_fac_view_arr = PREV }
+		}
+		var:faction_leader = { ROOT = { set_variable = { rn_fac_target = PREV } } }
+		ROOT = {
+			set_country_flag = rn_fac_open
+			add_to_variable = { rn_sub_epoch = 1 }
+			if = { limit = { check_variable = { rn_sub_epoch > 999999 } } set_variable = { rn_sub_epoch = 1 } }
+			rn_cv1_status_clear = yes
+		}
+	}
+}
+
+# ROOT scope.
+rn_fac_close = {
+	clr_country_flag = rn_fac_open
+	clear_array = rn_fac_view_arr
+	clear_variable = rn_fac_target
+	add_to_variable = { rn_sub_epoch = 1 }
+	if = { limit = { check_variable = { rn_sub_epoch > 999999 } } set_variable = { rn_sub_epoch = 1 } }
+}
+
+# Permission and state (ROOT scope); rn_cv1_err 20 when not allowed or not open.
+rn_fac_rights = {
+	if = {
+		limit = {
+			check_variable = { temp_var:rn_cv1_err = 0 }
+			OR = {
+				is_ai = yes
+				NOT = { has_country_flag = rn_fac_open }
+				has_country_flag = rn_open
+				has_country_flag = rn_input
+				NOT = { has_variable = rn_fac_target }
+				NOT = { var:rn_fac_target = { rn_fac_may_edit = yes } }
+			}
+		}
+		set_temp_variable = { rn_cv1_err = 20 }
+	}
+}
+
+# Apply (ROOT scope): one field, the faction name.
+rn_fac_apply = {
+	set_temp_variable = { rn_cv1_open = rn_sub_epoch }
+	rn_cv1_header = yes
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } NOT = { check_variable = { temp_var:capie_cap > 4 } } }
+		set_temp_variable = { rn_cv1_err = 15 }
+	}
+	rn_fac_rights = yes
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } var:rn_fac_target = { rn_fac_cooldown_active = yes } }
+		set_temp_variable = { rn_cv1_err = 11 }
+	}
+	if = { limit = { check_variable = { temp_var:rn_cv1_err = 0 } } rn_cv1_take_one = yes }
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } }
+		set_temp_variable = { rn_nativeb_len = 0 }
+		rn_inline_party_copy_validated = yes
+		var:rn_fac_target = {
+			rn_faction_name_carrier_set = yes
+			rn_ip_cooldown_days = yes
+			set_variable = { rn_fac_cd_until = global.num_days }
+			add_to_variable = { rn_fac_cd_until = temp_var:rn_ip_cd_days }
+		}
+		rn_fac_close = yes
+	}
+	rn_cv1_status_record = yes
+}
+
+# Restore the game's faction name (ROOT scope); same rights and the same cooldown as Apply.
+rn_fac_reset = {
+	set_temp_variable = { rn_cv1_err = 0 }
+	set_temp_variable = { rn_cv1_field = 0 }
+	rn_fac_rights = yes
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } NOT = { var:rn_fac_target = { has_variable = capie_fn_ver } } }
+		set_temp_variable = { rn_cv1_err = 20 }
+	}
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } var:rn_fac_target = { rn_fac_cooldown_active = yes } }
+		set_temp_variable = { rn_cv1_err = 11 }
+	}
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } }
+		var:rn_fac_target = {
+			rn_faction_name_carrier_clear = yes
+			rn_ip_cooldown_days = yes
+			set_variable = { rn_fac_cd_until = global.num_days }
+			add_to_variable = { rn_fac_cd_until = temp_var:rn_ip_cd_days }
+		}
+		rn_fac_close = yes
+	}
+	rn_cv1_status_record = yes
+}

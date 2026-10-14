@@ -25,7 +25,7 @@ from modgen.features import (
     states,
     textures,
 )
-from modgen.features.text_buffers import BUFFERS, slot_tables
+from modgen.features.text_buffers import BUFFERS, PREVIOUS_NAME_BUFFER, slot_tables
 
 if TYPE_CHECKING:
     from modgen.output import OutputSink
@@ -76,7 +76,7 @@ def scripted_loc(states_table: StateTable, keys: set[int]) -> str:
                 "# Scripted localisation. Always called with an explicit ROOT "
                 "(player country / effect ROOT).\n\n"
             ),
-            slot_tables([*BUFFERS, *cities.VP_NAME_BUFFERS]),
+            slot_tables([*BUFFERS, *cities.VP_NAME_BUFFERS, PREVIOUS_NAME_BUFFER]),
             cities.province_digit_loc(),
             cities.vp_name_loc(states_table, keys),
             input_window.key_label_loc(),

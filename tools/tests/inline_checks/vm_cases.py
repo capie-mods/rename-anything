@@ -63,6 +63,11 @@ class ProductVM(ApplyVM):
         self.arrays["rn_ip_party_target"] = [Country(tag)]
         self.triggers = triggers
         self.persistent["global.num_days"] = Decimal(VM_TODAY)
+        # Lobby game rules (common/game_rules/rn_rules.txt), at their defaults.
+        self.rules = {
+            "rn_edit_rights": "RN_RIGHTS_SUBJECTS",
+            "rn_rename_event": "RN_RENAME_EVENT_OFF",
+        }
 
     def execute(self, nodes: list[Any]) -> None:
         """Execute effect nodes, adding two primitives of the legacy keyboard effects.
@@ -121,6 +126,9 @@ class ProductVM(ApplyVM):
                 else:
                     self.temp[name] = self.temp.get(name, Decimal(0)) - self.value(src)
                 answer = True
+            elif key == "has_game_rule":
+                rule = {k: v for k, _, v in value}
+                answer = self.rules[rule["rule"]] == rule["option"]
             elif key.startswith("rn_ip_cooldown_active_"):
                 kind = key.removeprefix("rn_ip_cooldown_active_")
                 left = self.persistent.get(f"rn_ip_cd_{kind}_until", Decimal(0)) - self.value(

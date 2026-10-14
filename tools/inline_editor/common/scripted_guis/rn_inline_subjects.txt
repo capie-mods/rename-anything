@@ -35,6 +35,7 @@ scripted_gui = {
 					ROOT = { set_country_flag = rn_sub_open_party }
 				}
 			}
+			rn_sub_subcountry_reset_click = { ROOT = { rn_sub_reset_country = yes } }
 		}
 		triggers = {
 			capie_v1_ep__rn__subcountry_visible = { always = no }
@@ -44,6 +45,7 @@ scripted_gui = {
 			rn_sub_subcountry_tab_country_click_enabled = { always = no }
 			rn_sub_subcountry_tab_leader_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
 			rn_sub_subcountry_tab_party_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+			rn_sub_subcountry_reset_click_enabled = { rn_cn_has_custom = yes NOT = { rn_ip_cooldown_active_country = yes } ROOT = { has_country_flag = rn_sub_open_country } }
 		}
 	}
 	capie_v1_ed__rn__subleader = {

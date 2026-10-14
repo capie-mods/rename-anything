@@ -41,6 +41,7 @@ def check_models(models: dict[str, Any], triggers: dict[str, Any]) -> dict[str, 
         "capie_v1_ed__rn__subcountry",
         "capie_v1_ed__rn__subleader",
         "capie_v1_ed__rn__subparty",
+        "capie_v1_ed__rn__faction",
     }
     assert "rn_ip_subject_rename_enabled" not in triggers, "placeholder switch retired"
     # The subject models are checked by inline_checks.capie_cases.check_capie_structure.
@@ -66,6 +67,9 @@ def check_models(models: dict[str, Any], triggers: dict[str, Any]) -> dict[str, 
                 assert not any("temp_var:" in v or "rn_native_" in v for v in symbols)
         for flag in ("rn_open", "rn_input"):
             assert ("NOT", "=", [("has_country_flag", "=", flag)]) in get(body, "visible")
+    country = get(politics["rn_ip_country_gui"], "triggers")
+    reset = get(country, "rn_ip_country_reset_click_enabled")
+    assert ("rn_cn_has_custom", "=", "yes") in reset, "Restore name only for a given name"
     return politics
 
 
@@ -253,7 +257,7 @@ def check_guards(effects: dict[str, Any], triggers: dict[str, Any]) -> None:
     copies = [
         n
         for name, b in effects.items()
-        if not name.startswith("rn_sub_")
+        if not name.startswith(("rn_sub_", "rn_fac_"))
         for n in walk(b)
         if n[0] == "rn_inline_party_copy_validated"
     ]
@@ -455,8 +459,11 @@ def check_cooldown(
             for n, b in effects.items()
             if any(x[0] == f"rn_ip_cooldown_start_{k}" for x in walk(b))
         ]
-        # The subject setter starts the same cooldown, on the subject (capie_cases checks it).
-        assert sorted(callers) == sorted([starters[k], f"rn_sub_apply_{k}"]), ("callers", k)
+        # The subject setter starts the same cooldown on the subject; Restore name uses it too
+        # (decision 2026-10-14), for the own country and for a subject.
+        resets = {"country": ["rn_inline_country_reset", "rn_sub_reset_country"]}.get(k, [])
+        want = sorted([starters[k], f"rn_sub_apply_{k}", *resets])
+        assert sorted(callers) == want, ("callers", k, callers)
         assert ("NOT", "=", [(active, "=", "yes")]) in get(get(effects[openers[k]], "if"), "limit")
         launcher = models[prefixes[k] + "_launcher_gui"]
         enabled = get(get(launcher, "triggers"), prefixes[k] + "_open_click_enabled")

@@ -1,0 +1,44 @@
+# Who may rename what (lobby game rule, set by the host; docs/API-DECISIONS.md decisions 6 and 7 and
+# the 2026-10-11 correction: the game has no host trigger, host rights come from this rule).
+# Descriptions sit on the options, as in vanilla 00_game_rules.txt: a rule-level desc is what the
+# parser rejected in the SDK rule file ("Unexpected token: desc", fixed in b6f2a57).
+rn_edit_rights = {
+	name = "RN_RULE_EDIT_RIGHTS"
+	group = "RULE_GROUP_GAMEPLAY"
+	default = {
+		name = "RN_RIGHTS_SUBJECTS"
+		text = "RN_RULE_RIGHTS_SUBJECTS"
+		desc = "RN_RULE_RIGHTS_SUBJECTS_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_RIGHTS_HOST"
+		text = "RN_RULE_RIGHTS_HOST"
+		desc = "RN_RULE_RIGHTS_HOST_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_RIGHTS_OWN"
+		text = "RN_RULE_RIGHTS_OWN"
+		desc = "RN_RULE_RIGHTS_OWN_DESC"
+		allow_achievements = yes
+	}
+}
+
+# Rename news event (decision 2026-10-14): off unless the host turns it on in the lobby.
+rn_rename_event = {
+	name = "RN_RULE_RENAME_EVENT"
+	group = "RULE_GROUP_GAMEPLAY"
+	default = {
+		name = "RN_RENAME_EVENT_OFF"
+		text = "RN_RULE_RENAME_EVENT_OFF"
+		desc = "RN_RULE_RENAME_EVENT_OFF_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_RENAME_EVENT_ON"
+		text = "RN_RULE_RENAME_EVENT_ON"
+		desc = "RN_RULE_RENAME_EVENT_ON_DESC"
+		allow_achievements = yes
+	}
+}

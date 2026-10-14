@@ -7,10 +7,10 @@
 guiTypes = {
 	containerWindowType = {
 		name = "capie_v1_ed__rn__subcountry"
-		# Overlay 65..485 x 37..167 of the Diplomacy view, under its title line;
+		# Overlay 65..485 x 37..203 of the Diplomacy view, under its title line;
 		# it covers the header and the tab row only while it is open.
 		position = { x = 65 y = 37 }
-		size = { width = 420 height = 130 }
+		size = { width = 420 height = 166 }
 		orientation = upper_left
 		clipping = no
 		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
@@ -151,6 +151,16 @@ guiTypes = {
 			maxHeight = 14
 			fixedsize = yes
 			alwaystransparent = yes
+		}
+		# Restore name (as in the politics editor): removes the subject's player-given name.
+		buttonType = {
+			name = "rn_sub_subcountry_reset"
+			position = { x = 297 y = 132 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_IP_RESET_NAME"
+			buttonFont = "hoi_16mbs"
+			clicksound = click_default
+			pdx_tooltip = "RN_IP_RESET_NAME_TT"
 		}
 	}
 	containerWindowType = {

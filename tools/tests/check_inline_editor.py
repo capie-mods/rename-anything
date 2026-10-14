@@ -70,7 +70,11 @@ from inline_checks.capie_cases import (  # noqa: E402
     check_capie_structure,
     run_capie_fields,
     run_capie_header,
+    run_factions,
     run_legacy_field,
+    run_name_resets,
+    run_rename_event,
+    run_rights,
     run_subject_apply,
     run_subject_rejections,
 )
@@ -131,6 +135,10 @@ def main() -> int:
         "subject_apply_cases": run_subject_apply(ctx),
         "subject_rejection_cases": run_subject_rejections(ctx),
         "legacy_field_cases": run_legacy_field(ctx),
+        "name_reset_cases": run_name_resets(ctx),
+        "rights_cases": run_rights(ctx),
+        "faction_cases": run_factions(ctx),
+        "rename_event_cases": run_rename_event(ctx),
         "keyboard_refresh_cases": run_keyboard_refresh(
             ctx,
             models_of(MOD / "common" / "scripted_guis", "rename_anything_*.txt")["rn_input_gui"],
