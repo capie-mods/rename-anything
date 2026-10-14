@@ -18,7 +18,7 @@
  RN_CV1_ERR_ALPHABET:0 "§RDozwolone tylko a-z, polskie litery, cyfry, spacja, - . i '.§!"
  rn_rename_subject:0 "£edit_list_icon Zmień nazwy tego państwa"
  RN_RENAME_SUBJECT_TITLE:0 "£edit_list_icon Zmień nazwy tego państwa"
- RN_RENAME_SUBJECT_ACTION_DESC:0 "Zmień nazwę i przymiotnik tego państwa, jego przywódcę, partię rządzącą albo flagę. Bez kosztu i bez zgody.[This.RN_SUB_CD_COUNTRY][This.RN_SUB_CD_LEADER][This.RN_SUB_CD_PARTY][This.RN_FP_CD]"
+ RN_RENAME_SUBJECT_ACTION_DESC:0 "Zmień nazwę i przymiotnik tego państwa, jego przywódcę, partię rządzącą albo flagę. Bez kosztu i bez zgody. Czas oczekiwania między zmianami pokazuje edytor."
  RN_RENAME_SUBJECT_SEND:0 "Otworzyć edytor nazw dla: [This.GetName]? Nic się nie zmieni, dopóki nie zatwierdzisz nowej nazwy."
  RN_RENAME_SUBJECT_RECEIVE:0 "[Root.GetName] zmienia nazwy naszego państwa."
  RN_RENAME_SUBJECT_ACCEPT:0 "Zmień nazwy podmiotu"
@@ -29,3 +29,4 @@
  RN_SUB_TAB_LEADER_TT:0 "[This.GetLeader][This.RN_SUB_CD_LEADER]"
  RN_SUB_TAB_PARTY:0 "Partia"
  RN_SUB_TAB_PARTY_TT:0 "[This.GetRulingParty][This.RN_SUB_CD_PARTY]"
+ RN_EDITOR_FREE_TT:0 "Żaden inny edytor nazw nie jest otwarty"

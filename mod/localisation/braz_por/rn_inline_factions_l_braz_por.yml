@@ -4,7 +4,7 @@
  RN_RULE_RIGHTS_HOST:0 "Host renames every country"
  RN_RULE_RIGHTS_OWN:0 "Own country only"
  RN_RENAME_FACTION_TITLE:0 "£edit_list_icon Rename faction"
- RN_RENAME_FACTION_ACTION_DESC:0 "Change the name of [This.GetFactionName]. No cost, no answer needed."
+ RN_RENAME_FACTION_ACTION_DESC:0 "Change the name of this faction. No cost, no answer needed."
  RN_RENAME_FACTION_SEND:0 "Open the rename editor for [This.GetFactionName]? Nothing changes until you apply a new name."
  RN_RENAME_FACTION_RECEIVE:0 "[Root.GetName] is renaming our faction."
  RN_RENAME_FACTION_ACCEPT:0 "Rename faction"

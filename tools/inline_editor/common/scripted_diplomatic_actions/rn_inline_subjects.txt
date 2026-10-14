@@ -2,11 +2,14 @@
 # (vanilla common/scripted_diplomatic_actions documentation: ROOT is the sender, THIS the target).
 # No cost and no acceptance; the AI never sends it. complete_effect re-checks the rules and opens
 # the country editor (capie_v1_ed__rn__subcountry), which shows in the same Diplomacy view.
+# The action description does not expand scripted localisation or [This.*] (in-game 2026-10-14:
+# raw text), so it is plain; the cooldowns show in the editors. "selectable" is listed to the
+# player under Prerequisites, so its flags sit in custom_trigger_tooltip with a readable line.
 scripted_diplomatic_actions = {
 	rn_rename_subject = {
 		allowed = { always = yes }
 		visible = { rn_editor_bridge_available = yes rn_sub_may_edit = yes ROOT = { is_ai = no } }
-		selectable = { ROOT = { NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+		selectable = { custom_trigger_tooltip = { tooltip = RN_EDITOR_FREE_TT ROOT = { NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } } }
 		requires_acceptance = no
 		cost = 0
 		command_power = 0
@@ -28,7 +31,7 @@ scripted_diplomatic_actions = {
 	rn_rename_faction = {
 		allowed = { always = yes }
 		visible = { rn_editor_bridge_available = yes is_in_faction = yes ROOT = { is_ai = no } var:faction_leader = { rn_fac_may_edit = yes } }
-		selectable = { ROOT = { NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+		selectable = { custom_trigger_tooltip = { tooltip = RN_EDITOR_FREE_TT ROOT = { NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } } }
 		requires_acceptance = no
 		cost = 0
 		command_power = 0

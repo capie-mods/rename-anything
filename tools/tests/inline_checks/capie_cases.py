@@ -236,6 +236,46 @@ def _check_action() -> None:
         assert re.search(r'^ RN_RENAME_SUBJECT_TITLE:0 "£edit_list_icon ', text, re.MULTILINE)
         assert "RN_SUB_DEBUG" not in text, lang
         assert "RN_SUB_BUTTON" not in text, lang
+    _check_action_texts(actions["scripted_diplomatic_actions"])
+
+
+ACTION_TEXT_SUFFIXES = ("", "_TITLE", "_ACTION_DESC")
+"""Keys the action list shows: the name, the title and the description (``<KEY><suffix>``)."""
+
+
+def _check_action_texts(actions: list[Any]) -> None:
+    """Player-facing action texts expand, and Prerequisites show no raw condition.
+
+    In-game test 2026-10-14: the description of a scripted diplomatic action does not
+    expand ``[This.*]`` or scripted localisation (the tooltip showed the raw text), and
+    the ``selectable`` triggers are listed under Prerequisites, so bare flags appeared
+    as "Not rn_open". Every visible condition is wrapped in ``custom_trigger_tooltip``
+    with a key that exists in both languages.
+
+    Args:
+        actions: The ``scripted_diplomatic_actions`` body.
+    """
+    texts: dict[str, dict[str, str]] = {}
+    for lang in ("english", "polish"):
+        texts[lang] = {}
+        for path in (SOURCE / "localisation" / lang).glob("*.yml"):
+            body = path.read_text(encoding="utf-8-sig")
+            texts[lang].update(re.findall(r'^ (\S+?):\d* "(.*)"$', body, re.MULTILINE))
+    for name, _, action in actions:
+        for key in (name, *(name.upper() + s for s in ACTION_TEXT_SUFFIXES[1:])):
+            for lang in texts:
+                assert "[" not in texts[lang][key], (
+                    "unexpanded text in the action list",
+                    key,
+                    lang,
+                )
+        for block in ("selectable", "allowed"):
+            for k, _, v in get(action, block):
+                if (k, v) == ("always", "yes"):
+                    continue
+                assert k == "custom_trigger_tooltip", ("raw condition under Prerequisites", name, k)
+                tip = get(v, "tooltip")
+                assert all(tip in texts[lang] for lang in texts), (name, tip)
 
 
 def _check_carrier() -> None:
