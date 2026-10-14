@@ -13,6 +13,7 @@
 
 # Scope: the country about to change its name.
 rn_rename_event_capture = {
+	log = "RN_EVT capture [This.GetTag] pf1_len=[?temp_var:capie_pf1_len|0] pf1_err=[?temp_var:capie_pf1_err|0] layer=[?capie_cn_n^num|0]"
 	clear_array = rn_prev_n
 	set_variable = { rn_prev_n_len = 0 }
 	if = {
@@ -59,6 +60,8 @@ rn_rename_event_capture = {
 }
 
 # Scope: the country that just changed its name. A major news event, so every player reads it.
+# Fired here, in that country's scope, so it is the event's ROOT; the texts read ROOT, never FROM
+# (FROM is the acting player, the overlord when a subject is renamed).
 rn_rename_event_fire = {
 	if = {
 		limit = { has_game_rule = { rule = rn_rename_event option = RN_RENAME_EVENT_ON } }

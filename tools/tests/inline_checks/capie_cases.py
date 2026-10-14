@@ -1161,6 +1161,68 @@ def _pf(vm: CapieVM, text: str) -> None:
         vm.temp[f"capie_pf1_{i}"] = Decimal(codes[i] if i < len(codes) else 0)
 
 
+def _event_title(vm: CapieVM, receiver: str) -> str:
+    """Return the title key the news event picks, with HOI4's event scopes.
+
+    The event is fired in the renamed country's scope, so that country is ROOT (the
+    receiver); FROM is the sender, the acting player's country. In-game test
+    2026-10-14: with FROM in the texts, a subject renamed by the UK was announced as the UK.
+
+    Args:
+        vm: VM after the Apply.
+        receiver: Tag the event was fired for.
+
+    Returns:
+        The ``text`` of the first title whose trigger holds.
+
+    Raises:
+        AssertionError: No title applies.
+    """
+    event = declarations(SOURCE / "events")["news_event"]
+    for key, _, body in event:
+        if key != "title":
+            continue
+        trigger = next((v for k, _, v in body if k == "trigger"), [])
+        assert all(k == "ROOT" for k, _, _ in trigger), (
+            "event triggers read ROOT, the renamed country"
+        )
+        flat = [n for _, _, v in trigger for n in v]
+        holds = (
+            vm._scoped(lambda f=flat: vm.condition(f))  # noqa: SLF001 - the VM's own scope switch
+            if receiver == SUBJECT_TAG
+            else vm.condition(flat)
+        )
+        if holds:
+            return str(get(body, "text"))
+    msg = "no title"
+    raise AssertionError(msg)
+
+
+def run_overlord_rename_event(ctx: Context) -> int:
+    """An overlord renames a subject: the event is the subject's and names its old name.
+
+    Args:
+        ctx: Shared VM inputs.
+
+    Returns:
+        Number of cases.
+    """
+    vm = _case(ctx, kind=1, names=("Raz", "razki"))
+    vm.rules["rn_rename_event"] = "RN_RENAME_EVENT_ON"
+    _pf(vm, "Indie")
+    vm.run(APPLY[1])
+    assert vm.temp["rn_cv1_err"] == 0
+    assert vm.events == [(SUBJECT_TAG, EVENT_ID)], "fired in the subject's scope (ROOT there)"
+    assert vm.root_tag != SUBJECT_TAG, "the sender (FROM) is the overlord"
+    assert _event_title(vm, SUBJECT_TAG) == f"{EVENT_ID}.t", "title with the old name"
+    assert "rn_prev_n_len" not in vm.persistent, "nothing of the event on the overlord"
+    vm = _case(ctx, kind=1, names=("Raz", "razki"))
+    vm.rules["rn_rename_event"] = "RN_RENAME_EVENT_ON"
+    vm.run(APPLY[1])
+    assert _event_title(vm, SUBJECT_TAG) == f"{EVENT_ID}.t_new", "no old name: new-name title"
+    return 2
+
+
 def run_rename_event(ctx: Context) -> int:
     """The rule turns the news event on; the old name is kept as codes on the renamed country.
 
@@ -1202,7 +1264,7 @@ def run_rename_event(ctx: Context) -> int:
     vm.run("rn_sub_reset_country")
     assert vm.subject["arrays"]["rn_prev_n"] == [Decimal(CODE[c]) for c in "Nowa"], "reset"
     assert vm.events == [(SUBJECT_TAG, EVENT_ID)], "a reset is news too"
-    return cases + 1
+    return cases + 1 + run_overlord_rename_event(ctx)
 
 
 def check_rename_event() -> None:
@@ -1221,7 +1283,8 @@ def check_rename_event() -> None:
         )
         found = set(re.findall(r"^ (rn_rename[.][^:]+):0 ", text, re.MULTILINE))
         assert found == keys, lang
-        assert "[From.RN_OLD_31]" in text, lang
+        assert "[Root.RN_OLD_31]" in text, lang
+        assert "From." not in text, ("the renamed country is ROOT in the event", lang)
     loc = (MOD / "common" / "scripted_localisation" / "rename_anything_scripted_loc.txt").read_text(
         encoding="utf-8"
     )
