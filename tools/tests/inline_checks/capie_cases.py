@@ -30,7 +30,7 @@ from modgen.features.cooldown import COOLDOWN_DAYS
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterator
 
-CAPIE_API = 6
+CAPIE_API = 7
 """API level CAPIE 1.4 sends as ``capie_cap``."""
 
 SUB_EPOCH = 4
@@ -405,7 +405,7 @@ class CapieVM(ProductVM):
         self.events: list[tuple[str, str]] = []
         self.roll = 0
         self.other_humans = False
-        self.temp.update(capie_cap=Decimal(CAPIE_API), capie_ver=Decimal(10400))
+        self.temp.update(capie_cap=Decimal(CAPIE_API), capie_ver=Decimal(10500))
         self.temp["capie_epoch"] = Decimal(SUB_EPOCH)
 
     def fields(self, *names: str) -> None:
