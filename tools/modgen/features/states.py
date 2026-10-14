@@ -27,33 +27,38 @@ PAGED_LIST = PagedList("states", "rn_states_grid", "rn_spage_prev", "rn_spage_ne
 
 _EFFECTS = f"""			rn_state_rename_click = {{
 				if = {{
-					limit = {{ is_owned_by = ROOT }}
+					limit = {{ is_owned_by = ROOT NOT = {{ rn_feature_states_off = yes }} }}
 					ROOT = {{ rn_target_state = yes }}
 				}}
 			}}
 			rn_state_reset_click = {{
 				if = {{
-					limit = {{ is_owned_by = ROOT }}
+					limit = {{ is_owned_by = ROOT NOT = {{ rn_feature_states_off = yes }} }}
 					reset_state_name = yes
 				}}
 			}}
 			rn_state_cities_click = {{
-				ROOT = {{
+				if = {{ limit = {{ NOT = {{ rn_feature_states_off = yes }} }} ROOT = {{
 					set_variable = {{ rn_sel_state = PREV }}
 					set_temp_variable = {{ rn_newtab = {TAB_CITIES} }}
 					rn_set_tab = yes
-				}}
+				}} }}
 			}}
 			rn_spage_prev_click = {{ subtract_from_variable = {{ rn_spage = 1 }} rn_build_state_page = yes }}
 			rn_spage_next_click = {{ add_to_variable = {{ rn_spage = 1 }} rn_build_state_page = yes }}
 """  # noqa: E501 - generated script lines are emitted verbatim
 """Scripted GUI effects of the States tab."""
 
-_TRIGGERS = """			rn_state_rename_click_enabled = { ROOT = { NOT = { rn_cd_state_active = yes } } }
+_TRIGGERS = """			rn_state_rename_click_enabled = { ROOT = { NOT = { rn_cd_state_active = yes } } NOT = { rn_feature_states_off = yes } }
+			rn_state_reset_click_enabled = { NOT = { rn_feature_states_off = yes } }
+			rn_state_cities_click_enabled = { NOT = { rn_feature_states_off = yes } }
 			rn_spage_prev_click_enabled = { check_variable = { rn_spage > 0 } }
 			rn_spage_next_click_enabled = { check_variable = { rn_spage_disp < rn_spages } }
 """  # noqa: E501 - generated script lines are emitted verbatim
 """Scripted GUI triggers of the States tab."""
+
+SWITCH_TT = "RN_FEAT_STATES_TT"
+"""Tooltip of a button that has only the host-switch line (ADR-0036)."""
 
 STATE_VIEW_X = 476
 """X position of the panel inside the vanilla selected state view."""
@@ -100,8 +105,8 @@ def list_entry() -> list[str]:
             text="RN_BTN_RENAME",
             tooltip="RN_CD_STATE_TT",
         ),
-        btn("rn_state_reset", 324, 2, BUTTON_SMALL, text="RN_BTN_RESET"),
-        btn("rn_state_cities", 420, 2, BUTTON_SMALL, text="RN_BTN_CITIES"),
+        btn("rn_state_reset", 324, 2, BUTTON_SMALL, text="RN_BTN_RESET", tooltip=SWITCH_TT),
+        btn("rn_state_cities", 420, 2, BUTTON_SMALL, text="RN_BTN_CITIES", tooltip=SWITCH_TT),
         WINDOW_END,
     ]
 
@@ -121,13 +126,13 @@ def state_view_gui() -> str:
 		effects = {{
 			rn_sv_rename_click = {{
 				if = {{
-					limit = {{ is_owned_by = ROOT }}
+					limit = {{ is_owned_by = ROOT NOT = {{ rn_feature_states_off = yes }} }}
 					ROOT = {{ rn_target_state = yes }}
 				}}
 			}}
 			rn_sv_cities_click = {{
 				if = {{
-					limit = {{ is_owned_by = ROOT }}
+					limit = {{ is_owned_by = ROOT NOT = {{ rn_feature_states_off = yes }} }}
 					ROOT = {{
 						set_country_flag = rn_open
 						clr_country_flag = rn_input
@@ -139,17 +144,19 @@ def state_view_gui() -> str:
 			}}
 			rn_sv_reset_click = {{
 				if = {{
-					limit = {{ is_owned_by = ROOT }}
+					limit = {{ is_owned_by = ROOT NOT = {{ rn_feature_states_off = yes }} }}
 					reset_state_name = yes
 					ROOT = {{ rn_gui_touch = yes }}
 				}}
 			}}
 		}}
 		triggers = {{
-			rn_sv_rename_click_enabled = {{ ROOT = {{ NOT = {{ rn_cd_state_active = yes }} }} }}
+			rn_sv_rename_click_enabled = {{ ROOT = {{ NOT = {{ rn_cd_state_active = yes }} }} NOT = {{ rn_feature_states_off = yes }} }}
+			rn_sv_cities_click_enabled = {{ NOT = {{ rn_feature_states_off = yes }} }}
+			rn_sv_reset_click_enabled = {{ NOT = {{ rn_feature_states_off = yes }} }}
 		}}
 	}}
-"""
+"""  # noqa: E501 - generated script lines are emitted verbatim
 
 
 def state_view_window() -> list[str]:
@@ -173,7 +180,7 @@ def state_view_window() -> list[str]:
             text="RN_SV_RENAME",
             tooltip="RN_CD_STATE_TT",
         ),
-        btn("rn_sv_cities", 8, 66, BUTTON_MEDIUM, text="RN_SV_CITIES"),
-        btn("rn_sv_reset", 8, 100, BUTTON_MEDIUM, text="RN_SV_RESET"),
+        btn("rn_sv_cities", 8, 66, BUTTON_MEDIUM, text="RN_SV_CITIES", tooltip=SWITCH_TT),
+        btn("rn_sv_reset", 8, 100, BUTTON_MEDIUM, text="RN_SV_RESET", tooltip=SWITCH_TT),
         WINDOW_END,
     ]

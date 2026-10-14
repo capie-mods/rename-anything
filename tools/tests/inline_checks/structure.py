@@ -73,6 +73,16 @@ def check_models(models: dict[str, Any], triggers: dict[str, Any]) -> dict[str, 
     return politics
 
 
+NAME_BLOCKED = [
+    ("rn_ip_cooldown_active_country", "=", "yes"),
+    ("rn_feature_country_off", "=", "yes"),
+]
+"""The country name cannot be changed now: its cooldown runs or the host switched it off."""
+
+FLAG_BLOCKED = [("rn_fp_cooldown_active", "=", "yes"), ("rn_feature_flag_off", "=", "yes")]
+"""The flag cannot be changed now: its cooldown runs or the host switched it off."""
+
+
 def check_callbacks(models: dict[str, Any]) -> None:
     """Check the Open, Apply and Cancel callbacks and the caption revision counters.
 
@@ -110,7 +120,7 @@ def check_callbacks(models: dict[str, Any]) -> None:
                     "if",
                     "=",
                     [
-                        ("limit", "=", [("rn_ip_cooldown_active_country", "=", "yes")]),
+                        ("limit", "=", [("OR", "=", NAME_BLOCKED)]),
                         ("rn_fp_open_own", "=", "yes"),
                         ("rn_ip_status_clear", "=", "yes"),
                     ],
@@ -319,6 +329,7 @@ def check_status(
         "RN_IP_ERR_NO_COUNTER",
         "RN_IP_ERR_RENAME_LIMIT",
         "RN_IPP_TARGET_CHANGED",
+        "RN_FEATURE_OFF_STATUS",
         "RN_IP_ERR_CD_PARTY",
         *(f"RN_IP_ERR_PARTY_SHORT_{r}" for r in REASONS),
         "RN_IP_ERR_PARTY_SHORT",
@@ -340,6 +351,7 @@ def check_status(
         "RN_IP_ERR_NO_BRIDGE",
         "RN_IP_ERR_NO_COUNTER",
         "RN_IP_ERR_RENAME_LIMIT",
+        "RN_FEATURE_OFF_STATUS",
         "RN_IP_ERR_CD_LEADER",
         "RN_IP_ERR_CD_COUNTRY",
         "RN_IP_ERR_STALE",
@@ -482,8 +494,12 @@ def check_cooldown(
         enabled = get(get(launcher, "triggers"), prefixes[k] + "_open_click_enabled")
         # The country pencil also opens the flag picker, so it is disabled only while both the
         # name and the flag cooldown run.
-        both = [(active, "=", "yes"), ("rn_fp_cooldown_active", "=", "yes")]
-        disabled = ("NOT", "=", [("AND", "=", both)]) if k == "country" else ("NOT", "=", both[:1])
+        both = [("OR", "=", NAME_BLOCKED), ("OR", "=", FLAG_BLOCKED)]
+        disabled = (
+            ("NOT", "=", [("AND", "=", both)])
+            if k == "country"
+            else ("NOT", "=", [(active, "=", "yes")])
+        )
         assert disabled in enabled, ("pencil not disabled", k)
         assert active not in str(get(launcher, "visible")), "pencil must stay visible"
         days = [

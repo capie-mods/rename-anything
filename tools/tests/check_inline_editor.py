@@ -93,6 +93,7 @@ from inline_checks.generated import (  # noqa: E402
 from inline_checks.loading import load_context, load_source  # noqa: E402
 from inline_checks.mutations import run_mutations  # noqa: E402
 from inline_checks.structure import structural  # noqa: E402
+from inline_checks.switch_cases import check_switch_structure, run_switch_cases  # noqa: E402
 from inline_checks.tree import models_of  # noqa: E402
 from inline_checks.vm_cases import (  # noqa: E402
     run_caption_counter,
@@ -128,6 +129,7 @@ def main() -> int:
     check_capie_structure(models, gui, triggers)
     check_flag_structure(models)
     check_flag_geometry()
+    check_switch_structure()
     counts = {
         "party_group_cases": run_party_groups(ctx),
         "tab_cases": run_tabs(ctx),
@@ -147,6 +149,7 @@ def main() -> int:
         "faction_cases": run_factions(ctx),
         "rename_event_cases": run_rename_event(ctx),
         **run_flag_cases(),
+        "switch_cases": run_switch_cases(ctx),
         "keyboard_refresh_cases": run_keyboard_refresh(
             ctx,
             models_of(MOD / "common" / "scripted_guis", "rename_anything_*.txt")["rn_input_gui"],

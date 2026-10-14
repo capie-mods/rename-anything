@@ -56,6 +56,7 @@ guiTypes = {
 			spriteType = "GFX_button_123x34"
 			buttonText = "RN_BTN_RENAME"
 			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FEAT_LEADER_TT"
 			clicksound = click_default
 		}
 		instantTextBoxType = { name = "rn_country_hdr" position = { x = 20 y = 198 } font = "hoi_18mbs" text = "RN_COUNTRY_HDR" maxWidth = 520 maxHeight = 24 format = left fixedsize = yes }
@@ -66,6 +67,7 @@ guiTypes = {
 			spriteType = "GFX_button_123x34"
 			buttonText = "RN_BTN_TYPE"
 			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FEAT_COUNTRY_TT"
 			clicksound = click_default
 		}
 		instantTextBoxType = { name = "rn_cadj_line" position = { x = 20 y = 274 } font = "hoi_16mbs" text = "RN_CADJ_LINE" maxWidth = 380 maxHeight = 24 format = left fixedsize = yes }
@@ -75,6 +77,7 @@ guiTypes = {
 			spriteType = "GFX_button_123x34"
 			buttonText = "RN_BTN_TYPE"
 			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FEAT_COUNTRY_TT"
 			clicksound = click_default
 		}
 		buttonType = {
@@ -322,6 +325,7 @@ guiTypes = {
 			spriteType = "GFX_button_94x31"
 			buttonText = "RN_BTN_RESET"
 			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FEAT_STATES_TT"
 			clicksound = click_default
 		}
 		instantTextBoxType = { name = "rn_vp_name_1" position = { x = 20 y = 218 } font = "hoi_16mbs" text = "RN_VPROW_1" maxWidth = 300 maxHeight = 40 format = left fixedsize = yes vertical_alignment = center }
@@ -340,6 +344,7 @@ guiTypes = {
 			spriteType = "GFX_button_94x31"
 			buttonText = "RN_BTN_RESET"
 			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FEAT_STATES_TT"
 			clicksound = click_default
 		}
 		instantTextBoxType = { name = "rn_vp_name_2" position = { x = 20 y = 262 } font = "hoi_16mbs" text = "RN_VPROW_2" maxWidth = 300 maxHeight = 40 format = left fixedsize = yes vertical_alignment = center }
@@ -358,6 +363,7 @@ guiTypes = {
 			spriteType = "GFX_button_94x31"
 			buttonText = "RN_BTN_RESET"
 			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FEAT_STATES_TT"
 			clicksound = click_default
 		}
 		instantTextBoxType = { name = "rn_vp_name_3" position = { x = 20 y = 306 } font = "hoi_16mbs" text = "RN_VPROW_3" maxWidth = 300 maxHeight = 40 format = left fixedsize = yes vertical_alignment = center }
@@ -376,6 +382,7 @@ guiTypes = {
 			spriteType = "GFX_button_94x31"
 			buttonText = "RN_BTN_RESET"
 			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FEAT_STATES_TT"
 			clicksound = click_default
 		}
 		instantTextBoxType = { name = "rn_vp_name_4" position = { x = 20 y = 350 } font = "hoi_16mbs" text = "RN_VPROW_4" maxWidth = 300 maxHeight = 40 format = left fixedsize = yes vertical_alignment = center }
@@ -394,6 +401,7 @@ guiTypes = {
 			spriteType = "GFX_button_94x31"
 			buttonText = "RN_BTN_RESET"
 			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FEAT_STATES_TT"
 			clicksound = click_default
 		}
 		instantTextBoxType = { name = "rn_cities_note" position = { x = 20 y = 400 } font = "hoi_16mbs" text = "RN_CITIES_NOTE" maxWidth = 520 maxHeight = 60 format = left fixedsize = yes }
@@ -438,6 +446,7 @@ guiTypes = {
 			spriteType = "GFX_button_94x31"
 			buttonText = "RN_BTN_RESET"
 			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FEAT_STATES_TT"
 			clicksound = click_default
 		}
 		buttonType = {
@@ -446,6 +455,7 @@ guiTypes = {
 			spriteType = "GFX_button_94x31"
 			buttonText = "RN_BTN_CITIES"
 			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FEAT_STATES_TT"
 			clicksound = click_default
 		}
 	}
@@ -1227,6 +1237,7 @@ guiTypes = {
 			spriteType = "GFX_button_123x34"
 			buttonText = "RN_SV_CITIES"
 			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FEAT_STATES_TT"
 			clicksound = click_default
 		}
 		buttonType = {
@@ -1235,6 +1246,7 @@ guiTypes = {
 			spriteType = "GFX_button_123x34"
 			buttonText = "RN_SV_RESET"
 			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FEAT_STATES_TT"
 			clicksound = click_default
 		}
 	}

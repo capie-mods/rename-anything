@@ -25,6 +25,7 @@ from modgen.features import (
     main_window,
     refresh,
     states,
+    switches,
     textures,
 )
 from modgen.features.text_buffers import BUFFERS, PREVIOUS_NAME_BUFFER, slot_tables
@@ -195,6 +196,8 @@ def write_all(
     sink.write_text(refresh.ON_ACTIONS_FILE, GEN_HEADER + refresh.on_actions())
     for name, data in textures.gen_textures().items():
         sink.write_bytes(f"{textures.TEXTURE_DIR}/{name}", data)
+    for rel, text, bom in switches.write_files():
+        sink.write_text(rel, text, bom=bom)
     if catalog is not None:
         for rel, text, bom in flags.write_files(catalog):
             sink.write_text(rel, text, bom=bom)

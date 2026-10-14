@@ -470,7 +470,10 @@ class FlagVM:
             "is_ai": lambda: here.ai == (value == "yes"),
             "exists": lambda: here.exists == (value == "yes"),
             "always": lambda: value == "yes",
-            "has_game_rule": lambda: self.rules[get(value, "rule")] == get(value, "option"),
+            "has_game_rule": lambda: (
+                self.rules.get(get(value, "rule"), get(value, "rule").upper() + "_ON")
+                == get(value, "option")
+            ),
             "is_in_array": lambda: (
                 self.value(get(value, "value")) in self.array(get(value, "array"))
             ),
@@ -594,7 +597,10 @@ class Inputs:
             **declarations(SOURCE / "common" / "scripted_effects"),
             **self.cat.effects,
         }
-        self.triggers = declarations(SOURCE / "common" / "scripted_triggers")
+        self.triggers = {
+            **declarations(SOURCE / "common" / "scripted_triggers"),
+            **declarations(MOD / "common" / "scripted_triggers", "rn_feature_switches.txt"),
+        }
 
     def vm(self, root: str = "FRA", effects: dict[str, Any] | None = None) -> FlagVM:
         """Return a VM with a human player, a subject and a stranger.
@@ -1353,7 +1359,10 @@ def check_flag_structure(models: dict[str, Any]) -> None:
         **declarations(SOURCE / "common" / "scripted_effects"),
         **declarations(MOD / "common" / "scripted_effects", "rn_flag_catalog.txt"),
     }
-    triggers = declarations(SOURCE / "common" / "scripted_triggers")
+    triggers = {
+        **declarations(SOURCE / "common" / "scripted_triggers"),
+        **declarations(MOD / "common" / "scripted_triggers", "rn_feature_switches.txt"),
+    }
     keys = _loc_keys()
     for picker in flag_picker.PICKERS:
         model = generated[picker.key]

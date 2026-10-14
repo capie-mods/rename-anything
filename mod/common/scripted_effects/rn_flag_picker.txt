@@ -42,6 +42,7 @@ rn_fp_open_own = {
 			NOT = { has_country_flag = rn_input }
 			NOT = { has_country_flag = rn_ip_leader_open }
 			NOT = { has_country_flag = rn_ip_party_neutrality_open }
+			NOT = { rn_feature_flag_off = yes }
 		}
 		rn_inline_pair_cancel_country = yes
 		rn_fp_close = yes
@@ -57,6 +58,8 @@ rn_fp_open_own = {
 rn_fp_open_sub = {
 	if = {
 		limit = {
+			NOT = { rn_feature_flag_off = yes }
+			NOT = { rn_feature_subjects_off = yes }
 			rn_sub_may_edit = yes
 			ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
 		}
@@ -127,7 +130,7 @@ rn_fp_close = {
 # name cooldown, which is why the pencil opens the picker directly then).
 rn_fp_to_name_editor = {
 	if = {
-		limit = { has_country_flag = rn_fp_open_own NOT = { rn_ip_cooldown_active_country = yes } }
+		limit = { has_country_flag = rn_fp_open_own NOT = { rn_ip_cooldown_active_country = yes } NOT = { rn_feature_country_off = yes } }
 		rn_fp_close = yes
 		rn_cv1_status_clear = yes
 		rn_inline_pair_open_country = yes
@@ -312,6 +315,20 @@ rn_fp_build = {
 
 # ----------------------------------------------------------------------------- Apply, Restore
 
+# ROOT scope. Host switches (ADR-0036): temp rn_cv1_err 21 when the flag is switched off, or
+# "other countries" while the picker is open for another country. Wins over every other error.
+rn_fp_switch = {
+	if = {
+		limit = {
+			OR = {
+				rn_feature_flag_off = yes
+				AND = { has_country_flag = rn_fp_open_sub rn_feature_subjects_off = yes }
+			}
+		}
+		set_temp_variable = { rn_cv1_err = 21 }
+	}
+}
+
 # ROOT scope. temp rn_cv1_err 20 when the picker is not open for a target the player may change.
 rn_fp_rights = {
 	if = {
@@ -375,6 +392,7 @@ rn_fp_apply = {
 		limit = { check_variable = { temp_var:rn_cv1_err = 0 } NOT = { check_variable = { temp_var:capie_flag = 1 } } }
 		set_temp_variable = { rn_cv1_err = 16 }
 	}
+	rn_fp_switch = yes
 	rn_fp_rights = yes
 	if = {
 		limit = { check_variable = { temp_var:rn_cv1_err = 0 } var:rn_fp_target = { rn_fp_cooldown_active = yes } }
@@ -402,6 +420,7 @@ rn_fp_apply = {
 # cooldown as Apply. It changes no name, colour or cosmetic tag and needs no CAPIE.
 rn_fp_reset = {
 	set_temp_variable = { rn_cv1_err = 0 }
+	rn_fp_switch = yes
 	rn_fp_rights = yes
 	if = {
 		limit = { check_variable = { temp_var:rn_cv1_err = 0 } var:rn_fp_target = { rn_fp_cooldown_active = yes } }

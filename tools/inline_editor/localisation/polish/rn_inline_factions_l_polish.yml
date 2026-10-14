@@ -12,7 +12,7 @@
  rn_rename_faction:0 "£edit_list_icon Zmień nazwę frakcji"
  RN_FAC_LABEL:0 "§LNazwa frakcji§!"
  RN_FAC_APPLY_TT:0 "Zapisz nazwę frakcji."
- RN_FAC_RESET_TT:0 "Wraca do nazwy tej frakcji z gry. Zużywa limit zmian jak nowa nazwa."
+ RN_FAC_RESET_TT:0 "Wraca do nazwy tej frakcji z gry. Zużywa limit zmian jak nowa nazwa.[ROOT.RN_FEAT_FACTIONS]"
  RN_FAC_ERR_CAPIE_OLD:0 "§RNazwy frakcji wymagają nowszego CAPIE. Nic nie zmieniono.§!"
  RN_FAC_ERR_CD:0 "§RNazwę tej frakcji niedawno zmieniono. Nic nie zmieniono.§!"
  RN_RULE_RIGHTS_SUBJECTS_DESC:0 "Gracz zmienia nazwy swojego państwa i swoich podmiotów. Lider frakcji zmienia nazwę frakcji."

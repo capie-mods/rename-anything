@@ -77,7 +77,7 @@ _ROLE_TRIGGERS = "".join(
 )
 """Visible triggers of the four role icons of a row."""
 
-_TRIGGERS = f"""			rn_char_rename_click_enabled = {{ NOT = {{ AND = {{ var:{ROW_VARIABLE} = {{ is_country_leader = yes }} rn_ip_cooldown_active_leader = yes }} }} }}
+_TRIGGERS = f"""			rn_char_rename_click_enabled = {{ NOT = {{ AND = {{ var:{ROW_VARIABLE} = {{ is_country_leader = yes }} rn_ip_cooldown_active_leader = yes }} }} NOT = {{ AND = {{ var:{ROW_VARIABLE} = {{ is_country_leader = yes }} rn_feature_leader_off = yes }} }} NOT = {{ AND = {{ var:{ROW_VARIABLE} = {{ NOT = {{ is_country_leader = yes }} }} rn_feature_characters_off = yes }} }} }}
 			rn_cpage_prev_click_enabled = {{ check_variable = {{ rn_cpage > 0 }} }}
 			rn_cpage_next_click_enabled = {{ check_variable = {{ rn_cpage_disp < rn_cpages }} }}
 """  # noqa: E501 - generated script lines are emitted verbatim

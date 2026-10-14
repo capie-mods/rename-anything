@@ -8,6 +8,7 @@
 rn_fac_open = {
 	if = {
 		limit = {
+			NOT = { rn_feature_factions_off = yes }
 			is_in_faction = yes
 			ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
 			var:faction_leader = { rn_fac_may_edit = yes }
@@ -63,6 +64,7 @@ rn_fac_apply = {
 		limit = { check_variable = { temp_var:rn_cv1_err = 0 } NOT = { check_variable = { temp_var:capie_cap > 4 } } }
 		set_temp_variable = { rn_cv1_err = 15 }
 	}
+	if = { limit = { rn_feature_factions_off = yes } set_temp_variable = { rn_cv1_err = 21 } }
 	rn_fac_rights = yes
 	if = {
 		limit = { check_variable = { temp_var:rn_cv1_err = 0 } var:rn_fac_target = { rn_fac_cooldown_active = yes } }
@@ -88,6 +90,7 @@ rn_fac_apply = {
 rn_fac_reset = {
 	set_temp_variable = { rn_cv1_err = 0 }
 	set_temp_variable = { rn_cv1_field = 0 }
+	if = { limit = { rn_feature_factions_off = yes } set_temp_variable = { rn_cv1_err = 21 } }
 	rn_fac_rights = yes
 	if = {
 		limit = { check_variable = { temp_var:rn_cv1_err = 0 } NOT = { var:rn_fac_target = { has_variable = capie_fn_ver } } }

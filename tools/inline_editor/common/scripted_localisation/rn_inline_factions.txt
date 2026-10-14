@@ -2,6 +2,7 @@
 defined_text = {
 	name = RN_FAC_STATUS
 	text = { trigger = { NOT = { has_variable = rn_cv1_st_err } } localization_key = RN_IP_HINT }
+	text = { trigger = { check_variable = { rn_cv1_st_err = 21 } } localization_key = RN_FEATURE_OFF_STATUS }
 	text = { trigger = { check_variable = { rn_cv1_st_err = 10 } } localization_key = RN_IP_ERR_NO_BRIDGE }
 	text = { trigger = { check_variable = { rn_cv1_st_err = 15 } } localization_key = RN_FAC_ERR_CAPIE_OLD }
 	text = { trigger = { check_variable = { rn_cv1_st_err = 13 } } localization_key = RN_CV1_ERR_SETUP }

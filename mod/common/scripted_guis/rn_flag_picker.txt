@@ -53,9 +53,9 @@ scripted_gui = {
 		}
 		triggers = {
 			capie_v1_ep__rn__flag_visible = { always = no }
-			capie_v1_ed__rn__flag_apply_click_enabled = { ROOT = { has_country_flag = rn_fp_open_own check_variable = { rn_fp_sel > 0 } NOT = { check_variable = { rn_fp_sel = rn_fp_init } } } NOT = { rn_fp_cooldown_active = yes } }
+			capie_v1_ed__rn__flag_apply_click_enabled = { ROOT = { has_country_flag = rn_fp_open_own check_variable = { rn_fp_sel > 0 } NOT = { check_variable = { rn_fp_sel = rn_fp_init } } } NOT = { rn_fp_cooldown_active = yes } NOT = { rn_feature_flag_off = yes } }
 			rn_fp_reset_visible = { has_variable = capie_cf_ver }
-			rn_fp_reset_click_enabled = { has_variable = capie_cf_ver NOT = { rn_fp_cooldown_active = yes } }
+			rn_fp_reset_click_enabled = { has_variable = capie_cf_ver NOT = { rn_fp_cooldown_active = yes } NOT = { rn_feature_flag_off = yes } }
 			rn_fp_preview_visible = { ROOT = { check_variable = { rn_fp_sel > 0 } } }
 			rn_fp_name_visible = { ROOT = { check_variable = { rn_fp_sel > 0 } } }
 			rn_fp_note_current_visible = { ROOT = { check_variable = { rn_fp_sel > 0 } check_variable = { rn_fp_sel = rn_fp_init } } }
@@ -76,7 +76,7 @@ scripted_gui = {
 			rn_fp_prev_click_enabled = { ROOT = { check_variable = { rn_fp_page > 0 } } }
 			rn_fp_next_click_enabled = { ROOT = { check_variable = { rn_fp_page_disp < rn_fp_pages } } }
 			rn_fp_flag_tab_flag_click_enabled = { always = no }
-			rn_fp_flag_tab_name_click_enabled = { NOT = { rn_ip_cooldown_active_country = yes } }
+			rn_fp_flag_tab_name_click_enabled = { NOT = { rn_ip_cooldown_active_country = yes } NOT = { rn_feature_country_off = yes } }
 			rn_fp_letter_1_visible = { has_game_rule = { rule = rn_flag_pool option = RN_FLAG_POOL_ALL } ROOT = { OR = { check_variable = { rn_fp_view = 2 } has_country_flag = rn_fp_view_other } } }
 			rn_fp_letter_1_click_enabled = { ROOT = { NOT = { check_variable = { rn_fp_letter = 1 } } } }
 			rn_fp_lt_1_visible = { has_game_rule = { rule = rn_flag_pool option = RN_FLAG_POOL_ALL } ROOT = { OR = { check_variable = { rn_fp_view = 2 } has_country_flag = rn_fp_view_other } } ROOT = { NOT = { check_variable = { rn_fp_letter = 1 } } } }
@@ -222,7 +222,7 @@ scripted_gui = {
 			rn_fp_next_click = { ROOT = { set_temp_variable = { rn_fp_step = 1 } rn_fp_page_step = yes } }
 			rn_fp_subflag_tab_country_click = {
 				if = {
-					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_country_off = yes } NOT = { rn_feature_subjects_off = yes } }
 					ROOT = { rn_fp_close = yes }
 					rn_sub_open_common = yes
 					ROOT = { set_country_flag = rn_sub_open_country }
@@ -230,7 +230,7 @@ scripted_gui = {
 			}
 			rn_fp_subflag_tab_leader_click = {
 				if = {
-					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_leader_off = yes } NOT = { rn_feature_subjects_off = yes } }
 					ROOT = { rn_fp_close = yes }
 					rn_sub_open_common = yes
 					ROOT = { set_country_flag = rn_sub_open_leader }
@@ -238,7 +238,7 @@ scripted_gui = {
 			}
 			rn_fp_subflag_tab_party_click = {
 				if = {
-					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_party_off = yes } NOT = { rn_feature_subjects_off = yes } }
 					ROOT = { rn_fp_close = yes }
 					rn_sub_open_common = yes
 					ROOT = { set_country_flag = rn_sub_open_party }
@@ -274,9 +274,9 @@ scripted_gui = {
 		}
 		triggers = {
 			capie_v1_ep__rn__subflag_visible = { always = no }
-			capie_v1_ed__rn__subflag_apply_click_enabled = { ROOT = { has_country_flag = rn_fp_open_sub check_variable = { rn_fp_sel > 0 } NOT = { check_variable = { rn_fp_sel = rn_fp_init } } } NOT = { rn_fp_cooldown_active = yes } }
+			capie_v1_ed__rn__subflag_apply_click_enabled = { ROOT = { has_country_flag = rn_fp_open_sub check_variable = { rn_fp_sel > 0 } NOT = { check_variable = { rn_fp_sel = rn_fp_init } } } NOT = { rn_fp_cooldown_active = yes } NOT = { rn_feature_flag_off = yes } NOT = { rn_feature_subjects_off = yes } }
 			rn_fp_reset_visible = { has_variable = capie_cf_ver }
-			rn_fp_reset_click_enabled = { has_variable = capie_cf_ver NOT = { rn_fp_cooldown_active = yes } }
+			rn_fp_reset_click_enabled = { has_variable = capie_cf_ver NOT = { rn_fp_cooldown_active = yes } NOT = { rn_feature_flag_off = yes } }
 			rn_fp_preview_visible = { ROOT = { check_variable = { rn_fp_sel > 0 } } }
 			rn_fp_name_visible = { ROOT = { check_variable = { rn_fp_sel > 0 } } }
 			rn_fp_note_current_visible = { ROOT = { check_variable = { rn_fp_sel > 0 } check_variable = { rn_fp_sel = rn_fp_init } } }
@@ -297,9 +297,9 @@ scripted_gui = {
 			rn_fp_prev_click_enabled = { ROOT = { check_variable = { rn_fp_page > 0 } } }
 			rn_fp_next_click_enabled = { ROOT = { check_variable = { rn_fp_page_disp < rn_fp_pages } } }
 			rn_fp_subflag_tab_flag_click_enabled = { always = no }
-			rn_fp_subflag_tab_country_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
-			rn_fp_subflag_tab_leader_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
-			rn_fp_subflag_tab_party_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+			rn_fp_subflag_tab_country_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_country_off = yes } NOT = { rn_feature_subjects_off = yes } }
+			rn_fp_subflag_tab_leader_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_leader_off = yes } NOT = { rn_feature_subjects_off = yes } }
+			rn_fp_subflag_tab_party_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_party_off = yes } NOT = { rn_feature_subjects_off = yes } }
 			rn_fp_letter_1_visible = { has_game_rule = { rule = rn_flag_pool option = RN_FLAG_POOL_ALL } ROOT = { OR = { check_variable = { rn_fp_view = 2 } has_country_flag = rn_fp_view_other } } }
 			rn_fp_letter_1_click_enabled = { ROOT = { NOT = { check_variable = { rn_fp_letter = 1 } } } }
 			rn_fp_lt_1_visible = { has_game_rule = { rule = rn_flag_pool option = RN_FLAG_POOL_ALL } ROOT = { OR = { check_variable = { rn_fp_view = 2 } has_country_flag = rn_fp_view_other } } ROOT = { NOT = { check_variable = { rn_fp_letter = 1 } } } }

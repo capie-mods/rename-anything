@@ -297,17 +297,29 @@ rn_toggle_shift = {
 
 # Target selection helpers (called inside ROOT = { ... } with PREV = target scope)
 rn_target_character = { # PREV = character
-	clear_array = rn_tchar
-	add_to_array = { rn_tchar = PREV }
-	set_variable = { rn_ttype = 1 }
-	rn_open_input = yes
+	# Host switches (ADR-0036): the leader, or the other characters.
+	if = {
+		limit = {
+			OR = {
+				AND = { PREV = { is_country_leader = yes } NOT = { rn_feature_leader_off = yes } }
+				AND = { PREV = { NOT = { is_country_leader = yes } } NOT = { rn_feature_characters_off = yes } }
+			}
+		}
+		clear_array = rn_tchar
+		add_to_array = { rn_tchar = PREV }
+		set_variable = { rn_ttype = 1 }
+		rn_open_input = yes
+	}
 }
 
 rn_target_state = { # PREV = state
-	clear_array = rn_tstate
-	add_to_array = { rn_tstate = PREV }
-	set_variable = { rn_ttype = 2 }
-	rn_open_input = yes
+	if = {
+		limit = { NOT = { rn_feature_states_off = yes } }
+		clear_array = rn_tstate
+		add_to_array = { rn_tstate = PREV }
+		set_variable = { rn_ttype = 2 }
+		rn_open_input = yes
+	}
 }
 
 rn_target_leader = {
@@ -317,7 +329,7 @@ rn_target_leader = {
 		ROOT = { add_to_array = { rn_tchar = PREV } }
 	}
 	if = {
-		limit = { check_variable = { rn_tchar^num > 0 } }
+		limit = { check_variable = { rn_tchar^num > 0 } NOT = { rn_feature_leader_off = yes } }
 		set_variable = { rn_ttype = 1 }
 		rn_open_input = yes
 	}
@@ -382,5 +394,5 @@ rn_store_country_adj = {
 }
 
 rn_reset_country_name = {
-	rn_country_name_carrier_clear = yes # the single country-name carrier (rn_country_name_carrier.txt)
+	if = { limit = { NOT = { rn_feature_country_off = yes } } rn_country_name_carrier_clear = yes } # the single country-name carrier (rn_country_name_carrier.txt)
 }

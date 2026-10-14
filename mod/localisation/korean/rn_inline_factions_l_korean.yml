@@ -12,7 +12,7 @@
  rn_rename_faction:0 "£edit_list_icon Rename faction"
  RN_FAC_LABEL:0 "§LFaction name§!"
  RN_FAC_APPLY_TT:0 "Save the faction's name."
- RN_FAC_RESET_TT:0 "Back to the game's name for this faction. Uses the rename cooldown like a new name."
+ RN_FAC_RESET_TT:0 "Back to the game's name for this faction. Uses the rename cooldown like a new name.[ROOT.RN_FEAT_FACTIONS]"
  RN_FAC_ERR_CAPIE_OLD:0 "§RFaction names need a newer CAPIE. Nothing was changed.§!"
  RN_FAC_ERR_CD:0 "§RThis faction was renamed recently. Nothing was changed.§!"
  RN_RULE_RIGHTS_SUBJECTS_DESC:0 "Players rename their own country and their subjects. A faction's leader renames the faction."

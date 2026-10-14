@@ -588,6 +588,23 @@ def _visible(picker: Picker) -> str:
     )
 
 
+def _switched_on(feature: str, picker: Picker | None = None) -> str:
+    """Return the host-switch condition of a tab or button (ADR-0036).
+
+    Args:
+        feature: Feature id (``country``, ``leader``, ``party`` or ``flag``).
+        picker: The editor; another country also needs the "other countries" switch.
+            None for the subject tabs, which are always about another country.
+
+    Returns:
+        Trigger text.
+    """
+    out = f"NOT = {{ rn_feature_{feature}_off = yes }}"
+    if picker is not OWN:
+        out += " NOT = { rn_feature_subjects_off = yes }"
+    return out
+
+
 def _tab_effects(picker: Picker) -> list[str]:
     """Return the tab click effects (the flag tab itself is disabled).
 
@@ -608,7 +625,7 @@ def _tab_effects(picker: Picker) -> list[str]:
     limit = f"rn_sub_may_edit = yes ROOT = {{ {_ROOT_OK} }}"
     return [
         f"\t\t\t{prefix}{suffix}_click = {{\n"
-        f"\t\t\t\tif = {{\n\t\t\t\t\tlimit = {{ {limit} }}\n"
+        f"\t\t\t\tif = {{\n\t\t\t\t\tlimit = {{ {limit} {_switched_on(suffix)} }}\n"
         "\t\t\t\t\tROOT = { rn_fp_close = yes }\n\t\t\t\t\trn_sub_open_common = yes\n"
         f"\t\t\t\t\tROOT = {{ set_country_flag = rn_sub_open_{suffix} }}\n"
         "\t\t\t\t}\n\t\t\t}\n"
@@ -630,12 +647,13 @@ def _tab_triggers(picker: Picker) -> list[str]:
     if picker is OWN:
         out.append(
             f"\t\t\t{prefix}name_click_enabled = "
-            "{ NOT = { rn_ip_cooldown_active_country = yes } }\n"
+            "{ NOT = { rn_ip_cooldown_active_country = yes } "
+            "NOT = { rn_feature_country_off = yes } }\n"
         )
     else:
         out += [
             f"\t\t\t{prefix}{s}_click_enabled = "
-            f"{{ rn_sub_may_edit = yes ROOT = {{ {_ROOT_OK} }} }}\n"
+            f"{{ rn_sub_may_edit = yes ROOT = {{ {_ROOT_OK} }} {_switched_on(s)} }}\n"
             for s in ("country", "leader", "party")
         ]
     return out
@@ -702,7 +720,7 @@ def scripted_gui(picker: Picker, letters: tuple[int, ...]) -> str:
         (
             f"\t\t\t{picker.key}_apply_click_enabled = {{ ROOT = {{ "
             f"has_country_flag = {picker.open_flag} {_SEL_CHANGED} }} "
-            "NOT = { rn_fp_cooldown_active = yes } }\n"
+            f"NOT = {{ rn_fp_cooldown_active = yes }} {_switched_on('flag', picker)} }}\n"
         ),
         _TRIGGERS.replace("@ALL_RULE@", ALL_RULE),
         *_tab_triggers(picker),
@@ -731,7 +749,7 @@ _EFFECTS = """\t\t\trn_fp_cancel_click = { ROOT = { rn_fp_close = yes rn_cv1_sta
 """Click effects both pickers share (Apply and the tabs are per picker)."""
 
 _TRIGGERS = """\t\t\trn_fp_reset_visible = { has_variable = capie_cf_ver }
-\t\t\trn_fp_reset_click_enabled = { has_variable = capie_cf_ver NOT = { rn_fp_cooldown_active = yes } }
+\t\t\trn_fp_reset_click_enabled = { has_variable = capie_cf_ver NOT = { rn_fp_cooldown_active = yes } NOT = { rn_feature_flag_off = yes } }
 \t\t\trn_fp_preview_visible = { ROOT = { check_variable = { rn_fp_sel > 0 } } }
 \t\t\trn_fp_name_visible = { ROOT = { check_variable = { rn_fp_sel > 0 } } }
 \t\t\trn_fp_note_current_visible = { ROOT = { check_variable = { rn_fp_sel > 0 } check_variable = { rn_fp_sel = rn_fp_init } } }

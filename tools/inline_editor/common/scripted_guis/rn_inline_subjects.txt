@@ -16,21 +16,21 @@ scripted_gui = {
 			rn_sub_subcountry_cancel_click = { ROOT = { rn_sub_close = yes rn_cv1_status_clear = yes } }
 			rn_sub_subcountry_tab_country_click = {
 				if = {
-					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+					limit = { rn_sub_may_edit = yes NOT = { rn_feature_country_off = yes } NOT = { rn_feature_subjects_off = yes } ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
 					rn_sub_open_common = yes
 					ROOT = { set_country_flag = rn_sub_open_country }
 				}
 			}
 			rn_sub_subcountry_tab_leader_click = {
 				if = {
-					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+					limit = { rn_sub_may_edit = yes NOT = { rn_feature_leader_off = yes } NOT = { rn_feature_subjects_off = yes } ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
 					rn_sub_open_common = yes
 					ROOT = { set_country_flag = rn_sub_open_leader }
 				}
 			}
 			rn_sub_subcountry_tab_party_click = {
 				if = {
-					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+					limit = { rn_sub_may_edit = yes NOT = { rn_feature_party_off = yes } NOT = { rn_feature_subjects_off = yes } ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
 					rn_sub_open_common = yes
 					ROOT = { set_country_flag = rn_sub_open_party }
 				}
@@ -42,12 +42,12 @@ scripted_gui = {
 			capie_v1_ep__rn__subcountry_visible = { always = no }
 			capie_v1_pf__rn__subcountry__1_visible = { always = no }
 			capie_v1_pf__rn__subcountry__2_visible = { always = no }
-			capie_v1_ed__rn__subcountry_apply_click_enabled = { ROOT = { has_country_flag = rn_sub_open_country } NOT = { rn_ip_cooldown_active_country = yes } }
+			capie_v1_ed__rn__subcountry_apply_click_enabled = { ROOT = { has_country_flag = rn_sub_open_country } NOT = { rn_ip_cooldown_active_country = yes } NOT = { rn_feature_country_off = yes } }
 			rn_sub_subcountry_tab_country_click_enabled = { always = no }
-			rn_sub_subcountry_tab_leader_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
-			rn_sub_subcountry_tab_flag_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
-			rn_sub_subcountry_tab_party_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
-			rn_sub_subcountry_reset_click_enabled = { rn_cn_has_custom = yes NOT = { rn_ip_cooldown_active_country = yes } ROOT = { has_country_flag = rn_sub_open_country } }
+			rn_sub_subcountry_tab_leader_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { rn_feature_leader_off = yes } NOT = { rn_feature_subjects_off = yes } } }
+			rn_sub_subcountry_tab_flag_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { rn_feature_flag_off = yes } NOT = { rn_feature_subjects_off = yes } } }
+			rn_sub_subcountry_tab_party_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { rn_feature_party_off = yes } NOT = { rn_feature_subjects_off = yes } } }
+			rn_sub_subcountry_reset_click_enabled = { rn_cn_has_custom = yes NOT = { rn_ip_cooldown_active_country = yes } NOT = { rn_feature_country_off = yes } ROOT = { has_country_flag = rn_sub_open_country } }
 		}
 	}
 	capie_v1_ed__rn__subleader = {
@@ -61,21 +61,21 @@ scripted_gui = {
 			rn_sub_subleader_cancel_click = { ROOT = { rn_sub_close = yes rn_cv1_status_clear = yes } }
 			rn_sub_subleader_tab_country_click = {
 				if = {
-					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+					limit = { rn_sub_may_edit = yes NOT = { rn_feature_country_off = yes } NOT = { rn_feature_subjects_off = yes } ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
 					rn_sub_open_common = yes
 					ROOT = { set_country_flag = rn_sub_open_country }
 				}
 			}
 			rn_sub_subleader_tab_leader_click = {
 				if = {
-					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+					limit = { rn_sub_may_edit = yes NOT = { rn_feature_leader_off = yes } NOT = { rn_feature_subjects_off = yes } ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
 					rn_sub_open_common = yes
 					ROOT = { set_country_flag = rn_sub_open_leader }
 				}
 			}
 			rn_sub_subleader_tab_party_click = {
 				if = {
-					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+					limit = { rn_sub_may_edit = yes NOT = { rn_feature_party_off = yes } NOT = { rn_feature_subjects_off = yes } ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
 					rn_sub_open_common = yes
 					ROOT = { set_country_flag = rn_sub_open_party }
 				}
@@ -85,11 +85,11 @@ scripted_gui = {
 		triggers = {
 			capie_v1_ep__rn__subleader_visible = { always = no }
 			capie_v1_pf__rn__subleader__1_visible = { always = no }
-			capie_v1_ed__rn__subleader_apply_click_enabled = { ROOT = { has_country_flag = rn_sub_open_leader } NOT = { rn_ip_cooldown_active_leader = yes } }
-			rn_sub_subleader_tab_country_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+			capie_v1_ed__rn__subleader_apply_click_enabled = { ROOT = { has_country_flag = rn_sub_open_leader } NOT = { rn_ip_cooldown_active_leader = yes } NOT = { rn_feature_leader_off = yes } }
+			rn_sub_subleader_tab_country_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { rn_feature_country_off = yes } NOT = { rn_feature_subjects_off = yes } } }
 			rn_sub_subleader_tab_leader_click_enabled = { always = no }
-			rn_sub_subleader_tab_flag_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
-			rn_sub_subleader_tab_party_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+			rn_sub_subleader_tab_flag_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { rn_feature_flag_off = yes } NOT = { rn_feature_subjects_off = yes } } }
+			rn_sub_subleader_tab_party_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { rn_feature_party_off = yes } NOT = { rn_feature_subjects_off = yes } } }
 		}
 	}
 	capie_v1_ed__rn__subparty = {
@@ -103,21 +103,21 @@ scripted_gui = {
 			rn_sub_subparty_cancel_click = { ROOT = { rn_sub_close = yes rn_cv1_status_clear = yes } }
 			rn_sub_subparty_tab_country_click = {
 				if = {
-					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+					limit = { rn_sub_may_edit = yes NOT = { rn_feature_country_off = yes } NOT = { rn_feature_subjects_off = yes } ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
 					rn_sub_open_common = yes
 					ROOT = { set_country_flag = rn_sub_open_country }
 				}
 			}
 			rn_sub_subparty_tab_leader_click = {
 				if = {
-					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+					limit = { rn_sub_may_edit = yes NOT = { rn_feature_leader_off = yes } NOT = { rn_feature_subjects_off = yes } ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
 					rn_sub_open_common = yes
 					ROOT = { set_country_flag = rn_sub_open_leader }
 				}
 			}
 			rn_sub_subparty_tab_party_click = {
 				if = {
-					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+					limit = { rn_sub_may_edit = yes NOT = { rn_feature_party_off = yes } NOT = { rn_feature_subjects_off = yes } ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
 					rn_sub_open_common = yes
 					ROOT = { set_country_flag = rn_sub_open_party }
 				}
@@ -128,10 +128,10 @@ scripted_gui = {
 			capie_v1_ep__rn__subparty_visible = { always = no }
 			capie_v1_pf__rn__subparty__1_visible = { always = no }
 			capie_v1_pf__rn__subparty__2_visible = { always = no }
-			capie_v1_ed__rn__subparty_apply_click_enabled = { ROOT = { has_country_flag = rn_sub_open_party } NOT = { rn_ip_cooldown_active_party = yes } }
-			rn_sub_subparty_tab_country_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
-			rn_sub_subparty_tab_leader_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
-			rn_sub_subparty_tab_flag_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } }
+			capie_v1_ed__rn__subparty_apply_click_enabled = { ROOT = { has_country_flag = rn_sub_open_party } NOT = { rn_ip_cooldown_active_party = yes } NOT = { rn_feature_party_off = yes } }
+			rn_sub_subparty_tab_country_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { rn_feature_country_off = yes } NOT = { rn_feature_subjects_off = yes } } }
+			rn_sub_subparty_tab_leader_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { rn_feature_leader_off = yes } NOT = { rn_feature_subjects_off = yes } } }
+			rn_sub_subparty_tab_flag_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { rn_feature_flag_off = yes } NOT = { rn_feature_subjects_off = yes } } }
 			rn_sub_subparty_tab_party_click_enabled = { always = no }
 		}
 	}

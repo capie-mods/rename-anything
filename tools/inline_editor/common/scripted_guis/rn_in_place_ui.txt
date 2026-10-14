@@ -20,7 +20,7 @@ scripted_gui = {
 		}
 		triggers = {
 			rn_ip_leader_rev_visible = { always = no }
-			rn_ip_leader_open_click_enabled = { tag = ROOT is_ai = no NOT = { has_country_flag = rn_ip_leader_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_ip_country_open } NOT = { has_country_flag = rn_ip_party_neutrality_open } NOT = { rn_ip_cooldown_active_leader = yes } }
+			rn_ip_leader_open_click_enabled = { tag = ROOT is_ai = no NOT = { has_country_flag = rn_ip_leader_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_ip_country_open } NOT = { has_country_flag = rn_ip_party_neutrality_open } NOT = { rn_ip_cooldown_active_leader = yes } NOT = { rn_feature_leader_off = yes } }
 		}
 	}
 	rn_ip_leader_gui = {
@@ -104,7 +104,7 @@ scripted_gui = {
 				NOT = {
 					has_country_flag = rn_ip_party_neutrality_open
 				}
-				NOT = { rn_ip_cooldown_active_party = yes }
+				NOT = { rn_ip_cooldown_active_party = yes } NOT = { rn_feature_party_off = yes }
 				OR = { has_government = democratic has_government = communism has_government = fascism has_government = neutrality }
 			}
 		}
@@ -166,10 +166,10 @@ scripted_gui = {
 				has_country_flag = rn_ip_party_neutrality_open
 			}
 			# Tabs: the selected group is the disabled tab (same pattern as the main editor tabs).
-			rn_ipp_tab_1_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 1 } } NOT = { rn_ip_cooldown_active_party = yes } }
-			rn_ipp_tab_2_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 2 } } NOT = { rn_ip_cooldown_active_party = yes } }
-			rn_ipp_tab_3_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 3 } } NOT = { rn_ip_cooldown_active_party = yes } }
-			rn_ipp_tab_4_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 4 } } NOT = { rn_ip_cooldown_active_party = yes } }
+			rn_ipp_tab_1_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 1 } } NOT = { rn_ip_cooldown_active_party = yes } NOT = { rn_feature_party_off = yes } }
+			rn_ipp_tab_2_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 2 } } NOT = { rn_ip_cooldown_active_party = yes } NOT = { rn_feature_party_off = yes } }
+			rn_ipp_tab_3_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 3 } } NOT = { rn_ip_cooldown_active_party = yes } NOT = { rn_feature_party_off = yes } }
+			rn_ipp_tab_4_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_party_neutrality_open NOT = { check_variable = { rn_ip_party_group = 4 } } NOT = { rn_ip_cooldown_active_party = yes } NOT = { rn_feature_party_off = yes } }
 		}
 	}
 

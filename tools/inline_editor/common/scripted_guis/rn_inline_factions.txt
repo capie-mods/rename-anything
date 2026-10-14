@@ -16,7 +16,7 @@ scripted_gui = {
 			capie_v1_ep__rn__faction_visible = { always = no }
 			capie_v1_pf__rn__faction__1_visible = { always = no }
 			capie_v1_ed__rn__faction_apply_click_enabled = { ROOT = { has_country_flag = rn_fac_open } }
-			rn_fac_reset_click_enabled = { ROOT = { has_country_flag = rn_fac_open var:rn_fac_target = { has_variable = capie_fn_ver NOT = { rn_fac_cooldown_active = yes } } } }
+			rn_fac_reset_click_enabled = { ROOT = { has_country_flag = rn_fac_open var:rn_fac_target = { has_variable = capie_fn_ver NOT = { rn_fac_cooldown_active = yes } NOT = { rn_feature_factions_off = yes } } } }
 		}
 	}
 }

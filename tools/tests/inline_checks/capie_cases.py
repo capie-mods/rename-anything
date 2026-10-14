@@ -228,7 +228,12 @@ def _check_action() -> None:
     assert get(action, "ai_desire") == [("base", "=", "0")]
     guard = get(get(action, "complete_effect"), "if")
     assert ("rn_sub_may_edit", "=", "yes") in get(guard, "limit")
-    assert ("ROOT", "=", [("set_country_flag", "=", "rn_sub_open_country")]) in guard
+    assert ("NOT", "=", [("rn_feature_subjects_off", "=", "yes")]) in get(guard, "limit")
+    # The first kind the host has not switched off opens (ADR-0036); the flag picker last.
+    first = get(guard, "if")
+    assert get(first, "limit") == [("NOT", "=", [("rn_feature_country_off", "=", "yes")])]
+    assert ("ROOT", "=", [("set_country_flag", "=", "rn_sub_open_country")]) in first
+    assert get(guard, "else") == [("rn_fp_open_sub", "=", "yes")]
     for lang in ("english", "polish"):
         text = (SOURCE / "localisation" / lang / f"rn_inline_subjects_l_{lang}.yml").read_text(
             encoding="utf-8-sig"
@@ -258,7 +263,7 @@ def _check_action_texts(actions: list[Any]) -> None:
     texts: dict[str, dict[str, str]] = {}
     for lang in ("english", "polish"):
         texts[lang] = {}
-        for path in (SOURCE / "localisation" / lang).glob("*.yml"):
+        for path in (MOD / "localisation" / lang).glob("*.yml"):
             body = path.read_text(encoding="utf-8-sig")
             texts[lang].update(re.findall(r'^ (\S+?):\d* "(.*)"$', body, re.MULTILINE))
     for name, _, action in actions:
@@ -464,7 +469,9 @@ class CapieVM(ProductVM):
         """
         if key == "has_game_rule":
             rule = {k: v for k, _, v in value}
-            current = self.rule if rule["rule"] == "rn_edit_rights" else self.rules[rule["rule"]]
+            current = (
+                self.rule if rule["rule"] == "rn_edit_rights" else self.rule_option(rule["rule"])
+            )
             return bool(current == rule["option"])
         if key == "any_other_country":
             assert value == [("is_ai", "=", "no")], value
