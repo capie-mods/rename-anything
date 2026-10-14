@@ -60,6 +60,12 @@ touched:
 * ``common/on_actions/rename_anything_on_actions.txt``: the daily bump of the
   legacy windows' refresh gate (``dirty = rn_gui_dirty``) while a human
   player's editor is open.
+* The flag catalog and the flag picker (``modgen.features.flags`` and
+  ``flag_picker``): sprites for every file of ``gfx/flags`` that also has a
+  medium size, the pool, game-flag, stem-writer and cosmetic-snapshot effects,
+  the selected flag's name, the labels, the daily cosmetic tag check, and the two
+  picker windows with their scripted GUIs. The generator prints a second summary
+  line with the catalog counts.
 * The in-place editor: every file of ``tools/inline_editor/`` is copied to the
   same relative path (country, leader and party editors, the party tabs, the
   rename cooldown, the status line, the decision that opens the Characters tab,
@@ -104,6 +110,7 @@ import sys
 
 from modgen.build import summary, write_all
 from modgen.common import MOD
+from modgen.features.flags import read_catalog
 from modgen.output import DiskSink
 from rncommon.game_data import (
     DEFAULT_GAME,
@@ -128,8 +135,10 @@ def main() -> int:
         print("no vanilla states found under", args.game, file=sys.stderr)
         return 1
     keys = {int(province) for province in vp_key_ids(game.english_localisation_lines())}
-    write_all(DiskSink(MOD), states, keys)
+    catalog = read_catalog(args.game)
+    write_all(DiskSink(MOD), states, keys, catalog)
     print(summary(states, keys))
+    print("flags:", ", ".join(f"{k} {v}" for k, v in catalog.report.items()))
     return 0
 
 
