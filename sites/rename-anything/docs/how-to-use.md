@@ -18,6 +18,11 @@ whether it needs CAPIE.
 The name under the portrait changes at once. Needs CAPIE, because a script cannot read what you
 type into the game's text field.
 
+<figure class="diagram" markdown="span">
+  ![Left: the Politics panel with a text field under the leader portrait reading Stanley Baldwin. Right: the same panel after Apply, the leader now named Stanley Egghead.](assets/screenshots/leader.jpg)
+  <figcaption>Left: the text field opened under the portrait. Right: the panel after Enter.</figcaption>
+</figure>
+
 ## Your parties
 
 1. In the Politics panel, click the pencil for parties ("Rename parties").
@@ -46,6 +51,11 @@ the cooldown.
 Needs CAPIE in every game session. Without CAPIE your country shows the game's name, and your
 name comes back when you start the game with CAPIE again.
 
+<figure class="diagram" markdown="span">
+  ![Left: the Politics panel with a Name tab, the country name Skbidi Kingdom and the adjective Skibidish in text fields. Right: the Flag tab, a list of flags with letter filters.](assets/screenshots/country-flag.jpg)
+  <figcaption>The country editor: name and adjective on the Name tab, the flag picker on the Flag tab (in progress, needs CAPIE 1.4).</figcaption>
+</figure>
+
 ## Your subjects
 
 As an overlord you can rename your subjects.
@@ -59,11 +69,22 @@ As an overlord you can rename your subjects.
 The action appears only for your own subjects, unless the host chose a different
 [game rule](game-rules.md). Needs CAPIE.
 
+<figure class="diagram" markdown="span">
+  ![Diplomacy screen of the British Raj with an editor open over it: Country, Leader, Party and Flag tabs, the name British Mandate of India and the adjective British-Indian.](assets/screenshots/subjects.jpg)
+  <figcaption>The subject editor opened from Diplomacy, over the British Raj.</figcaption>
+</figure>
+
 ## Your faction <span class="st st-progress">In progress</span>
 
-The leader of a faction will be able to rename it: the action "Rename faction" appears on the
-other members of your faction in Diplomacy. With the current CAPIE the editor opens but says that
-faction names need a newer CAPIE, and nothing changes.
+The leader of a faction can rename it: the action "Rename faction" appears on the other members
+of your faction in Diplomacy. This needs CAPIE 1.4, which so far exists only as a developer build
+and was checked once in the game. With an older CAPIE the editor opens but says that faction
+names need a newer CAPIE, and nothing changes.
+
+<figure class="diagram" markdown="span">
+  ![Left: the diplomatic action Rename faction and a dialog asking to open the editor for Allies. Right: the faction map mode with the renamed faction The Rizzlers.](assets/screenshots/factions.jpg)
+  <figcaption>Rename faction in Diplomacy, and the renamed faction in the faction map mode (CAPIE 1.4 developer build).</figcaption>
+</figure>
 
 ## States and cities
 
@@ -74,6 +95,11 @@ You can rename your own states and the cities (victory points) in them. No CAPIE
 - "Cities" lists the victory points of that state; pick one and rename it. The list shows
   "Original (now New name)" for a city you renamed.
 - The same lists are in the name editor, on the "States" and "Cities" tabs.
+
+<figure class="diagram" markdown="span">
+  ![Left: the map of East Africa labelled Skbidi Kingdom, a province tooltip naming the owner Skbidi Kingdom. Right: the map of England with the city Skibidi London.](assets/screenshots/map.jpg)
+  <figcaption>New names on the map: a renamed country on the left, a renamed city on the right.</figcaption>
+</figure>
 
 ## Generals, admirals and advisers
 

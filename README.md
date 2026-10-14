@@ -10,6 +10,8 @@ armies and fleets. As an overlord you can also rename your subjects.
 Built on CAPIE (Cyprian's API Extender), a small native library that gives HOI4 mods abilities
 the scripting language does not have.
 
+<img src="docs/assets/promo/rename-anything/readme/hero.jpg" alt="Hearts of Iron IV diplomacy screen with a subject renamed to Province of Rizzia, its leader Rizzler King and its Rizz Party; the map shows the new name across Canada." width="880">
+
 > **Pre-release.** Nothing is published on the Workshop yet. Features marked "Works today" were
 > checked in the game, in single player, on development builds. Multiplayer is not supported.
 
@@ -21,6 +23,34 @@ HOI4 lets you name a division whatever you like, but your own country, its leade
 party are stuck with whatever the game or a focus tree gives them. Existing Workshop mods get
 around this with decisions that pick from prepared lists of names. Rename Anything gives you a
 real text field instead: any name you can type, Polish letters included, saved in your campaign.
+
+## In the game
+
+Screenshots from HOI4 1.19.3.0 in single player, on development builds. The silly names are ours.
+
+Your country's name and adjective go into the game's own text field. The flag can be any flag the game has.
+
+<img src="docs/assets/promo/rename-anything/readme/country-flag.jpg" alt="Left: the Politics panel with a Name tab, the country name Skbidi Kingdom and the adjective Skibidish in text fields. Right: the Flag tab, a list of flags with letter filters." width="880">
+
+To rename your leader, click the pencil by the portrait, type, press Enter.
+
+<img src="docs/assets/promo/rename-anything/readme/leader.jpg" alt="Left: the Politics panel with a text field under the leader portrait reading Stanley Baldwin. Right: the same panel after Apply, the leader now named Stanley Egghead." width="880">
+
+An overlord renames a subject through the diplomatic action "Rename this country".
+
+<img src="docs/assets/promo/rename-anything/readme/subjects.jpg" alt="Diplomacy screen of the British Raj with an editor open over it: Country, Leader, Party and Flag tabs, the name British Mandate of India and the adjective British-Indian." width="880">
+
+The leader of a faction renames it from Diplomacy.
+
+<img src="docs/assets/promo/rename-anything/readme/factions.jpg" alt="Left: the diplomatic action Rename faction and a dialog asking to open the editor for Allies. Right: the faction map mode with the renamed faction The Rizzlers." width="880">
+
+With the news game rule on, every country gets a news event about the new name.
+
+<img src="docs/assets/promo/rename-anything/readme/news-event.jpg" alt="Left: the country editor with the name Great Britian. Right: a World News event titled New country name: Great Britian." width="880">
+
+Map labels, tooltips and renamed cities show the new names.
+
+<img src="docs/assets/promo/rename-anything/readme/map.jpg" alt="Left: the map of East Africa labelled Skbidi Kingdom, a province tooltip naming the owner Skbidi Kingdom. Right: the map of England with the city Skibidi London." width="880">
 
 ## How it works
 
@@ -68,8 +98,8 @@ of every row.
 | Esc cancels the edit | In progress | Esc closes the Politics panel and the editor with it, but the edit mode stays on. |
 | "Restore name" button | In progress | Goes back to the game's name; uses the cooldown. Not yet checked in the game. |
 | Game rules: who may rename, news event | In progress | Lobby rules. Not yet checked in the game. |
-| Faction names | In progress | Needs a newer CAPIE (faction name layer, developer build only). |
-| Choosing your own flag | Planned | Design in progress. |
+| Faction names | In progress | Needs CAPIE 1.4 (faction name layer). Checked once in the game on a developer build. |
+| Choosing your own flag | In progress | Flag picker in the country and subject editors; needs CAPIE 1.4 (flag layer). Checked once in the game on a developer build. |
 | Installer and the CAPIE switch in the playset | In progress | One-line PowerShell installer, a GitHub Releases installer, and a small "CAPIE" mod that switches CAPIE on. No release to install yet. |
 | Main-menu line showing whether CAPIE is loaded | Planned | |
 | Multiplayer | Not supported | Never tested with two players. |

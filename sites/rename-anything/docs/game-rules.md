@@ -40,5 +40,10 @@ The event's title reads "*old name* Changes Its Name to *new name*". When the ol
 known, the title is "*new name* Takes a New Name". The text is one of four short reports that
 mention the capital, the leader or the adjective. You dismiss it with "Noted."
 
+<figure class="diagram" markdown="span">
+  ![Left: the country editor with the name Great Britian. Right: a World News event titled New country name: Great Britian.](assets/screenshots/news-event.jpg)
+  <figcaption>A country renamed to Great Britian, and the news event every country receives.</figcaption>
+</figure>
+
 At first the old name is known only when the country already had a name given by a player. A
 newer CAPIE will also report the game's name at the moment of the rename.

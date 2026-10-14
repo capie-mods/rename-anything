@@ -23,6 +23,11 @@ mają nazwy, które nadała gra albo drzewko narodowe. Rename Anything daje zami
 pole tekstowe: każda nazwa, którą da się wpisać, także z polskimi literami, zapisana w kampanii.
 
 <figure class="diagram" markdown="span">
+  ![Hearts of Iron IV diplomacy screen with a subject renamed to Province of Rizzia, its leader Rizzler King and its Rizz Party; the map shows the new name across Canada.](../assets/screenshots/hero.jpg)
+  <figcaption>Kanada przemianowana przez zwierzchnika na Province of Rizzia: nowa nazwa na mapie i w dyplomacji.</figcaption>
+</figure>
+
+<figure class="diagram" markdown="span">
   ![Zmiana nazwy przywódcy: kliknij ołówek, wpisz Jan Żółć w polu tekstowym gry, naciśnij Enter. Nazwa trafia do zapisu gry.](../assets/diagrams/edit-in-place.svg)
   <figcaption>Zmieniasz nazwę tam, gdzie ją widzisz. Nowa nazwa trafia do zapisu gry jak każda inna zmiana.</figcaption>
 </figure>
@@ -47,8 +52,8 @@ pole tekstowe: każda nazwa, którą da się wpisać, także z polskimi literami
 | Generałowie, admirałowie, doradcy | Edytor nazw, z decyzji „Zmień nazwy postaci” | <span class="st st-today">Działa dziś</span> |
 | Podmioty: nazwa i przymiotnik, przywódca, partia rządząca | Dyplomacja, akcja „Zmień nazwy tego państwa” | <span class="st st-today">Działa dziś</span> wymaga CAPIE |
 | Powrót do nazwy państwa z gry | „Przywróć nazwę” w edytorze państwa | <span class="st st-progress">W przygotowaniu</span> |
-| Nazwa frakcji | Dyplomacja, akcja „Zmień nazwę frakcji” | <span class="st st-progress">W przygotowaniu</span> wymaga nowszego CAPIE |
-| Flaga państwa | | <span class="st st-planned">Planowane</span> |
+| Nazwa frakcji | Dyplomacja, akcja „Zmień nazwę frakcji” | <span class="st st-progress">W przygotowaniu</span> wymaga CAPIE 1.4; sprawdzone raz na wersji rozwojowej |
+| Flaga państwa | Karta „Flaga” w edytorze państwa i podmiotu | <span class="st st-progress">W przygotowaniu</span> wymaga CAPIE 1.4; sprawdzone raz na wersji rozwojowej |
 
 Nazwy przetrwają zapis, wczytanie i pełne ponowne uruchomienie gry. Etykiety na mapie,
 dyplomacja, podpowiedzi i wydarzenia używają nowej nazwy państwa; tytuły decyzji zachowują swój
