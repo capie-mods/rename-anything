@@ -8,8 +8,6 @@ turns the section of the version in `mod/descriptor.mod` into the Workshop chang
 
 ## [0.1.0] - unreleased
 
-DRAFT: written from the commit history before the first release; review it before uploading.
-
 - First Workshop release: rename countries, leaders, parties, factions, states and cities in
   game, with cooldowns and game rules for who may rename what.
 - With CAPIE: free-text names typed in place, custom country flags from the game's catalogue.
