@@ -30,8 +30,8 @@ from modgen.features.cooldown import COOLDOWN_DAYS
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterator
 
-CAPIE_API = 4
-"""API level CAPIE 1.2 sends as ``capie_cap``."""
+CAPIE_API = 5
+"""API level CAPIE 1.3 sends as ``capie_cap``."""
 
 SUB_EPOCH = 4
 """Opening epoch of the subject editor in every VM case."""
@@ -360,7 +360,7 @@ class CapieVM(ProductVM):
         self.events: list[tuple[str, str]] = []
         self.roll = 0
         self.other_humans = False
-        self.temp.update(capie_cap=Decimal(CAPIE_API), capie_ver=Decimal(10200))
+        self.temp.update(capie_cap=Decimal(CAPIE_API), capie_ver=Decimal(10300))
         self.temp["capie_epoch"] = Decimal(SUB_EPOCH)
 
     def fields(self, *names: str) -> None:
