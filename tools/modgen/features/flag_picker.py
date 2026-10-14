@@ -26,11 +26,22 @@ letters, which vanilla has no small text button for.
 
 from __future__ import annotations
 
-from typing import NamedTuple
+from typing import TYPE_CHECKING, NamedTuple
 
 from modgen.common import GEN_HEADER
-from modgen.features.flags import LETTERS, OTHER_LETTER, FlagCatalog
-from modgen.features.textures import TEXTURE_DIR, tga, transparent_px
+from modgen.features.catalog_common import LETTERS, OTHER_LETTER
+from modgen.features.picker_common import (
+    button,
+    captioned,
+    gridbox,
+    hit_gfx,
+    hit_textures,
+    icon,
+    text,
+)
+
+if TYPE_CHECKING:
+    from modgen.features.flags import FlagCatalog
 
 WIDTH = 420
 """Window width, the same as the name editors."""
@@ -213,88 +224,6 @@ def letter_x(n: int) -> int:
     return OTHER_X if n == OTHER_LETTER else (n - 1) * LETTER_W
 
 
-def _text(
-    name: str, pos: tuple[int, int], text: str, size: tuple[int, int], *, extra: str = ""
-) -> str:
-    """Return one ``instantTextBoxType`` block.
-
-    Args:
-        name: Element name.
-        pos: Position.
-        text: Localisation key.
-        size: ``maxWidth`` and ``maxHeight``.
-        extra: Additional attribute lines (already indented).
-
-    Returns:
-        The block, indented for a window body.
-    """
-    return (
-        f'\t\tinstantTextboxType = {{\n\t\t\tname = "{name}"\n'
-        f"\t\t\tposition = {{ x = {pos[0]} y = {pos[1]} }}\n"
-        f'\t\t\tfont = "Arial12"\n\t\t\ttext = "{text}"\n'
-        f"\t\t\tmaxWidth = {size[0]}\n\t\t\tmaxHeight = {size[1]}\n"
-        f"\t\t\tfixedsize = yes\n{extra}\t\t\talwaystransparent = yes\n\t\t}}\n"
-    )
-
-
-def _button(
-    name: str, pos: tuple[int, int], sprite: str, *, attrs: str = "", quad: bool = False
-) -> str:
-    """Return one ``buttonType`` block.
-
-    Args:
-        name: Element name.
-        pos: Position.
-        sprite: Sprite name (vanilla or a hit area).
-        attrs: Additional attribute lines (already indented).
-        quad: Use ``quadTextureSprite`` (a framed sprite) instead of ``spriteType``.
-
-    Returns:
-        The block, indented for a window body.
-    """
-    kind = "quadTextureSprite" if quad else "spriteType"
-    return (
-        f'\t\tbuttonType = {{\n\t\t\tname = "{name}"\n'
-        f"\t\t\tposition = {{ x = {pos[0]} y = {pos[1]} }}\n"
-        f'\t\t\t{kind} = "{sprite}"\n{attrs}\t\t\tclicksound = click_default\n\t\t}}\n'
-    )
-
-
-def _icon(name: str, pos: tuple[int, int], sprite: str, *, attrs: str = "") -> str:
-    """Return one ``iconType`` block.
-
-    Args:
-        name: Element name.
-        pos: Position.
-        sprite: Sprite (``spriteType``, or ``quadTextureSprite`` for a framed sprite in attrs).
-        attrs: Additional attribute lines (already indented).
-
-    Returns:
-        The block, indented for a window body.
-    """
-    return (
-        f'\t\ticonType = {{\n\t\t\tname = "{name}"\n'
-        f"\t\t\tposition = {{ x = {pos[0]} y = {pos[1]} }}\n"
-        f'\t\t\tspriteType = "{sprite}"\n{attrs}\t\t}}\n'
-    )
-
-
-def _captioned(text: str, tip: str) -> str:
-    """Return the caption, font and tooltip lines of a text button.
-
-    Args:
-        text: Caption key.
-        tip: Tooltip key.
-
-    Returns:
-        Attribute lines.
-    """
-    return (
-        f'\t\t\tbuttonText = "{text}"\n\t\t\tbuttonFont = "hoi_16mbs"\n'
-        f'\t\t\tpdx_tooltip = "{tip}"\n'
-    )
-
-
 def _tab_buttons(picker: Picker) -> str:
     """Return the tab row of one picker.
 
@@ -305,11 +234,11 @@ def _tab_buttons(picker: Picker) -> str:
         Button blocks.
     """
     return "".join(
-        _button(
+        button(
             f"rn_fp_{picker.editor}_tab_{suffix}",
             (i * TAB_PITCH, 0),
             "GFX_button_94x31",
-            attrs=_captioned(text, tip),
+            attrs=captioned(text, tip),
         )
         for i, (suffix, text, tip) in enumerate(picker.tabs)
     )
@@ -333,32 +262,11 @@ def _letters(letters: tuple[int, ...]) -> str:
             attrs = f'\t\t\tpdx_tooltip = "{key}_TT"\n'
         else:
             sprite, key, attrs = HIT_LETTER_SPRITE, f"RN_FP_L_{LETTERS[n - 1]}", ""
-        out.append(_button(f"rn_fp_letter_{n}", (x, LETTER_Y), sprite, attrs=attrs))
+        out.append(button(f"rn_fp_letter_{n}", (x, LETTER_Y), sprite, attrs=attrs))
         fmt = "\t\t\tformat = centre\n"
-        out.append(_text(f"rn_fp_lt_{n}", (x, LETTER_Y + 1), key, (w, 14), extra=fmt))
-        out.append(_text(f"rn_fp_lta_{n}", (x, LETTER_Y + 1), f"{key}_ON", (w, 14), extra=fmt))
+        out.append(text(f"rn_fp_lt_{n}", (x, LETTER_Y + 1), key, (w, 14), extra=fmt))
+        out.append(text(f"rn_fp_lta_{n}", (x, LETTER_Y + 1), f"{key}_ON", (w, 14), extra=fmt))
     return "".join(out)
-
-
-def _gridbox(name: str, slot: tuple[int, int], columns: int, rows: int) -> str:
-    """Return a ``gridBoxType`` at the grid position.
-
-    Args:
-        name: Dynamic list name.
-        slot: Slot size.
-        columns: Slots per row.
-        rows: Rows.
-
-    Returns:
-        The block.
-    """
-    return (
-        f'\t\tgridBoxType = {{\n\t\t\tname = "{name}"\n'
-        f"\t\t\tposition = {{ x = {GRID_X} y = {CONTENT_Y} }}\n"
-        f"\t\t\tsize = {{ width = {slot[0] * columns} height = {slot[1] * rows} }}\n"
-        f"\t\t\tslotsize = {{ width = {slot[0]} height = {slot[1]} }}\n"
-        f'\t\t\tmax_slots_horizontal = {columns}\n\t\t\tformat = "UPPER_LEFT"\n\t\t}}\n'
-    )
 
 
 def window(picker: Picker, letters: tuple[int, ...]) -> str:
@@ -380,24 +288,24 @@ def window(picker: Picker, letters: tuple[int, ...]) -> str:
         "\t\torientation = upper_left\n\t\tclipping = no\n",
         '\t\tbackground = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }\n',
         "\t\t# CAPIE epoch carrier (hidden).\n",
-        _text(f"capie_v1_ep__rn__{picker.editor}", (0, 0), "[?ROOT.rn_fp_epoch|0]", (120, 14)),
+        text(f"capie_v1_ep__rn__{picker.editor}", (0, 0), "[?ROOT.rn_fp_epoch|0]", (120, 14)),
         _tab_buttons(picker),
         "\t\t# Preview: the selected flag (large sprite) in the vanilla large flag frame.\n",
-        _icon("rn_fp_preview", PREVIEW_FLAG, "GFX_rnf_1"),
-        _icon(
+        icon("rn_fp_preview", PREVIEW_FLAG, "GFX_rnf_1"),
+        icon(
             "rn_fp_frame",
             PREVIEW_FRAME,
             "GFX_large_flag_frame",
             attrs="\t\t\talwaystransparent = yes\n",
         ),
-        _text("rn_fp_name", (0, NAME_Y), "RN_FP_NAME", (NAME_W, 26)),
-        _text("rn_fp_note_current", (0, NAME_Y + 26), "RN_FP_NOTE_CURRENT", (NAME_W, 14)),
-        _text("rn_fp_note_overlord", (0, NAME_Y + 26), "RN_FP_NOTE_OVERLORD", (NAME_W, 14)),
+        text("rn_fp_name", (0, NAME_Y), "RN_FP_NAME", (NAME_W, 26)),
+        text("rn_fp_note_current", (0, NAME_Y + 26), "RN_FP_NOTE_CURRENT", (NAME_W, 14)),
+        text("rn_fp_note_overlord", (0, NAME_Y + 26), "RN_FP_NOTE_OVERLORD", (NAME_W, 14)),
         "\t\t# Flags of one pool (rn_fp_grid) or countries (rn_fp_rows_grid), ten per page.\n",
-        _gridbox("rn_fp_grid", CELL, GRID_COLUMNS, GRID_ROWS),
-        _gridbox("rn_fp_rows_grid", ROW, ROW_COLUMNS, ROW_ROWS),
-        _text("rn_fp_empty", (GRID_X, CONTENT_Y + 32), "RN_FP_EMPTY", (GRID_W, 14)),
-        _button(
+        gridbox("rn_fp_grid", (GRID_X, CONTENT_Y), CELL, GRID_COLUMNS, GRID_ROWS),
+        gridbox("rn_fp_rows_grid", (GRID_X, CONTENT_Y), ROW, ROW_COLUMNS, ROW_ROWS),
+        text("rn_fp_empty", (GRID_X, CONTENT_Y + 32), "RN_FP_EMPTY", (GRID_W, 14)),
+        button(
             f"{picker.key}_apply",
             (APPLY_X, CONTENT_Y + 3),
             "GFX_preset_button_save",
@@ -407,7 +315,7 @@ def window(picker: Picker, letters: tuple[int, ...]) -> str:
             ),
             quad=True,
         ),
-        _button(
+        button(
             "rn_fp_cancel",
             (CANCEL_X, CONTENT_Y + 5),
             "GFX_closebutton_16",
@@ -415,32 +323,32 @@ def window(picker: Picker, letters: tuple[int, ...]) -> str:
             quad=True,
         ),
         "\t\t# Navigation: this country's pool or every country (game rule), pages.\n",
-        _button(
+        button(
             "rn_fp_nav_own",
             (GRID_X, NAV_Y),
             "GFX_button_94x31",
-            attrs=_captioned("RN_FP_NAV_OWN", "RN_FP_NAV_OWN_TT"),
+            attrs=captioned("RN_FP_NAV_OWN", "RN_FP_NAV_OWN_TT"),
         ),
-        _button(
+        button(
             "rn_fp_nav_all",
             (GRID_X + TAB_PITCH, NAV_Y),
             "GFX_button_94x31",
-            attrs=_captioned("RN_FP_NAV_ALL", "RN_FP_NAV_ALL_TT"),
+            attrs=captioned("RN_FP_NAV_ALL", "RN_FP_NAV_ALL_TT"),
         ),
-        _button(
+        button(
             "rn_fp_prev",
             (296, arrow_y),
             "GFX_opinion_arrow_left",
             attrs='\t\t\tpdx_tooltip = "RN_FP_PREV_TT"\n',
         ),
-        _text(
+        text(
             "rn_fp_page",
             (313, arrow_y + 1),
             "RN_FP_PAGE",
             (34, 14),
             extra="\t\t\tformat = centre\n",
         ),
-        _button(
+        button(
             "rn_fp_next",
             (347, arrow_y),
             "GFX_opinion_arrow_right",
@@ -448,13 +356,13 @@ def window(picker: Picker, letters: tuple[int, ...]) -> str:
         ),
         "\t\t# Letters of the country list (English names, the same for every player).\n",
         _letters(letters),
-        _text("rn_fp_status", (6, STATUS_Y), "[This.RN_FP_STATUS]", (WIDTH - 12, 14)),
+        text("rn_fp_status", (6, STATUS_Y), "[This.RN_FP_STATUS]", (WIDTH - 12, 14)),
         "\t\t# Restore game flag: removes the flag layer (only while one is set).\n",
-        _button(
+        button(
             "rn_fp_reset",
             RESET_POS,
             "GFX_button_123x34",
-            attrs=_captioned("RN_FP_RESET", "RN_FP_RESET_TT"),
+            attrs=captioned("RN_FP_RESET", "RN_FP_RESET_TT"),
         ),
         "\t}\n",
     ]
@@ -470,14 +378,14 @@ def entries() -> str:
     cell = (
         '\tcontainerWindowType = {\n\t\tname = "rn_fp_cell"\n'
         f"\t\tsize = {{ width = {CELL[0]} height = {CELL[1]} }}\n\t\tclipping = no\n"
-        + _button("rn_fp_cell_flag", CELL_FLAG, "GFX_rnfm_1")
-        + _icon(
+        + button("rn_fp_cell_flag", CELL_FLAG, "GFX_rnfm_1")
+        + icon(
             "rn_fp_cell_frame",
             (0, 0),
             "GFX_small_flag_frame_selectable",
             attrs="\t\t\tframe = 1\n\t\t\talwaystransparent = yes\n",
         )
-        + _icon(
+        + icon(
             "rn_fp_cell_sel",
             (0, 0),
             "GFX_small_flag_frame_selectable",
@@ -488,9 +396,9 @@ def entries() -> str:
     row = (
         '\tcontainerWindowType = {\n\t\tname = "rn_fp_row"\n'
         f"\t\tsize = {{ width = {ROW[0]} height = {ROW[1]} }}\n\t\tclipping = no\n"
-        + _button("rn_fp_row_hit", (0, 0), HIT_ROW_SPRITE)
-        + _text("rn_fp_row_name", (2, 1), "RN_FP_ROW", (ROW[0] - 4, 14))
-        + _text("rn_fp_row_name_on", (2, 1), "RN_FP_ROW_ON", (ROW[0] - 4, 14))
+        + button("rn_fp_row_hit", (0, 0), HIT_ROW_SPRITE)
+        + text("rn_fp_row_name", (2, 1), "RN_FP_ROW", (ROW[0] - 4, 14))
+        + text("rn_fp_row_name_on", (2, 1), "RN_FP_ROW_ON", (ROW[0] - 4, 14))
         + "\t}\n"
     )
     return cell + row
@@ -527,38 +435,6 @@ def gui(letters: tuple[int, ...]) -> str:
         "# transparent hit areas.\n"
         "guiTypes = {\n" + "".join(window(p, letters) for p in PICKERS) + entries() + "}\n"
     )
-
-
-def gfx() -> str:
-    """Return the hit area sprites.
-
-    Returns:
-        Contents of :data:`GFX_FILE`.
-    """
-    sprites = [
-        (HIT_ROW_SPRITE, "rn_hit_row.tga"),
-        (HIT_LETTER_SPRITE, "rn_hit_letter.tga"),
-        ("GFX_rn_hit_other", "rn_hit_other.tga"),
-    ]
-    body = "".join(
-        f'\tspriteType = {{\n\t\tname = "{name}"\n\t\ttexturefile = "{TEXTURE_DIR}/{file}"\n'
-        '\t\tnoOfFrames = 1\n\t\teffectFile = "gfx/FX/buttonstate.lua"\n\t}\n'
-        for name, file in sprites
-    )
-    return GEN_HEADER + "spriteTypes = {\n" + body + "}\n"
-
-
-def textures() -> dict[str, bytes]:
-    """Return the transparent hit area textures.
-
-    Returns:
-        File name (in :data:`~modgen.features.textures.TEXTURE_DIR`) to TGA bytes.
-    """
-    return {
-        "rn_hit_row.tga": tga(ROW[0], ROW[1], transparent_px),
-        "rn_hit_letter.tga": tga(LETTER_W, LETTER_H, transparent_px),
-        "rn_hit_other.tga": tga(OTHER_W, LETTER_H, transparent_px),
-    }
 
 
 # ----------------------------------------------------------------------------- scripted GUI
@@ -824,7 +700,16 @@ def write_files(catalog: FlagCatalog) -> list[tuple[str, str]]:
     """
     letters = letter_entries(catalog)
     return [
-        (GFX_FILE, gfx()),
+        (GFX_FILE, hit_gfx()),
         (GUI_FILE, gui(letters)),
         (SCRIPTED_GUI_FILE, scripted_guis(letters)),
     ]
+
+
+def textures() -> dict[str, bytes]:
+    """Return the transparent hit area textures (shared with the portrait picker).
+
+    Returns:
+        File name to TGA bytes.
+    """
+    return hit_textures()

@@ -18,4 +18,10 @@ spriteTypes = {
 		noOfFrames = 1
 		effectFile = "gfx/FX/buttonstate.lua"
 	}
+	spriteType = {
+		name = "GFX_rn_hit_row108"
+		texturefile = "gfx/interface/rename_anything/rn_hit_row108.tga"
+		noOfFrames = 1
+		effectFile = "gfx/FX/buttonstate.lua"
+	}
 }

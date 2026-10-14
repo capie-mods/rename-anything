@@ -81,6 +81,7 @@ def _all_models() -> dict[str, Any]:
         **models_of(SOURCE / "common" / "scripted_guis"),
         **models_of(MOD / "common" / "scripted_guis", "rename_anything_*.txt"),
         **models_of(MOD / "common" / "scripted_guis", "rn_flag_picker.txt"),
+        **models_of(MOD / "common" / "scripted_guis", "rn_portrait_picker.txt"),
     }
 
 
@@ -91,7 +92,11 @@ def _buttons() -> dict[str, list[Any]]:
         Button name to body (the last one wins for names shared by two windows).
     """
     paths = [*sorted((SOURCE / "interface").glob("*.gui"))]
-    paths += [MOD / "interface" / "rename_anything.gui", MOD / "interface" / "rn_flag_picker.gui"]
+    paths += [
+        MOD / "interface" / "rename_anything.gui",
+        MOD / "interface" / "rn_flag_picker.gui",
+        MOD / "interface" / "rn_portrait_picker.gui",
+    ]
     out: dict[str, list[Any]] = {}
     for path in paths:
         for kind, _, body in walk(parse(path.read_text(encoding="utf-8-sig"))):

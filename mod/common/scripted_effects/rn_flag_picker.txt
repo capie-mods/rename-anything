@@ -45,6 +45,7 @@ rn_fp_open_own = {
 			NOT = { rn_feature_flag_off = yes }
 		}
 		rn_inline_pair_cancel_country = yes
+		rn_pp_close = yes
 		rn_fp_close = yes
 		clear_array = rn_fp_target_arr
 		add_to_array = { rn_fp_target_arr = THIS }
@@ -66,6 +67,7 @@ rn_fp_open_sub = {
 		ROOT = {
 			rn_sub_close = yes
 			rn_fac_close = yes
+			rn_pp_close = yes
 			rn_fp_close = yes
 			clear_array = rn_fp_target_arr
 			add_to_array = { rn_fp_target_arr = PREV }

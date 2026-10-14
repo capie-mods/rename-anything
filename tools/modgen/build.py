@@ -23,6 +23,8 @@ from modgen.features import (
     legacy_field,
     localisation,
     main_window,
+    portrait_picker,
+    portraits,
     refresh,
     states,
     switches,
@@ -178,6 +180,7 @@ def write_all(
     states_table: StateTable,
     keys: set[int],
     catalog: flags.FlagCatalog | None = None,
+    portrait_catalog: portraits.PortraitCatalog | None = None,
 ) -> None:
     """Write every generated file.
 
@@ -186,6 +189,7 @@ def write_all(
         states_table: State table, sorted by state ID.
         keys: Province IDs with a vanilla VP name key.
         catalog: Flag catalog of the game; without it the flag picker files are not written.
+        portrait_catalog: Portrait catalog; without it the portrait picker files are not written.
     """
     sink.write_text(SCRIPTED_LOC_FILE, scripted_loc(states_table, keys))
     sink.write_text(TRIGGERS_FILE, generated_triggers())
@@ -198,13 +202,7 @@ def write_all(
         sink.write_bytes(f"{textures.TEXTURE_DIR}/{name}", data)
     for rel, text, bom in switches.write_files():
         sink.write_text(rel, text, bom=bom)
-    if catalog is not None:
-        for rel, text, bom in flags.write_files(catalog):
-            sink.write_text(rel, text, bom=bom)
-        for rel, text in flag_picker.write_files(catalog):
-            sink.write_text(rel, text)
-        for name, data in flag_picker.textures().items():
-            sink.write_bytes(f"{textures.TEXTURE_DIR}/{name}", data)
+    _write_pickers(sink, catalog, portrait_catalog)
     for rel, text, bom in inline_editor.gen_inline_editor():
         sink.write_text(rel, text, bom=bom)
     for lang in LANGS:
@@ -217,6 +215,31 @@ def write_all(
             localisation.chars_loc(lang, states_table, keys),
             bom=True,
         )
+
+
+def _write_pickers(
+    sink: OutputSink,
+    catalog: flags.FlagCatalog | None,
+    portrait_catalog: portraits.PortraitCatalog | None,
+) -> None:
+    """Write the flag and portrait catalogs and their pickers.
+
+    Args:
+        sink: Destination of the files.
+        catalog: Flag catalog, or None to skip the flag files.
+        portrait_catalog: Portrait catalog, or None to skip the portrait files.
+    """
+    files: list[tuple[str, str, bool]] = []
+    if catalog is not None:
+        files += flags.write_files(catalog)
+        files += [(rel, text, False) for rel, text in flag_picker.write_files(catalog)]
+        for name, data in flag_picker.textures().items():
+            sink.write_bytes(f"{textures.TEXTURE_DIR}/{name}", data)
+    if portrait_catalog is not None:
+        files += portraits.write_files(portrait_catalog)
+        files += [(rel, text, False) for rel, text in portrait_picker.write_files(portrait_catalog)]
+    for rel, text, bom in files:
+        sink.write_text(rel, text, bom=bom)
 
 
 def summary(states_table: StateTable, keys: set[int]) -> str:

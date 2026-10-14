@@ -37,7 +37,8 @@ from inline_checks.geometry import disjoint, inside
 from inline_checks.tree import declarations, get, models_of, walk, xy
 from modgen.common import LANGS
 from modgen.features import flag_picker
-from modgen.features.flags import IDEOLOGIES, LETTERS, OTHER_LETTER, TAG_LEN, pack, split_stem
+from modgen.features.catalog_common import LETTERS, OTHER_LETTER, TAG_LEN, pack
+from modgen.features.flags import IDEOLOGIES, split_stem
 
 Rect = tuple[int, int, int, int]
 """``(left, top, right, bottom)``."""
@@ -78,6 +79,10 @@ SPRITE_SIZE = {
     "GFX_rn_hit_row": flag_picker.ROW,
     "GFX_rn_hit_letter": (flag_picker.LETTER_W, flag_picker.LETTER_H),
     "GFX_rn_hit_other": (flag_picker.OTHER_W, flag_picker.LETTER_H),
+    "GFX_rn_hit_row108": (108, 16),
+    "GFX_pol_leader_frame": (172, 258),
+    "GFX_diplo_leader_frame": (134, 175),
+    "GFX_rnp_1": (156, 210),
 }
 """Drawn sizes of the button sprites the pickers use."""
 
@@ -240,6 +245,12 @@ class Nation:
 
     flags: set[str] = field(default_factory=set)
     """Country flags."""
+
+    characters: list[str] = field(default_factory=list)
+    """Characters of a country (their VM tags); empty for a character."""
+
+    leader: bool = False
+    """A character that leads its country."""
 
 
 @dataclass(frozen=True)
@@ -445,6 +456,8 @@ class FlagVM:
         tag = self.scope_of(key)
         if tag is not None:
             return bool(self.scoped(tag, lambda: self.condition(value)))
+        if key == "any_character":
+            return any(self.scoped(c, lambda: self.condition(value)) for c in here.characters)
         if key == "AND":
             return self.condition(value)
         if key == "OR":
@@ -469,6 +482,7 @@ class FlagVM:
             "is_subject_of": lambda: here.overlord == self.scope_of(value),
             "is_ai": lambda: here.ai == (value == "yes"),
             "exists": lambda: here.exists == (value == "yes"),
+            "is_country_leader": lambda: here.leader == (value == "yes"),
             "always": lambda: value == "yes",
             "has_game_rule": lambda: (
                 self.rules.get(get(value, "rule"), get(value, "rule").upper() + "_ON")
@@ -523,7 +537,7 @@ class FlagVM:
         self.here.vars[name] = value
         self.writes.append((self.here.tag, name))
 
-    def effect(self, key: str, op: str, value: Any) -> None:  # noqa: ANN401, ARG002, PLR0911 - one branch per effect
+    def effect(self, key: str, op: str, value: Any) -> None:  # noqa: ANN401, ARG002, C901, PLR0911 - one branch per effect
         """Execute one effect.
 
         Args:
@@ -540,6 +554,12 @@ class FlagVM:
             self.run(key)
             return
         if key == "log":
+            return
+        if key == "every_character":
+            limit = next((v for k, _, v in value if k == "limit"), [])
+            body = [n for n in value if n[0] != "limit"]
+            for c in list(here.characters):
+                self.scoped(c, lambda: self.condition(limit) and self.execute(body))
             return
         if key == "for_each_loop":
             params = {k: v for k, _, v in value if k in {"array", "value", "index"}}
@@ -1221,7 +1241,9 @@ def _size(body: list[Any]) -> tuple[int, int]:  # noqa: PLR0911 - one return per
         side = round(30 * float(get(body, "scale")))
         return side, side
     if sprite in SPRITE_SIZE:
-        return SPRITE_SIZE[sprite]
+        w, h = SPRITE_SIZE[sprite]
+        scale = float(get(body, "scale")) if any(k == "scale" for k, _, _ in body) else 1.0
+        return round(w * scale), round(h * scale)
     if sprite in FRAME_SIZE:
         return FRAME_SIZE[sprite]
     if sprite.startswith("GFX_rnfm_"):

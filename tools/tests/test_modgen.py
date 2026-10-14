@@ -24,6 +24,7 @@ from modgen.features import (
     input_window,
     legacy_field,
     localisation,
+    portraits,
     refresh,
     switches,
 )
@@ -223,7 +224,13 @@ def test_generator_reproduces_committed_mod() -> None:
     states = dict(sorted(read_state_inventory(game.state_histories()).states.items()))
     keys = {int(i) for i in vp_key_ids(game.english_localisation_lines())}
     sink = MemorySink()
-    build.write_all(sink, states, keys, flags.read_catalog(DEFAULT_GAME))
+    build.write_all(
+        sink,
+        states,
+        keys,
+        flags.read_catalog(DEFAULT_GAME),
+        portraits.read_catalog(DEFAULT_GAME),
+    )
     assert flags.CATALOG_EFFECTS in sink.files
     for relative, data in sink.files.items():
         assert (MOD / Path(relative)).read_bytes() == data, relative
