@@ -18,6 +18,8 @@ from modgen.common import LANGS, MAXLEN, MOD, STATE_BUCKET, VP_SLOTS, slots_expr
 from modgen.features import (
     cities,
     cooldown,
+    flag_picker,
+    flags,
     inline_editor,
     input_window,
     legacy_field,
@@ -220,9 +222,78 @@ def test_generator_reproduces_committed_mod() -> None:
     states = dict(sorted(read_state_inventory(game.state_histories()).states.items()))
     keys = {int(i) for i in vp_key_ids(game.english_localisation_lines())}
     sink = MemorySink()
-    build.write_all(sink, states, keys)
+    build.write_all(sink, states, keys, flags.read_catalog(DEFAULT_GAME))
+    assert flags.CATALOG_EFFECTS in sink.files
     for relative, data in sink.files.items():
         assert (MOD / Path(relative)).read_bytes() == data, relative
+
+
+SAMPLE_FLAGS = [
+    "POL_neutrality",
+    "POL_fascism",
+    "POL_KINGDOM_neutrality",
+    "POL_KINGDOM_RUS",
+    "GER",
+    "GER_fascism",
+    "SCA_UNIFIED_neutrality",
+    "bad.name",
+]
+"""Flag stems of the sample catalog: tag variants, cosmetic variants, an "Other" key, a bad name."""
+
+
+def test_flag_packing_follows_the_contract() -> None:
+    """``POL_`` packs as CONTRACT 17.3 shows; a path character is refused."""
+    assert flags.pack("POL_") == [174694, 258048]
+    assert flags.pack("abc") == [1 * 4096 + 2 * 64 + 3]
+    with pytest.raises(ValueError, match="not a flag stem"):
+        flags.pack("gfx/flags")
+    assert flags.split_stem("POL_KINGDOM_neutrality") == ("POL_KINGDOM", "neutrality")
+    assert flags.split_stem("GER") == ("GER", None)
+
+
+def test_flag_catalog_pools_labels_and_letters() -> None:
+    """Pools follow design 2.2, labels name game keys only, letters follow English names."""
+    english = {
+        "POL": "Poland",
+        "GER": "Germany",
+        "POL_KINGDOM_neutrality": "Kingdom of Poland",
+        "fascism": "Fascist",
+        "neutrality": "Non-Aligned",
+    }
+    cat = flags.build_catalog(
+        SAMPLE_FLAGS, SAMPLE_FLAGS, ["POL", "GER"], english, ["POL_KINGDOM", "OTHER"]
+    )
+    assert "bad.name" not in cat.stems
+    index = cat.index
+    by_tag = {g.tag: [cat.stems[i - 1] for i in g.indices] for g in cat.groups}
+    assert by_tag["POL"] == [
+        "POL_fascism",
+        "POL_neutrality",
+        "POL_KINGDOM_neutrality",
+        "POL_KINGDOM_RUS",
+    ]
+    assert by_tag["GER"] == ["GER", "GER_fascism"]
+    assert by_tag[""] == ["SCA_UNIFIED_neutrality"]
+    assert cat.groups[-1].tag == ""
+    assert cat.labels[index["POL_fascism"] - 1] == "$POL$ ($fascism$)"
+    assert cat.labels[index["POL_KINGDOM_RUS"] - 1] == "$POL$ 4"
+    assert cat.labels[index["SCA_UNIFIED_neutrality"] - 1] == "$RN_FP_OTHER_FLAG$ 1 ($neutrality$)"
+    assert not any(s in label for s in cat.stems for label in cat.labels if f"${s}$" not in label)
+    assert cat.letters[flags.LETTERS.index("G")] == ("GER",)
+    assert cat.letters[flags.LETTERS.index("P")] == ("POL",)
+    assert {"POL_KINGDOM", "OTHER", "SCA_UNIFIED"} <= set(cat.cosmetics)
+    assert flags.fingerprint(cat.stems) == flags.fingerprint(list(cat.stems))
+    assert flags.fingerprint(cat.stems) != flags.fingerprint(cat.stems[1:])
+
+
+def test_flag_picker_layout_constants() -> None:
+    """The grid ends left of the Apply column and the rows fill the same rectangle."""
+    assert flag_picker.GRID_X + flag_picker.GRID_W < flag_picker.APPLY_X
+    assert flag_picker.ROW[0] * flag_picker.ROW_COLUMNS == flag_picker.GRID_W
+    rows_h = flag_picker.ROW[1] * flag_picker.ROW_ROWS
+    assert rows_h == flag_picker.CELL[1] * flag_picker.GRID_ROWS
+    assert flag_picker.letter_x(len(flags.LETTERS)) + flag_picker.LETTER_W <= flag_picker.OTHER_X
+    assert flag_picker.OTHER_X + flag_picker.OTHER_W <= flag_picker.WIDTH
 
 
 GATED_GUIS = (

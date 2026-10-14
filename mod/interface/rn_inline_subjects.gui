@@ -73,6 +73,15 @@ guiTypes = {
 			pdx_tooltip = "RN_SUB_TAB_PARTY_TT"
 			clicksound = click_default
 		}
+		buttonType = {
+			name = "rn_sub_subcountry_tab_flag"
+			position = { x = 288 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_FP_TAB_FLAG"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FP_TAB_FLAG_TT"
+			clicksound = click_default
+		}
 		containerWindowType = {
 			name = "rn_subf_subcountry_1"
 			position = { x = 0 y = 46 }
@@ -221,6 +230,15 @@ guiTypes = {
 			pdx_tooltip = "RN_SUB_TAB_PARTY_TT"
 			clicksound = click_default
 		}
+		buttonType = {
+			name = "rn_sub_subleader_tab_flag"
+			position = { x = 288 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_FP_TAB_FLAG"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FP_TAB_FLAG_TT"
+			clicksound = click_default
+		}
 		containerWindowType = {
 			name = "rn_subf_subleader_1"
 			position = { x = 0 y = 46 }
@@ -341,6 +359,15 @@ guiTypes = {
 			buttonText = "RN_SUB_TAB_PARTY"
 			buttonFont = "hoi_16mbs"
 			pdx_tooltip = "RN_SUB_TAB_PARTY_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_sub_subparty_tab_flag"
+			position = { x = 288 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_FP_TAB_FLAG"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FP_TAB_FLAG_TT"
 			clicksound = click_default
 		}
 		containerWindowType = {

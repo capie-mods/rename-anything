@@ -1,5 +1,5 @@
 ﻿l_german:
- RN_IPC_EDIT_COUNTRY:0 "Rename country[ROOT.RN_IP_CD_COUNTRY]"
+ RN_IPC_EDIT_COUNTRY:0 "Rename the country or change its flag[ROOT.RN_IP_CD_COUNTRY][ROOT.RN_FP_CD]"
  RN_IPC_CANCEL:0 "Cancel"
  RN_IPC_LABEL_NAME:0 "§LName§!"
  RN_IPC_LABEL_ADJ:0 "§LAdjective§!"

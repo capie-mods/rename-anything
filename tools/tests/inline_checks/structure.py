@@ -103,7 +103,20 @@ def check_callbacks(models: dict[str, Any]) -> None:
                 get(launcher, "triggers"), prefix + "_open_click_enabled"
             )
         if rev is None:
-            assert open_click == [(open_helper, "=", "yes"), ("rn_ip_status_clear", "=", "yes")]
+            # Country: during the name cooldown the pencil opens the flag picker instead
+            # (separate flag cooldown, decision 2026-10-14).
+            assert open_click == [
+                (
+                    "if",
+                    "=",
+                    [
+                        ("limit", "=", [("rn_ip_cooldown_active_country", "=", "yes")]),
+                        ("rn_fp_open_own", "=", "yes"),
+                        ("rn_ip_status_clear", "=", "yes"),
+                    ],
+                ),
+                ("else", "=", [(open_helper, "=", "yes"), ("rn_ip_status_clear", "=", "yes")]),
+            ]
             assert [k for k, _, _ in apply_click] == ["log", apply_helper, status, "log"]
         else:
             # Caption revision counter: explicit 0 before the first opening, +1 only after a
@@ -467,7 +480,11 @@ def check_cooldown(
         assert ("NOT", "=", [(active, "=", "yes")]) in get(get(effects[openers[k]], "if"), "limit")
         launcher = models[prefixes[k] + "_launcher_gui"]
         enabled = get(get(launcher, "triggers"), prefixes[k] + "_open_click_enabled")
-        assert ("NOT", "=", [(active, "=", "yes")]) in enabled, ("pencil not disabled", k)
+        # The country pencil also opens the flag picker, so it is disabled only while both the
+        # name and the flag cooldown run.
+        both = [(active, "=", "yes"), ("rn_fp_cooldown_active", "=", "yes")]
+        disabled = ("NOT", "=", [("AND", "=", both)]) if k == "country" else ("NOT", "=", both[:1])
+        assert disabled in enabled, ("pencil not disabled", k)
         assert active not in str(get(launcher, "visible")), "pencil must stay visible"
         days = [
             get(x[2], "localization_key")

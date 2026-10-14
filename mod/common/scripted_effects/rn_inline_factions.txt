@@ -15,6 +15,7 @@ rn_fac_open = {
 		}
 		ROOT = {
 			rn_sub_close = yes
+			rn_fp_close = yes
 			clear_array = rn_fac_view_arr
 			add_to_array = { rn_fac_view_arr = PREV }
 		}

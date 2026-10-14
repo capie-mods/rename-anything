@@ -8,12 +8,20 @@ scripted_gui = {
 		context_type = player_context
 		parent_window_token = politics_tab
 		window_name = "rn_ip_country_launcher_window"
-		visible = { tag = ROOT is_ai = no rn_editor_bridge_available = yes NOT = { has_country_flag = rn_ip_country_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
+		visible = { tag = ROOT is_ai = no rn_editor_bridge_available = yes NOT = { has_country_flag = rn_ip_country_open } NOT = { has_country_flag = rn_fp_open_own } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
 		ai_enabled = { always = no }
 		effects = {
+			# During the name cooldown the pencil opens the flag picker (its own cooldown, 2026-10-14).
 			rn_ip_country_open_click = {
-				rn_inline_pair_open_country = yes
-				rn_ip_status_clear = yes
+				if = {
+					limit = { rn_ip_cooldown_active_country = yes }
+					rn_fp_open_own = yes
+					rn_ip_status_clear = yes
+				}
+				else = {
+					rn_inline_pair_open_country = yes
+					rn_ip_status_clear = yes
+				}
 			}
 		}
 		triggers = {
@@ -25,7 +33,7 @@ scripted_gui = {
 				NOT = { has_country_flag = rn_ip_party_neutrality_open }
 				NOT = { has_country_flag = rn_open }
 				NOT = { has_country_flag = rn_input }
-				NOT = { rn_ip_cooldown_active_country = yes }
+				NOT = { AND = { rn_ip_cooldown_active_country = yes rn_fp_cooldown_active = yes } }
 			}
 		}
 	}
@@ -52,6 +60,11 @@ scripted_gui = {
 				rn_inline_country_reset = yes
 				rn_ip_status_clear = yes
 			}
+			# Tabs: Name is this editor; Flag opens the flag picker in the same place.
+			rn_ip_country_tab_flag_click = {
+				rn_fp_open_own = yes
+				rn_ip_status_clear = yes
+			}
 		}
 		triggers = {
 			rn_ip_country_name_prefill_visible = { always = no }
@@ -70,6 +83,8 @@ scripted_gui = {
 				is_in_array = { array = rn_ip_country_target value = THIS }
 			}
 			rn_ip_country_cancel_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_country_open }
+			rn_ip_country_tab_name_click_enabled = { tag = ROOT is_ai = no always = no }
+			rn_ip_country_tab_flag_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_country_open }
 			rn_ip_country_reset_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_country_open rn_cn_has_custom = yes NOT = { rn_ip_cooldown_active_country = yes } }
 		}
 	}

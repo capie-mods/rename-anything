@@ -79,6 +79,11 @@ from inline_checks.capie_cases import (  # noqa: E402
     run_subject_rejections,
 )
 from inline_checks.constants import MOD  # noqa: E402
+from inline_checks.flag_cases import (  # noqa: E402
+    check_flag_geometry,
+    check_flag_structure,
+    run_flag_cases,
+)
 from inline_checks.generated import (  # noqa: E402
     check_generated_mod,
     check_legacy_editor,
@@ -121,6 +126,8 @@ def main() -> int:
     ctx = load_context(effects, triggers, locs)
     politics = {k: v for k, v in models.items() if k.startswith("rn_ip_")}
     check_capie_structure(models, gui, triggers)
+    check_flag_structure(models)
+    check_flag_geometry()
     counts = {
         "party_group_cases": run_party_groups(ctx),
         "tab_cases": run_tabs(ctx),
@@ -139,6 +146,7 @@ def main() -> int:
         "rights_cases": run_rights(ctx),
         "faction_cases": run_factions(ctx),
         "rename_event_cases": run_rename_event(ctx),
+        **run_flag_cases(),
         "keyboard_refresh_cases": run_keyboard_refresh(
             ctx,
             models_of(MOD / "common" / "scripted_guis", "rename_anything_*.txt")["rn_input_gui"],

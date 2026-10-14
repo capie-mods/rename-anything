@@ -16,6 +16,8 @@ from modgen.features import (
     cities,
     cooldown,
     country,
+    flag_picker,
+    flags,
     inline_editor,
     input_window,
     legacy_field,
@@ -170,13 +172,19 @@ def gui() -> str:
     return "".join(parts)
 
 
-def write_all(sink: OutputSink, states_table: StateTable, keys: set[int]) -> None:
+def write_all(
+    sink: OutputSink,
+    states_table: StateTable,
+    keys: set[int],
+    catalog: flags.FlagCatalog | None = None,
+) -> None:
     """Write every generated file.
 
     Args:
         sink: Destination of the files.
         states_table: State table, sorted by state ID.
         keys: Province IDs with a vanilla VP name key.
+        catalog: Flag catalog of the game; without it the flag picker files are not written.
     """
     sink.write_text(SCRIPTED_LOC_FILE, scripted_loc(states_table, keys))
     sink.write_text(TRIGGERS_FILE, generated_triggers())
@@ -187,6 +195,13 @@ def write_all(sink: OutputSink, states_table: StateTable, keys: set[int]) -> Non
     sink.write_text(refresh.ON_ACTIONS_FILE, GEN_HEADER + refresh.on_actions())
     for name, data in textures.gen_textures().items():
         sink.write_bytes(f"{textures.TEXTURE_DIR}/{name}", data)
+    if catalog is not None:
+        for rel, text, bom in flags.write_files(catalog):
+            sink.write_text(rel, text, bom=bom)
+        for rel, text in flag_picker.write_files(catalog):
+            sink.write_text(rel, text)
+        for name, data in flag_picker.textures().items():
+            sink.write_bytes(f"{textures.TEXTURE_DIR}/{name}", data)
     for rel, text, bom in inline_editor.gen_inline_editor():
         sink.write_text(rel, text, bom=bom)
     for lang in LANGS:
