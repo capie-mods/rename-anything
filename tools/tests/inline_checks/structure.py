@@ -79,6 +79,18 @@ NAME_BLOCKED = [
 ]
 """The country name cannot be changed now: its cooldown runs or the host switched it off."""
 
+LEADER_BLOCKED = [
+    ("rn_ip_cooldown_active_leader", "=", "yes"),
+    ("rn_feature_leader_off", "=", "yes"),
+]
+"""The leader's name cannot be changed now: its cooldown runs or the host switched it off."""
+
+PORTRAIT_BLOCKED = [
+    ("rn_pp_cooldown_active", "=", "yes"),
+    ("NOT", "=", [("rn_pp_own_allowed", "=", "yes")]),
+]
+"""The leader's portrait cannot be changed now (cooldown, host switch or subject rule)."""
+
 FLAG_BLOCKED = [("rn_fp_cooldown_active", "=", "yes"), ("rn_feature_flag_off", "=", "yes")]
 """The flag cannot be changed now: its cooldown runs or the host switched it off."""
 
@@ -134,7 +146,23 @@ def check_callbacks(models: dict[str, Any]) -> None:
             init = ("if", "=", [("limit", "=", [("NOT", "=", [("has_variable", "=", rev)])])])
             assert open_click[0][:2] == init[:2]
             assert open_click[0][2][0] == init[2][0]
-            assert open_click[1:] == [(open_helper, "=", "yes"), ("rn_ip_status_clear", "=", "yes")]
+            plain = [(open_helper, "=", "yes"), ("rn_ip_status_clear", "=", "yes")]
+            if kind == "leader":
+                # While the name is blocked the pencil opens the portrait picker (ADR-0036).
+                assert open_click[1:] == [
+                    (
+                        "if",
+                        "=",
+                        [
+                            ("limit", "=", [("OR", "=", LEADER_BLOCKED)]),
+                            ("rn_pp_open_own", "=", "yes"),
+                            ("rn_ip_status_clear", "=", "yes"),
+                        ],
+                    ),
+                    ("else", "=", plain),
+                ]
+            else:
+                assert open_click[1:] == plain
             assert [k for k, _, _ in apply_click] == ["log", apply_helper, "if", status, "log"]
             assert apply_click[2] == (
                 "if",
@@ -495,9 +523,11 @@ def check_cooldown(
         # The country pencil also opens the flag picker, so it is disabled only while both the
         # name and the flag cooldown run.
         both = [("OR", "=", NAME_BLOCKED), ("OR", "=", FLAG_BLOCKED)]
+        if k == "leader":
+            both = [("OR", "=", LEADER_BLOCKED), ("OR", "=", PORTRAIT_BLOCKED)]
         disabled = (
             ("NOT", "=", [("AND", "=", both)])
-            if k == "country"
+            if k in {"country", "leader"}
             else ("NOT", "=", [(active, "=", "yes")])
         )
         assert disabled in enabled, ("pencil not disabled", k)

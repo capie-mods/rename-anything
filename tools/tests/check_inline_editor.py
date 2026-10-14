@@ -92,6 +92,11 @@ from inline_checks.generated import (  # noqa: E402
 )
 from inline_checks.loading import load_context, load_source  # noqa: E402
 from inline_checks.mutations import run_mutations  # noqa: E402
+from inline_checks.portrait_cases import (  # noqa: E402
+    check_portrait_geometry,
+    check_portrait_structure,
+    run_portrait_cases,
+)
 from inline_checks.structure import structural  # noqa: E402
 from inline_checks.switch_cases import check_switch_structure, run_switch_cases  # noqa: E402
 from inline_checks.tree import models_of  # noqa: E402
@@ -130,6 +135,8 @@ def main() -> int:
     check_flag_structure(models)
     check_flag_geometry()
     check_switch_structure()
+    check_portrait_structure(models)
+    check_portrait_geometry()
     counts = {
         "party_group_cases": run_party_groups(ctx),
         "tab_cases": run_tabs(ctx),
@@ -150,6 +157,7 @@ def main() -> int:
         "rename_event_cases": run_rename_event(ctx),
         **run_flag_cases(),
         "switch_cases": run_switch_cases(ctx),
+        **run_portrait_cases(),
         "keyboard_refresh_cases": run_keyboard_refresh(
             ctx,
             models_of(MOD / "common" / "scripted_guis", "rename_anything_*.txt")["rn_input_gui"],

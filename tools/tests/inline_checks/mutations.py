@@ -55,7 +55,7 @@ def contract_mutations() -> dict[
             named(g)["rn_ip_country_window"], "size", [("width", "=", "420"), ("height", "=", "40")]
         ),
         "cancel under apply": lambda _e, _m, g, _t, _l: set_value(
-            named(g)["rn_ip_leader_cancel"], "position", [("x", "=", "380"), ("y", "=", "5")]
+            named(g)["rn_ip_leader_cancel"], "position", [("x", "=", "380"), ("y", "=", "41")]
         ),
         "missing enter": lambda _e, _m, g, _t, _l: named(g)["rn_ip_party_neutrality_apply"].remove(
             ("shortcut", "=", "RETURN")

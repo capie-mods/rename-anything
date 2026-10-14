@@ -14,6 +14,7 @@
 rn_sub_open_common = {
 	ROOT = {
 		rn_fp_close = yes
+		rn_pp_close = yes
 		clr_country_flag = rn_fac_open
 		clr_country_flag = rn_sub_open_country
 		clr_country_flag = rn_sub_open_leader

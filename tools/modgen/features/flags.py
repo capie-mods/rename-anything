@@ -48,13 +48,27 @@ from __future__ import annotations
 
 import os
 import re
-import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 from modgen.common import GEN_HEADER, LANGS
-from modgen.script import check_variable, defined_text
+from modgen.features.catalog_common import (
+    LETTERS,
+    STEM,
+    TAG_LEN,
+    bucket_lines,
+    days_left_loc,
+    dispatch,
+    fingerprint,
+    letters_of,
+    pack,
+    read_english,
+    read_tags,
+    selected_name_loc,
+    write_leaf,
+)
+from modgen.script import check_variable
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
@@ -62,14 +76,6 @@ if TYPE_CHECKING:
 IDEOLOGIES = ("democratic", "communism", "fascism", "neutrality")
 """Vanilla ideology groups in the order of ``common/ideologies/00_ideologies.txt``."""
 
-STEM = re.compile(r"[A-Za-z0-9_]{1,63}")
-"""A flag stem or cosmetic tag CAPIE can carry (CONTRACT 17.3: 1..63 file-name characters)."""
-
-TAG = re.compile(r"\s*([A-Z][A-Z0-9]{2})\s*=")
-"""One ``TAG = "countries/..."`` line of ``common/country_tags``."""
-
-LOC_LINE = re.compile(r'^\s*([A-Za-z0-9_.\-]+):\d*\s*"(.*)"\s*$')
-"""One ``key:0 "text"`` localisation line."""
 
 COSMETIC = re.compile(r"set_cosmetic_tag\s*=\s*\"?([A-Za-z0-9_]+)")
 """One ``set_cosmetic_tag = X`` in the game's script."""
@@ -80,20 +86,6 @@ UNNAMED = re.compile(r"\$ \d")
 SCRIPT_DIRS = ("common", "events", "history")
 """Game folders scanned for ``set_cosmetic_tag`` values."""
 
-TAG_LEN = 3
-"""Length of a country tag; a key belongs to tag ``T`` when it is ``T`` or starts with ``T_``."""
-
-LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-"""Letters of the country list; letter ``n`` (1-based) is ``LETTERS[n - 1]``."""
-
-OTHER_LETTER = len(LETTERS) + 1
-"""Value of ``rn_fp_letter`` for the "Other" group (keys that start with no tag)."""
-
-NAME_BUCKET = 64
-"""Width of an index bucket in the two-level name lookup."""
-
-WRITE_LEAF = 1
-"""Range size at which the binary dispatch of ``rn_fp_write_stem`` stops splitting."""
 
 CATALOG_GFX = "interface/rn_flag_catalog.gfx"
 """Sprite file of the catalog, relative to ``mod/``."""
@@ -106,86 +98,6 @@ CATALOG_SCRIPTED_LOC = "common/scripted_localisation/rn_flag_catalog.txt"
 
 ON_ACTIONS_FILE = "common/on_actions/rn_flag_on_actions.txt"
 """Daily flag checks, relative to ``mod/``."""
-
-EMPTY_KEY = "RN_IPP_EMPTY"
-"""Existing empty localisation key (in-place editor) used as a fallback."""
-
-CODE_LOWER = 1
-"""File-name alphabet code of ``a`` (CONTRACT 17.3)."""
-
-CODE_UPPER = 27
-"""File-name alphabet code of ``A``."""
-
-CODE_DIGIT = 53
-"""File-name alphabet code of ``0``."""
-
-CODE_UNDERSCORE = 63
-"""File-name alphabet code of ``_``."""
-
-PACK = 64
-"""Base of the three-character packing (``c0 * 4096 + c1 * 64 + c2``)."""
-
-PACK_WIDTH = 3
-"""Characters per packed element."""
-
-CATALOG_HASH_MOD = 1_000_000
-"""Range of the catalog fingerprint (kept well inside HOI4's variable range)."""
-
-FNV_OFFSET = 0x811C9DC5
-"""FNV-1a 32-bit offset basis."""
-
-FNV_PRIME = 0x01000193
-"""FNV-1a 32-bit prime."""
-
-FNV_MASK = 0xFFFFFFFF
-"""32-bit mask of the FNV-1a hash."""
-
-
-def code(char: str) -> int:
-    """Return the file-name alphabet code of one character (CONTRACT 17.3).
-
-    Args:
-        char: ``a-z``, ``A-Z``, ``0-9`` or ``_``.
-
-    Returns:
-        The code, 1..63.
-
-    Raises:
-        ValueError: The character is not in the file-name alphabet.
-    """
-    if "a" <= char <= "z":
-        return CODE_LOWER + ord(char) - ord("a")
-    if "A" <= char <= "Z":
-        return CODE_UPPER + ord(char) - ord("A")
-    if "0" <= char <= "9":
-        return CODE_DIGIT + ord(char) - ord("0")
-    if char == "_":
-        return CODE_UNDERSCORE
-    msg = f"not a file-name character: {char!r}"
-    raise ValueError(msg)
-
-
-def pack(text: str) -> list[int]:
-    """Pack a stem three characters per element, the last element padded with 0.
-
-    Args:
-        text: A stem that matches :data:`STEM`.
-
-    Returns:
-        ``ceil(len / 3)`` elements ``c0 * 4096 + c1 * 64 + c2``.
-
-    Raises:
-        ValueError: The text is not a valid stem.
-    """
-    if not STEM.fullmatch(text):
-        msg = f"not a flag stem: {text!r}"
-        raise ValueError(msg)
-    codes = [code(c) for c in text]
-    codes += [0] * (-len(codes) % PACK_WIDTH)
-    return [
-        codes[i] * PACK * PACK + codes[i + 1] * PACK + codes[i + 2]
-        for i in range(0, len(codes), PACK_WIDTH)
-    ]
 
 
 def split_stem(stem: str) -> tuple[str, str | None]:
@@ -201,24 +113,6 @@ def split_stem(stem: str) -> tuple[str, str | None]:
         if stem.endswith("_" + ideology) and len(stem) > len(ideology) + 1:
             return stem[: -len(ideology) - 1], ideology
     return stem, None
-
-
-def fingerprint(stems: Iterable[str]) -> int:
-    """Return a stable fingerprint of the catalog order (FNV-1a, 1..1 000 000).
-
-    A country stores it next to the catalog index of its flag (``rn_cf_cat``); after
-    a game or mod update that renumbers the catalog the stored index is ignored.
-
-    Args:
-        stems: Catalog stems in index order.
-
-    Returns:
-        The fingerprint.
-    """
-    value = FNV_OFFSET
-    for byte in "\n".join(stems).encode("ascii"):
-        value = ((value ^ byte) * FNV_PRIME) & FNV_MASK
-    return value % CATALOG_HASH_MOD + 1
 
 
 @dataclass(frozen=True)
@@ -322,35 +216,6 @@ def _labels(
     return tuple(out)
 
 
-def _first_letter(name: str, tag: str) -> int:
-    """Return the 1-based letter of a country name (ASCII after removing accents).
-
-    Args:
-        name: English name.
-        tag: Tag, used when the name has no letter.
-
-    Returns:
-        1..26.
-    """
-    plain = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode().upper()
-    letter = next((c for c in plain if c in LETTERS), tag[0])
-    return LETTERS.index(letter) + 1
-
-
-def _english_name(tag: str, english: dict[str, str]) -> str:
-    """Return the plain English name of a tag, or the tag when it is missing or scripted.
-
-    Args:
-        tag: Country tag.
-        english: English localisation.
-
-    Returns:
-        The name used for sorting.
-    """
-    text = english.get(tag, "")
-    return tag if not text or any(c in text for c in "[$§") else text
-
-
 def build_catalog(
     large: Iterable[str],
     medium: Iterable[str],
@@ -405,9 +270,6 @@ def build_catalog(
     ]
     orphans = sorted(k for k in by_key if k not in owner)
     groups.append(FlagGroup("", pool(orphans)))
-    letters: list[list[str]] = [[] for _ in LETTERS]
-    for t in sorted(pool_tags, key=lambda t: (_english_name(t, english).casefold(), t)):
-        letters[_first_letter(_english_name(t, english), t) - 1].append(t)
     cosmetics = {c for c in cosmetic_values if STEM.fullmatch(c) and c not in tagset}
     cosmetics |= {k for k in by_key if k not in tagset}
     labels = _labels(stems, tuple(groups), english)
@@ -423,7 +285,7 @@ def build_catalog(
     return FlagCatalog(
         stems,
         tuple(groups),
-        tuple(tuple(x) for x in letters),
+        letters_of(pool_tags, english),
         tuple(sorted(cosmetics)),
         labels,
         report,
@@ -472,18 +334,8 @@ def read_catalog(root: str) -> FlagCatalog:
         The catalog (empty when the folder has no flags).
     """
     game = Path(root)
-    tags: list[str] = []
-    for path in sorted((game / "common" / "country_tags").glob("*.txt")):
-        for line in path.read_text(encoding="utf-8-sig", errors="replace").splitlines():
-            match = TAG.match(line)
-            if match:
-                tags.append(match[1])
-    english: dict[str, str] = {}
-    for path in sorted((game / "localisation" / "english").glob("*.yml")):
-        for line in path.read_text(encoding="utf-8-sig", errors="replace").splitlines():
-            match = LOC_LINE.match(line)
-            if match:
-                english.setdefault(match[1], match[2])
+    tags = read_tags(root)
+    english = read_english(root)
     cosmetic: set[str] = set()
     for path in _script_files(game):
         cosmetic.update(COSMETIC.findall(path.read_text(encoding="utf-8-sig", errors="replace")))
@@ -524,57 +376,6 @@ def gfx(catalog: FlagCatalog) -> str:
         )
     lines.append("}\n")
     return "".join(lines)
-
-
-def _dispatch(var: str, lo: int, hi: int, leaf: dict[int, str], indent: str) -> list[str]:
-    """Return a binary ``if``/``else`` dispatch over ``var`` in ``lo..hi`` with the given leaves.
-
-    Values without a leaf write nothing. The tree compares with ``<`` only, so a
-    fraction or a value outside the range reaches no leaf or the nearest one; the
-    callers pass whole indices that the effects have checked.
-
-    Args:
-        var: Variable compared, such as ``temp_var:rn_fp_w``.
-        lo: First value.
-        hi: Last value.
-        leaf: Effect text of each value.
-        indent: Indentation of the emitted lines.
-
-    Returns:
-        Lines.
-    """
-    if not any(lo <= k <= hi for k in leaf):
-        return []
-    if hi - lo + 1 <= WRITE_LEAF:
-        return [f"{indent}if = {{ limit = {{ {check_variable(f'{var} = {lo}')} }} {leaf[lo]} }}\n"]
-    mid = (lo + hi + 1) // 2
-    left = _dispatch(var, lo, mid - 1, leaf, indent + "\t")
-    right = _dispatch(var, mid, hi, leaf, indent + "\t")
-    out = []
-    if left:
-        out += [f"{indent}if = {{\n{indent}\tlimit = {{ {check_variable(f'{var} < {mid}')} }}\n"]
-        out += left
-        out.append(f"{indent}}}\n")
-    if right:
-        keyword = "else" if left else "if"
-        guard = "" if left else f"\n{indent}\tlimit = {{ {check_variable(f'{var} > {mid - 1}')} }}"
-        out += [f"{indent}{keyword} = {{{guard}\n", *right, f"{indent}}}\n"]
-    return out
-
-
-def _write_leaf(stem: str, array: str, length: str) -> str:
-    """Return the effect text that writes one packed stem.
-
-    Args:
-        stem: Stem.
-        array: Array variable (``capie_cf_s`` or ``capie_cf_cos``).
-        length: Length variable.
-
-    Returns:
-        One line of effects.
-    """
-    adds = " ".join(f"add_to_array = {{ {array} = {v} }}" for v in pack(stem))
-    return f"clear_array = {array} {adds} set_variable = {{ {length} = {len(stem)} }}"
 
 
 def _resolve_chain(catalog: FlagCatalog, keys: Iterable[str], trigger: str) -> list[str]:
@@ -684,7 +485,7 @@ def effects(catalog: FlagCatalog) -> str:
         "# ROOT scope. Input temp rn_fp_g (1..groups). Adds its catalog indices to rn_fp_list.\n"
     )
     out.append("rn_fp_fill_group = {\n")
-    out += _dispatch("temp_var:rn_fp_g", 1, groups, leaves, "\t")
+    out += dispatch("temp_var:rn_fp_g", 1, groups, leaves, "\t")
     out.append("}\n\n")
     out.append(_letter_fill(catalog))
     out.append(
@@ -703,15 +504,14 @@ def effects(catalog: FlagCatalog) -> str:
     ]
     out.append("\t}\n}\n\n")
     stems = {
-        i: _write_leaf(s, "capie_cf_s", "capie_cf_len")
-        for i, s in enumerate(catalog.stems, start=1)
+        i: write_leaf(s, "capie_cf_s", "capie_cf_len") for i, s in enumerate(catalog.stems, start=1)
     }
     out.append(
         "# Country scope (the country whose flag changes). Input temp rn_fp_w (1..catalog size).\n"
         "# Writes capie_cf_s and capie_cf_len of that stem (CONTRACT 17.3); nothing otherwise.\n"
         "rn_fp_write_stem = {\n"
     )
-    out += _dispatch("temp_var:rn_fp_w", 1, n, stems, "\t")
+    out += dispatch("temp_var:rn_fp_w", 1, n, stems, "\t")
     out.append("}\n\n")
     out.append(
         "# Country scope. Writes the snapshot of the country's cosmetic tag (capie_cf_cos and\n"
@@ -723,7 +523,7 @@ def effects(catalog: FlagCatalog) -> str:
         word = "if" if i == 0 else "else_if"
         out.append(
             f"\t{word} = {{ limit = {{ has_cosmetic_tag = {cosmetic} }} "
-            f"{_write_leaf(cosmetic, 'capie_cf_cos', 'capie_cf_cos_len')} }}\n"
+            f"{write_leaf(cosmetic, 'capie_cf_cos', 'capie_cf_cos_len')} }}\n"
         )
     out.append("\telse = { clear_array = capie_cf_cos clear_variable = capie_cf_cos_len }\n}\n\n")
     out.append(
@@ -757,45 +557,17 @@ def scripted_loc(catalog: FlagCatalog) -> str:
     Returns:
         Contents of :data:`CATALOG_SCRIPTED_LOC`.
     """
-    n = len(catalog.stems)
-    buckets = range((n + NAME_BUCKET - 1) // NAME_BUCKET)
-    out = [
-        GEN_HEADER,
-        "# Name of the selected flag (ROOT.rn_fp_sel, catalog index): bucket, then index.\n",
-        defined_text(
-            "RN_FP_SEL_NAME",
-            [
-                (check_variable(f"rn_fp_sel < {(b + 1) * NAME_BUCKET}"), f"RN_FPB_{b}")
-                for b in buckets
-            ],
-            EMPTY_KEY,
-        ),
-    ]
-    for b in buckets:
-        lo, hi = max(1, b * NAME_BUCKET), min(n, (b + 1) * NAME_BUCKET - 1)
-        out.append(
-            defined_text(
-                f"RN_FP_SEL_NAME_{b}",
-                [(check_variable(f"rn_fp_sel = {i}"), f"RN_FPL_{i}") for i in range(lo, hi + 1)],
-                EMPTY_KEY,
-            )
-        )
-    left = (
-        "set_temp_variable = { rn_ip_cd_left = rn_ip_cd_flag_until } "
-        "subtract_from_temp_variable = { rn_ip_cd_left = global.num_days }"
+    return "".join(
+        [
+            GEN_HEADER,
+            "# Name of the selected flag (ROOT.rn_fp_sel, catalog index): bucket, then index.\n",
+            selected_name_loc(
+                "RN_FP_SEL_NAME", "rn_fp_sel", len(catalog.stems), "RN_FPB_", "RN_FPL_"
+            ),
+            "# Days left of the flag cooldown (scope: the country whose flag changes).\n",
+            days_left_loc("RN_IP_CD_LEFT_FLAG", "rn_ip_cd_flag_until"),
+        ]
     )
-    out.append("# Days left of the flag cooldown (scope: the country whose flag changes).\n")
-    out.append(
-        defined_text(
-            "RN_IP_CD_LEFT_FLAG",
-            [
-                (f"{left} {check_variable(f'rn_ip_cd_left < {d + 1}')}", f"RN_IP_CD_DAYS_{d}")
-                for d in range(1, 31)
-            ],
-            "RN_IP_CD_DAYS_MORE",
-        )
-    )
-    return "".join(out)
 
 
 def localisation(catalog: FlagCatalog, lang: str) -> str:
@@ -808,12 +580,8 @@ def localisation(catalog: FlagCatalog, lang: str) -> str:
     Returns:
         The ``.yml`` text (the caller adds the BOM).
     """
-    n = len(catalog.stems)
     lines = [f"l_{lang}:\n"]
-    lines += [
-        f' RN_FPB_{b}:0 "[ROOT.RN_FP_SEL_NAME_{b}]"\n'
-        for b in range((n + NAME_BUCKET - 1) // NAME_BUCKET)
-    ]
+    lines += bucket_lines("RN_FP_SEL_NAME", len(catalog.stems), "RN_FPB_")
     lines += [f' RN_FPL_{i}:0 "{label}"\n' for i, label in enumerate(catalog.labels, start=1)]
     lines += [f' RN_FP_L_{c}:0 "{c}"\n RN_FP_L_{c}_ON:0 "§Y{c}§!"\n' for c in LETTERS]
     return "".join(lines)

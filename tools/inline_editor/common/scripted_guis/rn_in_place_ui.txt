@@ -8,19 +8,27 @@ scripted_gui = {
 		parent_window_token = politics_tab
 		window_name = "rn_ip_leader_launcher_window"
 		# Hidden while the party editor is open: that overlay (y253..383) covers the pencil's lower half.
-		visible = { tag = ROOT is_ai = no rn_editor_bridge_available = yes NOT = { has_country_flag = rn_ip_leader_open } NOT = { has_country_flag = rn_ip_party_neutrality_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
+		visible = { tag = ROOT is_ai = no rn_editor_bridge_available = yes NOT = { has_country_flag = rn_ip_leader_open } NOT = { has_country_flag = rn_pp_open_own } NOT = { has_country_flag = rn_ip_party_neutrality_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
 		ai_enabled = { always = no }
 		effects = {
 			rn_ip_leader_open_click = {
 				# Explicit zero before the first opening: an absent counter is never displayed/read as 0 by accident.
 				if = { limit = { NOT = { has_variable = rn_ip_lui_rev } } set_variable = { rn_ip_lui_rev = 0 } }
-				rn_inline_leader_open = yes
-				rn_ip_status_clear = yes
+				# While the name is blocked (cooldown or host switch) the pencil opens the portrait picker.
+				if = {
+					limit = { OR = { rn_ip_cooldown_active_leader = yes rn_feature_leader_off = yes } }
+					rn_pp_open_own = yes
+					rn_ip_status_clear = yes
+				}
+				else = {
+					rn_inline_leader_open = yes
+					rn_ip_status_clear = yes
+				}
 			}
 		}
 		triggers = {
 			rn_ip_leader_rev_visible = { always = no }
-			rn_ip_leader_open_click_enabled = { tag = ROOT is_ai = no NOT = { has_country_flag = rn_ip_leader_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_ip_country_open } NOT = { has_country_flag = rn_ip_party_neutrality_open } NOT = { rn_ip_cooldown_active_leader = yes } NOT = { rn_feature_leader_off = yes } }
+			rn_ip_leader_open_click_enabled = { tag = ROOT is_ai = no NOT = { has_country_flag = rn_ip_leader_open } NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } NOT = { has_country_flag = rn_ip_country_open } NOT = { has_country_flag = rn_ip_party_neutrality_open } NOT = { AND = { OR = { rn_ip_cooldown_active_leader = yes rn_feature_leader_off = yes } OR = { rn_pp_cooldown_active = yes NOT = { rn_pp_own_allowed = yes } } } } }
 		}
 	}
 	rn_ip_leader_gui = {
@@ -45,6 +53,7 @@ scripted_gui = {
 				log = "RN_IPP leader after error=[?temp_var:rn_ip_leader_error|0] current_leader=[ROOT.GetLeader] cmd_epoch=[?temp_var:rn_ip_cmd_epoch|0] epoch=[?ROOT.rn_ip_epoch|0] pin_count=[?ROOT.rn_ip_leader_target^num|0]"
 			}
 			rn_ip_leader_cancel_click = { rn_inline_leader_cancel = yes rn_ip_status_clear = yes }
+			rn_ip_leader_tab_portrait_click = { rn_pp_open_own = yes rn_ip_status_clear = yes }
 		}
 		triggers = {
 			rn_ip_leader_epoch_visible = { always = no }
@@ -69,6 +78,8 @@ scripted_gui = {
 				}
 			}
 			rn_ip_leader_cancel_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_leader_open }
+			rn_ip_leader_tab_name_click_enabled = { tag = ROOT is_ai = no always = no }
+			rn_ip_leader_tab_portrait_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_leader_open rn_pp_own_allowed = yes }
 		}
 	}
 	rn_ip_party_neutrality_launcher_gui = {

@@ -37,9 +37,10 @@ guiTypes = {
 	}
 	containerWindowType = {
 		name = "rn_ip_leader_window"
-		# Opened editor temporarily covers leader_name and the faction button row (188..363 x 255..275).
+		# Opened editor (tab row Name | Portrait on top) temporarily covers leader_name and the faction
+		# button row; 262 + 82 stays above the actions row at 383.
 		position = { x = 18 y = 262 }
-		size = { width = 420 height = 46 }
+		size = { width = 420 height = 82 }
 		orientation = upper_left
 		clipping = no
 		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
@@ -76,16 +77,35 @@ guiTypes = {
 			fixedsize = yes
 			alwaystransparent = yes
 		}
+		# Tabs: Name (this editor, disabled) and Portrait (capie_v1_ed__rnpt__portrait).
+		buttonType = {
+			name = "rn_ip_leader_tab_name"
+			position = { x = 0 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_PP_TAB_NAME"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_PP_TAB_NAME_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_ip_leader_tab_portrait"
+			position = { x = 96 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_PP_TAB_PORTRAIT"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_PP_TAB_PORTRAIT_TT"
+			clicksound = click_default
+		}
 		containerWindowType = {
 			name = "rn_ipl_frame"
-			position = { x = 0 y = 0 }
+			position = { x = 0 y = 36 }
 			size = { width = 364 height = 26 }
 			clipping = no
 			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
 		}
 		editBoxType = {
 			name = "rn_ip_leader_edit"
-			position = { x = 4 y = 3 }
+			position = { x = 4 y = 39 }
 			size = { x = 356 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
@@ -94,7 +114,7 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_ip_leader_apply"
-			position = { x = 370 y = 3 }
+			position = { x = 370 y = 39 }
 			scale = 0.67 # 20x20
 			quadTextureSprite = "GFX_preset_button_save"
 			buttonFont = "hoi_18mbs"
@@ -104,14 +124,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_ip_leader_cancel"
-			position = { x = 396 y = 5 }
+			position = { x = 396 y = 41 }
 			quadTextureSprite = "GFX_closebutton_16"
 			clicksound = click_close
 			pdx_tooltip = "RN_IP_CANCEL"
 		}
 		instantTextboxType = {
 			name = "rn_ip_leader_status"
-			position = { x = 6 y = 29 }
+			position = { x = 6 y = 65 }
 			font = "Arial12"
 			text = "[ROOT.RN_IP_STATUS]"
 			maxWidth = 408

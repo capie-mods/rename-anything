@@ -67,3 +67,58 @@ rn_flag_pool = {
 		allow_achievements = yes
 	}
 }
+
+
+# Leader portraits (ADR-0036 with its amendment): the pool, and who may change a subject leader's
+# portrait. U1: "own leaders, generals and admirals" is the country's own people only.
+rn_portrait_pool = {
+	name = "RN_RULE_PORTRAIT_POOL"
+	group = "RULE_GROUP_GAMEPLAY"
+	default = {
+		name = "RN_PORTRAIT_POOL_ANY_LEADER"
+		text = "RN_RULE_PORTRAIT_POOL_ANY_LEADER"
+		desc = "RN_RULE_PORTRAIT_POOL_ANY_LEADER_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_PORTRAIT_POOL_OWN"
+		text = "RN_RULE_PORTRAIT_POOL_OWN"
+		desc = "RN_RULE_PORTRAIT_POOL_OWN_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_PORTRAIT_POOL_OWN_GENERALS"
+		text = "RN_RULE_PORTRAIT_POOL_OWN_GENERALS"
+		desc = "RN_RULE_PORTRAIT_POOL_OWN_GENERALS_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_PORTRAIT_POOL_ALL"
+		text = "RN_RULE_PORTRAIT_POOL_ALL"
+		desc = "RN_RULE_PORTRAIT_POOL_ALL_DESC"
+		allow_achievements = yes
+	}
+}
+
+rn_portrait_subjects = {
+	name = "RN_RULE_PORTRAIT_SUBJECTS"
+	group = "RULE_GROUP_GAMEPLAY"
+	default = {
+		name = "RN_PORTRAIT_SUBJECTS_BOTH"
+		text = "RN_RULE_PORTRAIT_SUBJECTS_BOTH"
+		desc = "RN_RULE_PORTRAIT_SUBJECTS_BOTH_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_PORTRAIT_SUBJECTS_OVERLORD_ONLY"
+		text = "RN_RULE_PORTRAIT_SUBJECTS_OVERLORD_ONLY"
+		desc = "RN_RULE_PORTRAIT_SUBJECTS_OVERLORD_ONLY_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_PORTRAIT_SUBJECTS_NO_OVERLORD"
+		text = "RN_RULE_PORTRAIT_SUBJECTS_NO_OVERLORD"
+		desc = "RN_RULE_PORTRAIT_SUBJECTS_NO_OVERLORD_DESC"
+		allow_achievements = yes
+	}
+}

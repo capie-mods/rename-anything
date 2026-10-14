@@ -1,0 +1,477 @@
+# Portrait picker (ADR-0036 with its amendment; portrait-layer design.txt and review.txt). The
+# windows are generated (tools/modgen/features/portrait_picker.py): capie_v1_ed__rnpt__portrait for
+# the player's own country leader (politics view) and capie_v1_ed__rnpt__subportrait for another
+# country's leader (diplomacy view). The catalog lookups are generated (rn_portrait_catalog.txt:
+# rn_pp_catalog, rn_pp_group_of, rn_pp_fill_group, rn_pp_fill_letter, rn_pp_entry_info).
+#
+# U2: the chosen portrait replaces only the country-leader (civilian) portrait of the person who
+# leads the country when the player applies; army and navy portraits stay the game's.
+#
+# State (on ROOT, the player), as in the flag picker (rn_flag_picker.txt) with prefix rn_pp_:
+#   flags rn_pp_open_own / rn_pp_open_sub, rn_pp_view_target, rn_pp_has_layer;
+#   rn_pp_target + rn_pp_target_arr   the country, pinned at opening;
+#   rn_pp_char_arr                    its country leader at opening (one character);
+#   rn_pp_kind                        1 leaders' portraits, 2 generals' and admirals';
+#   rn_pp_view, rn_pp_src(_arr), rn_pp_letter, paging, rn_pp_list/_cells/_rows, rn_pp_sel/_init.
+# On the country: the portrait cooldown rn_ip_cd_portrait_until / _date (its own counter, the same
+# length as the name's, like the flag's). On the leader character: the CAPIE layer capie_pt_*
+# (contract section 18, written only by rn_character_portrait_carrier_set) and the mod's own
+# rn_pt_idx / rn_pt_cat (catalog index and fingerprint).
+#
+# Errors (temp rn_cv1_err): 10 CAPIE missing, 11 cooldown, 12 stale opening, 13 editor unavailable,
+# 15 CAPIE older than API level 7, 16 CAPIE without the portrait layer (capie_portrait is not 1),
+# 17 portrait not in the pool of the current rule, 18 the country has another leader now,
+# 20 not allowed, 21 switched off by the host.
+
+rn_pp_touch = {
+	add_to_variable = { rn_pp_dirty = 1 }
+	if = { limit = { check_variable = { rn_pp_dirty > 999999 } } set_variable = { rn_pp_dirty = 1 } }
+}
+
+# ----------------------------------------------------------------------------- rules
+
+# ----------------------------------------------------------------------------- opening, closing
+
+# Own country (politics view). Scope: the player.
+rn_pp_open_own = {
+	if = {
+		limit = {
+			tag = ROOT
+			is_ai = no
+			NOT = { has_country_flag = rn_open }
+			NOT = { has_country_flag = rn_input }
+			NOT = { has_country_flag = rn_ip_country_open }
+			NOT = { has_country_flag = rn_ip_party_neutrality_open }
+			rn_pp_own_allowed = yes
+		}
+		rn_inline_leader_cancel = yes
+		rn_fp_close = yes
+		rn_pp_close = yes
+		clear_array = rn_pp_target_arr
+		add_to_array = { rn_pp_target_arr = THIS }
+		set_variable = { rn_pp_target = THIS }
+		set_country_flag = rn_pp_open_own
+		rn_pp_open_common = yes
+	}
+}
+
+# Another country (diplomacy view). Scope: that country; ROOT is the player.
+rn_pp_open_sub = {
+	if = {
+		limit = {
+			NOT = { rn_feature_portrait_off = yes }
+			NOT = { rn_feature_subjects_off = yes }
+			rn_sub_may_edit = yes
+			rn_pp_sub_allowed = yes
+			ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
+		}
+		ROOT = {
+			rn_sub_close = yes
+			rn_fac_close = yes
+			rn_fp_close = yes
+			rn_pp_close = yes
+			clear_array = rn_pp_target_arr
+			add_to_array = { rn_pp_target_arr = PREV }
+			set_variable = { rn_pp_target = PREV }
+			set_country_flag = rn_pp_open_sub
+			rn_pp_open_common = yes
+		}
+	}
+}
+
+# ROOT scope, target pinned. Pins the target's country leader and preselects its portrait when this
+# mod set it (the game's own portrait has no script getter; the politics view shows it).
+rn_pp_open_common = {
+	add_to_variable = { rn_pp_epoch = 1 }
+	if = { limit = { check_variable = { rn_pp_epoch > 999999 } } set_variable = { rn_pp_epoch = 1 } }
+	rn_cv1_status_clear = yes
+	clear_array = rn_pp_char_arr
+	var:rn_pp_target = {
+		every_character = {
+			limit = { is_country_leader = yes }
+			ROOT = { add_to_array = { rn_pp_char_arr = PREV } }
+		}
+	}
+	rn_pp_catalog = yes
+	set_variable = { rn_pp_init = 0 }
+	clr_country_flag = rn_pp_has_layer
+	var:rn_pp_target = {
+		every_character = {
+			limit = { is_country_leader = yes is_in_array = { array = ROOT.rn_pp_char_arr value = THIS } }
+			if = { limit = { has_variable = capie_pt_ver } ROOT = { set_country_flag = rn_pp_has_layer } }
+			if = {
+				limit = { has_variable = capie_pt_ver has_variable = rn_pt_idx check_variable = { rn_pt_cat = temp_var:rn_pp_cat } }
+				set_temp_variable = { rn_pp_t = rn_pt_idx }
+				ROOT = { set_variable = { rn_pp_init = temp_var:rn_pp_t } }
+			}
+		}
+	}
+	set_variable = { rn_pp_sel = rn_pp_init }
+	set_variable = { rn_pp_kind = 1 }
+	set_variable = { rn_pp_letter = 1 }
+	rn_pp_show_target = yes
+}
+
+# ROOT scope. Closes either picker; safe to call when none is open.
+rn_pp_close = {
+	if = {
+		limit = { OR = { has_country_flag = rn_pp_open_own has_country_flag = rn_pp_open_sub } }
+		add_to_variable = { rn_pp_epoch = 1 }
+		if = { limit = { check_variable = { rn_pp_epoch > 999999 } } set_variable = { rn_pp_epoch = 1 } }
+	}
+	clr_country_flag = rn_pp_open_own
+	clr_country_flag = rn_pp_open_sub
+	clr_country_flag = rn_pp_view_target
+	clr_country_flag = rn_pp_has_layer
+	clear_array = rn_pp_target_arr
+	clear_array = rn_pp_char_arr
+	clear_array = rn_pp_src_arr
+	clear_array = rn_pp_list
+	clear_array = rn_pp_cells
+	clear_array = rn_pp_rows
+	clear_variable = rn_pp_target
+	clear_variable = rn_pp_src
+	clear_variable = rn_pp_sel
+	clear_variable = rn_pp_init
+	clear_variable = rn_pp_view
+	clear_variable = rn_pp_page
+	clear_variable = rn_pp_pages
+	clear_variable = rn_pp_page_disp
+	rn_pp_touch = yes
+}
+
+# ROOT scope. The "Name" tab of the own picker: back to the leader name editor.
+rn_pp_to_name_editor = {
+	if = {
+		limit = {
+			has_country_flag = rn_pp_open_own
+			NOT = { rn_ip_cooldown_active_leader = yes }
+			NOT = { rn_feature_leader_off = yes }
+		}
+		rn_pp_close = yes
+		rn_cv1_status_clear = yes
+		if = { limit = { NOT = { has_variable = rn_ip_lui_rev } } set_variable = { rn_ip_lui_rev = 0 } }
+		rn_inline_leader_open = yes
+	}
+}
+
+# ----------------------------------------------------------------------------- navigation
+
+# ROOT scope. The target's own portraits.
+rn_pp_show_target = {
+	if = {
+		limit = { rn_pp_is_open = yes }
+		clear_array = rn_pp_src_arr
+		var:rn_pp_target = { ROOT = { add_to_array = { rn_pp_src_arr = PREV } } }
+		set_variable = { rn_pp_src = rn_pp_target }
+		set_variable = { rn_pp_view = 1 }
+		set_variable = { rn_pp_page = 0 }
+		set_country_flag = rn_pp_view_target
+		rn_pp_build = yes
+	}
+}
+
+# ROOT scope. Country list of the current letter (only when the rule offers other countries).
+rn_pp_show_list = {
+	if = {
+		limit = { rn_pp_is_open = yes rn_pp_rule_all = yes }
+		set_variable = { rn_pp_view = 2 }
+		set_variable = { rn_pp_page = 0 }
+		clr_country_flag = rn_pp_view_target
+		rn_pp_build = yes
+	}
+}
+
+# ROOT scope. Input temp rn_pp_k: 1 leaders, 2 generals (only when the rule offers generals).
+rn_pp_set_kind = {
+	if = {
+		limit = {
+			rn_pp_is_open = yes
+			OR = {
+				check_variable = { temp_var:rn_pp_k = 1 }
+				AND = { check_variable = { temp_var:rn_pp_k = 2 } rn_pp_rule_generals = yes }
+			}
+		}
+		set_variable = { rn_pp_kind = temp_var:rn_pp_k }
+		set_variable = { rn_pp_page = 0 }
+		rn_pp_build = yes
+	}
+}
+
+# ROOT scope. Input temp rn_pp_lt: letter 1..26.
+rn_pp_pick_letter = {
+	if = {
+		limit = {
+			rn_pp_is_open = yes
+			rn_pp_rule_all = yes
+			check_variable = { temp_var:rn_pp_lt > 0 }
+			check_variable = { temp_var:rn_pp_lt < 27 }
+		}
+		set_variable = { rn_pp_letter = temp_var:rn_pp_lt }
+		set_variable = { rn_pp_view = 2 }
+		set_variable = { rn_pp_page = 0 }
+		clr_country_flag = rn_pp_view_target
+		rn_pp_build = yes
+	}
+}
+
+# Scope: the country of a list row; ROOT is the player.
+rn_pp_pick_country = {
+	if = {
+		limit = {
+			ROOT = { rn_pp_is_open = yes check_variable = { rn_pp_view = 2 } }
+			rn_pp_rule_all = yes
+			is_in_array = { array = ROOT.rn_pp_rows value = THIS }
+		}
+		ROOT = {
+			clear_array = rn_pp_src_arr
+			add_to_array = { rn_pp_src_arr = PREV }
+			set_variable = { rn_pp_src = PREV }
+			set_variable = { rn_pp_view = 1 }
+			set_variable = { rn_pp_page = 0 }
+			clr_country_flag = rn_pp_view_target
+			if = { limit = { is_in_array = { array = rn_pp_target_arr value = PREV } } set_country_flag = rn_pp_view_target }
+			rn_pp_build = yes
+		}
+	}
+}
+
+# ROOT scope. Input temp rn_pp_pick: a catalog index shown on the current page.
+rn_pp_pick_cell = {
+	if = {
+		limit = { rn_pp_is_open = yes is_in_array = { array = rn_pp_cells value = temp_var:rn_pp_pick } }
+		set_variable = { rn_pp_sel = temp_var:rn_pp_pick }
+		rn_cv1_status_clear = yes
+		rn_pp_touch = yes
+	}
+}
+
+# ROOT scope. Input temp rn_pp_step: -1 or 1.
+rn_pp_page_step = {
+	if = {
+		limit = { rn_pp_is_open = yes }
+		add_to_variable = { rn_pp_page = temp_var:rn_pp_step }
+		rn_pp_build = yes
+	}
+}
+
+# ROOT scope. Fills rn_pp_list for the current view and kind; copies the current page (six
+# portraits, or ten countries) to rn_pp_cells or rn_pp_rows.
+rn_pp_build = {
+	clear_array = rn_pp_list
+	if = {
+		limit = { check_variable = { rn_pp_view = 2 } }
+		rn_pp_fill_letter = yes
+		set_temp_variable = { rn_pp_per = 10 }
+	}
+	else = {
+		set_temp_variable = { rn_pp_g = 0 }
+		if = { limit = { has_variable = rn_pp_src } var:rn_pp_src = { rn_pp_group_of = yes } }
+		if = { limit = { check_variable = { temp_var:rn_pp_g > 0 } } rn_pp_fill_group = yes }
+		set_temp_variable = { rn_pp_per = 6 }
+	}
+	set_variable = { rn_pp_pages = rn_pp_list^num }
+	if = {
+		limit = { check_variable = { rn_pp_view = 2 } }
+		add_to_variable = { rn_pp_pages = 9 }
+		set_temp_variable = { rn_pp_m = rn_pp_pages }
+		modulo_temp_variable = { var = rn_pp_m value = 10 }
+		subtract_from_variable = { rn_pp_pages = rn_pp_m }
+		divide_variable = { rn_pp_pages = 10 }
+	}
+	else = {
+		add_to_variable = { rn_pp_pages = 5 }
+		set_temp_variable = { rn_pp_m = rn_pp_pages }
+		modulo_temp_variable = { var = rn_pp_m value = 6 }
+		subtract_from_variable = { rn_pp_pages = rn_pp_m }
+		divide_variable = { rn_pp_pages = 6 }
+	}
+	if = { limit = { check_variable = { rn_pp_pages < 1 } } set_variable = { rn_pp_pages = 1 } }
+	set_temp_variable = { rn_pp_last = rn_pp_pages }
+	subtract_from_temp_variable = { rn_pp_last = 1 }
+	if = { limit = { check_variable = { rn_pp_page > rn_pp_last } } set_variable = { rn_pp_page = rn_pp_last } }
+	if = { limit = { check_variable = { rn_pp_page < 0 } } set_variable = { rn_pp_page = 0 } }
+	set_temp_variable = { rn_pp_lo = rn_pp_page }
+	multiply_temp_variable = { rn_pp_lo = rn_pp_per }
+	set_temp_variable = { rn_pp_hi = rn_pp_lo }
+	add_to_temp_variable = { rn_pp_hi = rn_pp_per }
+	clear_array = rn_pp_cells
+	clear_array = rn_pp_rows
+	for_each_loop = {
+		array = rn_pp_list
+		value = rn_pp_e
+		index = rn_pp_i
+		if = {
+			limit = {
+				NOT = { check_variable = { rn_pp_i < rn_pp_lo } }
+				check_variable = { rn_pp_i < rn_pp_hi }
+			}
+			if = {
+				limit = { check_variable = { rn_pp_view = 2 } }
+				add_to_array = { rn_pp_rows = rn_pp_e }
+			}
+			else = { add_to_array = { rn_pp_cells = rn_pp_e } }
+		}
+	}
+	set_variable = { rn_pp_page_disp = rn_pp_page }
+	add_to_variable = { rn_pp_page_disp = 1 }
+	rn_pp_touch = yes
+}
+
+# ----------------------------------------------------------------------------- Apply, Restore
+
+# ROOT scope. Host switches (ADR-0036): 21, before every other error.
+rn_pp_switch = {
+	if = {
+		limit = {
+			OR = {
+				rn_feature_portrait_off = yes
+				AND = { has_country_flag = rn_pp_open_sub rn_feature_subjects_off = yes }
+			}
+		}
+		set_temp_variable = { rn_cv1_err = 21 }
+	}
+}
+
+# ROOT scope. 20 when the picker is not open for a target the player may change now, 18 when the
+# pinned person no longer leads the target.
+rn_pp_rights = {
+	if = {
+		limit = {
+			check_variable = { temp_var:rn_cv1_err = 0 }
+			OR = {
+				is_ai = yes
+				has_country_flag = rn_open
+				has_country_flag = rn_input
+				NOT = { has_variable = rn_pp_target }
+				NOT = { check_variable = { rn_pp_target_arr^num = 1 } }
+				NOT = { rn_pp_is_open = yes }
+				AND = { has_country_flag = rn_pp_open_own NOT = { var:rn_pp_target = { tag = ROOT } } }
+				AND = { has_country_flag = rn_pp_open_own NOT = { rn_pp_own_allowed = yes } }
+				AND = { has_country_flag = rn_pp_open_sub NOT = { var:rn_pp_target = { rn_sub_may_edit = yes rn_pp_sub_allowed = yes } } }
+			}
+		}
+		set_temp_variable = { rn_cv1_err = 20 }
+	}
+	if = {
+		limit = {
+			check_variable = { temp_var:rn_cv1_err = 0 }
+			OR = {
+				NOT = { check_variable = { rn_pp_char_arr^num = 1 } }
+				NOT = { var:rn_pp_target = { any_character = { is_country_leader = yes is_in_array = { array = ROOT.rn_pp_char_arr value = THIS } } } }
+			}
+		}
+		set_temp_variable = { rn_cv1_err = 18 }
+	}
+}
+
+# ROOT scope. Output temp rn_pp_ok = 1 when rn_pp_sel is in the pool of rn_portrait_pool for the
+# target (CONTRACT section 9: the effect decides). U1: "own country and generals" means the target's
+# own generals and admirals.
+rn_pp_sel_allowed = {
+	rn_pp_catalog = yes
+	set_temp_variable = { rn_pp_ok = 0 }
+	set_temp_variable = { rn_pp_w = rn_pp_sel }
+	rn_pp_entry_info = yes
+	var:rn_pp_target = { rn_pp_group_of = yes }
+	if = {
+		limit = {
+			OR = {
+				AND = {
+					has_game_rule = { rule = rn_portrait_pool option = RN_PORTRAIT_POOL_ANY_LEADER }
+					check_variable = { temp_var:rn_pp_e_leader = 1 }
+				}
+				AND = {
+					has_game_rule = { rule = rn_portrait_pool option = RN_PORTRAIT_POOL_OWN }
+					check_variable = { temp_var:rn_pp_e_leader = 1 }
+					check_variable = { temp_var:rn_pp_e_g = temp_var:rn_pp_g }
+				}
+				AND = {
+					has_game_rule = { rule = rn_portrait_pool option = RN_PORTRAIT_POOL_OWN_GENERALS }
+					check_variable = { temp_var:rn_pp_e_g = temp_var:rn_pp_g }
+					OR = { check_variable = { temp_var:rn_pp_e_leader = 1 } check_variable = { temp_var:rn_pp_e_general = 1 } }
+				}
+				AND = {
+					has_game_rule = { rule = rn_portrait_pool option = RN_PORTRAIT_POOL_ALL }
+					OR = { check_variable = { temp_var:rn_pp_e_leader = 1 } check_variable = { temp_var:rn_pp_e_general = 1 } }
+				}
+			}
+			check_variable = { temp_var:rn_pp_e_g > 0 }
+		}
+		set_temp_variable = { rn_pp_ok = 1 }
+	}
+}
+
+# ROOT scope. Apply of either picker: CAPIE header (epoch, API level 7, capie_portrait = 1),
+# switches, rights and rules, the target's portrait cooldown and the pool, then the carrier on the
+# pinned leader.
+rn_pp_apply = {
+	set_temp_variable = { rn_cv1_open = rn_pp_epoch }
+	rn_cv1_header = yes
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } NOT = { check_variable = { temp_var:capie_cap > 6 } } }
+		set_temp_variable = { rn_cv1_err = 15 }
+	}
+	else_if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } NOT = { check_variable = { temp_var:capie_portrait = 1 } } }
+		set_temp_variable = { rn_cv1_err = 16 }
+	}
+	rn_pp_switch = yes
+	rn_pp_rights = yes
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } var:rn_pp_target = { rn_pp_cooldown_active = yes } }
+		set_temp_variable = { rn_cv1_err = 11 }
+	}
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } }
+		rn_pp_sel_allowed = yes
+		if = { limit = { NOT = { check_variable = { temp_var:rn_pp_ok = 1 } } } set_temp_variable = { rn_cv1_err = 17 } }
+	}
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } }
+		set_temp_variable = { rn_pt_in = rn_pp_sel }
+		var:rn_pp_target = {
+			every_character = {
+				limit = { is_country_leader = yes is_in_array = { array = ROOT.rn_pp_char_arr value = THIS } }
+				rn_character_portrait_carrier_set = yes
+			}
+			rn_pp_cooldown_start = yes
+			rn_country_portrait_commit = yes
+		}
+		rn_pp_close = yes
+	}
+	rn_cv1_status_record = yes
+}
+
+# ROOT scope. "Restore portrait": removes the layer of the pinned leader (the game's current
+# portrait shows again), under the portrait cooldown. Needs no CAPIE.
+rn_pp_reset = {
+	set_temp_variable = { rn_cv1_err = 0 }
+	rn_pp_switch = yes
+	rn_pp_rights = yes
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } var:rn_pp_target = { rn_pp_cooldown_active = yes } }
+		set_temp_variable = { rn_cv1_err = 11 }
+	}
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } has_country_flag = rn_pp_has_layer }
+		var:rn_pp_target = {
+			every_character = {
+				limit = { is_country_leader = yes is_in_array = { array = ROOT.rn_pp_char_arr value = THIS } }
+				rn_character_portrait_carrier_clear = yes
+			}
+			rn_pp_cooldown_start = yes
+			rn_country_portrait_commit = yes
+		}
+		rn_pp_close = yes
+	}
+	rn_cv1_status_record = yes
+}
+
+# Portrait cooldown (scope: the country): its own counter, the same length as the name's.
+rn_pp_cooldown_start = {
+	rn_ip_cooldown_days = yes
+	set_variable = { rn_ip_cd_portrait_until = global.num_days }
+	add_to_variable = { rn_ip_cd_portrait_until = temp_var:rn_ip_cd_days }
+	set_variable = { rn_ip_cd_portrait_date = global.date }
+}
