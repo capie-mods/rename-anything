@@ -33,9 +33,10 @@ Switch CAPIE off before you join or host a multiplayer game.
 
 ## New features not yet checked in the game <span class="st st-progress">In progress</span> { #unchecked }
 
-"Restore name", the [game rules](game-rules.md) and the rename news event are in the mod but have
-not been checked in the game yet. Faction names need a newer CAPIE; with the current one the
-faction editor changes nothing and says so.
+"Restore name", the rule "who may rename" and the on/off switches of the
+[game rules](game-rules.md) are in the mod but have not been checked in the game yet. Faction names
+and flags need CAPIE 1.4, which exists only as a developer build; with an older CAPIE the faction
+editor changes nothing and says so.
 
 ## Older saves with a custom country name
 

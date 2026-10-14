@@ -32,9 +32,10 @@ wieloosobowej. Wyłącz CAPIE, zanim dołączysz do gry wieloosobowej albo ją z
 
 ## Nowe funkcje jeszcze niesprawdzone w grze <span class="st st-progress">W przygotowaniu</span> { #unchecked }
 
-„Przywróć nazwę”, [reguły gry](reguly-gry.md) i wydarzenie z wiadomością o zmianie nazwy są w
-modzie, ale nie zostały jeszcze sprawdzone w grze. Nazwy frakcji wymagają nowszego CAPIE; z
-obecnym edytor frakcji niczego nie zmienia i o tym informuje.
+„Przywróć nazwę”, reguła „kto może zmieniać nazwy” i wyłączniki funkcji z
+[reguł gry](reguly-gry.md) są w modzie, ale nie zostały jeszcze sprawdzone w grze. Nazwy frakcji
+i flagi wymagają CAPIE 1.4, które istnieje tylko jako wersja rozwojowa; ze starszym CAPIE edytor
+frakcji niczego nie zmienia i o tym informuje.
 
 ## Starsze zapisy z własną nazwą państwa
 

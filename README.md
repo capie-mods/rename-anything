@@ -87,7 +87,7 @@ of every row.
 | Your country's name and adjective | Works today | Needs CAPIE. Flag and colour stay unchanged. Map, diplomacy, tooltips and events pick up the new name; decision titles keep their own text. |
 | Your country's leader | Works today | Pencil next to the portrait in the Politics panel. The caption updates at once with CAPIE. |
 | Ruling party name, short and full | Works today | |
-| Other party groups through tabs | In progress | Two of the four groups were checked in the game. |
+| Other party groups through tabs | Works today | All four groups checked in the game. |
 | States and cities (victory points) | Works today | Scripts only, no CAPIE needed. |
 | Generals, admirals, advisers | Works today | Through the name editor, no CAPIE needed. Uses the game's text field when CAPIE is loaded. |
 | Your subjects' names, as overlord | Works today | Diplomatic action "Rename this country": name and adjective, leader, ruling party. Needs CAPIE. |
@@ -97,8 +97,10 @@ of every row.
 | 5-day cooldown per object | Works today | The pencil greys out and its tooltip says when the next rename is possible. |
 | Esc cancels the edit | In progress | Esc closes the Politics panel and the editor with it, but the edit mode stays on. |
 | "Restore name" button | In progress | Goes back to the game's name; uses the cooldown. Not yet checked in the game. |
-| Game rules: who may rename, news event | In progress | Lobby rules. Not yet checked in the game. |
+| Game rule: news event when a country is renamed | Works today | Lobby rule, off by default. Checked on a CAPIE developer build. |
+| Game rules: who may rename, an on/off switch per feature | In progress | Lobby rules. Not yet checked in the game. |
 | Faction names | In progress | Needs CAPIE 1.4 (faction name layer). Checked once in the game on a developer build. |
+| Choosing a leader portrait | In progress | Decided ([ADR-0036](docs/adr/0036-leader-portrait-and-feature-switches.md)); design under review. Its on/off game rule already exists. |
 | Choosing your own flag | In progress | Flag picker in the country and subject editors; needs CAPIE 1.4 (flag layer). Checked once in the game on a developer build. |
 | Installer and the CAPIE switch in the playset | In progress | One-line PowerShell installer, a GitHub Releases installer, and a small "CAPIE" mod that switches CAPIE on. No release to install yet. |
 | Main-menu line showing whether CAPIE is loaded | Planned | |
