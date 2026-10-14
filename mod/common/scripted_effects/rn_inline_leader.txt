@@ -36,7 +36,7 @@ rn_inline_leader_open = {
 			NOT = { has_country_flag = rn_input }
 			NOT = { has_country_flag = rn_ip_leader_open }
 			NOT = { has_country_flag = rn_ip_country_open }
-			NOT = { rn_ip_cooldown_active_leader = yes }
+			NOT = { rn_ip_cooldown_active_leader = yes } NOT = { rn_feature_leader_off = yes }
 		}
 		rn_inline_leader_clear_target = yes
 		rn_inline_leader_refresh = yes
@@ -97,6 +97,11 @@ rn_inline_leader_guard = {
   }
  }
  # Iteration 3: per-type rename cooldown (error 11), re-checked by BOTH guard rounds.
+ # Host switch (ADR-0036): error 21, before the cooldown.
+ if = {
+  limit = { check_variable = { temp_var:rn_ip_leader_error = 0 } rn_feature_leader_off = yes }
+  set_temp_variable = { rn_ip_leader_error = 21 }
+ }
  if = {
   limit = { check_variable = { temp_var:rn_ip_leader_error = 0 } rn_ip_cooldown_active_leader = yes }
   set_temp_variable = { rn_ip_leader_error = 11 }

@@ -43,21 +43,21 @@ UI: dict[str, tuple[str, str]] = {
     "RN_COUNTRY_APPLY_TT": (
         (
             "Rename Anything needs CAPIE, which is not loaded. Start the game with the "
-            "CAPIE launcher. Nothing was changed."
+            "CAPIE launcher. Nothing was changed.[ROOT.RN_FEAT_COUNTRY]"
         ),
         (
             "Rename Anything wymaga CAPIE, które nie jest załadowane. Uruchom grę przez "
-            "launcher CAPIE. Nic nie zmieniono."
+            "launcher CAPIE. Nic nie zmieniono.[ROOT.RN_FEAT_COUNTRY]"
         ),
     ),
     "RN_COUNTRY_RESET_TT": (
         (
             "Removes the name you gave. The country shows the game's name again (its current "
-            "cosmetic name, if any). Flag and colour do not change."
+            "cosmetic name, if any). Flag and colour do not change.[ROOT.RN_FEAT_COUNTRY]"
         ),
         (
             "Usuwa nadaną nazwę. Kraj wraca do nazwy z gry (bieżącej nazwy kosmetycznej, jeśli "
-            "jest). Flaga i kolor się nie zmieniają."
+            "jest). Flaga i kolor się nie zmieniają.[ROOT.RN_FEAT_COUNTRY]"
         ),
     ),
     "RN_COUNTRY_NOTE": (
@@ -177,8 +177,14 @@ UI: dict[str, tuple[str, str]] = {
     "RN_SV_CITIES": ("Cities", "Miasta"),
     "RN_SV_RESET": ("Reset", "Przywróć"),
     # rename cooldown (states and cities); {days} is replaced by COOLDOWN_DAYS in ui_loc
-    "RN_CD_STATE_TT": ("[ROOT.RN_CD_STATE_LEFT]", "[ROOT.RN_CD_STATE_LEFT]"),
-    "RN_CD_VP_TT": ("[ROOT.RN_CD_VP_LEFT]", "[ROOT.RN_CD_VP_LEFT]"),
+    "RN_CD_STATE_TT": (
+        "[ROOT.RN_CD_STATE_LEFT][ROOT.RN_FEAT_STATES]",
+        "[ROOT.RN_CD_STATE_LEFT][ROOT.RN_FEAT_STATES]",
+    ),
+    "RN_CD_VP_TT": (
+        "[ROOT.RN_CD_VP_LEFT][ROOT.RN_FEAT_STATES]",
+        "[ROOT.RN_CD_VP_LEFT][ROOT.RN_FEAT_STATES]",
+    ),
     "RN_CD_STATE_READY": (
         "You can rename one state every {days} days.",
         "Nazwę stanu można zmieniać raz na {days} dni.",

@@ -13,7 +13,7 @@ scripted_gui = {
 			# During the name cooldown the pencil opens the flag picker (its own cooldown, 2026-10-14).
 			rn_ip_country_open_click = {
 				if = {
-					limit = { rn_ip_cooldown_active_country = yes }
+					limit = { OR = { rn_ip_cooldown_active_country = yes rn_feature_country_off = yes } }
 					rn_fp_open_own = yes
 					rn_ip_status_clear = yes
 				}
@@ -32,7 +32,7 @@ scripted_gui = {
 				NOT = { has_country_flag = rn_ip_party_neutrality_open }
 				NOT = { has_country_flag = rn_open }
 				NOT = { has_country_flag = rn_input }
-				NOT = { AND = { rn_ip_cooldown_active_country = yes rn_fp_cooldown_active = yes } }
+				NOT = { AND = { OR = { rn_ip_cooldown_active_country = yes rn_feature_country_off = yes } OR = { rn_fp_cooldown_active = yes rn_feature_flag_off = yes } } }
 			}
 		}
 	}
@@ -83,8 +83,8 @@ scripted_gui = {
 			}
 			rn_ip_country_cancel_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_country_open }
 			rn_ip_country_tab_name_click_enabled = { tag = ROOT is_ai = no always = no }
-			rn_ip_country_tab_flag_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_country_open }
-			rn_ip_country_reset_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_country_open rn_cn_has_custom = yes NOT = { rn_ip_cooldown_active_country = yes } }
+			rn_ip_country_tab_flag_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_country_open NOT = { rn_feature_flag_off = yes } }
+			rn_ip_country_reset_click_enabled = { tag = ROOT is_ai = no has_country_flag = rn_ip_country_open rn_cn_has_custom = yes NOT = { rn_ip_cooldown_active_country = yes } NOT = { rn_feature_country_off = yes } }
 		}
 	}
 }

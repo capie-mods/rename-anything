@@ -38,6 +38,7 @@ _EFFECTS = f"""			rn_leader_rename_click = {{ rn_target_leader = yes }}
 						rn_editor_bridge_available = yes
 						NOT = {{ rn_ip_cooldown_active_country = yes }}
 						rn_country_rename_enabled = yes
+						NOT = {{ rn_feature_country_off = yes }}
 						check_variable = {{ rn_cname_len > 0 }}
 						check_variable = {{ rn_cadj_len > 0 }}
 					}}
@@ -49,15 +50,18 @@ _EFFECTS = f"""			rn_leader_rename_click = {{ rn_target_leader = yes }}
 """  # noqa: E501 - generated script lines are emitted verbatim
 """Scripted GUI effects of the Country tab."""
 
-_TRIGGERS = f"""			rn_leader_rename_click_enabled = {{ NOT = {{ rn_ip_cooldown_active_leader = yes }} }}
+_TRIGGERS = f"""			rn_leader_rename_click_enabled = {{ NOT = {{ rn_ip_cooldown_active_leader = yes }} NOT = {{ rn_feature_leader_off = yes }} }}
+			rn_cname_edit_click_enabled = {{ NOT = {{ rn_feature_country_off = yes }} }}
+			rn_cadj_edit_click_enabled = {{ NOT = {{ rn_feature_country_off = yes }} }}
 			rn_country_apply_click_enabled = {{
 				rn_editor_bridge_available = yes
 				NOT = {{ rn_ip_cooldown_active_country = yes }}
 				rn_country_rename_enabled = yes
+				NOT = {{ rn_feature_country_off = yes }}
 				check_variable = {{ rn_cname_len > 0 }}
 				check_variable = {{ rn_cadj_len > 0 }}
 			}}
-			rn_country_reset_click_enabled = {{ OR = {{ has_country_flag = {COUNTRY_FLAG} has_variable = {LAYER_VERSION} }} }}
+			rn_country_reset_click_enabled = {{ OR = {{ has_country_flag = {COUNTRY_FLAG} has_variable = {LAYER_VERSION} }} NOT = {{ rn_feature_country_off = yes }} }}
 """  # noqa: E501 - generated script lines are emitted verbatim
 """Scripted GUI triggers of the Country tab."""
 
@@ -75,12 +79,33 @@ def _elements(y0: int) -> tuple[str, ...]:
         txt("rn_cur_name", 20, y0 + 8, "RN_CUR_NAME", w=520),
         txt("rn_cur_adj", 20, y0 + 32, "RN_CUR_ADJ", w=520),
         txt("rn_cur_leader", 20, y0 + 66, "RN_CUR_LEADER", w=380),
-        btn("rn_leader_rename", 410, y0 + 58, BUTTON_MEDIUM, text="RN_BTN_RENAME"),
+        btn(
+            "rn_leader_rename",
+            410,
+            y0 + 58,
+            BUTTON_MEDIUM,
+            text="RN_BTN_RENAME",
+            tooltip="RN_FEAT_LEADER_TT",
+        ),
         txt("rn_country_hdr", 20, y0 + 112, "RN_COUNTRY_HDR", font=TITLE_FONT, w=520),
         txt("rn_cname_line", 20, y0 + 148, "RN_CNAME_LINE", w=380),
-        btn("rn_cname_edit", 410, y0 + 140, BUTTON_MEDIUM, text="RN_BTN_TYPE"),
+        btn(
+            "rn_cname_edit",
+            410,
+            y0 + 140,
+            BUTTON_MEDIUM,
+            text="RN_BTN_TYPE",
+            tooltip="RN_FEAT_COUNTRY_TT",
+        ),
         txt("rn_cadj_line", 20, y0 + 188, "RN_CADJ_LINE", w=380),
-        btn("rn_cadj_edit", 410, y0 + 180, BUTTON_MEDIUM, text="RN_BTN_TYPE"),
+        btn(
+            "rn_cadj_edit",
+            410,
+            y0 + 180,
+            BUTTON_MEDIUM,
+            text="RN_BTN_TYPE",
+            tooltip="RN_FEAT_COUNTRY_TT",
+        ),
         btn(
             "rn_country_apply",
             20,
@@ -144,6 +169,7 @@ rn_apply_country_name = {{
 	if = {{
 		limit = {{
 			rn_country_rename_enabled = yes
+			NOT = {{ rn_feature_country_off = yes }}
 			check_variable = {{ {name.length} > 0 }}
 			check_variable = {{ {adjective.length} > 0 }}
 		}}

@@ -1163,6 +1163,11 @@ rn_apply_input = {
 							NOT = { is_country_leader = yes }
 							ROOT = { NOT = { rn_ip_cooldown_active_leader = yes } }
 						}
+						# Host switches (ADR-0036): the leader, or the other characters.
+						OR = {
+							AND = { is_country_leader = yes NOT = { rn_feature_leader_off = yes } }
+							AND = { NOT = { is_country_leader = yes } NOT = { rn_feature_characters_off = yes } }
+						}
 					}
 					meta_effect = {
 						text = { set_character_name = "[N]" }
@@ -1176,7 +1181,7 @@ rn_apply_input = {
 			}
 		}
 		else_if = {
-			limit = { check_variable = { rn_ttype = 2 } NOT = { rn_cd_state_active = yes } }
+			limit = { check_variable = { rn_ttype = 2 } NOT = { rn_cd_state_active = yes } NOT = { rn_feature_states_off = yes } }
 			for_each_scope_loop = {
 				array = rn_tstate
 				if = {
@@ -1190,7 +1195,7 @@ rn_apply_input = {
 			}
 		}
 		else_if = {
-			limit = { check_variable = { rn_ttype = 3 } check_variable = { rn_tprov > 0 } NOT = { rn_cd_vp_active = yes } }
+			limit = { check_variable = { rn_ttype = 3 } check_variable = { rn_tprov > 0 } NOT = { rn_cd_vp_active = yes } NOT = { rn_feature_states_off = yes } }
 			for_each_scope_loop = {
 				array = rn_tstate
 				if = {
@@ -1207,11 +1212,11 @@ rn_apply_input = {
 			}
 		}
 		else_if = {
-			limit = { check_variable = { rn_ttype = 4 } }
+			limit = { check_variable = { rn_ttype = 4 } NOT = { rn_feature_country_off = yes } }
 			rn_store_country_name = yes
 		}
 		else_if = {
-			limit = { check_variable = { rn_ttype = 5 } }
+			limit = { check_variable = { rn_ttype = 5 } NOT = { rn_feature_country_off = yes } }
 			rn_store_country_adj = yes
 		}
 	}
@@ -1243,7 +1248,7 @@ rn_gui_touch = {
 rn_reset_vp = { # temp rn_k = slot
 	rn_target_vp = yes
 	if = {
-		limit = { check_variable = { rn_tprov > 0 } }
+		limit = { check_variable = { rn_tprov > 0 } NOT = { rn_feature_states_off = yes } }
 		for_each_scope_loop = {
 			array = rn_tstate
 			if = {
@@ -1267,6 +1272,7 @@ rn_apply_country_name = {
 	if = {
 		limit = {
 			rn_country_rename_enabled = yes
+			NOT = { rn_feature_country_off = yes }
 			check_variable = { rn_cname_len > 0 }
 			check_variable = { rn_cadj_len > 0 }
 		}

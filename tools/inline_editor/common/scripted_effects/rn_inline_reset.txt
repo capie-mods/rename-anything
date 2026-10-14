@@ -19,7 +19,7 @@ rn_inline_country_reset = {
 			check_variable = { rn_ip_country_target^num = 1 }
 			is_in_array = { array = rn_ip_country_target value = THIS }
 			rn_cn_has_custom = yes
-			NOT = { rn_ip_cooldown_active_country = yes }
+			NOT = { rn_ip_cooldown_active_country = yes } NOT = { rn_feature_country_off = yes }
 		}
 		rn_country_name_carrier_clear = yes
 		rn_ip_cooldown_start_country = yes
@@ -44,6 +44,10 @@ rn_sub_reset_country = {
 		}
 		set_temp_variable = { rn_cv1_err = 0 }
 		if = {
+			limit = { OR = { rn_feature_subjects_off = yes rn_feature_country_off = yes } }
+			set_temp_variable = { rn_cv1_err = 21 }
+		}
+		else_if = {
 			limit = { var:rn_sub_target = { rn_ip_cooldown_active_country = yes } }
 			set_temp_variable = { rn_cv1_err = 11 }
 		}

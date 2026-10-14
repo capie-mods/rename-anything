@@ -422,6 +422,11 @@ rn_apply_input = {{
 							NOT = {{ is_country_leader = yes }}
 							ROOT = {{ NOT = {{ rn_ip_cooldown_active_leader = yes }} }}
 						}}
+						# Host switches (ADR-0036): the leader, or the other characters.
+						OR = {{
+							AND = {{ is_country_leader = yes NOT = {{ rn_feature_leader_off = yes }} }}
+							AND = {{ NOT = {{ is_country_leader = yes }} NOT = {{ rn_feature_characters_off = yes }} }}
+						}}
 					}}
 					meta_effect = {{
 						text = {{ set_character_name = "[N]" }}
@@ -435,7 +440,7 @@ rn_apply_input = {{
 			}}
 		}}
 		else_if = {{
-			limit = {{ check_variable = {{ rn_ttype = {TARGET_STATE} }} NOT = {{ rn_cd_state_active = yes }} }}
+			limit = {{ check_variable = {{ rn_ttype = {TARGET_STATE} }} NOT = {{ rn_cd_state_active = yes }} NOT = {{ rn_feature_states_off = yes }} }}
 			for_each_scope_loop = {{
 				array = rn_tstate
 				if = {{
@@ -449,7 +454,7 @@ rn_apply_input = {{
 			}}
 		}}
 		else_if = {{
-			limit = {{ check_variable = {{ rn_ttype = {TARGET_CITY} }} check_variable = {{ rn_tprov > 0 }} NOT = {{ rn_cd_vp_active = yes }} }}
+			limit = {{ check_variable = {{ rn_ttype = {TARGET_CITY} }} check_variable = {{ rn_tprov > 0 }} NOT = {{ rn_cd_vp_active = yes }} NOT = {{ rn_feature_states_off = yes }} }}
 			for_each_scope_loop = {{
 				array = rn_tstate
 				if = {{
@@ -466,11 +471,11 @@ rn_apply_input = {{
 			}}
 		}}
 		else_if = {{
-			limit = {{ check_variable = {{ rn_ttype = {TARGET_COUNTRY_NAME} }} }}
+			limit = {{ check_variable = {{ rn_ttype = {TARGET_COUNTRY_NAME} }} NOT = {{ rn_feature_country_off = yes }} }}
 			rn_store_country_name = yes
 		}}
 		else_if = {{
-			limit = {{ check_variable = {{ rn_ttype = {TARGET_COUNTRY_ADJ} }} }}
+			limit = {{ check_variable = {{ rn_ttype = {TARGET_COUNTRY_ADJ} }} NOT = {{ rn_feature_country_off = yes }} }}
 			rn_store_country_adj = yes
 		}}
 	}}

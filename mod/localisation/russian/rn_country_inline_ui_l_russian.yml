@@ -1,7 +1,7 @@
 ﻿l_russian:
- RN_IPC_EDIT_COUNTRY:0 "Rename the country or change its flag[ROOT.RN_IP_CD_COUNTRY][ROOT.RN_FP_CD]"
+ RN_IPC_EDIT_COUNTRY:0 "Rename the country or change its flag[ROOT.RN_IP_CD_COUNTRY][ROOT.RN_FP_CD][ROOT.RN_FEAT_COUNTRY][ROOT.RN_FEAT_FLAG]"
  RN_IPC_CANCEL:0 "Cancel"
  RN_IPC_LABEL_NAME:0 "§LName§!"
  RN_IPC_LABEL_ADJ:0 "§LAdjective§!"
  RN_IP_RESET_NAME:0 "Restore name"
- RN_IP_RESET_NAME_TT:0 "Back to the game's current name. Flag and colour stay as they are. Uses the rename cooldown like a new name."
+ RN_IP_RESET_NAME_TT:0 "Back to the game's current name. Flag and colour stay as they are. Uses the rename cooldown like a new name.[ROOT.RN_FEAT_COUNTRY]"

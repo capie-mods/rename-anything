@@ -3,6 +3,7 @@
 defined_text = {
 	name = RN_SUB_STATUS
 	text = { trigger = { ROOT = { NOT = { has_variable = rn_cv1_st_err } } } localization_key = RN_IP_HINT }
+	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 21 } } } localization_key = RN_FEATURE_OFF_STATUS }
 	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 10 } } } localization_key = RN_IP_ERR_NO_BRIDGE }
 	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 13 } } } localization_key = RN_CV1_ERR_SETUP }
 	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 20 } } } localization_key = RN_SUB_ERR_RIGHTS }

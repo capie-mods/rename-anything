@@ -40,6 +40,18 @@ rn_sub_close = {
 rn_sub_guard = {
 	set_temp_variable = { rn_cv1_open = rn_sub_epoch }
 	rn_cv1_header = yes
+	# Host switches (ADR-0036): other countries, and the switch of the edited kind.
+	if = {
+		limit = {
+			OR = {
+				rn_feature_subjects_off = yes
+				AND = { check_variable = { temp_var:rn_sub_kind = 1 } rn_feature_country_off = yes }
+				AND = { check_variable = { temp_var:rn_sub_kind = 2 } rn_feature_leader_off = yes }
+				AND = { check_variable = { temp_var:rn_sub_kind = 3 } rn_feature_party_off = yes }
+			}
+		}
+		set_temp_variable = { rn_cv1_err = 21 }
+	}
 	if = {
 		limit = {
 			check_variable = { temp_var:rn_cv1_err = 0 }

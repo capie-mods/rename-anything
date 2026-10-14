@@ -45,6 +45,11 @@ rn_inline_pair_guard_country = {
 		}
 	}
 	# Iteration 3: per-type rename cooldown (error 11), re-checked by BOTH guard rounds.
+	# Host switch (ADR-0036): error 21, before the cooldown.
+	if = {
+		limit = { check_variable = { temp_var:rn_pair_err = 0 } rn_feature_country_off = yes }
+		set_temp_variable = { rn_pair_err = 21 }
+	}
 	if = {
 		limit = { check_variable = { temp_var:rn_pair_err = 0 } rn_ip_cooldown_active_country = yes }
 		set_temp_variable = { rn_pair_err = 11 }
@@ -61,7 +66,7 @@ rn_inline_pair_open_country = {
 			NOT = { has_country_flag = rn_ip_leader_open }
 			NOT = { has_country_flag = rn_ip_country_open }
 			NOT = { has_country_flag = rn_ip_party_neutrality_open }
-			NOT = { rn_ip_cooldown_active_country = yes }
+			NOT = { rn_ip_cooldown_active_country = yes } NOT = { rn_feature_country_off = yes }
 		}
 		clear_array = rn_ip_country_target
 		add_to_array = { rn_ip_country_target = THIS }
@@ -209,6 +214,11 @@ rn_inline_pair_guard_party = {
 		}
 	}
 	# Iteration 3: per-type rename cooldown (error 11), re-checked by BOTH guard rounds.
+	# Host switch (ADR-0036): error 21, before the cooldown.
+	if = {
+		limit = { check_variable = { temp_var:rn_pair_err = 0 } rn_feature_party_off = yes }
+		set_temp_variable = { rn_pair_err = 21 }
+	}
 	if = {
 		limit = { check_variable = { temp_var:rn_pair_err = 0 } rn_ip_cooldown_active_party = yes }
 		set_temp_variable = { rn_pair_err = 11 }
@@ -224,7 +234,7 @@ rn_inline_pair_open_party = {
    NOT = { has_country_flag = rn_ip_leader_open }
    NOT = { has_country_flag = rn_ip_country_open }
    NOT = { has_country_flag = rn_ip_party_neutrality_open }
-   NOT = { rn_ip_cooldown_active_party = yes }
+   NOT = { rn_ip_cooldown_active_party = yes } NOT = { rn_feature_party_off = yes }
    OR = { has_government = democratic has_government = communism has_government = fascism has_government = neutrality }
   }
   if = {
@@ -274,7 +284,7 @@ rn_inline_pair_switch_party = {
    NOT = { has_country_flag = rn_input }
    NOT = { has_country_flag = rn_ip_leader_open }
    NOT = { has_country_flag = rn_ip_country_open }
-   NOT = { rn_ip_cooldown_active_party = yes }
+   NOT = { rn_ip_cooldown_active_party = yes } NOT = { rn_feature_party_off = yes }
    OR = { check_variable = { temp_var:rn_ip_party_tab = 1 } check_variable = { temp_var:rn_ip_party_tab = 2 } check_variable = { temp_var:rn_ip_party_tab = 3 } check_variable = { temp_var:rn_ip_party_tab = 4 } }
    NOT = { check_variable = { rn_ip_party_group = temp_var:rn_ip_party_tab } }
   }

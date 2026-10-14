@@ -79,12 +79,17 @@ def check_legacy_editor() -> None:
     assert bridge in enabled
     assert no_country_cd in enabled
     assert get(get(country, "triggers"), "rn_leader_rename_click_enabled") == [
-        ("NOT", "=", [("rn_ip_cooldown_active_leader", "=", "yes")])
+        ("NOT", "=", [("rn_ip_cooldown_active_leader", "=", "yes")]),
+        ("NOT", "=", [("rn_feature_leader_off", "=", "yes")]),
     ]
+    assert ("NOT", "=", [("rn_feature_country_off", "=", "yes")]) in enabled
     leader_row = ("var:rn_row_character", "=", [("is_country_leader", "=", "yes")])
     chars = get(models["rn_main_chars_gui"], "triggers")
+    other_row = ("var:rn_row_character", "=", [("NOT", "=", [("is_country_leader", "=", "yes")])])
     assert get(chars, "rn_char_rename_click_enabled") == [
-        ("NOT", "=", [("AND", "=", [leader_row, ("rn_ip_cooldown_active_leader", "=", "yes")])])
+        ("NOT", "=", [("AND", "=", [leader_row, ("rn_ip_cooldown_active_leader", "=", "yes")])]),
+        ("NOT", "=", [("AND", "=", [leader_row, ("rn_feature_leader_off", "=", "yes")])]),
+        ("NOT", "=", [("AND", "=", [other_row, ("rn_feature_characters_off", "=", "yes")])]),
     ]
     assert 'pdx_tooltip = "RN_CHAR_RENAME_TT"' in gui
     check_legacy_apply_input(effects)
@@ -131,6 +136,7 @@ def check_legacy_apply_input(effects: dict[str, Any]) -> None:
             and ("check_variable", "=", [("rn_ttype", "=", ttype)]) in get(v, "limit")
         )
         assert ("NOT", "=", [(active, "=", "yes")]) in get(branch, "limit"), ttype
+        assert ("NOT", "=", [("rn_feature_states_off", "=", "yes")]) in get(branch, "limit")
         assert ("ROOT", "=", [(start, "=", "yes")]) in list(walk(branch)), ttype
 
 

@@ -25,6 +25,7 @@ from modgen.features import (
     legacy_field,
     localisation,
     refresh,
+    switches,
 )
 from modgen.features.text_buffers import INPUT_BUFFER, slot_tables
 from modgen.features.textures import gen_textures, tga
@@ -471,3 +472,22 @@ def test_legacy_field_follows_the_capie_grammar() -> None:
     assert 'shortcut = "RETURN"' in window
     assert f'name = "{legacy_field.EPOCH_CARRIER}"' in window
     assert "[?ROOT.rn_lg_epoch|0]" in window
+
+
+def test_host_switches_cover_every_feature() -> None:
+    """One rule, one trigger and one tooltip line per feature; texts in English and Polish."""
+    rules, triggers, loc = switches.rules(), switches.triggers(), switches.scripted_loc()
+    english, polish = switches.localisation("english"), switches.localisation("polish")
+    ids = {f.id for f in switches.FEATURES}
+    assert {"country", "leader", "party", "flag", "portrait", "states"} <= ids
+    for f in switches.FEATURES:
+        up = f.id.upper()
+        assert f"rn_feature_{f.id} = {{" in rules
+        assert f"{switches.trigger_name(f.id)} = {{" in triggers
+        assert f"name = RN_FEAT_{up}\n" in loc
+        for text in (english, polish):
+            assert f' RN_RULE_FEATURE_{up}:0 "Rename Anything: ' in text
+            assert f" RN_FEAT_{up}_ALLOWED:0 " in text
+    assert "\tdesc =" not in rules.replace("\t\tdesc =", "")
+    assert "Host wyłączył tę opcję w tej grze." in polish
+    assert "The host has turned this off for this game." in english

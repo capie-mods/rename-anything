@@ -3,6 +3,7 @@
 # [This.RN_FP_CD] in the scope of the country whose flag changes; the status variables are on ROOT.
 defined_text = {
 	name = RN_FP_STATUS
+	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 21 } } } localization_key = RN_FEATURE_OFF_STATUS }
 	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 10 } } } localization_key = RN_IP_ERR_NO_BRIDGE }
 	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 13 } } } localization_key = RN_CV1_ERR_SETUP }
 	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 12 } } } localization_key = RN_IP_ERR_STALE }
@@ -11,6 +12,8 @@ defined_text = {
 	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 17 } } } localization_key = RN_FP_ERR_POOL }
 	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 20 } } } localization_key = RN_FP_ERR_RIGHTS }
 	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 11 } } } localization_key = RN_FP_ERR_CD }
+	text = { trigger = { rn_feature_flag_off = yes } localization_key = RN_FEAT_FLAG_OFF_LINE }
+	text = { trigger = { ROOT = { has_country_flag = rn_fp_open_sub } rn_feature_subjects_off = yes } localization_key = RN_FEAT_SUBJECTS_OFF_LINE }
 	text = { trigger = { rn_fp_cooldown_active = yes } localization_key = RN_FP_CD_LINE }
 	text = { localization_key = RN_FP_HINT }
 }

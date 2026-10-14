@@ -1,6 +1,6 @@
 ﻿l_polish:
- RN_IP_EDIT_LEADER: "Zmień nazwę przywódcy[ROOT.RN_IP_CD_LEADER]"
- RN_IP_EDIT_PARTY: "Zmień nazwy partii[ROOT.RN_IP_CD_PARTY]"
+ RN_IP_EDIT_LEADER: "Zmień nazwę przywódcy[ROOT.RN_IP_CD_LEADER][ROOT.RN_FEAT_LEADER]"
+ RN_IP_EDIT_PARTY: "Zmień nazwy partii[ROOT.RN_IP_CD_PARTY][ROOT.RN_FEAT_PARTY]"
  RN_IP_CANCEL: "Anuluj"
  RN_IPP_LABEL_SHORT: "§LKrótka nazwa§!"
  RN_IPP_LABEL_LONG: "§LPełna nazwa§!"

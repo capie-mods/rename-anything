@@ -255,7 +255,7 @@ def reset_vp_effect() -> str:
 rn_reset_vp = {{ # temp rn_k = slot
 	rn_target_vp = yes
 	if = {{
-		limit = {{ check_variable = {{ rn_tprov > 0 }} }}
+		limit = {{ check_variable = {{ rn_tprov > 0 }} NOT = {{ rn_feature_states_off = yes }} }}
 		for_each_scope_loop = {{
 			array = rn_tstate
 			if = {{
@@ -302,12 +302,13 @@ def _triggers() -> str:
         for el in ("rn_vp_name", "rn_vp_rename", "rn_vp_reset")
     )
     reset = "".join(
-        f"\t\t\trn_vp_reset_{k}_click_enabled = {{ check_variable = {{ rn_vp_cnt > {k} }} }}\n"
+        f"\t\t\trn_vp_reset_{k}_click_enabled = {{ check_variable = {{ rn_vp_cnt > {k} }}"
+        " NOT = { rn_feature_states_off = yes } }\n"
         for k in range(VP_SLOTS)
     )
     rename = "".join(
         f"\t\t\trn_vp_rename_{k}_click_enabled = {{ check_variable = {{ rn_vp_cnt > {k} }}"
-        " NOT = { rn_cd_vp_active = yes } }\n"
+        " NOT = { rn_cd_vp_active = yes } NOT = { rn_feature_states_off = yes } }\n"
         for k in range(VP_SLOTS)
     )
     no_cities = "\t\t\trn_no_cities_visible = { NOT = { check_variable = { rn_vp_cnt > 0 } } }\n"
@@ -357,7 +358,16 @@ def _elements(y0: int) -> tuple[str, ...]:
                 tooltip="RN_CD_VP_TT",
             )
         )
-        o.append(btn(f"rn_vp_reset_{k}", 430, y + 2, BUTTON_SMALL, text="RN_BTN_RESET"))
+        o.append(
+            btn(
+                f"rn_vp_reset_{k}",
+                430,
+                y + 2,
+                BUTTON_SMALL,
+                text="RN_BTN_RESET",
+                tooltip="RN_FEAT_STATES_TT",
+            )
+        )
     o.append(txt("rn_cities_note", 20, y0 + 314, "RN_CITIES_NOTE", w=520, h=60))
     return tuple(o)
 

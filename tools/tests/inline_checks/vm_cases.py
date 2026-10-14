@@ -69,6 +69,19 @@ class ProductVM(ApplyVM):
             "rn_rename_event": "RN_RENAME_EVENT_OFF",
         }
 
+    def rule_option(self, rule: str) -> str:
+        """Return the option of a game rule; a host switch is on unless a case turns it off.
+
+        Args:
+            rule: Rule name.
+
+        Returns:
+            Option name.
+        """
+        if rule.startswith("rn_feature_"):
+            return str(self.rules.get(rule, rule.upper() + "_ON"))
+        return str(self.rules[rule])
+
     def execute(self, nodes: list[Any]) -> None:
         """Execute effect nodes, adding two primitives of the legacy keyboard effects.
 
@@ -128,7 +141,10 @@ class ProductVM(ApplyVM):
                 answer = True
             elif key == "has_game_rule":
                 rule = {k: v for k, _, v in value}
-                answer = self.rules[rule["rule"]] == rule["option"]
+                answer = self.rule_option(rule["rule"]) == rule["option"]
+            elif key.startswith("rn_feature_") and key in self.triggers:
+                # Host switches (ADR-0036): the generated trigger reads its game rule.
+                answer = self.condition(self.triggers[key]) == (value == "yes")
             elif key.startswith("rn_ip_cooldown_active_"):
                 kind = key.removeprefix("rn_ip_cooldown_active_")
                 left = self.persistent.get(f"rn_ip_cd_{kind}_until", Decimal(0)) - self.value(
