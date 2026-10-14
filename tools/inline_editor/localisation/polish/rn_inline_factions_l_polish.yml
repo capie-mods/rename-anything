@@ -4,7 +4,7 @@
  RN_RULE_RIGHTS_HOST:0 "Host zmienia nazwy wszystkich państw"
  RN_RULE_RIGHTS_OWN:0 "Tylko własne państwo"
  RN_RENAME_FACTION_TITLE:0 "£edit_list_icon Zmień nazwę frakcji"
- RN_RENAME_FACTION_ACTION_DESC:0 "Zmień nazwę frakcji: [This.GetFactionName]. Bez kosztu i bez zgody."
+ RN_RENAME_FACTION_ACTION_DESC:0 "Zmień nazwę tej frakcji. Bez kosztu i bez zgody."
  RN_RENAME_FACTION_SEND:0 "Otworzyć edytor nazwy frakcji: [This.GetFactionName]? Nic się nie zmieni, dopóki nie zatwierdzisz nowej nazwy."
  RN_RENAME_FACTION_RECEIVE:0 "[Root.GetName] zmienia nazwę naszej frakcji."
  RN_RENAME_FACTION_ACCEPT:0 "Zmień nazwę frakcji"
