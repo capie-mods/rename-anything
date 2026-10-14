@@ -177,6 +177,1110 @@ guiTypes = {
 			pdx_tooltip = "RN_PP_NAV_ALL_TT"
 			clicksound = click_default
 		}
+		# Portrait pack: base game or a DLC the local player owns (UI-only has_dlc).
+		buttonType = {
+			name = "rn_pp_pack_0_1"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_2"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_3"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_4"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_5"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_6"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_7"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_8"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_9"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_10"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_11"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_12"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_2"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_3"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_4"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_5"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_6"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_7"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_8"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_9"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_10"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_11"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_12"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_3"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_4"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_5"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_6"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_7"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_8"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_9"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_10"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_11"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_12"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_4"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_5"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_6"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_7"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_8"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_9"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_10"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_11"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_12"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_5"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_6"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_7"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_8"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_9"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_10"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_11"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_12"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_6"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_7"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_8"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_9"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_10"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_11"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_12"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_5"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_7"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_8"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_9"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_10"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_11"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_12"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_5"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_6"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_8"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_9"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_10"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_11"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_12"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_5"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_6"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_7"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_9"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_10"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_11"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_12"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_5"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_6"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_7"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_8"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_10"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_11"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_12"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_5"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_6"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_7"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_8"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_9"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_11"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_12"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_5"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_6"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_7"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_8"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_9"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_10"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_12"
+			position = { x = 347 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_5"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_6"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_7"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_8"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_9"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_10"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_11"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_pp_pack_name"
+			position = { x = 209 y = 258 }
+			font = "Arial12"
+			text = "RN_PP_PACK_LABEL"
+			maxWidth = 138
+			maxHeight = 14
+			fixedsize = yes
+			format = centre
+			alwaystransparent = yes
+		}
 		buttonType = {
 			name = "rn_pp_letter_1"
 			position = { x = 0 y = 284 }
@@ -1033,6 +2137,1110 @@ guiTypes = {
 			buttonFont = "hoi_16mbs"
 			pdx_tooltip = "RN_PP_NAV_ALL_TT"
 			clicksound = click_default
+		}
+		# Portrait pack: base game or a DLC the local player owns (UI-only has_dlc).
+		buttonType = {
+			name = "rn_pp_pack_0_1"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_2"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_3"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_4"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_5"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_6"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_7"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_8"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_9"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_10"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_11"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_0_12"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_2"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_3"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_4"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_5"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_6"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_7"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_8"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_9"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_10"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_11"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_1_12"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_3"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_4"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_5"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_6"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_7"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_8"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_9"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_10"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_11"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_2_12"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_4"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_5"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_6"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_7"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_8"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_9"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_10"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_11"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_3_12"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_5"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_6"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_7"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_8"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_9"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_10"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_11"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_4_12"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_6"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_7"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_8"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_9"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_10"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_11"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_5_12"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_5"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_7"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_8"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_9"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_10"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_11"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_6_12"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_5"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_6"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_8"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_9"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_10"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_11"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_7_12"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_5"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_6"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_7"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_9"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_10"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_11"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_8_12"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_5"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_6"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_7"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_8"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_10"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_11"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_9_12"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_5"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_6"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_7"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_8"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_9"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_11"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_10_12"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_5"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_6"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_7"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_8"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_9"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_10"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_11_12"
+			position = { x = 367 y = 257 }
+			spriteType = "GFX_opinion_arrow_right"
+			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_0"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_1"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_2"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_3"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_4"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_5"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_6"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_7"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_8"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_9"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_10"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_pp_pack_12_11"
+			position = { x = 192 y = 257 }
+			spriteType = "GFX_opinion_arrow_left"
+			pdx_tooltip = "RN_PP_PACK_PREV_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_pp_pack_name"
+			position = { x = 209 y = 258 }
+			font = "Arial12"
+			text = "RN_PP_PACK_LABEL"
+			maxWidth = 158
+			maxHeight = 14
+			fixedsize = yes
+			format = centre
+			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_pp_letter_1"

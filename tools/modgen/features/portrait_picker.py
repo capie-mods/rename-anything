@@ -41,7 +41,6 @@ from modgen.features.picker_common import (
     letter_row,
     text,
 )
-from modgen.features.portraits import GENERAL, LEADER
 
 if TYPE_CHECKING:
     from modgen.features.portraits import PortraitCatalog
@@ -111,6 +110,9 @@ KIND_Y = 216
 
 SCOPE_Y = 250
 """Top of the This country | All row."""
+
+PACK_X = 192
+"""Left edge of the pack stepper (right of This country | All)."""
 
 LETTER_Y = 284
 """Top of the letter row."""
@@ -220,17 +222,90 @@ PICKERS = (OWN, SUBJECT)
 """Both editors."""
 
 
-def letter_entries(catalog: PortraitCatalog) -> tuple[int, ...]:
-    """Return the letters that have a country with portraits of either kind.
+class Layout(NamedTuple):
+    """What the catalog decides about the windows."""
+
+    letters: tuple[int, ...]
+    """Letters with a country in any kind and pack."""
+
+    letter_when: dict[int, str]
+    """Letter to the trigger (in ROOT) of the kinds and packs it has countries in."""
+
+    packs: tuple[str, ...]
+    """Pack names: ``""`` (base game) first, then the DLC names for ``has_dlc``."""
+
+
+def layout(catalog: PortraitCatalog) -> Layout:
+    """Return the catalog-dependent parts of the windows.
 
     Args:
         catalog: The catalog.
 
     Returns:
-        Letters 1..26.
+        The layout.
     """
-    return tuple(
-        n for n in range(1, 27) if catalog.letters[LEADER][n - 1] or catalog.letters[GENERAL][n - 1]
+    when: dict[int, list[str]] = {}
+    for (kind, pack), letters in catalog.letters.items():
+        for n, tags in enumerate(letters, start=1):
+            if tags:
+                when.setdefault(n, []).append(
+                    f"AND = {{ check_variable = {{ rn_pp_kind = {kind} }} "
+                    f"check_variable = {{ rn_pp_pack = {pack} }} }}"
+                )
+    return Layout(
+        tuple(sorted(when)),
+        {n: f"ROOT = {{ OR = {{ {' '.join(c)} }} }}" for n, c in when.items()},
+        catalog.packs,
+    )
+
+
+def owned(packs: tuple[str, ...], k: int) -> str:
+    """Return the UI-only trigger "the local player owns pack ``k``".
+
+    ``has_dlc`` differs between the players of one game, so it appears only in
+    visible triggers of the local window, never in an effect or in game state.
+
+    Args:
+        packs: Pack names.
+        k: Pack index.
+
+    Returns:
+        Trigger text (``always = yes`` for the base game).
+    """
+    return "always = yes" if k == 0 else f'has_dlc = "{packs[k]}"'
+
+
+def pack_steps(packs: tuple[str, ...]) -> list[tuple[int, int]]:
+    """Return every step ``(from, to)`` of the pack stepper.
+
+    For each shown pack and direction exactly one step is visible for a given set
+    of owned DLC: the nearest owned pack. The command carries which button was
+    clicked, so the game state it sets is the same on every client.
+
+    Args:
+        packs: Pack names.
+
+    Returns:
+        Pairs of pack indices.
+    """
+    return [(a, b) for a in range(len(packs)) for b in range(len(packs)) if a != b]
+
+
+def step_visible(packs: tuple[str, ...], a: int, b: int) -> str:
+    """Return the visible trigger of the step from pack ``a`` to pack ``b``.
+
+    Args:
+        packs: Pack names.
+        a: Shown pack.
+        b: Target pack.
+
+    Returns:
+        Trigger body.
+    """
+    lo, hi = sorted((a, b))
+    between = " ".join(f"NOT = {{ {owned(packs, c)} }}" for c in range(lo + 1, hi))
+    return (
+        f"ROOT = {{ check_variable = {{ rn_pp_pack = {a} }} }} {owned(packs, b)} {between}".strip()
     )
 
 
@@ -246,12 +321,12 @@ def _scaled(scale: float) -> str:
     return f"\t\t\tscale = {scale}\n"
 
 
-def window(picker: Picker, letters: tuple[int, ...]) -> str:
+def window(picker: Picker, lay: Layout) -> str:
     """Return the window of one picker.
 
     Args:
         picker: The editor.
-        letters: Letter entries.
+        lay: Catalog-dependent layout.
 
     Returns:
         The ``containerWindowType`` block.
@@ -352,7 +427,24 @@ def window(picker: Picker, letters: tuple[int, ...]) -> str:
             "GFX_button_94x31",
             attrs=captioned("RN_FP_NAV_ALL", "RN_PP_NAV_ALL_TT"),
         ),
-        letter_row("rn_pp", letters, LETTER_Y, LETTER_W),
+        "\t\t# Portrait pack: base game or a DLC the local player owns (UI-only has_dlc).\n",
+        *(
+            button(
+                f"rn_pp_pack_{a}_{b}",
+                (PACK_X if b < a else w - 17, SCOPE_Y + 7),
+                "GFX_opinion_arrow_left" if b < a else "GFX_opinion_arrow_right",
+                attrs=f'\t\t\tpdx_tooltip = "RN_PP_PACK_{"PREV" if b < a else "NEXT"}_TT"\n',
+            )
+            for a, b in pack_steps(lay.packs)
+        ),
+        text(
+            "rn_pp_pack_name",
+            (PACK_X + 17, SCOPE_Y + 8),
+            "RN_PP_PACK_LABEL",
+            (w - 17 - PACK_X - 17, 14),
+            extra="\t\t\tformat = centre\n",
+        ),
+        letter_row("rn_pp", lay.letters, LETTER_Y, LETTER_W),
         text("rn_pp_status", (6, STATUS_Y), "[This.RN_PP_STATUS]", (w - 12, 14)),
         button(
             "rn_pp_reset",
@@ -394,11 +486,11 @@ def entries() -> str:
     return cell + row
 
 
-def gui(letters: tuple[int, ...]) -> str:
+def gui(lay: Layout) -> str:
     """Return the window file.
 
     Args:
-        letters: Letter entries.
+        lay: Catalog-dependent layout.
 
     Returns:
         Contents of :data:`GUI_FILE`.
@@ -407,7 +499,7 @@ def gui(letters: tuple[int, ...]) -> str:
         GEN_HEADER
         + "# Portrait picker (tools/modgen/features/portrait_picker.py). Vanilla sprites only,\n"
         "# apart from the shared transparent hit areas.\n"
-        "guiTypes = {\n" + "".join(window(p, letters) for p in PICKERS) + entries() + "}\n"
+        "guiTypes = {\n" + "".join(window(p, lay) for p in PICKERS) + entries() + "}\n"
     )
 
 
@@ -558,18 +650,44 @@ _PROPERTIES_AND_LISTS = """\t\tproperties = {
 """Portrait images by catalog index and the two lists."""
 
 
-def scripted_gui(picker: Picker, letters: tuple[int, ...]) -> str:
+def _pack_lines(packs: tuple[str, ...]) -> tuple[list[str], list[str]]:
+    """Return the pack stepper's effects and visible triggers.
+
+    Args:
+        packs: Pack names.
+
+    Returns:
+        ``(effects, triggers)``.
+    """
+    effects = [
+        f"\t\t\trn_pp_pack_{a}_{b}_click = {{ ROOT = {{ set_temp_variable = {{ rn_pp_pk = {b} }} "
+        "rn_pp_pick_pack = yes } }\n"
+        for a, b in pack_steps(packs)
+    ]
+    triggers = [
+        f"\t\t\trn_pp_pack_{a}_{b}_visible = {{ {step_visible(packs, a, b)} }}\n"
+        for a, b in pack_steps(packs)
+    ]
+    any_dlc = " ".join(owned(packs, k) for k in range(1, len(packs)))
+    triggers.append(
+        f"\t\t\trn_pp_pack_name_visible = {{ OR = {{ {any_dlc or 'always = no'} }} }}\n"
+    )
+    return effects, triggers
+
+
+def scripted_gui(picker: Picker, lay: Layout) -> str:
     """Return the scripted GUI of one picker.
 
     Args:
         picker: The editor.
-        letters: Letter entries.
+        lay: Catalog-dependent layout.
 
     Returns:
         The ``<key> = { ... }`` block.
     """
     shown = f"{ALL_RULE} ROOT = {{ check_variable = {{ rn_pp_view = 2 }} }}"
-    letter_effects, letter_triggers = letter_lines("rn_pp", letters, shown)
+    letter_effects, letter_triggers = letter_lines("rn_pp", lay.letters, shown, lay.letter_when)
+    pack_effects, pack_triggers = _pack_lines(lay.packs)
     tab_effects, tab_triggers = _tabs(picker)
     on = _switched_on(picker)
     lines = [
@@ -585,6 +703,7 @@ def scripted_gui(picker: Picker, letters: tuple[int, ...]) -> str:
         _EFFECTS,
         *tab_effects,
         *letter_effects,
+        *pack_effects,
         "\t\t}\n",
         "\t\ttriggers = {\n",
         f"\t\t\tcapie_v1_ep__rnpt__{picker.editor}_visible = {{ always = no }}\n",
@@ -603,6 +722,7 @@ def scripted_gui(picker: Picker, letters: tuple[int, ...]) -> str:
         _TRIGGERS.replace("@ALL_RULE@", ALL_RULE).replace("@GENERALS_RULE@", GENERALS_RULE),
         *tab_triggers,
         *letter_triggers,
+        *pack_triggers,
         "\t\t}\n",
         _PROPERTIES_AND_LISTS,
         "\t}\n",
@@ -610,11 +730,11 @@ def scripted_gui(picker: Picker, letters: tuple[int, ...]) -> str:
     return "".join(lines)
 
 
-def scripted_guis(letters: tuple[int, ...]) -> str:
+def scripted_guis(lay: Layout) -> str:
     """Return the scripted GUI file.
 
     Args:
-        letters: Letter entries.
+        lay: Catalog-dependent layout.
 
     Returns:
         Contents of :data:`SCRIPTED_GUI_FILE`.
@@ -624,7 +744,7 @@ def scripted_guis(letters: tuple[int, ...]) -> str:
         + "# Portrait picker (tools/modgen/features/portrait_picker.py). ROOT is the player; THIS\n"
         "# is the country whose leader's portrait changes. The effects (rn_portrait_picker.txt)\n"
         "# re-check the pinned leader, the rights and rules, the cooldown and the CAPIE records.\n"
-        "scripted_gui = {\n" + "".join(scripted_gui(p, letters) for p in PICKERS) + "}\n"
+        "scripted_gui = {\n" + "".join(scripted_gui(p, lay) for p in PICKERS) + "}\n"
     )
 
 
@@ -637,5 +757,5 @@ def write_files(catalog: PortraitCatalog) -> list[tuple[str, str]]:
     Returns:
         ``(path relative to mod/, text)`` per file.
     """
-    letters = letter_entries(catalog)
-    return [(GUI_FILE, gui(letters)), (SCRIPTED_GUI_FILE, scripted_guis(letters))]
+    lay = layout(catalog)
+    return [(GUI_FILE, gui(lay)), (SCRIPTED_GUI_FILE, scripted_guis(lay))]

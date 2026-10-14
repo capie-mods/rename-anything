@@ -175,7 +175,9 @@ def letter_row(prefix: str, letters: tuple[int, ...], y: int, width: int) -> str
     return "".join(out)
 
 
-def letter_lines(prefix: str, letters: tuple[int, ...], shown: str) -> tuple[list[str], list[str]]:
+def letter_lines(
+    prefix: str, letters: tuple[int, ...], shown: str, when: dict[int, str] | None = None
+) -> tuple[list[str], list[str]]:
     """Return the letter click effects and their triggers.
 
     A click sets ``temp <prefix>_lt`` and runs ``<prefix>_pick_letter`` in ROOT;
@@ -185,6 +187,7 @@ def letter_lines(prefix: str, letters: tuple[int, ...], shown: str) -> tuple[lis
         prefix: Element and variable prefix (``rn_pp``).
         letters: Letters with entries (1..26).
         shown: Trigger body that shows the row.
+        when: Extra condition of a letter (it has entries for the current filter), if any.
 
     Returns:
         ``(effects, triggers)``.
@@ -198,10 +201,11 @@ def letter_lines(prefix: str, letters: tuple[int, ...], shown: str) -> tuple[lis
             f"{prefix}_pick_letter = yes }} }}\n"
         )
         on = f"check_variable = {{ {prefix}_letter = {n} }}"
+        here = f"{shown} {(when or {}).get(n, '')}".strip()
         triggers += [
-            f"\t\t\t{prefix}_letter_{n}_visible = {{ {shown} }}\n",
+            f"\t\t\t{prefix}_letter_{n}_visible = {{ {here} }}\n",
             f"\t\t\t{prefix}_letter_{n}_click_enabled = {{ ROOT = {{ NOT = {{ {on} }} }} }}\n",
-            f"\t\t\t{prefix}_lt_{n}_visible = {{ {shown} ROOT = {{ NOT = {{ {on} }} }} }}\n",
-            f"\t\t\t{prefix}_lta_{n}_visible = {{ {shown} ROOT = {{ {on} }} }}\n",
+            f"\t\t\t{prefix}_lt_{n}_visible = {{ {here} ROOT = {{ NOT = {{ {on} }} }} }}\n",
+            f"\t\t\t{prefix}_lta_{n}_visible = {{ {here} ROOT = {{ {on} }} }}\n",
         ]
     return effects, triggers

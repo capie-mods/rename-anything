@@ -57,7 +57,7 @@ from modgen.features.catalog_common import (
     selected_name_loc,
     write_leaf,
 )
-from modgen.script import check_variable
+from modgen.script import check_variable, defined_text
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
@@ -73,6 +73,9 @@ SPRITE = re.compile(
     re.IGNORECASE | re.DOTALL,
 )
 """A ``spriteType`` with its name and texture file (name before texturefile, as in vanilla)."""
+
+DLC_NAME = re.compile(r'^\s*name\s*=\s*"([^"]+)"', re.MULTILINE)
+"""The ``name`` of a ``.dlc`` descriptor, the value ``has_dlc`` takes."""
 
 LEADER = 1
 """``rn_pp_kind`` of the leaders' portraits."""
@@ -141,6 +144,9 @@ class Entry:
     general: bool
     """A general's or admiral's portrait."""
 
+    pack: int = 0
+    """Portrait pack: 0 the base game, ``k`` the DLC ``PortraitCatalog.packs[k]``."""
+
 
 @dataclass(frozen=True)
 class PortraitCatalog:
@@ -155,18 +161,22 @@ class PortraitCatalog:
     tags: tuple[str, ...]
     """Group tags (group ``g`` is ``tags[g - 1]``)."""
 
-    letters: dict[int, tuple[tuple[str, ...], ...]]
-    """Kind to the tags of each letter that have portraits of that kind."""
+    letters: dict[tuple[int, int], tuple[tuple[str, ...], ...]]
+    """``(kind, pack)`` to the tags of each letter that have portraits of that kind and pack."""
+
+    packs: tuple[str, ...] = ("",)
+    """Portrait packs: ``""`` (the base game) first, then the DLC names (``has_dlc``) sorted."""
 
     report: dict[str, int] = field(default_factory=dict)
     """Counts for the generator's summary line."""
 
-    def pool(self, tag: str, kind: int) -> tuple[int, ...]:
-        """Return the indices of a country's portraits of one kind.
+    def pool(self, tag: str, kind: int, pack: int | None = None) -> tuple[int, ...]:
+        """Return the indices of a country's portraits of one kind (and pack).
 
         Args:
             tag: Country tag.
             kind: :data:`LEADER` or :data:`GENERAL`.
+            pack: Pack index, or None for every pack.
 
         Returns:
             Catalog indices in catalog order.
@@ -174,7 +184,9 @@ class PortraitCatalog:
         return tuple(
             n
             for n, e in enumerate(self.entries, start=1)
-            if e.tag == tag and (e.leader if kind == LEADER else e.general)
+            if e.tag == tag
+            and (e.leader if kind == LEADER else e.general)
+            and (pack is None or e.pack == pack)
         )
 
 
@@ -240,6 +252,8 @@ def characters_of(text: str, file_tag: str, tags: set[str]) -> list[Character]:
                 continue
             prefix = token[:TAG_LEN]
             tag = prefix if prefix in tags and token[TAG_LEN : TAG_LEN + 1] == "_" else file_tag
+            if tag not in tags:
+                continue  # no country to list it under (e.g. a shared file like Warlords_China)
             portraits: dict[tuple[str, str], str] = {}
             for k, v in block:
                 if k == "portraits" and isinstance(v, list):
@@ -295,17 +309,27 @@ def build_catalog(
     characters: Iterable[Character],
     textures: dict[str, str],
     english: dict[str, str],
+    dlc_textures: dict[str, tuple[str, str]] | None = None,
 ) -> PortraitCatalog:
     """Build the catalog.
 
+    A portrait whose sprite only a DLC defines belongs to that DLC's pack. The
+    catalog, the pools and every effect are the same for every player; only the UI
+    asks ``has_dlc`` (MP: a state that depends on the local DLC set would go out of
+    sync).
+
     Args:
         characters: Every character of the game.
-        textures: Sprite name to texture file (``interface/*.gfx``).
+        textures: Sprite name to texture file (``interface/*.gfx`` of the base game).
         english: English localisation.
+        dlc_textures: Sprite name to ``(DLC name, texture file)`` from the DLC folders.
 
     Returns:
         The catalog.
     """
+    dlc = dlc_textures or {}
+    known = {**{k: t for k, (_, t) in dlc.items()}, **textures}
+    packs = ("", *sorted({name for name, _ in dlc.values()}))
     found: dict[str, dict[str, object]] = {}
     skipped = 0
     for char in sorted(characters, key=lambda c: c.token):
@@ -317,13 +341,14 @@ def build_catalog(
             large = char.portraits.get((kind, "large"))
             if large is None:
                 continue
-            if not STEM.fullmatch(large) or large not in textures:
+            if not STEM.fullmatch(large) or large not in known:
                 skipped += 1
                 continue
             item = found.setdefault(
                 large,
                 {
-                    "small": _small(large, char.portraits.get((kind, "small")), textures),
+                    "pack": 0 if large in textures else packs.index(dlc[large][0]),
+                    "small": _small(large, char.portraits.get((kind, "small")), known),
                     "tag": char.tag,
                     "label": _label(char, english),
                     "leader": False,
@@ -339,20 +364,32 @@ def build_catalog(
             str(v["label"]),
             bool(v["leader"]),
             bool(v["general"]),
+            int(str(v["pack"])),
         )
         for large, v in sorted(found.items())
     )
+    used = sorted({e.pack for e in entries} | {0})
+    renumber = {old: new for new, old in enumerate(used)}
+    packs = tuple(packs[i] for i in used)
+    entries = tuple(
+        Entry(e.large, e.small, e.tag, e.label, e.leader, e.general, renumber[e.pack])
+        for e in entries
+    )
     group_tags = tuple(sorted({e.tag for e in entries}))
     letters = {
-        kind: letters_of(
+        (kind, pack): letters_of(
             (
                 t
                 for t in group_tags
-                if any(e.tag == t and (e.leader if kind == LEADER else e.general) for e in entries)
+                if any(
+                    e.tag == t and e.pack == pack and (e.leader if kind == LEADER else e.general)
+                    for e in entries
+                )
             ),
             english,
         )
         for kind in (LEADER, GENERAL)
+        for pack in range(len(packs))
     }
     report = {
         "portraits": len(entries),
@@ -361,9 +398,16 @@ def build_catalog(
         "countries": len(group_tags),
         "skipped": skipped,
         "unnamed": sum(e.label == UNNAMED for e in entries),
+        "dlc_portraits": sum(e.pack > 0 for e in entries),
+        "dlc_packs": len(packs) - 1,
     }
     return PortraitCatalog(
-        entries, {e.large: textures[e.large] for e in entries}, group_tags, letters, report
+        entries,
+        {e.large: known[e.large] for e in entries},
+        group_tags,
+        letters,
+        packs=packs,
+        report=report,
     )
 
 
@@ -383,6 +427,30 @@ def read_textures(root: Path) -> dict[str, str]:
     return out
 
 
+def read_dlc_textures(root: Path) -> dict[str, tuple[str, str]]:
+    """Return the sprites the DLC folders define, with the DLC's ``has_dlc`` name.
+
+    Args:
+        root: Game installation folder.
+
+    Returns:
+        Sprite name to ``(DLC name, texture file)``; the first DLC wins.
+    """
+    out: dict[str, tuple[str, str]] = {}
+    for folder in sorted((root / "dlc").glob("*")):
+        descriptor = next(iter(sorted(folder.glob("*.dlc"))), None)
+        if descriptor is None:
+            continue
+        match = DLC_NAME.search(descriptor.read_text(encoding="utf-8", errors="replace"))
+        if not match:
+            continue
+        for path in sorted((folder / "interface").glob("*.gfx")):
+            text = path.read_text(encoding="utf-8", errors="replace")
+            for name, texture in SPRITE.findall(text):
+                out.setdefault(name, (match[1], texture.replace("\\", "/").replace("//", "/")))
+    return out
+
+
 def read_catalog(root: str) -> PortraitCatalog:
     """Read the catalog from a HOI4 installation.
 
@@ -398,7 +466,7 @@ def read_catalog(root: str) -> PortraitCatalog:
     for path in sorted((game / "common" / "characters").glob("*.txt")):
         text = path.read_text(encoding="utf-8-sig", errors="replace")
         chars += characters_of(text, path.stem, tags)
-    return build_catalog(chars, read_textures(game), read_english(root))
+    return build_catalog(chars, read_textures(game), read_english(root), read_dlc_textures(game))
 
 
 # ----------------------------------------------------------------------------- output
@@ -437,19 +505,24 @@ def _fill_group(catalog: PortraitCatalog) -> list[str]:
     """
     leaves = {}
     for g, tag in enumerate(catalog.tags, start=1):
-        leaders = " ".join(
-            f"add_to_array = {{ rn_pp_list = {i} }}" for i in catalog.pool(tag, LEADER)
-        )
-        generals = " ".join(
-            f"add_to_array = {{ rn_pp_list = {i} }}" for i in catalog.pool(tag, GENERAL)
-        )
-        leaves[g] = (
-            f"if = {{ limit = {{ check_variable = {{ rn_pp_kind = {GENERAL} }} }} {generals} }} "
-            f"else = {{ {leaders} }}"
-        )
+        parts = []
+        for kind in (LEADER, GENERAL):
+            for pack in range(len(catalog.packs)):
+                pool = catalog.pool(tag, kind, pack)
+                if not pool:
+                    continue
+                adds = " ".join(f"add_to_array = {{ rn_pp_list = {i} }}" for i in pool)
+                word = "if" if not parts else "else_if"
+                parts.append(
+                    f"{word} = {{ limit = {{ check_variable = {{ rn_pp_kind = {kind} }} "
+                    f"check_variable = {{ rn_pp_pack = {pack} }} }} {adds} }}"
+                )
+        if parts:
+            leaves[g] = " ".join(parts)
     return [
         "# ROOT scope. Input temp rn_pp_g (1..groups). Adds the group's portraits of the kind\n",
-        f"# ROOT.rn_pp_kind ({LEADER} leaders, {GENERAL} generals) to rn_pp_list.\n",
+        f"# ROOT.rn_pp_kind ({LEADER} leaders, {GENERAL} generals) and the pack ROOT.rn_pp_pack\n",
+        "# (0 base game, k a DLC) to rn_pp_list. No DLC check here: the list is game state.\n",
         "rn_pp_fill_group = {\n",
         *dispatch("temp_var:rn_pp_g", 1, len(catalog.tags), leaves, "\t"),
         "}\n\n",
@@ -457,7 +530,7 @@ def _fill_group(catalog: PortraitCatalog) -> list[str]:
 
 
 def _fill_letter(catalog: PortraitCatalog) -> list[str]:
-    """Return ``rn_pp_fill_letter``: the countries of a letter that have the current kind.
+    """Return ``rn_pp_fill_letter``: the countries of a letter with the current kind and pack.
 
     Args:
         catalog: The catalog.
@@ -467,28 +540,25 @@ def _fill_letter(catalog: PortraitCatalog) -> list[str]:
     """
     out = [
         "# ROOT scope. Adds the countries of letter rn_pp_letter that have portraits of the kind\n",
-        "# rn_pp_kind, sorted by English name, to rn_pp_list.\n",
+        "# rn_pp_kind in the pack rn_pp_pack, sorted by English name, to rn_pp_list.\n",
         "rn_pp_fill_letter = {\n",
     ]
-    for kind in (LEADER, GENERAL):
-        word = "if" if kind == LEADER else "else"
-        guard = (
-            f"limit = {{ check_variable = {{ rn_pp_kind = {LEADER} }} }} " if kind == LEADER else ""
-        )
-        out.append(f"\t{word} = {{\n\t\t{guard}\n")
-        first = True
-        for n, tags in enumerate(catalog.letters[kind], start=1):
+    first = True
+    for (kind, pack), letters in catalog.letters.items():
+        for n, tags in enumerate(letters, start=1):
             if not tags:
                 continue
             adds = " ".join(
                 f"{t} = {{ ROOT = {{ add_to_array = {{ rn_pp_list = PREV }} }} }}" for t in tags
             )
-            w = "if" if first else "else_if"
+            word = "if" if first else "else_if"
             first = False
-            out.append(
-                f"\t\t{w} = {{ limit = {{ {check_variable(f'rn_pp_letter = {n}')} }} {adds} }}\n"
+            cond = (
+                f"check_variable = {{ rn_pp_kind = {kind} }} "
+                f"check_variable = {{ rn_pp_pack = {pack} }} "
+                f"{check_variable(f'rn_pp_letter = {n}')}"
             )
-        out.append("\t}\n")
+            out.append(f"\t{word} = {{ limit = {{ {cond} }} {adds} }}\n")
     out.append("}\n\n")
     return out
 
@@ -588,6 +658,7 @@ def effects(catalog: PortraitCatalog) -> str:
         "rn_pp_catalog = {\n",
         f"\tset_temp_variable = {{ rn_pp_n = {n} }}\n",
         f"\tset_temp_variable = {{ rn_pp_cat = {_fingerprint(catalog)} }}\n",
+        f"\tset_temp_variable = {{ rn_pp_packs = {len(catalog.packs)} }}\n",
         "}\n\n",
         "# Country scope. Output temp rn_pp_g: portrait group of the original tag, 0 = none.\n",
         "rn_pp_group_of = {\n\tset_temp_variable = { rn_pp_g = 0 }\n",
@@ -624,6 +695,15 @@ def scripted_loc(catalog: PortraitCatalog) -> str:
             ),
             "# Days left of the portrait cooldown (scope: the country whose leader changes).\n",
             days_left_loc("RN_IP_CD_LEFT_PORTRAIT", "rn_ip_cd_portrait_until"),
+            "# Name of the shown portrait pack (ROOT.rn_pp_pack).\n",
+            defined_text(
+                "RN_PP_PACK_NAME",
+                [
+                    (check_variable(f"rn_pp_pack = {k}"), f"RN_PP_PACK_{k}")
+                    for k in range(1, len(catalog.packs))
+                ],
+                "RN_PP_PACK_0",
+            ),
         ]
     )
 
@@ -643,6 +723,8 @@ def localisation(catalog: PortraitCatalog, lang: str) -> str:
     lines = [f"l_{lang}:\n"]
     lines += bucket_lines("RN_PP_SEL_NAME", len(catalog.entries), "RN_PPB_")
     lines += [f' RN_PPL_{n}:0 "{e.label}"\n' for n, e in enumerate(catalog.entries, start=1)]
+    lines.append(' RN_PP_PACK_0:0 "$RN_PP_BASE_GAME$"\n')
+    lines += [f' RN_PP_PACK_{k}:0 "{name}"\n' for k, name in enumerate(catalog.packs) if k]
     return "".join(lines)
 
 
