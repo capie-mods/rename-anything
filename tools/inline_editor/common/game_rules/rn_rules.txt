@@ -42,3 +42,28 @@ rn_rename_event = {
 		allow_achievements = yes
 	}
 }
+
+# Flag pool (decision 2026-10-14 "flagi", ADR-0032): every flag of the game by default; the
+# country's own flags; or those plus the overlord's current flag (a snapshot, kept after independence).
+rn_flag_pool = {
+	name = "RN_RULE_FLAG_POOL"
+	group = "RULE_GROUP_GAMEPLAY"
+	default = {
+		name = "RN_FLAG_POOL_ALL"
+		text = "RN_RULE_FLAG_POOL_ALL"
+		desc = "RN_RULE_FLAG_POOL_ALL_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_FLAG_POOL_OWN"
+		text = "RN_RULE_FLAG_POOL_OWN"
+		desc = "RN_RULE_FLAG_POOL_OWN_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_FLAG_POOL_OWN_OVERLORD"
+		text = "RN_RULE_FLAG_POOL_OWN_OVERLORD"
+		desc = "RN_RULE_FLAG_POOL_OWN_OVERLORD_DESC"
+		allow_achievements = yes
+	}
+}

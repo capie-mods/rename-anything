@@ -12,6 +12,7 @@
 # Opening (called in the subject's scope from the diplomacy view; ROOT = the player).
 rn_sub_open_common = {
 	ROOT = {
+		rn_fp_close = yes
 		clr_country_flag = rn_fac_open
 		clr_country_flag = rn_sub_open_country
 		clr_country_flag = rn_sub_open_leader

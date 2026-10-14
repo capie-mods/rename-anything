@@ -37,11 +37,11 @@ guiTypes = {
 	}
 	containerWindowType = {
 		name = "rn_ip_country_window"
-		# Opened overlay 18..438 x 28..160 temporarily covers the title subtitle row, the top of the
+		# Opened overlay 18..438 x 28..196 (tab row Name | Flag on top) temporarily covers the title subtitle row, the top of the
 		# portrait (from y58) and the top of the national-focus box. Design-system grid: each field
 		# has its own label (a labelled row adds 12 px, rows repeat every 42 px), status line last.
 		position = { x = 18 y = 28 }
-		size = { width = 420 height = 132 }
+		size = { width = 420 height = 168 }
 		orientation = upper_left
 		clipping = no
 		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
@@ -77,16 +77,35 @@ guiTypes = {
 			fixedsize = yes
 			alwaystransparent = yes
 		}
+		# Tabs: Name (this editor, disabled) and Flag (the flag picker capie_v1_ed__rn__flag, same place).
+		buttonType = {
+			name = "rn_ip_country_tab_name"
+			position = { x = 0 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_FP_TAB_NAME"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FP_TAB_NAME_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_ip_country_tab_flag"
+			position = { x = 96 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_FP_TAB_FLAG"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_FP_TAB_FLAG_TT"
+			clicksound = click_default
+		}
 		containerWindowType = {
 			name = "rn_ipc_name_frame"
-			position = { x = 0 y = 12 }
+			position = { x = 0 y = 48 }
 			size = { width = 364 height = 26 }
 			clipping = no
 			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
 		}
 		containerWindowType = {
 			name = "rn_ipc_adj_frame"
-			position = { x = 0 y = 54 }
+			position = { x = 0 y = 90 }
 			size = { width = 364 height = 26 }
 			clipping = no
 			background = { name = "Background" spriteType = "GFX_tiles_dark_area_cut_8" alwaysTransparent = yes }
@@ -94,7 +113,7 @@ guiTypes = {
 		# Visible field labels (design system: a tooltip alone is not enough).
 		instantTextboxType = {
 			name = "rn_ipc_name_label"
-			position = { x = 6 y = 0 }
+			position = { x = 6 y = 36 }
 			font = "Arial12"
 			text = "RN_IPC_LABEL_NAME"
 			maxWidth = 356
@@ -104,7 +123,7 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_ipc_adj_label"
-			position = { x = 6 y = 42 }
+			position = { x = 6 y = 78 }
 			font = "Arial12"
 			text = "RN_IPC_LABEL_ADJ"
 			maxWidth = 356
@@ -114,7 +133,7 @@ guiTypes = {
 		}
 		editBoxType = {
 			name = "rn_ip_country_name_edit"
-			position = { x = 4 y = 15 }
+			position = { x = 4 y = 51 }
 			size = { x = 356 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
@@ -123,7 +142,7 @@ guiTypes = {
 		}
 		editBoxType = {
 			name = "rn_ip_country_adj_edit"
-			position = { x = 4 y = 57 }
+			position = { x = 4 y = 93 }
 			size = { x = 356 y = 20 }
 			font = "hoi_18"
 			borderSize = { x = 0 y = 0 }
@@ -132,7 +151,7 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_ip_country_apply"
-			position = { x = 370 y = 15 }
+			position = { x = 370 y = 51 }
 			scale = 0.67 # 20x20
 			quadTextureSprite = "GFX_preset_button_save"
 			buttonFont = "hoi_18mbs"
@@ -142,7 +161,7 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_ip_country_cancel"
-			position = { x = 396 y = 17 }
+			position = { x = 396 y = 53 }
 			quadTextureSprite = "GFX_closebutton_16"
 			clicksound = click_close
 			pdx_tooltip = "RN_IPC_CANCEL"
@@ -151,7 +170,7 @@ guiTypes = {
 		# removes the player-given name (rn_country_name_carrier_clear); flag and colour stay.
 		buttonType = {
 			name = "rn_ip_country_reset"
-			position = { x = 297 y = 98 }
+			position = { x = 297 y = 134 }
 			spriteType = "GFX_button_123x34"
 			buttonText = "RN_IP_RESET_NAME"
 			buttonFont = "hoi_16mbs"
@@ -160,7 +179,7 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_ip_country_status"
-			position = { x = 6 y = 82 }
+			position = { x = 6 y = 118 }
 			font = "Arial12"
 			text = "[ROOT.RN_IP_STATUS]"
 			maxWidth = 408

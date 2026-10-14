@@ -1,0 +1,39 @@
+# Country flag carrier: the only place that writes the CAPIE flag layer (plugin/capie/CONTRACT.md
+# section 17, API level 6, CAPIE 1.4). Scope: the country whose flag changes.
+#   capie_cf_s / capie_cf_len      stem of the chosen file, three characters per element (17.3)
+#   capie_cf_cos / capie_cf_cos_len snapshot of the cosmetic tag at the time of the choice (17.4);
+#                                  absent when the country has no cosmetic tag this mod knows
+#   capie_cf_ver = 1               layer set; capie_cf_rev = 1 always LAST, without a scope prefix
+# Mod bookkeeping next to it: rn_cf_idx (catalog index, for the picker's preview and an overlord's
+# snapshot) and rn_cf_cat (catalog fingerprint; another one means rn_cf_idx is stale).
+# The name layer, the cosmetic tag and the map colour are never touched here.
+
+# Input temp rn_cf_in: catalog index (1..catalog size). An index without a stem removes the layer.
+rn_country_flag_carrier_set = {
+	rn_fp_catalog = yes
+	clear_array = capie_cf_s
+	clear_variable = capie_cf_len
+	set_temp_variable = { rn_fp_w = temp_var:rn_cf_in }
+	rn_fp_write_stem = yes
+	if = {
+		limit = { check_variable = { capie_cf_len > 0 } }
+		rn_fp_cos_write = yes
+		set_variable = { rn_cf_idx = temp_var:rn_cf_in }
+		set_variable = { rn_cf_cat = temp_var:rn_fp_cat }
+		set_variable = { capie_cf_ver = 1 }
+		set_variable = { capie_cf_rev = 1 }
+	}
+	else = { rn_country_flag_carrier_clear = yes }
+}
+
+# Removes the layer; the game's flag comes back. Nothing else changes.
+rn_country_flag_carrier_clear = {
+	clear_array = capie_cf_s
+	clear_array = capie_cf_cos
+	clear_variable = capie_cf_len
+	clear_variable = capie_cf_cos_len
+	clear_variable = capie_cf_ver
+	clear_variable = rn_cf_idx
+	clear_variable = rn_cf_cat
+	set_variable = { capie_cf_rev = 1 }
+}
