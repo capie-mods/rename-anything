@@ -44,13 +44,14 @@ real text field instead: any name you can type, Polish letters included, saved i
 | Your country's name and adjective | Pencil on the Politics panel title | <span class="st st-today">Works today</span> needs CAPIE; flag and colour stay |
 | Your country's leader | Pencil next to the portrait in the Politics panel | <span class="st st-today">Works today</span> |
 | Your ruling party, short and full name | Pencil in the Politics panel | <span class="st st-today">Works today</span> |
-| Parties of the other ideology groups | Same editor, one tab per group | <span class="st st-progress">In progress</span> two of four groups checked |
+| Parties of the other ideology groups | Same editor, one tab per group | <span class="st st-today">Works today</span> |
 | States | State view on the map, or the name editor | <span class="st st-today">Works today</span> |
 | Cities (victory points) | "Cities" in the state view, or the name editor | <span class="st st-today">Works today</span> |
 | Generals, admirals, advisers | The name editor, from the decision "Rename characters" | <span class="st st-today">Works today</span> |
 | Your subjects: name and adjective, leader, ruling party | Diplomacy, action "Rename this country" | <span class="st st-today">Works today</span> needs CAPIE |
 | Back to the game's country name | "Restore name" in the country editor | <span class="st st-progress">In progress</span> |
 | Your faction's name | Diplomacy, action "Rename faction" | <span class="st st-progress">In progress</span> needs CAPIE 1.4; checked once on a developer build |
+| Your leader's portrait | | <span class="st st-progress">In progress</span> being prepared; see [game rules](game-rules.md#portrait) |
 | Your country's flag | Flag tab of the country and subject editors | <span class="st st-progress">In progress</span> needs CAPIE 1.4; checked once on a developer build |
 
 Names survive saving, loading and a full restart of the game. Map labels, diplomacy, tooltips

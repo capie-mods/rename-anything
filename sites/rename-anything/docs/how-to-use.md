@@ -30,8 +30,8 @@ type into the game's text field.
    party's current name. Pick the group you want; it does not have to be the party in power.
 3. Fill in both fields, "Short name" and "Full name", and press <kbd>Enter</kbd>.
 
-The new party name shows in the panel right away. Needs CAPIE. The ruling party has been checked
-in the game; of the other groups, one has so far.
+The new party name shows in the panel right away. Needs CAPIE. All four groups have been checked
+in the game.
 
 ## Your country's name and adjective
 

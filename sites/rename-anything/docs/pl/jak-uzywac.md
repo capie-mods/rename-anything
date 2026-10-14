@@ -24,8 +24,7 @@ w pole tekstowe gry.
    obecną nazwę tej partii. Wybierz grupę; nie musi to być partia u władzy.
 3. Wypełnij oba pola, „Krótka nazwa” i „Pełna nazwa”, i naciśnij <kbd>Enter</kbd>.
 
-Nową nazwę partii widać w panelu od razu. Wymaga CAPIE. Partię rządzącą sprawdzono w grze; z
-pozostałych grup na razie 1.
+Nową nazwę partii widać w panelu od razu. Wymaga CAPIE. Wszystkie 4 grupy sprawdzono w grze.
 
 ## Nazwa i przymiotnik państwa
 

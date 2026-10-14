@@ -53,6 +53,7 @@
                 # (tools/promo/promo.py) and the reviewed screenshots it reads.
                 'docs/assets/promo/capie/'
                 'docs/assets/promo/workshop/capie.bbcode'
+                'docs/assets/promo/workshop/capie.pl.bbcode'
                 'docs/assets/screenshots/source/'
                 'tools/promo/'
                 # Root tool configuration (rewritten for the new repository after the split).

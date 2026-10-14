@@ -46,13 +46,14 @@ pole tekstowe: każda nazwa, którą da się wpisać, także z polskimi literami
 | Nazwa i przymiotnik państwa | Ołówek przy tytule panelu Polityka | <span class="st st-today">Działa dziś</span> wymaga CAPIE; flaga i kolor bez zmian |
 | Przywódca państwa | Ołówek obok portretu w panelu Polityka | <span class="st st-today">Działa dziś</span> |
 | Partia rządząca, krótka i pełna nazwa | Ołówek w panelu Polityka | <span class="st st-today">Działa dziś</span> |
-| Partie pozostałych grup ideologicznych | Ten sam edytor, jedna zakładka na grupę | <span class="st st-progress">W przygotowaniu</span> sprawdzone 2 z 4 grup |
+| Partie pozostałych grup ideologicznych | Ten sam edytor, jedna zakładka na grupę | <span class="st st-today">Działa dziś</span> |
 | Stany | Widok stanu na mapie albo edytor nazw | <span class="st st-today">Działa dziś</span> |
 | Miasta (punkty zwycięstwa) | „Miasta” w widoku stanu albo edytor nazw | <span class="st st-today">Działa dziś</span> |
 | Generałowie, admirałowie, doradcy | Edytor nazw, z decyzji „Zmień nazwy postaci” | <span class="st st-today">Działa dziś</span> |
 | Podmioty: nazwa i przymiotnik, przywódca, partia rządząca | Dyplomacja, akcja „Zmień nazwy tego państwa” | <span class="st st-today">Działa dziś</span> wymaga CAPIE |
 | Powrót do nazwy państwa z gry | „Przywróć nazwę” w edytorze państwa | <span class="st st-progress">W przygotowaniu</span> |
 | Nazwa frakcji | Dyplomacja, akcja „Zmień nazwę frakcji” | <span class="st st-progress">W przygotowaniu</span> wymaga CAPIE 1.4; sprawdzone raz na wersji rozwojowej |
+| Portret przywódcy | | <span class="st st-progress">W przygotowaniu</span> zobacz [reguły gry](reguly-gry.md#portrait) |
 | Flaga państwa | Karta „Flaga” w edytorze państwa i podmiotu | <span class="st st-progress">W przygotowaniu</span> wymaga CAPIE 1.4; sprawdzone raz na wersji rozwojowej |
 
 Nazwy przetrwają zapis, wczytanie i pełne ponowne uruchomienie gry. Etykiety na mapie,
