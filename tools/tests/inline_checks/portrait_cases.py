@@ -131,7 +131,9 @@ def check_portrait_geometry() -> None:
         for i, a in enumerate(names):
             for b in names[i + 1 :]:
                 grids = {a, b} == {"rn_pp_grid", "rn_pp_rows_grid"}
-                assert grids or disjoint(controls[a], controls[b]), (picker.key, a, b)
+                # The pack steps share two places; exactly one per place is visible.
+                steps = a.startswith("rn_pp_pack_") and b.startswith("rn_pp_pack_")
+                assert grids or steps or disjoint(controls[a], controls[b]), (picker.key, a, b)
         assert inside(rects["rn_pp_preview"], rects["rn_pp_frame"])
         if picker is pp.OWN:
             assert x >= POLITICS_LEADER_FRAME_RIGHT, "the current portrait stays visible"
@@ -259,25 +261,28 @@ def run_portrait_catalog(inp: PortraitInputs) -> int:
         assert decode(char.arrays["capie_pt_s"], char.vars["capie_pt_len"]) == e.large, n
         assert decode(char.arrays["capie_pt_ss"], char.vars["capie_pt_slen"]) == e.small, n
     root = vm.nations[vm.root]
+    packs = range(len(cat.packs))
     for g, tag in enumerate(cat.tags, start=1):
         for kind in (LEADER, GENERAL):
-            root.vars["rn_pp_kind"] = Decimal(kind)
-            root.arrays["rn_pp_list"] = []
-            vm.temp = {"rn_pp_g": Decimal(g)}
-            vm.run("rn_pp_fill_group")
-            assert root.arrays["rn_pp_list"] == [Decimal(i) for i in cat.pool(tag, kind)], (
-                tag,
-                kind,
-            )
+            for pack in packs:
+                root.vars.update(rn_pp_kind=Decimal(kind), rn_pp_pack=Decimal(pack))
+                root.arrays["rn_pp_list"] = []
+                vm.temp = {"rn_pp_g": Decimal(g)}
+                vm.run("rn_pp_fill_group")
+                want = [Decimal(i) for i in cat.pool(tag, kind, pack)]
+                assert root.arrays["rn_pp_list"] == want, (tag, kind, pack)
     for kind in (LEADER, GENERAL):
-        seen: list[str] = []
-        for letter in range(1, 27):
-            root.vars.update(rn_pp_kind=Decimal(kind), rn_pp_letter=Decimal(letter))
-            root.arrays["rn_pp_list"] = []
-            vm.run("rn_pp_fill_letter")
-            seen += [r.tag for r in root.arrays["rn_pp_list"]]
-        assert sorted(seen) == sorted(t for t in cat.tags if cat.pool(t, kind)), kind
-    return 2 * len(cat.entries) + 2 * len(cat.tags) + 2
+        for pack in packs:
+            seen: list[str] = []
+            for letter in range(1, 27):
+                root.vars.update(
+                    rn_pp_kind=Decimal(kind), rn_pp_pack=Decimal(pack), rn_pp_letter=Decimal(letter)
+                )
+                root.arrays["rn_pp_list"] = []
+                vm.run("rn_pp_fill_letter")
+                seen += [r.tag for r in root.arrays["rn_pp_list"]]
+            assert sorted(seen) == sorted(t for t in cat.tags if cat.pool(t, kind, pack))
+    return 2 * len(cat.entries) + 2 * len(cat.tags) * len(cat.packs) + 2 * len(cat.packs)
 
 
 def _own_tags(cat: PortraitCatalog) -> tuple[str, str]:
@@ -289,8 +294,8 @@ def _own_tags(cat: PortraitCatalog) -> tuple[str, str]:
     Returns:
         ``(own, subject)``.
     """
-    both = [t for t in cat.tags if cat.pool(t, LEADER) and cat.pool(t, GENERAL)]
-    leaders = [t for t in cat.tags if cat.pool(t, LEADER) and t not in both[:1]]
+    both = [t for t in cat.tags if cat.pool(t, LEADER, 0) and cat.pool(t, GENERAL, 0)]
+    leaders = [t for t in cat.tags if cat.pool(t, LEADER, 0) and t not in both[:1]]
     return both[0], leaders[0]
 
 
@@ -306,7 +311,7 @@ def run_portrait_picker(inp: PortraitInputs) -> int:  # noqa: PLR0915 - one scen
     cat = inp.cat
     own, sub = _own_tags(cat)
     stranger_leader = next(i for t in cat.tags if t not in {own, sub} for i in cat.pool(t, LEADER))
-    own_leader, own_general = cat.pool(own, LEADER)[0], cat.pool(own, GENERAL)[0]
+    own_leader, own_general = cat.pool(own, LEADER, 0)[0], cat.pool(own, GENERAL, 0)[0]
     cases = 0
 
     vm = inp.vm(own, sub)
@@ -316,7 +321,7 @@ def run_portrait_picker(inp: PortraitInputs) -> int:  # noqa: PLR0915 - one scen
     assert "rn_pp_open_own" in root.flags
     assert root.arrays["rn_pp_char_arr"] == [Ref(f"c_{own}")], "the country leader is pinned"
     assert root.vars["rn_pp_init"] == 0, "the game's portrait has no getter"
-    assert root.arrays["rn_pp_cells"] == [Decimal(i) for i in cat.pool(own, LEADER)[: pp.PAGE]]
+    assert root.arrays["rn_pp_cells"] == [Decimal(i) for i in cat.pool(own, LEADER, 0)[: pp.PAGE]]
     cases += 1
 
     # CAPIE 1.4 sends API level 6 and no capie_portrait: refused before anything else.
@@ -438,6 +443,157 @@ def run_portrait_picker(inp: PortraitInputs) -> int:  # noqa: PLR0915 - one scen
     return cases
 
 
+def run_portrait_dlc(inp: PortraitInputs) -> int:  # noqa: PLR0915 - one scenario per check
+    """DLC packs: MP-safe state, the stepper for several sets of owned DLC, and Apply without DLC.
+
+    ``has_dlc`` may appear only in visible triggers of the local window: no effect,
+    trigger file or game-state write may read it. The stepper's visible triggers are
+    evaluated for sets of owned DLC; from the base game, "next" must walk exactly the
+    owned packs in order (no gaps), and "previous" back.
+
+    Args:
+        inp: Inputs.
+
+    Returns:
+        Number of cases.
+    """
+    for folder in ("scripted_effects", "scripted_triggers", "on_actions", "scripted_localisation"):
+        for path in (SOURCE / "common" / folder).glob("*.txt"):
+            assert "has_dlc" not in path.read_text(encoding="utf-8-sig"), path
+        for path in (MOD / "common" / folder).glob("rn_*.txt"):
+            assert "has_dlc" not in path.read_text(encoding="utf-8-sig"), path
+    model = models_of(MOD / "common" / "scripted_guis", "rn_portrait_picker.txt")[pp.OWN.key]
+    for name, _, body in get(model, "effects"):
+        assert "has_dlc" not in str(body), name
+    for name, _, body in get(model, "triggers"):
+        if "has_dlc" in str(body):
+            assert name.endswith("_visible"), ("has_dlc only decides what the local UI shows", name)
+    cat = inp.cat
+    packs = cat.packs
+    visible = {
+        name.removesuffix("_visible"): body
+        for name, _, body in get(model, "triggers")
+        if name.startswith("rn_pp_pack_")
+        and name.endswith("_visible")
+        and name != "rn_pp_pack_name_visible"
+    }
+    cases = 0
+    for owned in (set(), set(range(1, len(packs))), {1, len(packs) - 1}, {2, 3}):
+        current, walked = 0, [0]
+        while True:
+            nexts = [
+                b
+                for (a, b) in _steps(visible)
+                if a == current
+                and b > current
+                and _holds(visible[f"rn_pp_pack_{a}_{b}"], current, owned, packs)
+            ]
+            assert len(nexts) <= 1, (owned, current, nexts)
+            if not nexts:
+                break
+            current = nexts[0]
+            walked.append(current)
+        assert walked == [0, *sorted(owned)], (owned, walked)
+        backs = [
+            b
+            for (a, b) in _steps(visible)
+            if a == current
+            and b < current
+            and _holds(visible[f"rn_pp_pack_{a}_{b}"], current, owned, packs)
+        ]
+        expected_back = ([0, *sorted(owned)][-2:-1]) if owned else []
+        assert backs == expected_back, (owned, backs)
+        cases += 1
+    # Apply takes a DLC portrait by its index; the state does not depend on the local DLC set.
+    own, sub = _own_tags(cat)
+    dlc_leader = next(n for n, e in enumerate(cat.entries, start=1) if e.pack > 0 and e.leader)
+    vm = inp.vm(own, sub)
+    vm.temp = {}
+    vm.run("rn_pp_open_own")
+    assert _apply(vm, dlc_leader) == 0, "a DLC portrait is applied like any other"
+    entry = cat.entries[dlc_leader - 1]
+    char = vm.nations[f"c_{own}"]
+    assert decode(char.arrays["capie_pt_s"], char.vars["capie_pt_len"]) == entry.large
+    # The pack stepper's effect: pages of a pack are counted from game state only.
+    dlc_tag = entry.tag
+    vm = inp.vm(own, sub)
+    vm.temp = {}
+    vm.run("rn_pp_open_own")
+    vm.temp = {}
+    root = vm.nations[own]
+    root.vars["rn_pp_view"] = Decimal(1)
+    root.vars["rn_pp_src"] = Ref(dlc_tag)
+    root.flags.discard("rn_pp_view_target")
+    vm.temp = {"rn_pp_pk": Decimal(entry.pack)}
+    vm.run("rn_pp_pick_pack")
+    pool = cat.pool(dlc_tag, LEADER, entry.pack)
+    assert root.vars["rn_pp_pack"] == entry.pack
+    assert root.arrays["rn_pp_cells"] == [Decimal(i) for i in pool[: pp.PAGE]]
+    assert root.vars["rn_pp_pages"] == (len(pool) + pp.PAGE - 1) // pp.PAGE
+    vm.temp = {"rn_pp_pk": Decimal(len(packs))}
+    vm.run("rn_pp_pick_pack")
+    assert root.vars["rn_pp_pack"] == entry.pack, "no pack outside the catalog"
+    return cases + 3
+
+
+def _steps(visible: dict[str, Any]) -> list[tuple[int, int]]:
+    """Return the ``(from, to)`` pairs of the pack step buttons.
+
+    Args:
+        visible: Step name to its visible trigger.
+
+    Returns:
+        Pairs.
+    """
+    out = []
+    for name in visible:
+        a, b = name.removeprefix("rn_pp_pack_").split("_")
+        out.append((int(a), int(b)))
+    return out
+
+
+def _holds(trigger: list[Any], current: int, owned: set[int], packs: tuple[str, ...]) -> bool:
+    """Evaluate a step's visible trigger for the shown pack and a set of owned DLC.
+
+    Args:
+        trigger: Trigger body.
+        current: ``rn_pp_pack``.
+        owned: Indices of the owned packs.
+        packs: Pack names.
+
+    Returns:
+        Whether the button shows.
+    """
+
+    def one(key: str, value: Any) -> bool:  # noqa: ANN401 - parse-tree value
+        """Evaluate one node.
+
+        Args:
+            key: Node key.
+            value: Node value.
+
+        Returns:
+            The result.
+
+        Raises:
+            AssertionError: An unexpected trigger.
+        """
+        if key == "ROOT":
+            return all(one(k, v) for k, _, v in value)
+        if key == "check_variable":
+            ((_, _, rhs),) = value
+            return bool(int(rhs) == current)
+        if key == "has_dlc":
+            return bool(packs.index(value.strip('"')) in owned)
+        if key == "NOT":
+            return not any(one(k, v) for k, _, v in value)
+        if key == "always":
+            return bool(value == "yes")
+        raise AssertionError(key)
+
+    return all(one(k, v) for k, _, v in trigger)
+
+
 def run_portrait_cases() -> dict[str, int]:
     """Run every portrait VM case (skipped without the game, which the catalog comes from).
 
@@ -450,6 +606,7 @@ def run_portrait_cases() -> dict[str, int]:
     return {
         "portrait_catalog_cases": run_portrait_catalog(inp),
         "portrait_picker_cases": run_portrait_picker(inp),
+        "portrait_dlc_cases": run_portrait_dlc(inp),
     }
 
 

@@ -110,6 +110,7 @@ rn_pp_open_common = {
 	set_variable = { rn_pp_sel = rn_pp_init }
 	set_variable = { rn_pp_kind = 1 }
 	set_variable = { rn_pp_letter = 1 }
+	set_variable = { rn_pp_pack = 0 }
 	rn_pp_show_target = yes
 }
 
@@ -135,6 +136,7 @@ rn_pp_close = {
 	clear_variable = rn_pp_sel
 	clear_variable = rn_pp_init
 	clear_variable = rn_pp_view
+	clear_variable = rn_pp_pack
 	clear_variable = rn_pp_page
 	clear_variable = rn_pp_pages
 	clear_variable = rn_pp_page_disp
@@ -194,6 +196,23 @@ rn_pp_set_kind = {
 			}
 		}
 		set_variable = { rn_pp_kind = temp_var:rn_pp_k }
+		set_variable = { rn_pp_page = 0 }
+		rn_pp_build = yes
+	}
+}
+
+# ROOT scope. Input temp rn_pp_pk: portrait pack (0 base game, k a DLC). The stepper's buttons show
+# only packs the local player owns (the DLC check is in their visible triggers, UI only); the click carries
+# the target pack, so this state is the same on every client. No DLC check here (MP).
+rn_pp_pick_pack = {
+	rn_pp_catalog = yes
+	if = {
+		limit = {
+			rn_pp_is_open = yes
+			NOT = { check_variable = { temp_var:rn_pp_pk < 0 } }
+			check_variable = { temp_var:rn_pp_pk < temp_var:rn_pp_packs }
+		}
+		set_variable = { rn_pp_pack = temp_var:rn_pp_pk }
 		set_variable = { rn_pp_page = 0 }
 		rn_pp_build = yes
 	}
