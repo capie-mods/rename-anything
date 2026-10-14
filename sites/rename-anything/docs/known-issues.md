@@ -7,30 +7,13 @@ description: Known issues in the current Rename Anything development builds and 
 These come from the latest test runs on development builds (HOI4 1.19.3.0, single player). Each
 one says what happens and what to do until it is fixed.
 
-## The leader's name updates only after you reopen Politics <span class="st st-progress">In progress</span> { #leader-refresh }
-
-After you rename your leader, the Politics panel keeps showing the old name. The new name is
-already applied: it shows as soon as you close the Politics panel and open it again. Party names
-update right away.
-
-A fix exists and was loaded in the last test, but a safety check in it did not recognise the
-panel, so it stayed switched off on purpose. It is being reworked.
-
-What to do: close and reopen the Politics panel.
-
 ## Edit mode stays on after you close Politics <span class="st st-progress">In progress</span> { #edit-mode }
 
 If you close the Politics panel (for example with <kbd>Esc</kbd>) while an editor is open, the
-editor disappears with the panel, but Rename Anything still thinks you are editing. When you open
-the panel again, Apply and Enter in that editor can do nothing, without a message.
+editor disappears with the panel, but Rename Anything still thinks you are editing.
 
-What to do: click Cancel (the small cross) in the editor, then open it again with the pencil. Or
-apply or cancel your edit before you close the panel.
-
-## Multiplayer is not supported <span class="st st-not">Not supported</span> { #multiplayer }
-
-Rename Anything and CAPIE were never tested with two players. Do not use them in multiplayer.
-Remove the CAPIE launch option before you join or host a multiplayer game.
+What to do: open the panel again and apply or cancel the edit. Or apply or cancel before you
+close the panel.
 
 ## The text field takes more than 32 characters
 
@@ -38,10 +21,28 @@ The game's text field lets you keep typing past 32 characters. Rename Anything t
 name with a red line ("Name not accepted: up to 32 characters the game can show.") and changes
 nothing. Shorten the name and press <kbd>Enter</kbd> again.
 
-## Renaming a subject's names
+## A long leader name runs under the pencil
 
-As an overlord you cannot rename your subjects' names yet. The place for it exists but is hidden
-while it is <span class="st st-progress">In progress</span>.
+In the Politics panel a long leader name can reach the pencil next to the portrait. The pencil
+still works.
+
+## Multiplayer is not supported <span class="st st-not">Not supported</span> { #multiplayer }
+
+Rename Anything and CAPIE were never tested with two players. Do not use them in multiplayer.
+Switch CAPIE off before you join or host a multiplayer game.
+
+## New features not yet checked in the game <span class="st st-progress">In progress</span> { #unchecked }
+
+"Restore name", the [game rules](game-rules.md) and the rename news event are in the mod but have
+not been checked in the game yet. Faction names need a newer CAPIE; with the current one the
+faction editor changes nothing and says so.
+
+## Older saves with a custom country name
+
+Saves made with the first development builds stored a custom country name as a cosmetic tag, which
+also changed the flag. Such a country keeps showing its name. The first time you rename or restore
+it, Rename Anything moves the name to the new storage and drops that cosmetic tag. The cosmetic tag
+the country had before was never stored, so it cannot come back.
 
 ## Other mods
 

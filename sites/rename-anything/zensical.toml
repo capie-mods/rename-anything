@@ -21,9 +21,25 @@ extra_css = [
 nav = [
   { "Overview" = "index.md" },
   { "How to use" = "how-to-use.md" },
+  { "Game rules" = "game-rules.md" },
   { "Install" = "install.md" },
   { "Known issues" = "known-issues.md" },
   { "FAQ" = "faq.md" },
+  { "Po polsku" = [
+    "pl/index.md",
+    { "Jak używać" = "pl/jak-uzywac.md" },
+    { "Reguły gry" = "pl/reguly-gry.md" },
+    { "Instalacja" = "pl/instalacja.md" },
+    { "Znane problemy" = "pl/znane-problemy.md" },
+    { "FAQ" = "pl/faq.md" },
+  ] },
+]
+
+# Language menu in the header: English pages at the root, Polish pages under pl/.
+[project.extra]
+alternate = [
+  { name = "English", link = "./", lang = "en" },
+  { name = "Polski", link = "pl/", lang = "pl" },
 ]
 [project.theme]
 language = "en"
@@ -44,6 +60,9 @@ features = [
   "search.highlight",
   "toc.follow",
 ]
+
+[project.theme.icon]
+alternate = "lucide/languages"
 
 [project.theme.font]
 text = "Ubuntu"

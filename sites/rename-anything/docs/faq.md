@@ -1,18 +1,23 @@
 ---
-description: Common questions about Rename Anything. Multiplayer, achievements, antivirus warnings, game updates and uninstalling.
+description: Common questions about Rename Anything. Multiplayer, achievements, antivirus warnings, game updates, flags and uninstalling.
 ---
 
 # FAQ
 
 ## Do I need CAPIE?
 
-For your country's name and the pencils in the Politics panel, yes. For states, cities and
-characters, no: those work through the name editor with scripts alone.
+For your country's name, the pencils in the Politics panel and renaming subjects, yes. For
+states, cities and characters, no: those work through the name editor with scripts alone.
+
+## Does renaming my country change its flag?
+
+No. The name you give is kept apart from the game's cosmetic tags, so the flag and colour stay as
+the game sets them. Choosing your own flag is planned as a separate feature.
 
 ## Does it work in multiplayer?
 
-No. It has never been tested with two players, so it is not supported. Remove the CAPIE launch
-option from Steam before you play multiplayer.
+No. It has never been tested with two players, so it is not supported. Switch CAPIE off before you
+play multiplayer: disable the CAPIE mod in your playset.
 
 ## Can I still get achievements?
 
@@ -28,8 +33,8 @@ linked from the release notes. The source is public, and you can build it yourse
 ## What happens after a game update?
 
 CAPIE is pinned to the exact HOI4 1.19.3.0 executable. After a patch, the game starts without
-CAPIE and the launcher tells you why. States, cities and characters still work. A custom country
-name shows as the original until a CAPIE update supports the new version.
+CAPIE and you are told why. States, cities and characters still work. A custom country name shows
+as the game's name until a CAPIE update supports the new version.
 
 ## Which letters can I use?
 
@@ -40,7 +45,13 @@ may come later if the game's fonts support them.
 ## Why can I not rename again right away?
 
 Each rename starts a 5-day cooldown, counted in game days. The pencil's tooltip says when the next
-rename is possible.
+rename is possible. Restoring a name counts as a rename.
+
+## Can other players rename my country?
+
+Not by default. The host chooses in the lobby who may rename what; see
+[Game rules](game-rules.md). An overlord can always rename its own subjects unless the host picks
+"Own country only".
 
 ## How do I uninstall?
 
