@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 486" width="880" height="486" role="img" aria-labelledby="t d">
   <title id="t">Rename Anything is built on CAPIE</title>
-  <desc id="d">Three layers. Top: mod scripts from the Steam Workshop: Rename Anything, which works today, and your own mod calling CAPIE effects, which is planned. Middle: CAPIE, Cyprian's API Extender, one native DLL started by the CAPIE launcher. It already provides country name and adjective support and the bridge from native text fields to game commands; a public API for other mods and a multiplayer handshake are planned. Bottom: the unmodified Hearts of Iron IV 1.19.3.0 engine with game commands, localisation lookups and the save file. Solid outlines mark what works today, dashed outlines what is planned.</desc>
-  <!-- Tokens: docs/design/tokens.json v1.2.0. Static on purpose: the layers are a structure, not a sequence. -->
+  <desc id="d">Three layers. Top: mod scripts from the Steam Workshop: Rename Anything, which works today, and your own mod calling CAPIE effects, which is planned. Middle: CAPIE, Cyprian's API Extender, two native DLLs started by the CAPIE launcher. It already provides country name and adjective support and the bridge from native text fields to game commands; a public API for other mods and a multiplayer check that keeps CAPIE features off until every player confirms CAPIE are planned. Bottom: the unmodified Hearts of Iron IV 1.19.3.0 engine with game commands, localisation lookups and the save file. Solid outlines mark what works today, dashed outlines what is planned.</desc>
+  <!-- Tokens: docs/design/tokens.json v1.2.0. Static on purpose: the layers are a structure, not a sequence. Site copy of docs/assets/readme/architecture.svg: multiplayer chip follows the L0 decision, SDK names proposed. -->
   <style>
     .canvas{fill:#272421}
     .rim{fill:none;stroke:#3c3936;stroke-width:1}
@@ -44,8 +44,8 @@
   <rect class="node-plan" x="530" y="52" width="318" height="88" rx="2"/>
   <text class="title" x="546" y="81">Your mod</text>
   <text class="tag t-plan" x="768" y="78">PLANNED</text>
-  <text class="body" x="546" y="106">Calls CAPIE effects such as</text>
-  <text class="body" x="546" y="124">set_custom_*_name, reads names back</text>
+  <text class="body" x="546" y="106">Calls CAPIE SDK effects</text>
+  <text class="body" x="546" y="124">(proposed names: capie_v1_*)</text>
 
   <!-- Wires layer 1 to 2 -->
   <line class="wire" x1="271" y1="140" x2="271" y2="186"/>
@@ -54,7 +54,7 @@
   <!-- Layer 2: CAPIE. Its parts are columns of one box, not boxes in a box. -->
   <rect class="native" x="32" y="186" width="816" height="150" rx="2"/>
   <text class="title" x="48" y="215">CAPIE</text>
-  <text class="body" x="100" y="215">Cyprian's API Extender: one native DLL, started by the CAPIE launcher</text>
+  <text class="body" x="100" y="215">Cyprian's API Extender: two native DLLs, started by the CAPIE launcher</text>
   <line class="div" x1="48" y1="232.5" x2="832" y2="232.5"/>
 
   <text class="item" x="48" y="258">Country name and</text>
@@ -72,8 +72,8 @@
   <text class="tag t-plan" x="456" y="308">PLANNED</text>
   <line class="div" x1="644.5" y1="246" x2="644.5" y2="318"/>
 
-  <text class="item-plan" x="660" y="258">Multiplayer handshake:</text>
-  <text class="item-plan" x="660" y="276">refuse a missing DLL</text>
+  <text class="item-plan" x="660" y="258">Multiplayer check: off</text>
+  <text class="item-plan" x="660" y="276">until all players confirm</text>
   <text class="tag t-plan" x="660" y="308">PLANNED</text>
 
   <!-- Wires layer 2 to 3 -->
