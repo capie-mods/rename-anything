@@ -20,11 +20,20 @@
 .PARAMETER Language
     Game language for the session: english or polish.
 
+.PARAMETER WithCapieSwitch
+    Also enable the "CAPIE" switch mod from plugin/capie/toggle-mod/capie. Begin writes the
+    local descriptor mod\capie.mod (the name the CAPIE launcher recognises) pointing at the
+    repository folder; an existing capie.mod is backed up like the other files. Restore puts
+    the backup back, or deletes the descriptor it created when its hash is unchanged.
+
 .OUTPUTS
     System.String / PSCustomObject. Progress lines and, after Begin, the backed-up files.
 
 .EXAMPLE
     .\tools\test-session.ps1 -Action Begin -Language polish
+
+.EXAMPLE
+    .\tools\test-session.ps1 -Action Begin -WithCapieSwitch
 
 .EXAMPLE
     .\tools\test-session.ps1 -Action Restore
@@ -38,7 +47,8 @@ param(
     [ValidateNotNullOrEmpty()]
     [string]$UserDirectory = "$env:USERPROFILE\Documents\Paradox Interactive\Hearts of Iron IV",
     [ValidateSet('english', 'polish')]
-    [string]$Language = 'english'
+    [string]$Language = 'english',
+    [switch]$WithCapieSwitch
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -55,6 +65,10 @@ $script:TsModDescriptorFileName = 'rename_anything_dev.mod'
 $script:TsModName = 'Rename Anything (dev)'
 $script:TsModVersion = '0.1.0'
 $script:TsSupportedGameVersion = '1.19.*'
+$script:TsCapieDescriptorFileName = 'capie.mod'                 # the local identity of the CAPIE launcher
+$script:TsCapieModName = 'CAPIE'
+$script:TsCapieModVersion = '1.0.0'
+$script:TsCapieModRelativePath = 'plugin/capie/toggle-mod/capie'
 $script:TsWindowWidth = 1720
 $script:TsWindowHeight = 900
 $script:TsWindowMode = 'windowed'
@@ -247,6 +261,17 @@ function Restore-TsSession {
         Write-Output "Restored $($entry.path) SHA256=$($entry.sha256)"
     }
     foreach ($entry in $manifest.files) { Remove-Item -LiteralPath $entry.backup }
+    if ($manifest.PSObject.Properties['created']) {
+        foreach ($entry in @($manifest.created)) {
+            if (-not (Test-Path -LiteralPath $entry.path)) { continue }
+            if ((Get-TsFileSha256 -Path $entry.path) -ne $entry.sha256) {
+                Write-Warning "Changed since the session started; left in place: $($entry.path)"
+                continue
+            }
+            [IO.File]::Delete($entry.path)
+            Write-Output "Removed $($entry.path)"
+        }
+    }
     Remove-Item -LiteralPath $ManifestPath
 }
 
@@ -260,6 +285,8 @@ function Backup-TsSessionFile {
         overwrite settings.txt from it at startup); it is never created.
     .PARAMETER Directory
         HOI4 user folder.
+    .PARAMETER OptionalFileName
+        Further files (relative to Directory) backed up only when they exist.
     .OUTPUTS
         System.Management.Automation.PSCustomObject[] (path, backup, sha256)
     .EXAMPLE
@@ -267,9 +294,10 @@ function Backup-TsSessionFile {
     #>
     [CmdletBinding()]
     [OutputType([psobject[]], [object[]])]
-    param([Parameter(Mandatory)][string]$Directory)
+    param([Parameter(Mandatory)][string]$Directory, [string[]]$OptionalFileName = @())
     $fileNames = @($script:TsDlcLoadFileName, $script:TsLegacySettingsFileName)
     if (Test-Path -LiteralPath (Join-Path $Directory $script:TsModernSettingsFileName)) { $fileNames += $script:TsModernSettingsFileName }
+    foreach ($name in $OptionalFileName) { if (Test-Path -LiteralPath (Join-Path $Directory $name)) { $fileNames += $name } }
     $files = @()
     foreach ($name in $fileNames) {
         $path = Join-Path $Directory $name
@@ -300,6 +328,8 @@ function Start-TsSession {
         english or polish.
     .PARAMETER RepoDirectory
         Repository root (the dev mod is <repo>\mod).
+    .PARAMETER WithCapieSwitch
+        Also enable the "CAPIE" switch mod (descriptor mod\capie.mod).
     .OUTPUTS
         System.String / PSCustomObject (status line and backed-up files)
     .EXAMPLE
@@ -310,13 +340,34 @@ function Start-TsSession {
     param(
         [Parameter(Mandatory)][string]$Directory,
         [Parameter(Mandatory)][string]$GameLanguage,
-        [Parameter(Mandatory)][string]$RepoDirectory
+        [Parameter(Mandatory)][string]$RepoDirectory,
+        [switch]$WithCapieSwitch
     )
     $manifestPath = Join-Path $Directory $script:TsManifestFileName
     if (Test-Path -LiteralPath $manifestPath) { throw 'Existing test-session manifest. Restore it first.' }
-    $files = @(Backup-TsSessionFile -Directory $Directory)
-    @{ files = $files; started = [DateTimeOffset]::Now.ToString('o') } | ConvertTo-Json -Depth $script:TsManifestJsonDepth |
-        Set-Content -LiteralPath $manifestPath -Encoding UTF8
+    $capieRelative = $script:TsModDirName + '\' + $script:TsCapieDescriptorFileName
+    $optional = if ($WithCapieSwitch) { @($capieRelative) } else { @() }
+    $files = @(Backup-TsSessionFile -Directory $Directory -OptionalFileName $optional)
+    $created = @()
+    $capieDescriptor = $null
+    $capiePath = Join-Path $Directory $capieRelative
+    if ($WithCapieSwitch) {
+        $capieModPath = (Join-Path $RepoDirectory $script:TsCapieModRelativePath).Replace('\', '/')
+        if (-not (Test-Path -LiteralPath $capieModPath)) { throw "CAPIE switch mod not found: $capieModPath" }
+        $capieDescriptor = @(
+            "version=`"$($script:TsCapieModVersion)`"`n",
+            "name=`"$($script:TsCapieModName)`"`n",
+            "picture=`"thumbnail.png`"`n",
+            "supported_version=`"$($script:TsSupportedGameVersion)`"`n",
+            "path=`"$capieModPath`"`n"
+        ) -join ''
+        if (-not (Test-Path -LiteralPath $capiePath)) {
+            $stream = [IO.MemoryStream]::new($script:TsUtf8.GetBytes($capieDescriptor))
+            $created += [pscustomobject]@{ path = $capiePath; sha256 = (Get-FileHash -InputStream $stream -Algorithm SHA256).Hash }
+        }
+    }
+    @{ files = $files; created = $created; started = [DateTimeOffset]::Now.ToString('o') } |
+        ConvertTo-Json -Depth $script:TsManifestJsonDepth | Set-Content -LiteralPath $manifestPath -Encoding UTF8
     try {
         $pdxSettingsPath = Join-Path $Directory $script:TsModernSettingsFileName
         $pdxSettings = $null
@@ -333,13 +384,19 @@ function Start-TsSession {
             "path=`"$modPath`"`n"
         ) -join ''
         Write-TsUtf8 -Path (Join-Path $modDirectory $script:TsModDescriptorFileName) -Text $descriptor
-        $dlcLoad = '{"enabled_mods":["' + $script:TsModDirName + '/' + $script:TsModDescriptorFileName + '"],"disabled_dlcs":[]}'
+        $enabled = @($script:TsModDirName + '/' + $script:TsModDescriptorFileName)
+        if ($WithCapieSwitch) {
+            Write-TsUtf8 -Path $capiePath -Text $capieDescriptor
+            $enabled += $script:TsModDirName + '/' + $script:TsCapieDescriptorFileName
+        }
+        $dlcLoad = '{"enabled_mods":["' + ($enabled -join '","') + '"],"disabled_dlcs":[]}'
         Write-TsUtf8 -Path (Join-Path $Directory $script:TsDlcLoadFileName) -Text $dlcLoad
         $settingsPath = Join-Path $Directory $script:TsLegacySettingsFileName
         Write-TsUtf8 -Path $settingsPath -Text (Set-TsLegacySetting -Text ([IO.File]::ReadAllText($settingsPath)) -GameLanguage $GameLanguage)
         if ($null -ne $pdxSettings) { Write-TsUtf8 -Path $pdxSettingsPath -Text $pdxSettings }
         $size = "$($script:TsWindowWidth)x$($script:TsWindowHeight)"
-        Write-Output "Test session prepared ($GameLanguage, $size). After closing HOI4 run: tools/test-session.ps1 -Action Restore"
+        $switchNote = if ($WithCapieSwitch) { ', CAPIE switch mod enabled' } else { '' }
+        Write-Output "Test session prepared ($GameLanguage, $size$switchNote). After closing HOI4 run: tools/test-session.ps1 -Action Restore"
         $files | Select-Object path, sha256
     } catch {
         # Recovery manifest and verified originals remain available even after a failed setup.
@@ -354,4 +411,4 @@ if ($Action -eq 'Restore') {
     Restore-TsSession -ManifestPath (Join-Path $UserDirectory $script:TsManifestFileName)
     exit 0
 }
-Start-TsSession -Directory $UserDirectory -GameLanguage $Language -RepoDirectory (Split-Path -Parent $PSScriptRoot)
+Start-TsSession -Directory $UserDirectory -GameLanguage $Language -RepoDirectory (Split-Path -Parent $PSScriptRoot) -WithCapieSwitch:$WithCapieSwitch

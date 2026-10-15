@@ -54,6 +54,8 @@ function Invoke-FixtureHelper {
         Begin or Restore.
     .PARAMETER Directory
         Fixture user folder.
+    .PARAMETER WithCapieSwitch
+        Pass -WithCapieSwitch to the helper.
     .OUTPUTS
         None.
     .EXAMPLE
@@ -63,9 +65,14 @@ function Invoke-FixtureHelper {
     [OutputType([void])]
     param(
         [Parameter(Mandatory)][ValidateSet('Begin', 'Restore')][string]$Action,
-        [Parameter(Mandatory)][string]$Directory
+        [Parameter(Mandatory)][string]$Directory,
+        [switch]$WithCapieSwitch
     )
-    & powershell.exe -NoProfile -File $helper -Action $Action -UserDirectory $Directory -Language polish | Out-Host
+    if ($WithCapieSwitch) {
+        & powershell.exe -NoProfile -File $helper -Action $Action -UserDirectory $Directory -Language polish -WithCapieSwitch | Out-Host
+    } else {
+        & powershell.exe -NoProfile -File $helper -Action $Action -UserDirectory $Directory -Language polish | Out-Host
+    }
     Assert-Fixture -Condition ($LASTEXITCODE -eq 0) -Message "Helper $Action exit $LASTEXITCODE"
 }
 
@@ -199,10 +206,37 @@ foreach ($entry in $oldFiles) {
     Assert-Fixture -Condition (-not (Test-Path -LiteralPath $entry.backup)) -Message 'Old manifest backup removed'
 }
 Assert-Fixture -Condition (-not (Test-Path -LiteralPath (Join-Path $legacy 'pdx_settings.txt'))) -Message 'Old manifest does not create modern settings'
+# CAPIE switch mod: a descriptor created by Begin is removed by Restore; an existing one is backed up.
+foreach ($existing in @($false, $true)) {
+    $dir = Join-Path $fixtureRoot ('capie-' + $existing)
+    New-Item -ItemType Directory -Path (Join-Path $dir 'mod') | Out-Null
+    Write-FixtureText -Path (Join-Path $dir 'dlc_load.json') -Text '{"enabled_mods":[],"disabled_dlcs":[]}'
+    Write-FixtureText -Path (Join-Path $dir 'settings.txt') -Text $legacyText
+    $capie = Join-Path $dir 'mod\capie.mod'
+    if ($existing) { Write-FixtureText -Path $capie -Text 'name="CAPIE"' }
+    $before = @{}
+    foreach ($item in Get-ChildItem -LiteralPath $dir -Recurse -File) { $before[$item.FullName] = Get-FixtureHash -Path $item.FullName }
+    Invoke-FixtureHelper -Action Begin -Directory $dir -WithCapieSwitch
+    $dlc = Get-Content -LiteralPath (Join-Path $dir 'dlc_load.json') -Raw | ConvertFrom-Json
+    Assert-Fixture -Condition (@($dlc.enabled_mods) -contains 'mod/capie.mod') -Message "CAPIE switch enabled (existing=$existing)"
+    Assert-Fixture -Condition (@($dlc.enabled_mods) -contains 'mod/rename_anything_dev.mod') -Message 'Dev mod still enabled'
+    $descriptor = Get-Content -LiteralPath $capie -Raw
+    Assert-Fixture -Condition ($descriptor -match 'path=".*/plugin/capie/toggle-mod/capie"') -Message 'Descriptor points at the repository mod'
+    Assert-Fixture -Condition ($descriptor -match 'name="CAPIE"') -Message 'Descriptor name'
+    Invoke-FixtureHelper -Action Restore -Directory $dir
+    if ($existing) {
+        Assert-Fixture -Condition ((Get-FixtureHash -Path $capie) -eq $before[$capie]) -Message 'Existing capie.mod restored'
+    } else {
+        Assert-Fixture -Condition (-not (Test-Path -LiteralPath $capie)) -Message 'Created capie.mod removed'
+    }
+    foreach ($path in $before.Keys) {
+        Assert-Fixture -Condition ((Get-FixtureHash -Path $path) -eq $before[$path]) -Message "CAPIE session restore $path"
+    }
+}
 $report = [pscustomobject]@{
     modern_begin_restore = 'PASS'; modern_manifest_hashes = 'PASS'; modern_values = 'PASS'
     unrelated_settings_preserved = 'PASS'; all_three_sha256_restored = 'PASS'
-    old_two_file_manifest_restore = 'PASS'; fixture_root = $fixtureRoot
+    old_two_file_manifest_restore = 'PASS'; capie_switch_begin_restore = 'PASS'; fixture_root = $fixtureRoot
 }
 $report | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $fixtureRoot 'result.json') -Encoding UTF8
 $report | ConvertTo-Json
