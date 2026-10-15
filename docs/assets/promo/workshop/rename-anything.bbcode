@@ -1,7 +1,8 @@
 [img]https://raw.githubusercontent.com/capie-mods/.github/main/workshop/rename-anything/banner.jpg[/img]
 [h1]Rename Anything[/h1]
 [b]Made with AI.[/b] I built this mod with the help of AI tools (Claude Code and Codex), and I say so openly. If you would rather not play mods made with AI, do not download it.
-Click the pencil next to a name, type a new one, press Enter. Rename Anything lets you rename your country, its leader and its parties right in the Politics panel, the way the game already lets you rename divisions, armies and fleets. As an overlord you can rename your subjects from Diplomacy, and a faction leader can rename the faction.
+
+Click the pencil next to a name, type a new one and press Enter. You rename your country, its leader and its parties right in the Politics panel, the same way the game lets you rename divisions, armies and fleets. An overlord renames subjects from Diplomacy, and the leader of a faction can rename the faction.
 
 Built on CAPIE (Cyprian's API Extender).
 
@@ -10,47 +11,46 @@ Built on CAPIE (Cyprian's API Extender).
 [img]https://raw.githubusercontent.com/capie-mods/.github/main/workshop/rename-anything/h-what-you-can-rename.png[/img]
 [h2]What you can rename[/h2]
 [list]
-[*]Your country: name, adjective and flag. The flag picker offers every flag in the game.
-[*]Your leader, from the pencil next to the portrait.
-[*]Your ruling party, short and full name, and the other party groups through tabs.
-[*]Your subjects, through the diplomatic action [i]Rename this country[/i]: name, adjective, leader, ruling party and flag.
-[*]Your faction, through [i]Rename faction[/i], if you lead it.
-[*]States and cities (victory points), plus generals, admirals and advisers, from the name editor. These need no CAPIE.
+[*]Your country: name, adjective and flag. The flag picker has every flag in the game.
+[*]Your leader, with the pencil next to the portrait.
+[*]Your ruling party (short and full name), and the other party groups through tabs.
+[*]Your subjects, with the diplomatic action [i]Rename this country[/i]: name, adjective, leader, ruling party and flag.
+[*]Your faction, with [i]Rename faction[/i], if you lead it.
+[*]States, cities (victory points), generals, admirals and advisers, in the name editor. None of these need CAPIE.
 [/list]
-Names may use any letter the game can show, Polish letters included, up to 32 characters. They are stored in your save. Each object has a 5-day cooldown between renames, and [i]Restore name[/i] brings back the game's own name.
+A name can use any letter the game can show, Polish letters included, and has at most 32 characters. Names go into your save. After a rename, the same object can be renamed again in 5 days. [i]Restore name[/i] brings back the game's own name.
 
 [img]https://raw.githubusercontent.com/capie-mods/.github/main/workshop/rename-anything/h-game-rules.png[/img]
 [h2]Game rules[/h2]
-Lobby rules set who may rename (own country and subjects, own country only, or the host renames everyone), whether every country gets a news event when a name changes (off by default), and which flags the picker offers. The host can also switch each kind of rename off for a game; those switches are new and not yet checked in the game.
+In the lobby you choose who may rename (own country and subjects, own country only, or the host renames everyone), whether every country gets a news event when a name changes (off by default), and which flags the picker offers. The host can also switch each kind of rename off for a game. Those switches are new and have not been checked in the game yet.
 
 [img]https://raw.githubusercontent.com/capie-mods/.github/main/workshop/rename-anything/h-requirements.png[/img]
 [h2]Requirements[/h2]
 [list]
 [*]Hearts of Iron IV 1.19.3.0 on Windows.
-[*]For country, subject, faction and flag names and for the in-panel text fields: CAPIE, a small native library loaded by its own launcher, and the [i]CAPIE[/i] switch mod from the Workshop enabled in the same playset.
+[*]Country, subject, faction and flag names and the text fields in the panels need CAPIE: a small native library with its own launcher, plus the [i]CAPIE[/i] switch mod from the Workshop in the same playset.
 [/list]
 
 [img]https://raw.githubusercontent.com/capie-mods/.github/main/workshop/rename-anything/h-installing.png[/img]
 [h2]Installing CAPIE[/h2]
-The installer is in preparation. It will come as one PowerShell line ([i]irm ... | iex[/i]) and as an installer on GitHub Releases, published together with the first release. Until then this item only works for testers with a developer setup.
+The installer is in preparation. It will be one PowerShell line ([i]irm ... | iex[/i]) or an installer from GitHub Releases, both published with the first release. Until then, only testers with a developer setup can use this item.
 
-After installing, start the game through the CAPIE launcher. It goes through the Paradox Launcher, so your playsets stay as they are. Disable the [i]CAPIE[/i] mod in the playset and the game starts without CAPIE.
+Once CAPIE is installed, start the game through the CAPIE launcher. It goes through the Paradox Launcher, so your playsets stay as they are. To play without CAPIE, disable the [i]CAPIE[/i] mod in the playset.
 
 [img]https://raw.githubusercontent.com/capie-mods/.github/main/workshop/rename-anything/h-limits.png[/img]
 [h2]Limits[/h2]
 [list]
 [*]Multiplayer has not been tested with two players. Do not rely on it.
-[*]Achievements: the mod changes files under common/, so the game's checksum changes. Ironman was not tested.
-[*]CAPIE loads only on the exact game build it was checked against. After a game update the game starts without CAPIE: states, cities and characters keep working, and custom country names show the game's name until CAPIE is updated.
+[*]No achievements: the mod changes files under common/, which changes the game's checksum. Ironman was not tested.
+[*]CAPIE loads only on the exact game build it was checked against. After a game update the game starts without it. States, cities and characters keep working, and custom country names show the game's name until CAPIE is updated.
 [*]Esc closes the Politics panel together with an open editor, but the edit mode stays on.
 [*]Mods that replace countrypoliticsview.gui or the same scripted GUIs can conflict. Mods that change states, provinces or victory points need the city tables regenerated.
-[*]Some antivirus programs may warn about CAPIE, because it loads itself into the game process. Every release will be scanned on VirusTotal and the results linked from the release notes.
+[*]Some antivirus programs may warn about CAPIE, because it loads itself into the game process. Every release will be scanned on VirusTotal, with the results linked from the release notes.
 [/list]
 
 [img]https://raw.githubusercontent.com/capie-mods/.github/main/workshop/rename-anything/h-removing.png[/img]
 [h2]Removing it[/h2]
-Disable the mod in your playset. Names you set stay in the saves you made; to drop a custom country name, use [i]Restore name[/i] first. Continuing an old save without the mod was not tested, so try it on a copy.
-
+Disable the mod in your playset. Names you set stay in the saves you made. To drop a custom country name, use [i]Restore name[/i] before you remove the mod. Continuing an old save without the mod was not tested, so try it on a copy.
 
 [img]https://raw.githubusercontent.com/capie-mods/.github/main/workshop/rename-anything/h-links.png[/img]
 [h2]Source and links[/h2]

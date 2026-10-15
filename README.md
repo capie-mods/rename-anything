@@ -28,29 +28,73 @@ real text field instead: any name you can type, Polish letters included, saved i
 
 Screenshots from HOI4 1.19.3.0 in single player, on development builds. The silly names are ours.
 
-Your country's name and adjective go into the game's own text field. The flag can be any flag the game has.
+Your country's name and adjective go into the game's own text field, and the map uses them.
 
-<img src="docs/assets/promo/rename-anything/readme/country-flag.jpg" alt="Left: the Politics panel with a Name tab, the country name Skbidi Kingdom and the adjective Skibidish in text fields. Right: the Flag tab, a list of flags with letter filters." width="880">
+<p>
+  <img src="docs/assets/promo/rename-anything/readme/tiles/country-name.jpg" alt="The Politics panel with the country name Skbidi Kingdom and the adjective Skibidish in the game's own text fields." width="436">
+  <img src="docs/assets/promo/rename-anything/readme/tiles/country-map.jpg" alt="The map of East Africa labelled Skbidi Kingdom, with a province tooltip naming the owner Skbidi Kingdom." width="436">
+</p>
 
-To rename your leader, click the pencil by the portrait, type, press Enter.
+The flag can be any flag the game has. Name and colour stay as they are.
 
-<img src="docs/assets/promo/rename-anything/readme/leader.jpg" alt="Left: the Politics panel with a text field under the leader portrait reading Stanley Baldwin. Right: the same panel after Apply, the leader now named Stanley Egghead." width="880">
+<p>
+  <img src="docs/assets/promo/rename-anything/readme/tiles/flag-picker.jpg" alt="The Flag tab of the country editor: flags listed by letter, with This country and All." width="436">
+  <img src="docs/assets/promo/rename-anything/readme/tiles/flag-result.jpg" alt="The Politics panel of Skbidi Kingdom with its new flag in the top left corner and the leader Stanley Egghead." width="436">
+</p>
 
-An overlord renames a subject through the diplomatic action "Rename this country".
+Your leader: click the pencil by the portrait, type, press Enter. The ruling party's name shows in the same panels.
 
-<img src="docs/assets/promo/rename-anything/readme/subjects.jpg" alt="Diplomacy screen of the British Raj with an editor open over it: Country, Leader, Party and Flag tabs, the name British Mandate of India and the adjective British-Indian." width="880">
+<p>
+  <img src="docs/assets/promo/rename-anything/readme/tiles/leader-edit.jpg" alt="The Politics panel with a text field under the leader portrait reading Stanley Baldwin." width="436">
+  <img src="docs/assets/promo/rename-anything/readme/tiles/party-diplomacy.jpg" alt="Diplomacy view of the Province of Rizzia: leader Rizzler King and ruling party Rizz Party, both renamed." width="436">
+</p>
+
+An overlord renames a subject through the diplomatic action "Rename this country": name, adjective, leader, party and flag.
+
+<p>
+  <img src="docs/assets/promo/rename-anything/readme/tiles/subject-editor.jpg" alt="The subject editor with Country, Leader, Party and Flag tabs, the name Province of Rizzia and the adjective Rizzian." width="436">
+  <img src="docs/assets/promo/rename-anything/readme/tiles/subject-raj.jpg" alt="The subject editor over the British Raj, renamed British Mandate of India, with the map behind it." width="436">
+</p>
 
 The leader of a faction renames it from Diplomacy.
 
-<img src="docs/assets/promo/rename-anything/readme/factions.jpg" alt="Left: the diplomatic action Rename faction and a dialog asking to open the editor for Allies. Right: the faction map mode with the renamed faction The Rizzlers." width="880">
+<p>
+  <img src="docs/assets/promo/rename-anything/readme/tiles/faction-dialog.jpg" alt="The diplomatic action Rename faction and a dialog asking to open the rename editor for Allies." width="436">
+  <img src="docs/assets/promo/rename-anything/readme/tiles/faction-map.jpg" alt="The faction map mode with the renamed faction The Rizzlers across Africa and India." width="436">
+</p>
+
+States and cities (victory points) need no CAPIE.
+
+<p>
+  <img src="docs/assets/promo/rename-anything/readme/tiles/states.jpg" alt="The name editor's States tab with Rename, Reset and Cities buttons for each state." width="436">
+  <img src="docs/assets/promo/rename-anything/readme/tiles/cities.jpg" alt="The map of England with the renamed city Skibidi London." width="436">
+</p>
+
+Generals, admirals and advisers: the decision "Rename characters" opens the name editor.
+
+<p>
+  <img src="docs/assets/promo/rename-anything/readme/tiles/characters-decision.jpg" alt="The Rename Anything decision category with the decision Rename characters." width="436">
+  <img src="docs/assets/promo/rename-anything/readme/tiles/characters-editor.jpg" alt="The name editor's Characters tab listing the leader, generals and admirals with Rename buttons." width="436">
+</p>
 
 With the news game rule on, every country gets a news event about the new name.
 
-<img src="docs/assets/promo/rename-anything/readme/news-event.jpg" alt="Left: the country editor with the name Great Britian. Right: a World News event titled New country name: Great Britian." width="880">
+<p>
+  <img src="docs/assets/promo/rename-anything/readme/tiles/news-country.jpg" alt="The country editor with the name Great Britian, the map of the British Isles behind it." width="436">
+  <img src="docs/assets/promo/rename-anything/readme/tiles/news-event.jpg" alt="A World News event titled New country name: Great Britian." width="436">
+</p>
 
-Map labels, tooltips and renamed cities show the new names.
+Lobby game rules: who may rename, the news event and which flags the picker offers.
 
-<img src="docs/assets/promo/rename-anything/readme/map.jpg" alt="Left: the map of East Africa labelled Skbidi Kingdom, a province tooltip naming the owner Skbidi Kingdom. Right: the map of England with the city Skibidi London." width="880">
+<p>
+  <img src="docs/assets/promo/rename-anything/readme/tiles/rules-rights.jpg" alt="Lobby game rules with Rename Anything: who may rename and its tooltip." width="436">
+  <img src="docs/assets/promo/rename-anything/readme/tiles/rules-host.jpg" alt="The who may rename rule opened: Own country and subjects, Host renames every country, Own country only." width="436">
+</p>
+
+<p>
+  <img src="docs/assets/promo/rename-anything/readme/tiles/rules-news.jpg" alt="The news event rule opened: Off and On, with its tooltip." width="436">
+  <img src="docs/assets/promo/rename-anything/readme/tiles/rules-flags.jpg" alt="The flag choice rule opened: every flag in the game, the country's own flags, or own flags and the overlord's." width="436">
+</p>
 
 ## How it works
 
