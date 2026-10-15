@@ -179,7 +179,7 @@ of every row.
    and the game starts clean. The installer can also switch CAPIE off and uninstall it.
 
 The command and the release will be published together. Until then the installer refuses to run
-on purpose. Its options are in [tools/bootstrap/README.md](tools/bootstrap/README.md).
+on purpose. Its options are in [tools/bootstrap/README.md](https://github.com/capie-mods/capie/blob/main/tools/bootstrap/README.md).
 
 ### Today (development builds)
 
@@ -201,7 +201,7 @@ For testers comfortable with a developer setup.
 3. Add the mod to a playset in the Paradox Launcher. You do not need to change
    `dlc_load.json` or any game file.
 4. For the features that need CAPIE, build it and load it into the running game as described in
-   [plugin/capie/README.md](plugin/capie/README.md). This is a manual developer step and has to be
+   [plugin/capie/README.md](https://github.com/capie-mods/capie/blob/main/plugin/capie/README.md). This is a manual developer step and has to be
    repeated every time the game starts.
 
 `supported_version="1.19.*"` only quiets the launcher's warning. Only 1.19.3.0 was tested.
@@ -225,12 +225,12 @@ HOI4 script: a mod names its editor GUI by a fixed grammar, CAPIE adds the typed
 Apply command as temporary variables, and the mod's effect reads them. A mod written this way
 parses and runs the same with or without CAPIE; only the branch it takes differs.
 
-- [CONTRACT.md](plugin/capie/CONTRACT.md), now at API level 7: text fields for any mod, status
+- [CONTRACT.md](https://github.com/capie-mods/capie/blob/main/plugin/capie/CONTRACT.md), now at API level 7: text fields for any mod, status
   keys, the alphabet, error codes, permissions, the multiplayer handshake, and the name, flag and
   portrait layers.
-- [CAPIE script SDK](sdk/capie-script-sdk/README.md): ready-made effects for reading, checking
+- [CAPIE script SDK](https://github.com/capie-mods/capie-script-sdk/blob/main/README.md): ready-made effects for reading, checking
   and storing text, with a demo mod.
-- [CAPIE site, for modders](sites/capie/docs/modders/index.md).
+- [CAPIE site, for modders](https://github.com/capie-mods/capie/blob/main/sites/capie/docs/modders/index.md).
 
 The public contract was checked in the game with the SDK's demo mod on CAPIE 1.1. CAPIE itself is
 not released yet.
@@ -286,7 +286,7 @@ is [docs/README.md](docs/README.md).
 `mod/` is the mod; `tools/` the generator, checks and installer; `plugin/capie/` CAPIE, its
 launcher and proxy; `sdk/` the CAPIE script SDK; `sites/` the public documentation sites;
 `probes/` and `plugin/probes/` research probes; `docs/` the project documentation, decision
-records and the evidence archive; [`docs/design/`](docs/design/DESIGN-SYSTEM.md) the shared design
+records and the evidence archive; [`docs/design/`](https://github.com/capie-mods/capie-design/blob/main/docs/design/DESIGN-SYSTEM.md) the shared design
 system and tokens that the diagrams are drawn from.
 
 ## License
@@ -297,7 +297,7 @@ are reserved.
 ## Credits
 
 CAPIE uses [MinHook](https://github.com/TsudaKageyu/minhook) by Tsuda Kageyu, under the BSD
-2-Clause license; see [plugin/LICENSE.MinHook.txt](plugin/LICENSE.MinHook.txt).
+2-Clause license; see [plugin/LICENSE.MinHook.txt](https://github.com/capie-mods/capie/blob/main/plugin/LICENSE.MinHook.txt).
 
 Hearts of Iron IV is a trademark of Paradox Interactive. This project is not affiliated with or
 endorsed by Paradox Interactive.
