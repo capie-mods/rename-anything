@@ -33,7 +33,15 @@ In the lobby you choose who may rename (own country and subjects, own country on
 
 [img]https://raw.githubusercontent.com/capie-mods/.github/main/workshop/rename-anything/h-installing.png[/img]
 [h2]Installing CAPIE[/h2]
-The installer is in preparation. It will be one PowerShell line ([i]irm ... | iex[/i]) or an installer from GitHub Releases, both published with the first release. Until then, only testers with a developer setup can use this item.
+CAPIE installs with a small setup tool. Close Steam, or let the tool close it for you, and pick one of two ways:
+[list]
+[*][b]One PowerShell line.[/b] Open PowerShell and paste:
+[code]irm https://github.com/capie-mods/capie/releases/latest/download/install.ps1 | iex[/code]
+A menu opens: choose [i]Install or update[/i].
+[*][b]Download from GitHub.[/b] Get the ZIP, install.ps1 and the two release-manifest files from [url=https://github.com/capie-mods/capie/releases/latest]the latest release[/url] into one folder, then in PowerShell in that folder run:
+[code].\install.ps1 -Install -PackagePath .\CAPIE-1.5.0-win64.zip[/code]
+[/list]
+Both ways check the signed release manifest and every file's SHA-256, install into your user folder (never the game folder) and add the CAPIE launcher to the HOI4 launch options in Steam. The same tool updates, installs an older version, switches CAPIE off or uninstalls it.
 
 Once CAPIE is installed, start the game through the CAPIE launcher. It goes through the Paradox Launcher, so your playsets stay as they are. To play without CAPIE, disable the [i]CAPIE[/i] mod in the playset.
 
