@@ -17,6 +17,8 @@ the scripting language does not have.
 
 Polish: [Rename Anything po polsku](sites/rename-anything/docs/pl/index.md).
 
+Websites: [Rename Anything](https://capie-mods.github.io/rename-anything/) and [CAPIE](https://capie-mods.github.io/capie/).
+
 ## Why
 
 HOI4 lets you name a division whatever you like, but your own country, its leader and its ruling

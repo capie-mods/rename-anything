@@ -8,7 +8,7 @@ site_name = "Rename Anything"
 site_description = "Rename Anything: rename your country, its leader, parties, states and cities in Hearts of Iron IV, right where the name is shown."
 site_author = "Cyprian Gburek"
 # Placeholder until the GitHub organisation exists; change before the first deployment.
-site_url = "https://example.invalid/rename-anything/"
+site_url = "https://capie-mods.github.io/rename-anything/"
 docs_dir = "docs"
 site_dir = "site"
 copyright = "Rename Anything is pre-release software. Hearts of Iron IV is a trademark of Paradox Interactive; this project is not affiliated with or endorsed by Paradox Interactive."
