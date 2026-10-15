@@ -173,7 +173,7 @@ of every row.
 
 1. Subscribe to Rename Anything and to the small "CAPIE" mod on the Steam Workshop and add both to
    a playset.
-2. Install CAPIE once, either with one PowerShell line (`irm ... | iex`, with a terminal UI) or
+2. Install CAPIE once, either with one PowerShell line (`irm https://github.com/capie-mods/capie/releases/latest/download/install.ps1 | iex`, with a terminal UI) or
    with the installer from GitHub Releases.
 3. Play as usual. CAPIE loads only while the "CAPIE" mod is enabled in the playset; disable it
    and the game starts clean. The installer can also switch CAPIE off and uninstall it.
