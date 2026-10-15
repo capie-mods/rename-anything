@@ -221,8 +221,12 @@ foreach ($existing in @($false, $true)) {
     Assert-Fixture -Condition (@($dlc.enabled_mods) -contains 'mod/capie.mod') -Message "CAPIE switch enabled (existing=$existing)"
     Assert-Fixture -Condition (@($dlc.enabled_mods) -contains 'mod/rename_anything_dev.mod') -Message 'Dev mod still enabled'
     $descriptor = Get-Content -LiteralPath $capie -Raw
-    Assert-Fixture -Condition ($descriptor -match 'path=".*/plugin/capie/toggle-mod/capie"') -Message 'Descriptor points at the repository mod'
-    Assert-Fixture -Condition ($descriptor -match 'name="CAPIE"') -Message 'Descriptor name'
+    Assert-Fixture -Condition ($descriptor -match 'path=".*/mod/capie_dev"') -Message 'Descriptor points at the session copy'
+    $inner = Get-Content -LiteralPath (Join-Path $dir 'mod\capie_dev\descriptor.mod') -Raw
+    Assert-Fixture -Condition ($inner -match 'name="CAPIE \(dev\)"') -Message 'Session copy descriptor.mod has the session name (the launcher reads it)'
+    $devInner = Get-Content -LiteralPath (Join-Path $dir 'mod\rename_anything_dev\descriptor.mod') -Raw
+    Assert-Fixture -Condition ($devInner -match 'name="Rename Anything \(dev\)"') -Message 'Dev copy descriptor.mod is not the Workshop name'
+    Assert-Fixture -Condition ($descriptor -match 'name="CAPIE \(dev\)"') -Message 'Descriptor name differs from the Workshop item'
     Invoke-FixtureHelper -Action Restore -Directory $dir
     if ($existing) {
         Assert-Fixture -Condition ((Get-FixtureHash -Path $capie) -eq $before[$capie]) -Message 'Existing capie.mod restored'
@@ -232,6 +236,8 @@ foreach ($existing in @($false, $true)) {
     foreach ($path in $before.Keys) {
         Assert-Fixture -Condition ((Get-FixtureHash -Path $path) -eq $before[$path]) -Message "CAPIE session restore $path"
     }
+    $left = @(Get-ChildItem -LiteralPath $dir -Recurse -File | Where-Object { -not $before.ContainsKey($_.FullName) })
+    Assert-Fixture -Condition ($left.Count -eq 0) -Message "Restore removes every session file ($(($left | ForEach-Object { $_.FullName }) -join ', '))"
 }
 $report = [pscustomobject]@{
     modern_begin_restore = 'PASS'; modern_manifest_hashes = 'PASS'; modern_values = 'PASS'

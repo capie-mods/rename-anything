@@ -5,7 +5,8 @@
 .DESCRIPTION
     Begin: backs up dlc_load.json, settings.txt and (when present) pdx_settings.txt next
     to themselves (*.impl_backup), records their SHA-256 in rename_anything_test_session.json,
-    then enables only the dev mod descriptor, switches the language and a 1720x900 window.
+    then enables only the dev mod (a session copy named "Rename Anything (dev)", so a subscribed
+    Workshop "Rename Anything" still loads), switches the language and a 1720x900 window.
     Restore: verifies every backup against the manifest BEFORE touching anything, copies
     the backups back, verifies the restored hashes, then removes backups and manifest.
     Old two-file manifests (without pdx_settings.txt) are restored as well.
@@ -62,13 +63,16 @@ $script:TsLegacySettingsFileName = 'settings.txt'
 $script:TsModernSettingsFileName = 'pdx_settings.txt'
 $script:TsModDirName = 'mod'
 $script:TsModDescriptorFileName = 'rename_anything_dev.mod'
-$script:TsModName = 'Rename Anything (dev)'
+$script:TsModName = 'Rename Anything (dev)'      # never the Workshop name: HOI4 then skips the Workshop item
 $script:TsModVersion = '0.1.0'
 $script:TsSupportedGameVersion = '1.19.*'
 $script:TsCapieDescriptorFileName = 'capie.mod'                 # the local identity of the CAPIE launcher
-$script:TsCapieModName = 'CAPIE'
+$script:TsCapieModName = 'CAPIE (dev)'                 # never the Workshop name: HOI4 then skips the Workshop item
 $script:TsCapieModVersion = '1.0.0'
 $script:TsCapieModRelativePath = 'plugin/capie/toggle-mod/capie'
+$script:TsModCopyDirName = 'rename_anything_dev'                 # session copy of <repo>\mod
+$script:TsCapieCopyDirName = 'capie_dev'                         # session copy of the switch mod
+$script:TsCopyMarkerFileName = '.test-session-copy'
 $script:TsWindowWidth = 1720
 $script:TsWindowHeight = 900
 $script:TsWindowMode = 'windowed'
@@ -272,6 +276,17 @@ function Restore-TsSession {
             Write-Output "Removed $($entry.path)"
         }
     }
+    if ($manifest.PSObject.Properties['created_dirs']) {
+        foreach ($entry in @($manifest.created_dirs)) {
+            if (-not (Test-Path -LiteralPath $entry.path)) { continue }
+            if (-not (Test-Path -LiteralPath (Join-Path $entry.path $script:TsCopyMarkerFileName))) {
+                Write-Warning "No session marker; folder left in place: $($entry.path)"
+                continue
+            }
+            [IO.Directory]::Delete($entry.path, $true)
+            Write-Output "Removed $($entry.path)"
+        }
+    }
     Remove-Item -LiteralPath $ManifestPath
 }
 
@@ -315,6 +330,65 @@ function Backup-TsSessionFile {
     return $files
 }
 
+function Copy-TsModFolder {
+    <#
+    .SYNOPSIS
+        Copies a mod folder for the session and gives its descriptor.mod a session-only name.
+    .DESCRIPTION
+        The Paradox Launcher takes a local mod's name from descriptor.mod inside the folder that
+        path= points at, rewrites the outer .mod file with it at every start, and HOI4 skips a
+        Workshop mod while a local mod has the same name. A copy with its own name therefore
+        lets the dev mods run next to subscribed Workshop items. A marker file proves on Restore
+        that the folder was made by this script. The target must not exist yet.
+    .PARAMETER Source
+        Mod folder in the repository.
+    .PARAMETER Target
+        New folder in the HOI4 mod folder.
+    .PARAMETER Name
+        Name written into the copy's descriptor.mod.
+    .OUTPUTS
+        None.
+    .EXAMPLE
+        Copy-TsModFolder -Source "$repo\mod" -Target "$user\mod\rename_anything_dev" -Name 'Rename Anything (dev)'
+    #>
+    [CmdletBinding()]
+    [OutputType([void])]
+    param(
+        [Parameter(Mandatory)][string]$Source,
+        [Parameter(Mandatory)][string]$Target,
+        [Parameter(Mandatory)][string]$Name
+    )
+    if (-not (Test-Path -LiteralPath $Source -PathType Container)) { throw "Mod folder not found: $Source" }
+    if (Test-Path -LiteralPath $Target) { throw "Session mod folder already exists; restore or remove it first: $Target" }
+    Copy-Item -LiteralPath $Source -Destination $Target -Recurse
+    $descriptorPath = Join-Path $Target 'descriptor.mod'
+    if (Test-Path -LiteralPath $descriptorPath) {
+        $text = [IO.File]::ReadAllText($descriptorPath) -replace '(?m)^name\s*=\s*"[^"]*"', "name=`"$Name`""
+        Write-TsUtf8 -Path $descriptorPath -Text $text
+    }
+    Write-TsUtf8 -Path (Join-Path $Target $script:TsCopyMarkerFileName) -Text "Copied by tools/test-session.ps1; removed by -Action Restore.`n"
+}
+
+function Get-TsTextSha256 {
+    <#
+    .SYNOPSIS
+        SHA-256 of text as it will be written (UTF-8 without BOM).
+    .DESCRIPTION
+        Lets Begin record the hash of a file it is about to create.
+    .PARAMETER Text
+        Content.
+    .OUTPUTS
+        System.String
+    .EXAMPLE
+        Get-TsTextSha256 -Text $descriptor
+    #>
+    [CmdletBinding()]
+    [OutputType([string])]
+    param([Parameter(Mandatory)][AllowEmptyString()][string]$Text)
+    $stream = [IO.MemoryStream]::new($script:TsUtf8.GetBytes($Text))
+    try { return (Get-FileHash -InputStream $stream -Algorithm SHA256).Hash } finally { $stream.Dispose() }
+}
+
 function Start-TsSession {
     <#
     .SYNOPSIS
@@ -322,6 +396,11 @@ function Start-TsSession {
     .DESCRIPTION
         Writes the recovery manifest first. If changing the files fails, the manifest and
         the verified backups stay in place and the error asks for -Action Restore.
+        The dev mod (and with -WithCapieSwitch the CAPIE switch mod) runs from a session copy
+        in the HOI4 mod folder whose descriptor.mod has a session-only name ("Rename Anything
+        (dev)", "CAPIE (dev)"), so subscribed Workshop items with the real names keep loading.
+        Existing outer descriptors are backed up; created files and folders are recorded and
+        removed by Restore.
     .PARAMETER Directory
         HOI4 user folder.
     .PARAMETER GameLanguage
@@ -329,7 +408,8 @@ function Start-TsSession {
     .PARAMETER RepoDirectory
         Repository root (the dev mod is <repo>\mod).
     .PARAMETER WithCapieSwitch
-        Also enable the "CAPIE" switch mod (descriptor mod\capie.mod).
+        Also enable the "CAPIE" switch mod (descriptor mod\capie.mod, the name the CAPIE
+        launcher recognises).
     .OUTPUTS
         System.String / PSCustomObject (status line and backed-up files)
     .EXAMPLE
@@ -345,28 +425,41 @@ function Start-TsSession {
     )
     $manifestPath = Join-Path $Directory $script:TsManifestFileName
     if (Test-Path -LiteralPath $manifestPath) { throw 'Existing test-session manifest. Restore it first.' }
-    $capieRelative = $script:TsModDirName + '\' + $script:TsCapieDescriptorFileName
-    $optional = if ($WithCapieSwitch) { @($capieRelative) } else { @() }
-    $files = @(Backup-TsSessionFile -Directory $Directory -OptionalFileName $optional)
-    $created = @()
-    $capieDescriptor = $null
-    $capiePath = Join-Path $Directory $capieRelative
+    $modDirectory = Join-Path $Directory $script:TsModDirName
+    $mods = @(
+        [pscustomobject]@{
+            Outer = $script:TsModDescriptorFileName; Folder = $script:TsModCopyDirName; Name = $script:TsModName
+            Version = $script:TsModVersion; Source = (Join-Path $RepoDirectory 'mod'); Picture = $null
+        }
+    )
     if ($WithCapieSwitch) {
-        $capieModPath = (Join-Path $RepoDirectory $script:TsCapieModRelativePath).Replace('\', '/')
-        if (-not (Test-Path -LiteralPath $capieModPath)) { throw "CAPIE switch mod not found: $capieModPath" }
-        $capieDescriptor = @(
-            "version=`"$($script:TsCapieModVersion)`"`n",
-            "name=`"$($script:TsCapieModName)`"`n",
-            "picture=`"thumbnail.png`"`n",
-            "supported_version=`"$($script:TsSupportedGameVersion)`"`n",
-            "path=`"$capieModPath`"`n"
-        ) -join ''
-        if (-not (Test-Path -LiteralPath $capiePath)) {
-            $stream = [IO.MemoryStream]::new($script:TsUtf8.GetBytes($capieDescriptor))
-            $created += [pscustomobject]@{ path = $capiePath; sha256 = (Get-FileHash -InputStream $stream -Algorithm SHA256).Hash }
+        $mods += [pscustomobject]@{
+            Outer = $script:TsCapieDescriptorFileName; Folder = $script:TsCapieCopyDirName; Name = $script:TsCapieModName
+            Version = $script:TsCapieModVersion; Source = (Join-Path $RepoDirectory $script:TsCapieModRelativePath)
+            Picture = 'thumbnail.png'
         }
     }
-    @{ files = $files; created = $created; started = [DateTimeOffset]::Now.ToString('o') } |
+    foreach ($mod in $mods) {
+        if (-not (Test-Path -LiteralPath $mod.Source -PathType Container)) { throw "Mod folder not found: $($mod.Source)" }
+        $copy = Join-Path $modDirectory $mod.Folder
+        if (Test-Path -LiteralPath $copy) { throw "Session mod folder already exists; remove it first: $copy" }
+        $lines = @("version=`"$($mod.Version)`"`n", "name=`"$($mod.Name)`"`n")
+        if ($mod.Picture) { $lines += "picture=`"$($mod.Picture)`"`n" }
+        $lines += "supported_version=`"$($script:TsSupportedGameVersion)`"`n", "path=`"$($copy.Replace('\', '/'))`"`n"
+        $mod | Add-Member -NotePropertyName Copy -NotePropertyValue $copy
+        $mod | Add-Member -NotePropertyName Text -NotePropertyValue ($lines -join '')
+    }
+    $outerNames = @($mods | ForEach-Object { $script:TsModDirName + '\' + $_.Outer })
+    $files = @(Backup-TsSessionFile -Directory $Directory -OptionalFileName $outerNames)
+    $created = @()
+    foreach ($mod in $mods) {
+        $outerPath = Join-Path $modDirectory $mod.Outer
+        if (-not (Test-Path -LiteralPath $outerPath)) {
+            $created += [pscustomobject]@{ path = $outerPath; sha256 = (Get-TsTextSha256 -Text $mod.Text) }
+        }
+    }
+    $createdDirs = @($mods | ForEach-Object { [pscustomobject]@{ path = $_.Copy } })
+    @{ files = $files; created = $created; created_dirs = $createdDirs; started = [DateTimeOffset]::Now.ToString('o') } |
         ConvertTo-Json -Depth $script:TsManifestJsonDepth | Set-Content -LiteralPath $manifestPath -Encoding UTF8
     try {
         $pdxSettingsPath = Join-Path $Directory $script:TsModernSettingsFileName
@@ -374,20 +467,12 @@ function Start-TsSession {
         if (Test-Path -LiteralPath $pdxSettingsPath) {
             $pdxSettings = Set-TsModernSetting -Text ([IO.File]::ReadAllText($pdxSettingsPath)) -GameLanguage $GameLanguage
         }
-        $modDirectory = Join-Path $Directory $script:TsModDirName
         if (-not (Test-Path -LiteralPath $modDirectory)) { New-Item -ItemType Directory -Path $modDirectory | Out-Null }
-        $modPath = (Join-Path $RepoDirectory 'mod').Replace('\', '/')
-        $descriptor = @(
-            "version=`"$($script:TsModVersion)`"`n",
-            "name=`"$($script:TsModName)`"`n",
-            "supported_version=`"$($script:TsSupportedGameVersion)`"`n",
-            "path=`"$modPath`"`n"
-        ) -join ''
-        Write-TsUtf8 -Path (Join-Path $modDirectory $script:TsModDescriptorFileName) -Text $descriptor
-        $enabled = @($script:TsModDirName + '/' + $script:TsModDescriptorFileName)
-        if ($WithCapieSwitch) {
-            Write-TsUtf8 -Path $capiePath -Text $capieDescriptor
-            $enabled += $script:TsModDirName + '/' + $script:TsCapieDescriptorFileName
+        $enabled = @()
+        foreach ($mod in $mods) {
+            Copy-TsModFolder -Source $mod.Source -Target $mod.Copy -Name $mod.Name
+            Write-TsUtf8 -Path (Join-Path $modDirectory $mod.Outer) -Text $mod.Text
+            $enabled += $script:TsModDirName + '/' + $mod.Outer
         }
         $dlcLoad = '{"enabled_mods":["' + ($enabled -join '","') + '"],"disabled_dlcs":[]}'
         Write-TsUtf8 -Path (Join-Path $Directory $script:TsDlcLoadFileName) -Text $dlcLoad
@@ -396,7 +481,8 @@ function Start-TsSession {
         if ($null -ne $pdxSettings) { Write-TsUtf8 -Path $pdxSettingsPath -Text $pdxSettings }
         $size = "$($script:TsWindowWidth)x$($script:TsWindowHeight)"
         $switchNote = if ($WithCapieSwitch) { ', CAPIE switch mod enabled' } else { '' }
-        Write-Output "Test session prepared ($GameLanguage, $size$switchNote). After closing HOI4 run: tools/test-session.ps1 -Action Restore"
+        Write-Output "Test session prepared ($GameLanguage, $size$switchNote). The mods run from copies; after editing the repository, Restore and Begin again."
+        Write-Output 'After closing HOI4 run: tools/test-session.ps1 -Action Restore'
         $files | Select-Object path, sha256
     } catch {
         # Recovery manifest and verified originals remain available even after a failed setup.
