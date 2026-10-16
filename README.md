@@ -208,6 +208,17 @@ For testers comfortable with a developer setup.
 
 `supported_version="1.19.*"` only quiets the launcher's warning. Only 1.19.3.0 was tested.
 
+### macOS
+
+The completed macOS port will share one versioned release with Windows, retaining
+the Windows configuration and adding macOS configuration with separate installation instructions.
+
+Install the script-only mod with `tools/install-macos.sh`; details are in
+[Installing on macOS](docs/install-macos.md). The installer was tested in a temporary folder;
+macOS gameplay has not been checked. States, cities and characters have script-only paths.
+CAPIE-dependent features are designed to stay hidden: the native macOS port is still under
+development and has no validated dylib, loader or native installer yet.
+
 ## Roadmap
 
 1. Check the restore button, the game rules, the news event and faction names in the game.
