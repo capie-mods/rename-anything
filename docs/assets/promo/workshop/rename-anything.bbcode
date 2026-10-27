@@ -6,7 +6,15 @@ Click the pencil next to a name, type a new one and press Enter. You rename your
 
 Built on CAPIE (Cyprian's API Extender).
 
-[b]Pre-release.[/b] Tested in single player on HOI4 1.19.3.0 with development builds.
+[b]Pre-release.[/b] Tested in single player on HOI4 1.19.4.0 with development builds.
+
+[h2]What's new[/h2]
+[list]
+[*]Works with HOI4 1.19.4.0 (needs CAPIE 1.5.1).
+[*]New game rule for the rename cooldown: none, 1, 5 (default), 15 or 30 days.
+[*]The name editor's Characters tab shows a small portrait next to each character.
+[*]Flag, portrait and city lists updated for 1.19.4.0.
+[/list]
 
 [img]https://raw.githubusercontent.com/capie-mods/.github/main/workshop/rename-anything/h-what-you-can-rename.png[/img]
 [h2]What you can rename[/h2]
@@ -16,18 +24,18 @@ Built on CAPIE (Cyprian's API Extender).
 [*]Your ruling party (short and full name), and the other party groups through tabs.
 [*]Your subjects, with the diplomatic action [i]Rename this country[/i]: name, adjective, leader, ruling party and flag.
 [*]Your faction, with [i]Rename faction[/i], if you lead it.
-[*]States, cities (victory points), generals, admirals and advisers, in the name editor. None of these need CAPIE.
+[*]States, cities (victory points), generals, admirals and advisers, in the name editor, with a small portrait next to each character. None of these need CAPIE.
 [/list]
-A name can use any letter the game can show, Polish letters included, and has at most 32 characters. Names go into your save. After a rename, the same object can be renamed again in 5 days. [i]Restore name[/i] brings back the game's own name.
+A name can use any letter the game can show, Polish letters included, and has at most 32 characters. Names go into your save. After a rename, the same kind of name can be changed again after the cooldown set in the game rules (5 days by default). [i]Restore name[/i] brings back the game's own name.
 
 [img]https://raw.githubusercontent.com/capie-mods/.github/main/workshop/rename-anything/h-game-rules.png[/img]
 [h2]Game rules[/h2]
-In the lobby you choose who may rename (own country and subjects, own country only, or the host renames everyone), whether every country gets a news event when a name changes (off by default), and which flags the picker offers. The host can also switch each kind of rename off for a game. Those switches are new and have not been checked in the game yet.
+In the lobby you choose who may rename (own country and subjects, own country only, or the host renames everyone), how long the rename cooldown is (none, 1, 5, 15 or 30 days), whether every country gets a news event when a name changes (off by default), and which flags the picker offers. The host can also switch each kind of rename off for a game. Those switches are new and have not been checked in the game yet.
 
 [img]https://raw.githubusercontent.com/capie-mods/.github/main/workshop/rename-anything/h-requirements.png[/img]
 [h2]Requirements[/h2]
 [list]
-[*]Hearts of Iron IV 1.19.3.0 on Windows.
+[*]Hearts of Iron IV 1.19.4.0 on Windows.
 [*]Country, subject, faction and flag names and the text fields in the panels need CAPIE: a small native library with its own launcher, plus the [i]CAPIE[/i] switch mod from the Workshop in the same playset.
 [/list]
 
@@ -39,7 +47,7 @@ CAPIE installs with a small setup tool. Close Steam, or let the tool close it fo
 [code]irm https://github.com/capie-mods/capie/releases/latest/download/install.ps1 | iex[/code]
 A menu opens: choose [i]Install or update[/i].
 [*][b]Download from GitHub.[/b] Get the ZIP, install.ps1 and the two release-manifest files from [url=https://github.com/capie-mods/capie/releases/latest]the latest release[/url] into one folder, then in PowerShell in that folder run:
-[code].\install.ps1 -Install -PackagePath .\CAPIE-1.5.0-win64.zip[/code]
+[code].\install.ps1 -Install -PackagePath .\CAPIE-1.5.1-win64.zip[/code]
 [/list]
 Both ways check the signed release manifest and every file's SHA-256, install into your user folder (never the game folder) and add the CAPIE launcher to the HOI4 launch options in Steam. The same tool updates, installs an older version, switches CAPIE off or uninstalls it.
 

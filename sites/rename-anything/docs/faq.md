@@ -32,7 +32,7 @@ linked from the release notes. The source is public, and you can build it yourse
 
 ## What happens after a game update?
 
-CAPIE is pinned to the exact HOI4 1.19.3.0 executable. After a patch, the game starts without
+CAPIE is pinned to one exact HOI4 executable (1.19.4.0 since CAPIE 1.5.1). After a patch, the game starts without
 CAPIE and you are told why. States, cities and characters still work. A custom country name shows
 as the game's name until a CAPIE update supports the new version.
 
