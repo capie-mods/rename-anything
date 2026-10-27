@@ -66,6 +66,13 @@ CAPIE refuses to load until it is done.
    ruling party's leader: find (RE) the function that turns a character's sub-ideology into its
    display text, answer the custom text for a leader with a layer, store the text in character
    or country variables. Game mechanics stay untouched. API level 8, contract section first.
+   **Hook point found (Ghidra, 1.19.4.0):** `0x1622B90`, `void(CCountryPoliticsView*)`, which
+   fills the politics panel (ruling party `politics+0xD0`, sub-ideology `party+0x18`, text box
+   `ideology` under `ruling_party_info`). One caller (the observer refresh `0x1620890`, already
+   pinned), UI thread. Plan: post-hook, call the original first, then for a country with an
+   override set the `ideology` instant text again (reuse `find_instant`). The generic name getter
+   `0x66A4E0` has 117 callers: never hook it. Tooltips and the `GetRulingIdeology` loc command
+   go through another path (not traced yet), so the first version changes the panel only.
 9. **Mini portraits, first in-game result (2026-10-27).** Visibility works (large / small /
    unknown icons are chosen right), but the `image` property does not resolve
    `[?rn_row_character.rn_pp_i]` through the typed row variable: every row shows the default
