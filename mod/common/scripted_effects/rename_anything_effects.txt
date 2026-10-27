@@ -106,6 +106,7 @@ rn_build_char_page = {
 	set_temp_variable = { rn_hi = rn_lo }
 	add_to_temp_variable = { rn_hi = 10 }
 	clear_array = rn_chars_page
+	clear_array = rn_chars_pp
 	for_each_loop = {
 		array = rn_chars_all
 		value = rn_v
@@ -116,6 +117,10 @@ rn_build_char_page = {
 				check_variable = { rn_i < rn_hi }
 			}
 			add_to_array = { rn_chars_page = rn_v }
+			# Mini portrait value of the row (generated rn_char_portraits.txt), in row order: the
+			# portrait grid over the list reads rn_chars_pp (a numeric array, like the flag picker).
+			var:rn_v = { rn_char_portrait_index = yes }
+			add_to_array = { rn_chars_pp = temp_var:rn_cp_t }
 		}
 	}
 	set_variable = { rn_cpage_disp = rn_cpage }
@@ -394,5 +399,7 @@ rn_store_country_adj = {
 }
 
 rn_reset_country_name = {
-	if = { limit = { NOT = { rn_feature_country_off = yes } } rn_country_name_carrier_clear = yes } # the single country-name carrier (rn_country_name_carrier.txt)
+	# Only a country that has a custom name: a second click (or a laggy one) must not fire another
+	# news event (review 2026-10-27). The single country-name carrier: rn_country_name_carrier.txt.
+	if = { limit = { NOT = { rn_feature_country_off = yes } rn_cn_has_custom = yes } rn_country_name_carrier_clear = yes }
 }

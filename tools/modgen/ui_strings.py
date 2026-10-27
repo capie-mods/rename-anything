@@ -176,7 +176,7 @@ UI: dict[str, tuple[str, str]] = {
     "RN_SV_RENAME": ("Rename state", "Zmień nazwę"),
     "RN_SV_CITIES": ("Cities", "Miasta"),
     "RN_SV_RESET": ("Reset", "Przywróć"),
-    # rename cooldown (states and cities); {days} is replaced by COOLDOWN_DAYS in ui_loc
+    # rename cooldown (states and cities); the length comes from the rn_rename_cooldown game rule
     "RN_CD_STATE_TT": (
         "[ROOT.RN_CD_STATE_LEFT][ROOT.RN_FEAT_STATES]",
         "[ROOT.RN_CD_STATE_LEFT][ROOT.RN_FEAT_STATES]",
@@ -186,12 +186,12 @@ UI: dict[str, tuple[str, str]] = {
         "[ROOT.RN_CD_VP_LEFT][ROOT.RN_FEAT_STATES]",
     ),
     "RN_CD_STATE_READY": (
-        "You can rename one state every {days} days.",
-        "Nazwę stanu można zmieniać raz na {days} dni.",
+        "You can rename a state now.",
+        "Możesz teraz zmienić nazwę stanu.",
     ),
     "RN_CD_VP_READY": (
-        "You can rename one city every {days} days.",
-        "Nazwę miasta można zmieniać raz na {days} dni.",
+        "You can rename a city now.",
+        "Możesz teraz zmienić nazwę miasta.",
     ),
 }
 """UI localisation key to (English text, Polish text); other languages use English."""

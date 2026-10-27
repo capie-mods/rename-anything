@@ -2364,6 +2364,25 @@ defined_text = {
 	text = { trigger = { check_variable = { rn_fp_sel = 2185 } } localization_key = RN_FPL_2185 }
 	text = { trigger = { check_variable = { rn_fp_sel = 2186 } } localization_key = RN_FPL_2186 }
 	text = { trigger = { check_variable = { rn_fp_sel = 2187 } } localization_key = RN_FPL_2187 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2188 } } localization_key = RN_FPL_2188 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2189 } } localization_key = RN_FPL_2189 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2190 } } localization_key = RN_FPL_2190 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2191 } } localization_key = RN_FPL_2191 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2192 } } localization_key = RN_FPL_2192 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2193 } } localization_key = RN_FPL_2193 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2194 } } localization_key = RN_FPL_2194 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2195 } } localization_key = RN_FPL_2195 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2196 } } localization_key = RN_FPL_2196 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2197 } } localization_key = RN_FPL_2197 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2198 } } localization_key = RN_FPL_2198 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2199 } } localization_key = RN_FPL_2199 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2200 } } localization_key = RN_FPL_2200 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2201 } } localization_key = RN_FPL_2201 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2202 } } localization_key = RN_FPL_2202 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2203 } } localization_key = RN_FPL_2203 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2204 } } localization_key = RN_FPL_2204 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2205 } } localization_key = RN_FPL_2205 }
+	text = { trigger = { check_variable = { rn_fp_sel = 2206 } } localization_key = RN_FPL_2206 }
 	text = { localization_key = RN_IPP_EMPTY }
 }
 # Days left of the flag cooldown (scope: the country whose flag changes).

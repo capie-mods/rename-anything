@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING
 
 from modgen.common import GEN_HEADER, LANGS, StateTable
 from modgen.features import (
+    char_portraits,
     characters,
     cities,
     cooldown,
@@ -164,6 +165,7 @@ def gui() -> str:
     """
     parts = [GEN_HEADER, "guiTypes = {\n", main_window.windows(tabs())]
     parts += characters.list_entry()
+    parts += characters.portrait_entry()
     parts += states.list_entry()
     parts += cities.list_entry()
     parts += input_window.target_entry()
@@ -181,6 +183,7 @@ def write_all(
     keys: set[int],
     catalog: flags.FlagCatalog | None = None,
     portrait_catalog: portraits.PortraitCatalog | None = None,
+    char_data: char_portraits.CharPortraits | None = None,
 ) -> None:
     """Write every generated file.
 
@@ -190,6 +193,7 @@ def write_all(
         keys: Province IDs with a vanilla VP name key.
         catalog: Flag catalog of the game; without it the flag picker files are not written.
         portrait_catalog: Portrait catalog; without it the portrait picker files are not written.
+        char_data: Mini portraits of the Characters list; without them the list shows no portraits.
     """
     sink.write_text(SCRIPTED_LOC_FILE, scripted_loc(states_table, keys))
     sink.write_text(TRIGGERS_FILE, generated_triggers())
@@ -203,6 +207,9 @@ def write_all(
     for rel, text, bom in switches.write_files():
         sink.write_text(rel, text, bom=bom)
     _write_pickers(sink, catalog, portrait_catalog)
+    if char_data is not None:
+        for rel, text, bom in char_portraits.write_files(char_data):
+            sink.write_text(rel, text, bom=bom)
     for rel, text, bom in inline_editor.gen_inline_editor():
         sink.write_text(rel, text, bom=bom)
     for lang in LANGS:

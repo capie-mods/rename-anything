@@ -462,10 +462,15 @@ def check_cooldown(
         for n in walk(body)
         if n[0] == "set_temp_variable" and n[2][0][0] == "rn_ip_cd_days"
     ]
-    assert len(constants) == 1
-    assert effects["rn_ip_cooldown_days"] == [
-        ("set_temp_variable", "=", [("rn_ip_cd_days", "=", str(COOLDOWN_DAYS))])
+    # The cooldown length is set only in rn_ip_cooldown_days, one branch per rn_rename_cooldown option.
+    in_days = [
+        n
+        for n in walk(effects["rn_ip_cooldown_days"])
+        if n[0] == "set_temp_variable" and n[2][0][0] == "rn_ip_cd_days"
     ]
+    assert len(constants) == len(in_days) == 5
+    assert sorted(int(n[2][0][2]) for n in in_days) == sorted([0, 1, 15, 30, COOLDOWN_DAYS])
+    assert [n[0] for n in effects["rn_ip_cooldown_days"]] == ["if", "else_if", "else_if", "else_if", "else"]
     starters = {
         "country": "rn_inline_pair_apply_country",
         "leader": "rn_inline_leader_apply",

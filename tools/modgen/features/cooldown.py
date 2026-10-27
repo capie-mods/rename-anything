@@ -128,8 +128,10 @@ def effects() -> str:
         for category in CATEGORIES
     )
     return f"""# Rename cooldown (states, cities): COUNTRY scope, one per category, started only after a setter ran.
+# Same length as the in-place editor: rn_ip_cooldown_days reads the lobby rule rn_rename_cooldown.
 rn_cd_days = {{
-	set_temp_variable = {{ rn_cd_days = {COOLDOWN_DAYS} }}
+	rn_ip_cooldown_days = yes
+	set_temp_variable = {{ rn_cd_days = temp_var:rn_ip_cd_days }}
 }}
 {starts}"""  # noqa: E501 - generated script lines are emitted verbatim
 

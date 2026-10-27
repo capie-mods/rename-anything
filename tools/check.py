@@ -270,13 +270,29 @@ def interface_check(game: GameData, gui: str, loc: dict[str, str]) -> list[str]:
     bad += [f"missing loc key {k}" for k in sorted(keys) if not k.startswith("[") and k not in loc]
     sprites = set(GUI_SPRITE.findall(gui))
     gfx = rd(GFX_FILE)
+    # Sprites may come from any generated .gfx of the mod (catalogs, mini portraits); their
+    # textures are game files, so only rename_anything.gfx gets the texture check below.
+    mod_gfx = "".join(rd(f"interface/{p.name}") for p in sorted(Path("interface").glob("*.gfx")))
     van = game.interface_sprites_text()
     bad += [
         f"missing sprite {s}"
         for s in sorted(sprites)
-        if f'"{s}"' not in gfx and f'"{s}"' not in van
+        if f'"{s}"' not in mod_gfx and f'"{s}"' not in van
     ]
     bad += [f"missing texture {tex}" for tex in GFX_TEXTURE.findall(gfx) if not os.path.exists(tex)]
+    # Generated catalogs (flags, portraits, mini portraits) point at game files: a texture must
+    # exist in the mod, in the game or in one of its DLC folders (a cut path was a real bug).
+    root = getattr(game, "root", None)
+    if root:
+        bases = [Path(), Path(root), *sorted(Path(root, "dlc").glob("*")), *sorted(Path(root, "integrated_dlc").glob("*"))]
+        seen: set[str] = set()
+        for name in sorted(p.name for p in Path("interface").glob("*.gfx") if p.name != Path(GFX_FILE).name):
+            for tex in GFX_TEXTURE.findall(rd(f"interface/{name}")):
+                if tex in seen:
+                    continue
+                seen.add(tex)
+                if not any((base / tex).exists() for base in bases):
+                    bad.append(f"missing texture {tex} ({name})")
     return bad
 
 

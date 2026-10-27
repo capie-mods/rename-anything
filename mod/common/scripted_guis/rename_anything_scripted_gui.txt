@@ -80,6 +80,8 @@ scripted_gui = {
 		}
 		triggers = {
 			rn_tab_2_click_enabled = { always = no }
+			rn_char_pp_l_visible = { check_variable = { rn_pv < 10000 } }
+			rn_char_pp_s_visible = { NOT = { check_variable = { rn_pv < 10000 } } }
 			rn_char_role_leader_visible = { var:rn_row_character = { is_country_leader = yes } }
 			rn_char_role_army_visible = { var:rn_row_character = { is_army_leader = yes NOT = { is_country_leader = yes } } }
 			rn_char_role_navy_visible = { var:rn_row_character = { is_navy_leader = yes NOT = { is_country_leader = yes } NOT = { is_army_leader = yes } } }
@@ -88,12 +90,22 @@ scripted_gui = {
 			rn_cpage_prev_click_enabled = { check_variable = { rn_cpage > 0 } }
 			rn_cpage_next_click_enabled = { check_variable = { rn_cpage_disp < rn_cpages } }
 		}
+		properties = {
+			rn_char_pp_l = { image = "GFX_rnchp_[?rn_pv|0]" }
+			rn_char_pp_s = { image = "GFX_rnchp_[?rn_pv|0]" }
+		}
 		dynamic_lists = {
 			rn_chars_grid = {
 				array = rn_chars_page
 				value = rn_row_character
 				change_scope = no
 				entry_container = "rn_char_entry"
+			}
+			rn_chars_pp_grid = {
+				array = rn_chars_pp
+				value = rn_pv
+				change_scope = no
+				entry_container = "rn_char_pp_entry"
 			}
 		}
 	}

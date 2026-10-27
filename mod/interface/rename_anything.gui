@@ -175,6 +175,14 @@ guiTypes = {
 			buttonFont = "hoi_16mbs"
 			clicksound = click_default
 		}
+		gridBoxType = {
+			name = "rn_chars_pp_grid"
+			position = { x = 20 y = 86 }
+			size = { width = 32 height = 360 }
+			slotsize = { width = 32 height = 36 }
+			max_slots_horizontal = 1
+			format = "UPPER_LEFT"
+		}
 	}
 
 	containerWindowType = {
@@ -411,11 +419,11 @@ guiTypes = {
 		name = "rn_char_entry"
 		size = { width = 520 height = 36 }
 		clipping = no
-		iconType = { name = "rn_char_role_leader" position = { x = 6 y = 10 } spriteType = "GFX_pol_idea" pdx_tooltip = "RN_CHAR_ROLE_LEADER" }
-		iconType = { name = "rn_char_role_army" position = { x = 9 y = 11 } spriteType = "GFX_army_experience" pdx_tooltip = "RN_CHAR_ROLE_ARMY" }
-		iconType = { name = "rn_char_role_navy" position = { x = 9 y = 11 } spriteType = "GFX_navy_experience" pdx_tooltip = "RN_CHAR_ROLE_NAVY" }
-		iconType = { name = "rn_char_role_adviser" position = { x = 7 y = 8 } spriteType = "GFX_pol_power" pdx_tooltip = "RN_CHAR_ROLE_ADVISER" }
-		instantTextBoxType = { name = "rn_char_name" position = { x = 32 y = 8 } font = "hoi_16mbs" text = "RN_CHAR_NAME" maxWidth = 382 maxHeight = 24 format = left fixedsize = yes }
+		iconType = { name = "rn_char_role_leader" position = { x = 36 y = 10 } spriteType = "GFX_pol_idea" pdx_tooltip = "RN_CHAR_ROLE_LEADER" }
+		iconType = { name = "rn_char_role_army" position = { x = 39 y = 11 } spriteType = "GFX_army_experience" pdx_tooltip = "RN_CHAR_ROLE_ARMY" }
+		iconType = { name = "rn_char_role_navy" position = { x = 39 y = 11 } spriteType = "GFX_navy_experience" pdx_tooltip = "RN_CHAR_ROLE_NAVY" }
+		iconType = { name = "rn_char_role_adviser" position = { x = 37 y = 8 } spriteType = "GFX_pol_power" pdx_tooltip = "RN_CHAR_ROLE_ADVISER" }
+		instantTextBoxType = { name = "rn_char_name" position = { x = 62 y = 8 } font = "hoi_16mbs" text = "RN_CHAR_NAME" maxWidth = 352 maxHeight = 24 format = left fixedsize = yes }
 		buttonType = {
 			name = "rn_char_rename"
 			position = { x = 420 y = 2 }
@@ -425,6 +433,13 @@ guiTypes = {
 			pdx_tooltip = "RN_CHAR_RENAME_TT"
 			clicksound = click_default
 		}
+	}
+	containerWindowType = {
+		name = "rn_char_pp_entry"
+		size = { width = 32 height = 36 }
+		clipping = no
+		iconType = { name = "rn_char_pp_l" position = { x = 6 y = 1 } spriteType = "GFX_rnchp_0" scale = 0.16 }
+		iconType = { name = "rn_char_pp_s" position = { x = 6 y = 3 } spriteType = "GFX_rnchp_0" scale = 0.42 }
 	}
 	containerWindowType = {
 		name = "rn_state_entry"

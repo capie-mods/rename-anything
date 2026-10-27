@@ -44,6 +44,43 @@ rn_rename_event = {
 	}
 }
 
+# Rename cooldown (Workshop request 2026-10-25): days between two renames of the same kind, for every
+# rename type. The default is the generator's COOLDOWN_DAYS (5).
+rn_rename_cooldown = {
+	name = "RN_RULE_COOLDOWN"
+	group = "RULE_GROUP_GAMEPLAY"
+	default = {
+		name = "RN_COOLDOWN_DEFAULT"
+		text = "RN_RULE_COOLDOWN_DEFAULT"
+		desc = "RN_RULE_COOLDOWN_DEFAULT_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_COOLDOWN_OFF"
+		text = "RN_RULE_COOLDOWN_OFF"
+		desc = "RN_RULE_COOLDOWN_OFF_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_COOLDOWN_1"
+		text = "RN_RULE_COOLDOWN_1"
+		desc = "RN_RULE_COOLDOWN_1_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_COOLDOWN_15"
+		text = "RN_RULE_COOLDOWN_15"
+		desc = "RN_RULE_COOLDOWN_15_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_COOLDOWN_30"
+		text = "RN_RULE_COOLDOWN_30"
+		desc = "RN_RULE_COOLDOWN_30_DESC"
+		allow_achievements = yes
+	}
+}
+
 # Flag pool (decision 2026-10-14 "flagi", ADR-0032): every flag of the game by default; the
 # country's own flags; or those plus the overlord's current flag (a snapshot, kept after independence).
 rn_flag_pool = {

@@ -37,12 +37,14 @@ def check_generated_mod() -> None:
         assert all(keys == keysets["english"] for keys in keysets.values()), stem
     days = str(COOLDOWN_DAYS)
     inline_effects = declarations(MOD / "common" / "scripted_effects", "rn_inline_*.txt")
-    assert ("set_temp_variable", "=", [("rn_ip_cd_days", "=", days)]) in inline_effects[
+    # Default branch of the rename cooldown rule = COOLDOWN_DAYS; the legacy cooldown reads the same length.
+    assert ("else", "=", [("set_temp_variable", "=", [("rn_ip_cd_days", "=", days)])]) in inline_effects[
         "rn_ip_cooldown_days"
     ]
-    assert ("set_temp_variable", "=", [("rn_cd_days", "=", days)]) in legacy(
-        "common/scripted_effects"
-    )["rn_cd_days"]
+    assert legacy("common/scripted_effects")["rn_cd_days"] == [
+        ("rn_ip_cooldown_days", "=", "yes"),
+        ("set_temp_variable", "=", [("rn_cd_days", "=", "temp_var:rn_ip_cd_days")]),
+    ]
     assert "@RN_" not in "".join(p.read_text(encoding="utf-8-sig") for p in MOD.rglob("*.txt"))
     assert not any("ieaqa" in p.name or "ieqa" in p.name for p in MOD.rglob("*.yml"))
 
