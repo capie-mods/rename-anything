@@ -2,15 +2,14 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+import re
+from pathlib import Path
 
 import pytest
 
-from modgen.features import char_portraits, portraits
+from modgen import build
+from modgen.features import char_portraits, characters, portraits
 from modgen.features.portraits import Character, Entry, PortraitCatalog
-
-if TYPE_CHECKING:
-    from pathlib import Path
 
 
 def _char(token: str, **portraits: str) -> Character:
@@ -94,7 +93,10 @@ def test_effect_caches_and_returns_the_value() -> None:
     fp = char_portraits.fingerprint(data)
     assert f"NOT = {{ check_variable = {{ rn_cp_c = {fp} }} }}" in text
     assert "set_variable = { rn_cp_v = 0 }" in text
-    assert "if = { limit = { is_character = ENG_a } set_variable = { rn_cp_v = 1 } }" in text
+    assert (
+        "if = { limit = { ROOT = { has_character = ENG_a } }"
+        " if = { limit = { is_character = ENG_a } set_variable = { rn_cp_v = 1 } } }"
+    ) in text
     assert text.rstrip().endswith("set_temp_variable = { rn_cp_t = rn_cp_v }\n}")
     assert 1 <= fp <= 99991
 
@@ -232,3 +234,67 @@ def test_dlc_triggers_show_unknown_without_the_dlc() -> None:
     )
     assert 'NOT = { has_dlc = "Thunder at Our Gates" }' in text.split("rn_char_pp_u_visible")[1]
     assert "always = no" in portrait_triggers(())
+
+
+def test_every_is_character_is_guarded_by_a_silent_has_character() -> None:
+    """R1: ``is_character`` runs only inside ``ROOT = { has_character = <same token> }``.
+
+    ``has_character`` resolves the token without logging (hoi4.exe 1.19.4.0, ``3F2B10``); an
+    unguarded ``is_character`` on a token the country does not have logs "is not a valid
+    character". The guard is a nested ``if`` (no ``else_if``), so it does not rely on a limit
+    stopping at its first false trigger.
+    """
+    data = char_portraits.build(
+        [
+            _char("ENG_a", civilian_large="GFX_base_large"),
+            _char("ENG_b", civilian_small="GFX_idea_b"),
+            _char("GER_c", civilian_small="GFX_idea_a"),
+        ],
+        _catalog(),
+        TEXTURES,
+    )
+    text = char_portraits.effects(data)
+    tokens = re.findall(r"is_character = (\w+)", text)
+    assert sorted(tokens) == ["ENG_a", "ENG_b", "GER_c"]
+    for token in tokens:
+        guard = f"if = {{ limit = {{ ROOT = {{ has_character = {token} }} }} if = {{ limit = {{"
+        assert f"{guard} is_character = {token} }}" in text
+    rows = [line.strip() for line in text.splitlines() if "is_character" in line]
+    assert all(line.startswith("if = { limit = { ROOT = { has_character") for line in rows)
+
+
+def test_generated_effect_has_no_unguarded_is_character() -> None:
+    """The committed ``rn_char_portraits.txt`` guards every comparison (matches the generator)."""
+    path = Path(__file__).resolve().parents[2] / "mod" / char_portraits.EFFECTS_FILE
+    lines = [x for x in path.read_text(encoding="utf-8").splitlines() if "is_character" in x]
+    assert lines
+    for line in lines:
+        token = line.split("is_character = ", 1)[1].split()[0]
+        assert f"ROOT = {{ has_character = {token} }}" in line
+        assert "else_if" not in line
+
+
+def test_native_portrait_experiment_is_off_by_default() -> None:
+    """R2: the shipped mod has no ``image = "portrait"`` icon (it would run for every player)."""
+    assert characters.NATIVE_GRID not in build.gui()
+    assert characters.NATIVE_GRID not in build.scripted_gui()
+    assert '"portrait"' not in build.scripted_gui()
+
+
+def test_native_portrait_experiment_adds_a_character_scoped_grid() -> None:
+    """R2: ``--native-portrait-test`` adds a scoped grid over the page with the native image."""
+    gui = build.gui(native_test=True)
+    sgui = build.scripted_gui(native_test=True)
+    assert f'name = "{characters.NATIVE_GRID}"' in gui
+    assert f'name = "{characters.NATIVE_ENTRY}"' in gui
+    assert f'name = "{characters.NATIVE_ICON}"' in gui
+    assert f'spriteType = "{characters.NATIVE_DEFAULT}"' in gui
+    assert f'{characters.NATIVE_ICON} = {{ image = "portrait" }}' in sgui
+    start = sgui.index(f"{characters.NATIVE_GRID} = {{")
+    block = sgui[start : sgui.index("}", start)]
+    assert f"array = {characters.PAGED_LIST_ARRAY}" in block
+    assert "change_scope = yes" in block
+    assert f'entry_container = "{characters.NATIVE_ENTRY}"' in block
+    # The working mini-portrait grid stays.
+    assert characters.PORTRAIT_GRID in sgui
+    assert characters.PORTRAIT_GRID in gui

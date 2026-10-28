@@ -305,6 +305,22 @@ def fingerprint(data: CharPortraits) -> int:
     return int(hashlib.sha256(text.encode()).hexdigest(), 16) % 99991 + 1
 
 
+def row(token: str, action: str) -> str:
+    """Return one comparison of :func:`effects`: a silent ownership guard, then ``is_character``.
+
+    Args:
+        token: Character token.
+        action: Effect to run when the scope is that character.
+
+    Returns:
+        One script line, without indentation.
+    """
+    return (
+        f"if = {{ limit = {{ ROOT = {{ has_character = {token} }} }}"
+        f" if = {{ limit = {{ is_character = {token} }} {action} }} }}"
+    )
+
+
 def effects(data: CharPortraits) -> str:
     """Return ``rn_char_portrait_index`` (character scope).
 
@@ -313,6 +329,14 @@ def effects(data: CharPortraits) -> str:
     1.19.4.0). One chain over every character of the game wrote one line per foreign token for
     every row (100 000 lines on the first page). The comparisons are therefore grouped by country:
     the Characters list holds ROOT's characters, so only the group of ROOT's tag runs.
+
+    Inside the group, ``ROOT = { has_character = <token> }`` guards every ``is_character``
+    (:func:`row`): in hoi4.exe 1.19.4.0 ``has_character`` (``CHasCharacterTrigger``, evaluate
+    ``3F2B10``) resolves the token through the same country lookup (``58A860`` -> ``58A900`` ->
+    ``1173230``) but has no log call, and it is true only for a character the country has, which
+    every row is. So ``is_character`` only runs for tokens that resolve and never logs. The guard
+    is a nested ``if``, not an ``else_if`` limit, so the result does not depend on whether a limit
+    stops at its first false trigger; the tokens are unique, so at most one row matches.
 
     Args:
         data: The values and textures.
@@ -326,11 +350,7 @@ def effects(data: CharPortraits) -> str:
         groups.setdefault(data.tags.get(token, token[:3]), []).append((token, action))
     body = ""
     for g, (tag, rows) in enumerate(sorted(groups.items())):
-        inner = "".join(
-            f"\t\t\t{'if' if i == 0 else 'else_if'} = {{ limit = {{ is_character = {token} }}"
-            f" {action} }}\n"
-            for i, (token, action) in enumerate(rows)
-        )
+        inner = "".join(f"\t\t\t{row(token, action)}\n" for token, action in rows)
         body += (
             f"\t\t{'if' if g == 0 else 'else_if'} = {{\n"
             f"\t\t\tlimit = {{ ROOT = {{ original_tag = {tag} }} }}\n{inner}\t\t}}\n"

@@ -11,6 +11,15 @@ adviser. The country leader's row shares the in-place leader editor's cooldown.
 Mini portrait: a second grid drawn over the rows iterates the numeric array ``rn_chars_pp``
 (one portrait value per row, built with the page by ``rn_build_char_page``) and shows
 ``GFX_rnchp_<value>``, the way the flag picker builds its cell images (:mod:`char_portraits`).
+
+Native portrait experiment (review R2, off by default): ``tools/gen.py --native-portrait-test``
+adds a third grid that iterates the page's characters with ``change_scope = yes`` and an icon
+whose scripted GUI property is ``image = "portrait"``. In hoi4.exe 1.19.4.0 the updater
+(``BDD5B0``) draws that value natively through ``B9B1F0`` when the entry scope's character has a
+unit-leader object (``57CB60`` -> ``141023EE0``, character ``+0xA8``), with the game's fallback
+``GFX_leader_unknown``; for any other scope it sets the sprite named ``portrait``. The shipped
+mod never contains it: the updater evaluates every image property on refresh whether or not the
+icon is shown, so a dormant icon would still run for every player.
 """
 
 from __future__ import annotations
@@ -65,6 +74,24 @@ PORTRAIT_ARRAY = "rn_chars_pp"
 PORTRAIT_VALUE = "rn_pv"
 """Value variable of a :data:`PORTRAIT_GRID` row."""
 
+NATIVE_GRID = "rn_chars_np_grid"
+"""Grid of the native portrait experiment (:func:`native_entry`)."""
+
+NATIVE_ENTRY = "rn_char_np_entry"
+"""Row template of :data:`NATIVE_GRID`."""
+
+NATIVE_ICON = "rn_char_np"
+"""Icon of a :data:`NATIVE_GRID` row; its property is ``image = "portrait"``."""
+
+NATIVE_VALUE = "rn_np_char"
+"""Value variable of a :data:`NATIVE_GRID` row (the row's character, also its scope)."""
+
+NATIVE_X = 420 - 6 - PORTRAIT_WIDTH
+"""X of the experiment's portrait box in a row: just before the Rename button (x 420)."""
+
+NATIVE_DEFAULT = "GFX_rn_key"
+"""Default sprite of :data:`NATIVE_ICON`: a key tile, so a row the property never touched shows."""
+
 ROLE_ICON_BOX = 20
 """Square, in pixels, in which each role icon is centred after the portrait."""
 
@@ -83,6 +110,9 @@ ROW_VARIABLE = "rn_row_character"
 The native GUI scope bridge only carries country, state and unit-leader contexts,
 so civilian characters are kept as a typed row variable instead of a scope.
 """
+
+PAGED_LIST_ARRAY = "rn_chars_page"
+"""Country array of the characters on the shown page, in row order (``rn_build_char_page``)."""
 
 PAGED_LIST = PagedList("chars", "rn_chars_grid", "rn_cpage_prev", "rn_cpage_next", "RN_PAGE")
 """Element names of the Characters list."""
@@ -164,16 +194,38 @@ _TRIGGERS = f"""			rn_char_rename_click_enabled = {{ NOT = {{ AND = {{ var:{ROW_
 """Scripted GUI triggers of the Characters tab."""
 
 
-def tab(content_y: int, dlc_packs: tuple[str, ...] = ()) -> TabSpec:
+def tab(content_y: int, dlc_packs: tuple[str, ...] = (), *, native_test: bool = False) -> TabSpec:
     """Return the Characters tab.
 
     Args:
         content_y: Y position where tab content starts.
         dlc_packs: ``has_dlc`` names of the mini portraits' DLC blocks (:func:`portrait_triggers`).
+        native_test: Add the native portrait experiment (:data:`NATIVE_GRID`, review R2).
 
     Returns:
         The tab specification.
     """
+    native_elements: tuple[str, ...] = ()
+    native_lists: tuple[DynamicList, ...] = ()
+    native_property = ""
+    if native_test:
+        native_elements = (
+            gridbox(
+                NATIVE_GRID,
+                (20 + NATIVE_X, content_y),
+                (PORTRAIT_WIDTH, PAGE * LIST_ROW_HEIGHT),
+                LIST_ROW_HEIGHT,
+            ),
+        )
+        native_lists = (
+            DynamicList(
+                NATIVE_GRID,
+                PAGED_LIST_ARRAY,
+                NATIVE_ENTRY,
+                f"\t\t\t\tvalue = {NATIVE_VALUE}\n\t\t\t\tchange_scope = yes",
+            ),
+        )
+        native_property = f'\t\t\t{NATIVE_ICON} = {{ image = "portrait" }}\n'
     return TabSpec(
         TAB_CHARACTERS,
         "chars",
@@ -187,14 +239,15 @@ def tab(content_y: int, dlc_packs: tuple[str, ...] = ()) -> TabSpec:
                 (PORTRAIT_X + PORTRAIT_WIDTH, PAGE * LIST_ROW_HEIGHT),
                 LIST_ROW_HEIGHT,
             ),
+            *native_elements,
         ),
         DynamicList(
             PAGED_LIST.grid,
-            "rn_chars_page",
+            PAGED_LIST_ARRAY,
             "rn_char_entry",
             f"\t\t\t\tvalue = {ROW_VARIABLE}\n\t\t\t\tchange_scope = no",
         ),
-        _PROPERTIES,
+        _PROPERTIES + native_property,
         (
             DynamicList(
                 PORTRAIT_GRID,
@@ -202,6 +255,7 @@ def tab(content_y: int, dlc_packs: tuple[str, ...] = ()) -> TabSpec:
                 PORTRAIT_ENTRY,
                 f"\t\t\t\tvalue = {PORTRAIT_VALUE}\n\t\t\t\tchange_scope = no",
             ),
+            *native_lists,
         ),
     )
 
@@ -239,6 +293,27 @@ def portrait_entry() -> list[str]:
         portrait_icon("l", "GFX_rnchp_0", LARGE_SCALE, (156, 210)),
         portrait_icon("s", "GFX_rnchp_0", SMALL_SCALE, (60, 68)),
         portrait_icon("u", "GFX_rnchp_0", LARGE_SCALE, (156, 210)),
+        WINDOW_END,
+    ]
+
+
+def native_entry() -> list[str]:
+    """Return the row template of the native portrait experiment (:data:`NATIVE_GRID`).
+
+    The icon uses the large-portrait scale, so a 156 x 210 portrait fills the same 25 x 34 box as
+    the mini portrait.
+
+    Returns:
+        GUI blocks of the ``rn_char_np_entry`` window.
+    """
+    x = (PORTRAIT_WIDTH - round(156 * LARGE_SCALE)) // 2
+    y = (LIST_ROW_HEIGHT - round(210 * LARGE_SCALE)) // 2
+    return [
+        entry_window(NATIVE_ENTRY, PORTRAIT_WIDTH, LIST_ROW_HEIGHT),
+        (
+            f'\t\ticonType = {{ name = "{NATIVE_ICON}" position = {{ x = {x} y = {y} }}'
+            f' spriteType = "{NATIVE_DEFAULT}" scale = {LARGE_SCALE} }}\n'
+        ),
         WINDOW_END,
     ]
 

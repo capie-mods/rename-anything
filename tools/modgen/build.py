@@ -55,17 +55,21 @@ GFX_FILE = "interface/rename_anything.gfx"
 """Sprite definitions of the legacy editor, relative to ``mod/``."""
 
 
-def tabs(dlc_packs: tuple[str, ...] = ()) -> list[main_window.TabSpec]:
+def tabs(
+    dlc_packs: tuple[str, ...] = (), *, native_test: bool = False
+) -> list[main_window.TabSpec]:
     """Return the four main window tabs in tab order.
 
     Args:
         dlc_packs: DLC blocks of the Characters list's mini portraits.
+        native_test: Add the native portrait experiment to the Characters tab (review R2).
 
     Returns:
         Country, Characters, States and Cities.
     """
     y0 = main_window.CONTENT_Y
-    return [country.tab(y0), characters.tab(y0, dlc_packs), states.tab(y0), cities.tab(y0)]
+    chars = characters.tab(y0, dlc_packs, native_test=native_test)
+    return [country.tab(y0), chars, states.tab(y0), cities.tab(y0)]
 
 
 def scripted_loc(states_table: StateTable, keys: set[int]) -> str:
@@ -135,11 +139,12 @@ def generated_triggers() -> str:
     return GEN_HEADER + cooldown.triggers() + "\n" + inline_editor.bridge_gate_trigger()
 
 
-def scripted_gui(dlc_packs: tuple[str, ...] = ()) -> str:
+def scripted_gui(dlc_packs: tuple[str, ...] = (), *, native_test: bool = False) -> str:
     """Return the complete scripted GUI file.
 
     Args:
         dlc_packs: DLC blocks of the Characters list's mini portraits.
+        native_test: Add the native portrait experiment (review R2).
 
     Returns:
         Contents of :data:`SCRIPTED_GUI_FILE`: the four tab GUIs, the input window
@@ -151,7 +156,7 @@ def scripted_gui(dlc_packs: tuple[str, ...] = ()) -> str:
         "# on the clicking player's own country (ROOT). "
         "Two-client MP verification is still required.\n\n"
         "scripted_gui = {\n"
-        + main_window.scripted_guis(tabs(dlc_packs))
+        + main_window.scripted_guis(tabs(dlc_packs, native_test=native_test))
         + "\n"
         + input_window.input_gui()
         + "\n"
@@ -162,16 +167,21 @@ def scripted_gui(dlc_packs: tuple[str, ...] = ()) -> str:
     )
 
 
-def gui() -> str:
+def gui(*, native_test: bool = False) -> str:
     """Return the interface ``.gui`` file.
+
+    Args:
+        native_test: Add the native portrait experiment (review R2).
 
     Returns:
         Contents of :data:`GUI_FILE`: the tab windows, the list row templates, the
         input window and the state view panel.
     """
-    parts = [GEN_HEADER, "guiTypes = {\n", main_window.windows(tabs())]
+    parts = [GEN_HEADER, "guiTypes = {\n", main_window.windows(tabs(native_test=native_test))]
     parts += characters.list_entry()
     parts += characters.portrait_entry()
+    if native_test:
+        parts += characters.native_entry()
     parts += states.list_entry()
     parts += cities.list_entry()
     parts += input_window.target_entry()
@@ -191,6 +201,7 @@ def write_all(  # noqa: PLR0913 - one optional input per generated catalog, keyw
     catalog: flags.FlagCatalog | None = None,
     portrait_catalog: portraits.PortraitCatalog | None = None,
     char_data: char_portraits.CharPortraits | None = None,
+    native_portrait_test: bool = False,
 ) -> None:
     """Write every generated file.
 
@@ -201,12 +212,14 @@ def write_all(  # noqa: PLR0913 - one optional input per generated catalog, keyw
         catalog: Flag catalog of the game; without it the flag picker files are not written.
         portrait_catalog: Portrait catalog; without it the portrait picker files are not written.
         char_data: Mini portraits of the Characters list; without them the list shows no portraits.
+        native_portrait_test: Add the native portrait experiment (review R2); never committed.
     """
     sink.write_text(SCRIPTED_LOC_FILE, scripted_loc(states_table, keys))
     sink.write_text(TRIGGERS_FILE, generated_triggers())
     sink.write_text(EFFECTS_FILE, effects(states_table))
-    sink.write_text(SCRIPTED_GUI_FILE, scripted_gui(char_data.packs if char_data else ()))
-    sink.write_text(GUI_FILE, gui())
+    packs = char_data.packs if char_data else ()
+    sink.write_text(SCRIPTED_GUI_FILE, scripted_gui(packs, native_test=native_portrait_test))
+    sink.write_text(GUI_FILE, gui(native_test=native_portrait_test))
     sink.write_text(GFX_FILE, textures.gen_gfx())
     sink.write_text(refresh.ON_ACTIONS_FILE, GEN_HEADER + refresh.on_actions())
     for name, data in textures.gen_textures().items():

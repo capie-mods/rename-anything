@@ -130,6 +130,12 @@ def main() -> int:
     """
     ap = argparse.ArgumentParser()
     ap.add_argument("--game", default=DEFAULT_GAME)
+    ap.add_argument(
+        "--native-portrait-test",
+        action="store_true",
+        help="add the native portrait experiment to the Characters tab (review R2); "
+        "for a local in-game test only, never commit that output",
+    )
     args = ap.parse_args()
     game = GameInstallation(args.game)
     states = dict(sorted(read_state_inventory(game.state_histories()).states.items()))
@@ -147,7 +153,10 @@ def main() -> int:
         catalog=catalog,
         portrait_catalog=portrait_catalog,
         char_data=char_data,
+        native_portrait_test=args.native_portrait_test,
     )
+    if args.native_portrait_test:
+        print("NATIVE PORTRAIT TEST ON: do not commit mod/; re-run without the flag after the test")
     print(summary(states, keys))
     print("flags:", ", ".join(f"{k} {v}" for k, v in catalog.report.items()))
     print("portraits:", ", ".join(f"{k} {v}" for k, v in portrait_catalog.report.items()))

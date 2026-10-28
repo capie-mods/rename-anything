@@ -10,6 +10,9 @@ turns the section of the version in `mod/descriptor.mod` into the Workshop chang
 
 - Fixed: opening the Characters tab wrote about 100,000 error lines to the game's error.log
   (one per character of every other country). Only the player's own country is checked now.
+- Fixed: each new page of the Characters tab still wrote about 14 "is not a valid character"
+  lines to error.log, one per character of your country that is not in the game yet. Those
+  characters are now skipped without a log line.
 - Fixed: about 1,800 characters showed the unknown mini portrait in the Characters tab: the
   characters whose definition or picture comes from a DLC, and the pictures HOI4 now gives every
   player from four former DLC (Together for Victory, Death or Dishonor, Waking the Tiger, Man the
