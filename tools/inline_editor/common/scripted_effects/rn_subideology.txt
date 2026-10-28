@@ -1,0 +1,141 @@
+# Ruling party sub-ideology name (plugin/capie/CONTRACT.md section 20, API level 8, CAPIE 1.6). Own
+# country only: the pencil in the politics view next to the ruling party's name opens the editor
+# capie_v1_ed__rnsi__subideo (one field). CAPIE shows the name in the politics panel only, and only
+# while the country keeps the ruling party and the sub-ideology it had at Apply; Rename Anything
+# then also removes the name (rn_subideology_on_actions.txt), so it never comes back by itself.
+#
+# State (on ROOT, the player, which is also the renamed country):
+#   flag rn_si_open      the editor is open
+#   rn_si_epoch          CAPIE opening epoch (carrier capie_v1_ep__rnsi__subideo)
+# The layer capie_sn_* (section 20), the mod's own rn_sn_sub / rn_sn_cat (the sub-ideology at Apply,
+# rn_subideology_catalog.txt) and the cooldown rn_ip_cd_subideo_until / rn_ip_cd_subideo_date
+# (its own counter, the same length as the name's).
+#
+# Errors (temp rn_cv1_err, shown through rn_cv1_st_err): 1/4/5/6 field (validator), 10 CAPIE
+# missing, 11 cooldown, 12 stale opening, 13 editor unavailable, 15 CAPIE older than API level 8,
+# 16 CAPIE without the sub-ideology layer (capie_subideo is not 1), 20 not allowed, 21 switched off.
+
+# Scope: the player (politics view).
+rn_si_open = {
+	if = {
+		limit = {
+			tag = ROOT
+			is_ai = no
+			NOT = { has_country_flag = rn_open }
+			NOT = { has_country_flag = rn_input }
+			NOT = { rn_feature_subideology_off = yes }
+		}
+		rn_inline_pair_cancel_party = yes
+		rn_inline_pair_cancel_country = yes
+		rn_inline_leader_cancel = yes
+		rn_fp_close = yes
+		rn_cp_close = yes
+		rn_pp_close = yes
+		set_country_flag = rn_si_open
+		add_to_variable = { rn_si_epoch = 1 }
+		if = { limit = { check_variable = { rn_si_epoch > 999999 } } set_variable = { rn_si_epoch = 1 } }
+		rn_cv1_status_clear = yes
+	}
+}
+
+# ROOT scope. Safe to call when the editor is closed.
+rn_si_close = {
+	if = {
+		limit = { has_country_flag = rn_si_open }
+		add_to_variable = { rn_si_epoch = 1 }
+		if = { limit = { check_variable = { rn_si_epoch > 999999 } } set_variable = { rn_si_epoch = 1 } }
+	}
+	clr_country_flag = rn_si_open
+}
+
+# ROOT scope. temp rn_cv1_err 21 when the host switched the feature off, 20 when the editor is not
+# open for the player's own country.
+rn_si_rights = {
+	if = { limit = { rn_feature_subideology_off = yes } set_temp_variable = { rn_cv1_err = 21 } }
+	if = {
+		limit = {
+			check_variable = { temp_var:rn_cv1_err = 0 }
+			OR = {
+				NOT = { tag = ROOT }
+				is_ai = yes
+				NOT = { has_country_flag = rn_si_open }
+				has_country_flag = rn_open
+				has_country_flag = rn_input
+			}
+		}
+		set_temp_variable = { rn_cv1_err = 20 }
+	}
+}
+
+# Apply (ROOT scope): CAPIE header (epoch, API level 8, capie_subideo = 1), switch, rights, the
+# cooldown and the field, then the carrier.
+rn_si_apply = {
+	set_temp_variable = { rn_cv1_open = rn_si_epoch }
+	rn_cv1_header = yes
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } NOT = { check_variable = { temp_var:capie_cap > 7 } } }
+		set_temp_variable = { rn_cv1_err = 15 }
+	}
+	else_if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } NOT = { check_variable = { temp_var:capie_subideo = 1 } } }
+		set_temp_variable = { rn_cv1_err = 16 }
+	}
+	rn_si_rights = yes
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } rn_si_cooldown_active = yes }
+		set_temp_variable = { rn_cv1_err = 11 }
+	}
+	if = { limit = { check_variable = { temp_var:rn_cv1_err = 0 } } rn_cv1_take_one = yes }
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } }
+		set_temp_variable = { rn_nativeb_len = 0 }
+		rn_inline_party_copy_validated = yes
+		rn_subideology_name_carrier_set = yes
+		rn_si_cooldown_start = yes
+		rn_si_close = yes
+	}
+	rn_cv1_status_record = yes
+}
+
+# "Restore name" (ROOT scope): removes the name; the same rights and cooldown as Apply, no CAPIE
+# needed. Without a name it changes nothing and starts no cooldown.
+rn_si_reset = {
+	set_temp_variable = { rn_cv1_err = 0 }
+	set_temp_variable = { rn_cv1_field = 0 }
+	rn_si_rights = yes
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } rn_si_cooldown_active = yes }
+		set_temp_variable = { rn_cv1_err = 11 }
+	}
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } has_variable = capie_sn_ver }
+		rn_subideology_name_carrier_clear = yes
+		rn_si_cooldown_start = yes
+		rn_si_close = yes
+	}
+	rn_cv1_status_record = yes
+}
+
+# Country scope with a name (on_daily). The name lapses when the ruling sub-ideology is no longer
+# the one at Apply (rn_sn_sub of the current list rn_sn_cat), without a cooldown.
+rn_si_daily_check = {
+	rn_si_catalog = yes
+	rn_si_current = yes
+	if = {
+		limit = {
+			has_variable = rn_sn_sub
+			check_variable = { rn_sn_cat = temp_var:rn_si_cat }
+			NOT = { check_variable = { rn_sn_sub = temp_var:rn_si_cur } }
+		}
+		rn_subideology_name_carrier_clear = yes
+	}
+}
+
+# Sub-ideology name cooldown (scope: the country): its own counter, the same length as the name
+# cooldown (game rule rn_rename_cooldown), started only by a successful Apply or Restore.
+rn_si_cooldown_start = {
+	rn_ip_cooldown_days = yes
+	set_variable = { rn_ip_cd_subideo_until = global.num_days }
+	add_to_variable = { rn_ip_cd_subideo_until = temp_var:rn_ip_cd_days }
+	set_variable = { rn_ip_cd_subideo_date = global.date }
+}

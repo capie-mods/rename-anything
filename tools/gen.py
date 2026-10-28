@@ -110,9 +110,9 @@ import sys
 
 from modgen.build import summary, write_all
 from modgen.common import MOD
+from modgen.features import char_portraits, subideology
 from modgen.features.flags import read_catalog
 from modgen.features.portraits import read_catalog as read_portraits
-from modgen.features import char_portraits
 from modgen.output import DiskSink
 from rncommon.game_data import (
     DEFAULT_GAME,
@@ -153,6 +153,7 @@ def main() -> int:
         catalog=catalog,
         portrait_catalog=portrait_catalog,
         char_data=char_data,
+        subideologies=subideology.read_types(args.game),
         native_portrait_test=args.native_portrait_test,
     )
     if args.native_portrait_test:
@@ -161,7 +162,8 @@ def main() -> int:
     print("flags:", ", ".join(f"{k} {v}" for k, v in catalog.report.items()))
     print("portraits:", ", ".join(f"{k} {v}" for k, v in portrait_catalog.report.items()))
     print(
-        f"character portraits: {len(char_data.values)} characters, {len(char_data.textures)} sprites"
+        f"character portraits: {len(char_data.values)} characters, "
+        f"{len(char_data.textures)} sprites"
     )
     return 0
 

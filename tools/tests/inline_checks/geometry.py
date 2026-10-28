@@ -235,6 +235,7 @@ def geometry_audit(gui: list[Any]) -> None:
     subjects = {
         f"capie_v1_ed__rn__{e}_apply" for e in ("subcountry", "subleader", "subparty", "faction")
     }
+    subjects.add("capie_v1_ed__rnsi__subideo_apply")
     assert shortcuts == applies | subjects, "only the Apply buttons"
     assert not any(v == "ESCAPE" for _, _, v in walk(gui)), "Esc belongs to the politics panel"
     tabs = [rects[f"rn_ipp_tab_{i}"] for i, _ in GROUPS]

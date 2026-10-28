@@ -30,6 +30,7 @@ from modgen.features import (
     portraits,
     refresh,
     states,
+    subideology,
     switches,
     textures,
 )
@@ -203,6 +204,7 @@ def write_all(  # noqa: PLR0913 - one optional input per generated catalog, keyw
     catalog: flags.FlagCatalog | None = None,
     portrait_catalog: portraits.PortraitCatalog | None = None,
     char_data: char_portraits.CharPortraits | None = None,
+    subideologies: tuple[str, ...] | None = None,
     native_portrait_test: bool = False,
 ) -> None:
     """Write every generated file.
@@ -214,6 +216,8 @@ def write_all(  # noqa: PLR0913 - one optional input per generated catalog, keyw
         catalog: Flag catalog of the game; without it the flag picker files are not written.
         portrait_catalog: Portrait catalog; without it the portrait picker files are not written.
         char_data: Mini portraits of the Characters list; without them the list shows no portraits.
+        subideologies: Sub-ideologies of the game; without them the sub-ideology files are not
+            written.
         native_portrait_test: Add the native portrait experiment (review R2); never committed.
     """
     sink.write_text(SCRIPTED_LOC_FILE, scripted_loc(states_table, keys))
@@ -229,6 +233,9 @@ def write_all(  # noqa: PLR0913 - one optional input per generated catalog, keyw
     for rel, text, bom in switches.write_files():
         sink.write_text(rel, text, bom=bom)
     _write_pickers(sink, catalog, portrait_catalog)
+    if subideologies is not None:
+        for rel, text, bom in subideology.write_files(subideologies):
+            sink.write_text(rel, text, bom=bom)
     if char_data is not None:
         for rel, text, bom in char_portraits.write_files(char_data):
             sink.write_text(rel, text, bom=bom)

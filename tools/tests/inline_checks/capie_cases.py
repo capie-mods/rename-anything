@@ -63,8 +63,10 @@ ERR_SETUP = 13
 ERR_RIGHTS = 20
 """rn_cv1_err: the target is not a subject of the player, or the editor is not open."""
 
-GRAMMAR = re.compile(r"^capie_v1_(ed|f|pf|ep)__rn__([a-z0-9]{1,12})(__[1-4])?(_apply(_click)?)?$")
-"""Grammar of a Rename Anything editor name (CONTRACT.md section 3, mod id ``rn``)."""
+GRAMMAR = re.compile(
+    r"^capie_v1_(ed|f|pf|ep)__(rn|rnsi)__([a-z0-9]{1,12})(__[1-4])?(_apply(_click)?)?$"
+)
+"""Grammar of a Rename Anything editor name (CONTRACT.md section 3, mod ids ``rn`` and ``rnsi``)."""
 
 SUBJECT_EDITORS = {"subcountry": 2, "subleader": 1, "subparty": 2}
 """Subject editor id to its number of fields."""

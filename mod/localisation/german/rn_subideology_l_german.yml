@@ -1,0 +1,12 @@
+﻿l_german:
+ RN_SI_OPEN_TT:0 "Rename the ruling party's sub-ideology ([ROOT.GetRulingIdeology]). The new name shows in this panel while the party and its sub-ideology stay in power.[ROOT.RN_SI_CD][ROOT.RN_FEAT_SUBIDEOLOGY]"
+ RN_SI_LABEL:0 "§LSub-ideology name§!"
+ RN_SI_APPLY_TT:0 "Save the sub-ideology's name. It ends when the ruling party or its sub-ideology changes.[ROOT.RN_FEAT_SUBIDEOLOGY]"
+ RN_SI_RESET_TT:0 "Back to the game's name for this sub-ideology. Uses the rename cooldown like a new name.[ROOT.RN_FEAT_SUBIDEOLOGY]"
+ RN_SI_HINT:0 "§LShown in this panel. Enter: apply§!"
+ RN_SI_ERR_CAPIE_OLD:0 "§RSub-ideology names need CAPIE 1.6 or newer. Nothing was changed.§!"
+ RN_SI_ERR_NO_LAYER:0 "§RCAPIE cannot rename sub-ideologies in this game version. Nothing was changed.§!"
+ RN_SI_ERR_RIGHTS:0 "§RThe editor is closed or another window is open. Nothing was changed.§!"
+ RN_SI_ERR_CD:0 "§RThe next sub-ideology rename is possible in [ROOT.RN_IP_CD_LEFT_SUBIDEO]. Nothing was changed.§!"
+ RN_SI_CD_LINE:0 "§RThe next sub-ideology rename is possible in [ROOT.RN_IP_CD_LEFT_SUBIDEO] (last change: [?ROOT.rn_ip_cd_subideo_date.GetDateStringNoHourLong]).§!"
+ RN_SI_CD_ACTIVE:0 "\n§RThe next sub-ideology rename is possible in [ROOT.RN_IP_CD_LEFT_SUBIDEO] (last change: [?ROOT.rn_ip_cd_subideo_date.GetDateStringNoHourLong]).§!"

@@ -42,6 +42,8 @@ def check_models(models: dict[str, Any], triggers: dict[str, Any]) -> dict[str, 
         "capie_v1_ed__rn__subleader",
         "capie_v1_ed__rn__subparty",
         "capie_v1_ed__rn__faction",
+        "rn_si_launcher_gui",
+        "capie_v1_ed__rnsi__subideo",
     }
     assert "rn_ip_subject_rename_enabled" not in triggers, "placeholder switch retired"
     # The subject models are checked by inline_checks.capie_cases.check_capie_structure.
@@ -303,12 +305,13 @@ def check_guards(effects: dict[str, Any], triggers: dict[str, Any]) -> None:
     assert ("check_variable", "=", [("rn_ip_leader_current^num", "=", "1")]) in list(walk(final))
     assert len([n for n in walk(leader) if n[0] == "set_character_name"]) == 1
     assert not any(v == "POL" or v.startswith("POL_") for b in effects.values() for v in tokens(b))
-    # Own party Apply: one copy per group branch. Subject setters reuse the copy as scratch
-    # (checked in inline_checks.capie_cases), so they are counted apart.
+    # Own party Apply: one copy per group branch. Subject, faction and sub-ideology setters reuse
+    # the copy as scratch (checked in inline_checks.capie_cases and subideology_cases), so they are
+    # counted apart.
     copies = [
         n
         for name, b in effects.items()
-        if not name.startswith(("rn_sub_", "rn_fac_"))
+        if not name.startswith(("rn_sub_", "rn_fac_", "rn_si_"))
         for n in walk(b)
         if n[0] == "rn_inline_party_copy_validated"
     ]
@@ -462,15 +465,23 @@ def check_cooldown(
         for n in walk(body)
         if n[0] == "set_temp_variable" and n[2][0][0] == "rn_ip_cd_days"
     ]
-    # The cooldown length is set only in rn_ip_cooldown_days, one branch per rn_rename_cooldown option.
+    # The cooldown length is set only in rn_ip_cooldown_days, one branch per rn_rename_cooldown
+    # option.
     in_days = [
         n
         for n in walk(effects["rn_ip_cooldown_days"])
         if n[0] == "set_temp_variable" and n[2][0][0] == "rn_ip_cd_days"
     ]
-    assert len(constants) == len(in_days) == 5
-    assert sorted(int(n[2][0][2]) for n in in_days) == sorted([0, 1, 15, 30, COOLDOWN_DAYS])
-    assert [n[0] for n in effects["rn_ip_cooldown_days"]] == ["if", "else_if", "else_if", "else_if", "else"]
+    options = sorted([0, 1, 15, 30, COOLDOWN_DAYS])
+    assert len(constants) == len(in_days) == len(options)
+    assert sorted(int(n[2][0][2]) for n in in_days) == options
+    assert [n[0] for n in effects["rn_ip_cooldown_days"]] == [
+        "if",
+        "else_if",
+        "else_if",
+        "else_if",
+        "else",
+    ]
     starters = {
         "country": "rn_inline_pair_apply_country",
         "leader": "rn_inline_leader_apply",
