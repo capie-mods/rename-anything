@@ -16,7 +16,7 @@ Mini portrait: a second grid drawn over the rows iterates the numeric array ``rn
 from __future__ import annotations
 
 from modgen.common import LIST_ROW_HEIGHT, LIST_WIDTH, PAGE, TAB_CHARACTERS
-from modgen.features.char_portraits import SMALL_OFFSET
+from modgen.features.char_portraits import DLC_BLOCK, DLC_OFFSET, DLC_SMALL, SMALL_OFFSET
 from modgen.features.main_window import DynamicList, TabSpec
 from modgen.gui import (
     BUTTON_SMALL,
@@ -115,12 +115,41 @@ _ROLE_TRIGGERS = "".join(
 )
 """Visible triggers of the four role icons of a row."""
 
-_PORTRAIT_TRIGGERS = (
-    f"\t\t\trn_char_pp_l_visible = {{ check_variable = {{ {PORTRAIT_VALUE} < {SMALL_OFFSET} }} }}\n"
-    "\t\t\trn_char_pp_s_visible = "
-    f"{{ NOT = {{ check_variable = {{ {PORTRAIT_VALUE} < {SMALL_OFFSET} }} }} }}\n"
-)
-"""Visible triggers of the two portrait icons: 156 x 210 (catalog or unknown) or a small one."""
+
+def portrait_triggers(packs: tuple[str, ...] = ()) -> str:
+    """Return the visible triggers of the three portrait icons of a row.
+
+    ``l`` shows a large picture (catalog, extra large, unknown) and ``s`` a small one. A DLC-block
+    value (:data:`~modgen.features.char_portraits.DLC_OFFSET`) shows its picture only when the
+    local player owns that DLC and the unknown portrait (``u``) otherwise. ``has_dlc`` appears only
+    in these ``_visible`` triggers: it decides what the local UI shows, never game state.
+
+    Args:
+        packs: ``has_dlc`` names of the DLC blocks, in block order.
+
+    Returns:
+        The trigger lines.
+    """
+    v = PORTRAIT_VALUE
+
+    def in_range(lo: int, hi: int) -> str:
+        return f"NOT = {{ check_variable = {{ {v} < {lo} }} }} check_variable = {{ {v} < {hi} }}"
+
+    large = [f"check_variable = {{ {v} < {SMALL_OFFSET} }}"]
+    small = [f"AND = {{ {in_range(SMALL_OFFSET, DLC_OFFSET)} }}"]
+    unknown = []
+    for p, name in enumerate(packs):
+        start = DLC_OFFSET + p * DLC_BLOCK
+        owned = f'has_dlc = "{name}"'
+        large.append(f"AND = {{ {in_range(start, start + DLC_SMALL)} {owned} }}")
+        small.append(f"AND = {{ {in_range(start + DLC_SMALL, start + DLC_BLOCK)} {owned} }}")
+        unknown.append(f"AND = {{ {in_range(start, start + DLC_BLOCK)} NOT = {{ {owned} }} }}")
+    return (
+        f"\t\t\trn_char_pp_l_visible = {{ OR = {{ {' '.join(large)} }} }}\n"
+        f"\t\t\trn_char_pp_s_visible = {{ OR = {{ {' '.join(small)} }} }}\n"
+        f"\t\t\trn_char_pp_u_visible = {{ OR = {{ {' '.join(unknown) or 'always = no'} }} }}\n"
+    )
+
 
 _PROPERTIES = (
     f'\t\t\trn_char_pp_l = {{ image = "GFX_rnchp_[?{PORTRAIT_VALUE}|0]" }}\n'
@@ -135,11 +164,12 @@ _TRIGGERS = f"""			rn_char_rename_click_enabled = {{ NOT = {{ AND = {{ var:{ROW_
 """Scripted GUI triggers of the Characters tab."""
 
 
-def tab(content_y: int) -> TabSpec:
+def tab(content_y: int, dlc_packs: tuple[str, ...] = ()) -> TabSpec:
     """Return the Characters tab.
 
     Args:
         content_y: Y position where tab content starts.
+        dlc_packs: ``has_dlc`` names of the mini portraits' DLC blocks (:func:`portrait_triggers`).
 
     Returns:
         The tab specification.
@@ -148,7 +178,7 @@ def tab(content_y: int) -> TabSpec:
         TAB_CHARACTERS,
         "chars",
         _EFFECTS,
-        _PORTRAIT_TRIGGERS + _ROLE_TRIGGERS + _TRIGGERS,
+        portrait_triggers(dlc_packs) + _ROLE_TRIGGERS + _TRIGGERS,
         (
             *paged_list(PAGED_LIST, content_y),
             gridbox(
@@ -208,6 +238,7 @@ def portrait_entry() -> list[str]:
         entry_window(PORTRAIT_ENTRY, PORTRAIT_X + PORTRAIT_WIDTH, LIST_ROW_HEIGHT),
         portrait_icon("l", "GFX_rnchp_0", LARGE_SCALE, (156, 210)),
         portrait_icon("s", "GFX_rnchp_0", SMALL_SCALE, (60, 68)),
+        portrait_icon("u", "GFX_rnchp_0", LARGE_SCALE, (156, 210)),
         WINDOW_END,
     ]
 
@@ -216,7 +247,8 @@ def portrait_icon(kind: str, sprite: str, scale: float, size: tuple[int, int]) -
     """Return one icon of the mini portrait grid, centred in the portrait box.
 
     Args:
-        kind: ``l`` (156 x 210: catalog or unknown) or ``s`` (small idea-style portrait).
+        kind: ``l`` (156 x 210: catalog or unknown), ``s`` (small idea-style portrait) or ``u``
+            (the unknown portrait for a DLC picture the local player does not own).
         sprite: Default sprite (the scripted GUI property replaces it for ``l`` and ``s``).
         scale: Icon scale.
         size: Texture width and height in pixels.

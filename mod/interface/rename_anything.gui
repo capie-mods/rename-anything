@@ -440,6 +440,7 @@ guiTypes = {
 		clipping = no
 		iconType = { name = "rn_char_pp_l" position = { x = 6 y = 1 } spriteType = "GFX_rnchp_0" scale = 0.16 }
 		iconType = { name = "rn_char_pp_s" position = { x = 6 y = 3 } spriteType = "GFX_rnchp_0" scale = 0.42 }
+		iconType = { name = "rn_char_pp_u" position = { x = 6 y = 1 } spriteType = "GFX_rnchp_0" scale = 0.16 }
 	}
 	containerWindowType = {
 		name = "rn_state_entry"

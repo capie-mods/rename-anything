@@ -55,14 +55,17 @@ GFX_FILE = "interface/rename_anything.gfx"
 """Sprite definitions of the legacy editor, relative to ``mod/``."""
 
 
-def tabs() -> list[main_window.TabSpec]:
+def tabs(dlc_packs: tuple[str, ...] = ()) -> list[main_window.TabSpec]:
     """Return the four main window tabs in tab order.
+
+    Args:
+        dlc_packs: DLC blocks of the Characters list's mini portraits.
 
     Returns:
         Country, Characters, States and Cities.
     """
     y0 = main_window.CONTENT_Y
-    return [country.tab(y0), characters.tab(y0), states.tab(y0), cities.tab(y0)]
+    return [country.tab(y0), characters.tab(y0, dlc_packs), states.tab(y0), cities.tab(y0)]
 
 
 def scripted_loc(states_table: StateTable, keys: set[int]) -> str:
@@ -132,8 +135,11 @@ def generated_triggers() -> str:
     return GEN_HEADER + cooldown.triggers() + "\n" + inline_editor.bridge_gate_trigger()
 
 
-def scripted_gui() -> str:
+def scripted_gui(dlc_packs: tuple[str, ...] = ()) -> str:
     """Return the complete scripted GUI file.
+
+    Args:
+        dlc_packs: DLC blocks of the Characters list's mini portraits.
 
     Returns:
         Contents of :data:`SCRIPTED_GUI_FILE`: the four tab GUIs, the input window
@@ -145,7 +151,7 @@ def scripted_gui() -> str:
         "# on the clicking player's own country (ROOT). "
         "Two-client MP verification is still required.\n\n"
         "scripted_gui = {\n"
-        + main_window.scripted_guis(tabs())
+        + main_window.scripted_guis(tabs(dlc_packs))
         + "\n"
         + input_window.input_gui()
         + "\n"
@@ -199,7 +205,7 @@ def write_all(  # noqa: PLR0913 - one optional input per generated catalog, keyw
     sink.write_text(SCRIPTED_LOC_FILE, scripted_loc(states_table, keys))
     sink.write_text(TRIGGERS_FILE, generated_triggers())
     sink.write_text(EFFECTS_FILE, effects(states_table))
-    sink.write_text(SCRIPTED_GUI_FILE, scripted_gui())
+    sink.write_text(SCRIPTED_GUI_FILE, scripted_gui(char_data.packs if char_data else ()))
     sink.write_text(GUI_FILE, gui())
     sink.write_text(GFX_FILE, textures.gen_gfx())
     sink.write_text(refresh.ON_ACTIONS_FILE, GEN_HEADER + refresh.on_actions())

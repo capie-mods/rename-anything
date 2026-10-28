@@ -206,7 +206,29 @@ def test_large_picture_outside_the_catalog_gets_a_large_value() -> None:
         (("always = yes", {("civilian", "large"): "GFX_portrait_k"}),),
     )
     data = char_portraits.build(
-        [curtin], _catalog(), TEXTURES, {"GFX_portrait_k": "gfx/leaders/ENG/k.dds"}
+        [curtin], _catalog(), TEXTURES, {"GFX_portrait_k": ("Some DLC", "gfx/leaders/ENG/k.dds")}
     )
     assert data.values == {"ENG_k": char_portraits.LARGE_OFFSET + 1}
     assert data.textures[char_portraits.LARGE_OFFSET + 1] == "gfx/leaders/ENG/k.dds"
+
+
+def test_dlc_only_picture_gets_a_dlc_block_value() -> None:
+    """A top-level picture that only a DLC has gets a value of that DLC's block."""
+    lyons = _char("ENG_l", civilian_large="GFX_portrait_l")
+    data = char_portraits.build(
+        [lyons], _catalog(), TEXTURES, {"GFX_portrait_l": ("Thunder at Our Gates", "gfx/l.dds")}
+    )
+    assert data.values == {"ENG_l": char_portraits.DLC_OFFSET + 1}
+    assert data.packs == ("Thunder at Our Gates",)
+
+
+def test_dlc_triggers_show_unknown_without_the_dlc() -> None:
+    """The DLC block is visible with has_dlc and the unknown icon without it."""
+    from modgen.features.characters import portrait_triggers
+
+    text = portrait_triggers(("Thunder at Our Gates",))
+    assert (
+        'has_dlc = "Thunder at Our Gates"' in text.split("rn_char_pp_l_visible")[1].split("\n")[0]
+    )
+    assert 'NOT = { has_dlc = "Thunder at Our Gates" }' in text.split("rn_char_pp_u_visible")[1]
+    assert "always = no" in portrait_triggers(())

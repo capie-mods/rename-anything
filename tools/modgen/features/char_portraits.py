@@ -51,6 +51,20 @@ A character defined by ``instance`` blocks (1.19 DLC characters) is not in the p
 so its large picture gets its own value; values below :data:`SMALL_OFFSET` use the large frame.
 """
 
+DLC_OFFSET = 20000
+"""Pictures that only a DLC folder has: ``DLC_OFFSET + p * DLC_BLOCK + j`` for DLC ``p``.
+
+The value is game state and the same for every player; the row's ``_visible`` triggers test
+``has_dlc`` (local UI only, as the portrait picker does) and show the unknown portrait to a
+player without that DLC. ``j`` below :data:`DLC_SMALL` is a large picture, from it a small one.
+"""
+
+DLC_BLOCK = 1000
+"""Values per DLC."""
+
+DLC_SMALL = 500
+"""First small-picture offset inside a DLC block."""
+
 UNKNOWN_TEXTURE = "gfx/leaders/leader_unknown.dds"
 """Texture of value 0, the game's unknown portrait (``GFX_portrait_unknown``, 156 x 210)."""
 
@@ -77,6 +91,9 @@ class CharPortraits:
     tags: dict[str, str] = field(default_factory=dict)
     """Token to the country tag of the character (the group its comparison runs in)."""
 
+    packs: tuple[str, ...] = ()
+    """``has_dlc`` names of the DLC blocks, in block order (:data:`DLC_OFFSET`)."""
+
 
 class _Picker:
     """Numbers the pictures of the mini portraits (catalog, extra large, small) as it meets them."""
@@ -91,6 +108,8 @@ class _Picker:
         self.used: dict[int, str] = {0: UNKNOWN_TEXTURE}
         self.large: dict[str, int] = {}
         self.small: dict[str, int] = {}
+        self.packs: list[str] = []
+        self.dlc: dict[tuple[str, str], dict[str, int]] = {}
 
     def _number(self, index: dict[str, int], offset: int, texture: str) -> int:
         value = offset + index.setdefault(texture, len(index) + 1)
@@ -127,17 +146,51 @@ class _Picker:
                     return self._number(index, offset, known[sprite])
         return None
 
+    def pick_dlc(
+        self, pictures: dict[tuple[str, str], str], dlc_sprites: dict[str, tuple[str, str]]
+    ) -> int | None:
+        """Return a DLC-block value for a picture that only a DLC folder has.
+
+        Args:
+            pictures: ``(type, size)`` to sprite of a character.
+            dlc_sprites: Sprite to ``(has_dlc name, texture file)`` of the DLC folders.
+
+        Returns:
+            The value, or None when no picture of a DLC is usable.
+        """
+        for size, start in (("large", 0), ("small", DLC_SMALL)):
+            for kind in KINDS:
+                sprite = pictures.get((kind, size))
+                if (
+                    sprite is None
+                    or not portraits.STEM.fullmatch(sprite)
+                    or sprite not in dlc_sprites
+                ):
+                    continue
+                dlc, texture = dlc_sprites[sprite]
+                if dlc not in self.packs:
+                    self.packs.append(dlc)
+                index = self.dlc.setdefault((dlc, size), {})
+                j = index.setdefault(texture, len(index) + 1)
+                value = DLC_OFFSET + self.packs.index(dlc) * DLC_BLOCK + start + j
+                self.used[value] = texture
+                return value
+        return None
+
     def check_ranges(self) -> None:
         """Stop when a range of values runs into the next one.
 
         Raises:
-            ValueError: More catalog entries than LARGE_OFFSET, or too many extra large pictures.
+            ValueError: More catalog entries than LARGE_OFFSET, too many extra large pictures,
+                or a DLC with more pictures of one size than its block holds.
         """
         if (
             len(self.catalog.entries) >= LARGE_OFFSET
             or len(self.large) >= SMALL_OFFSET - LARGE_OFFSET
+            or len(self.small) >= DLC_OFFSET - SMALL_OFFSET
+            or any(len(index) >= DLC_SMALL for index in self.dlc.values())
         ):
-            msg = "portrait values overflow their range (LARGE_OFFSET / SMALL_OFFSET)"
+            msg = "portrait values overflow their range (LARGE_OFFSET / SMALL_OFFSET / DLC_SMALL)"
             raise ValueError(msg)
 
 
@@ -145,34 +198,41 @@ def build(
     characters: list[portraits.Character],
     catalog: portraits.PortraitCatalog,
     textures: dict[str, str],
-    dlc_textures: dict[str, str] | None = None,
+    dlc_sprites: dict[str, tuple[str, str]] | None = None,
 ) -> CharPortraits:
     """Choose the portrait value of every character.
 
-    A character with top-level portraits uses base-game pictures only. A character defined by
-    ``instance`` blocks (DLC characters) gets the picture of one instance, chosen at build time:
-    a DLC picture is fine there, because such an instance exists only with its DLC.
+    A character with top-level portraits uses a base-game picture first; when only a DLC folder
+    has its picture, it gets a DLC-block value (:data:`DLC_OFFSET`) that the list shows only to
+    owners of that DLC. A character defined by ``instance`` blocks (DLC characters) gets the
+    picture of one instance, chosen at build time: a DLC picture is fine there, because such an
+    instance exists only with its DLC.
 
     Args:
         characters: Characters of ``common/characters``.
         catalog: The portrait catalog (its entries are reused).
         textures: Sprite name to texture file of the base game.
-        dlc_textures: Sprite name to texture file of the DLC folders (instance pictures).
+        dlc_sprites: Sprite name to ``(has_dlc name, texture file)`` of the DLC folders.
 
     Returns:
         The values and the textures of the used values.
     """
+    dlc = dlc_sprites or {}
     base_sprites = {e.large: n for n, e in enumerate(catalog.entries, 1) if e.pack == 0}
     all_sprites = {e.large: n for n, e in enumerate(catalog.entries, 1)}
-    with_dlc = {**(dlc_textures or {}), **textures}
+    with_dlc = {**{s: t for s, (_, t) in dlc.items()}, **textures}
     picker = _Picker(catalog)
     values: dict[str, int] = {}
     tags: dict[str, str] = {}
     for char in sorted(characters, key=lambda c: c.token):
         if char.token in values:
             continue
-        value = picker.pick(char.portraits, base_sprites, textures) if char.portraits else None
-        if value is None:
+        value = None
+        if char.portraits:
+            value = picker.pick(char.portraits, base_sprites, textures)
+            if value is None:
+                value = picker.pick_dlc(char.portraits, dlc)
+        else:
             options = [
                 (condition, v)
                 for condition, pictures in char.instances
@@ -188,7 +248,7 @@ def build(
             values[char.token] = value
             tags[char.token] = char.tag
     picker.check_ranges()
-    return CharPortraits(values, dict(sorted(picker.used.items())), tags)
+    return CharPortraits(values, dict(sorted(picker.used.items())), tags, tuple(picker.packs))
 
 
 def read(root: str, catalog: portraits.PortraitCatalog) -> CharPortraits:
@@ -207,7 +267,7 @@ def read(root: str, catalog: portraits.PortraitCatalog) -> CharPortraits:
     for path in sorted((game / "common" / "characters").glob("*.txt")):
         text = path.read_text(encoding="utf-8-sig", errors="replace")
         chars += portraits.characters_of(text, path.stem, tags)
-    dlc = {name: texture for name, (_, texture) in portraits.read_dlc_textures(game).items()}
+    dlc = {**portraits.read_base_sprites_in_dlc(game), **portraits.read_dlc_textures(game)}
     return build(chars, catalog, portraits.read_textures(game), dlc)
 
 
