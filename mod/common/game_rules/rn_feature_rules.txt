@@ -49,6 +49,22 @@ rn_feature_party = {
 		allow_achievements = yes
 	}
 }
+rn_feature_subideology = {
+	name = "RN_RULE_FEATURE_SUBIDEOLOGY"
+	group = "RULE_GROUP_GAMEPLAY"
+	default = {
+		name = "RN_FEATURE_SUBIDEOLOGY_ON"
+		text = "RN_RULE_FEATURE_ON"
+		desc = "RN_RULE_FEATURE_SUBIDEOLOGY_ON_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_FEATURE_SUBIDEOLOGY_OFF"
+		text = "RN_RULE_FEATURE_OFF"
+		desc = "RN_RULE_FEATURE_SUBIDEOLOGY_OFF_DESC"
+		allow_achievements = yes
+	}
+}
 rn_feature_flag = {
 	name = "RN_RULE_FEATURE_FLAG"
 	group = "RULE_GROUP_GAMEPLAY"
@@ -62,6 +78,22 @@ rn_feature_flag = {
 		name = "RN_FEATURE_FLAG_OFF"
 		text = "RN_RULE_FEATURE_OFF"
 		desc = "RN_RULE_FEATURE_FLAG_OFF_DESC"
+		allow_achievements = yes
+	}
+}
+rn_feature_colour = {
+	name = "RN_RULE_FEATURE_COLOUR"
+	group = "RULE_GROUP_GAMEPLAY"
+	default = {
+		name = "RN_FEATURE_COLOUR_ON"
+		text = "RN_RULE_FEATURE_ON"
+		desc = "RN_RULE_FEATURE_COLOUR_ON_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_FEATURE_COLOUR_OFF"
+		text = "RN_RULE_FEATURE_OFF"
+		desc = "RN_RULE_FEATURE_COLOUR_OFF_DESC"
 		allow_achievements = yes
 	}
 }
