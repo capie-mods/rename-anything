@@ -193,3 +193,20 @@ def test_effect_compares_only_roots_country() -> None:
     text = char_portraits.effects(data)
     eng, ger = text.index("original_tag = ENG"), text.index("original_tag = GER")
     assert eng < text.index("is_character = ENG_a") < ger < text.index("is_character = GER_b")
+
+
+def test_large_picture_outside_the_catalog_gets_a_large_value() -> None:
+    """An instance's large portrait that the catalog lacks uses the large range, not small."""
+    curtin = Character(
+        "ENG_k",
+        "ENG",
+        "ENG_k",
+        {},
+        frozenset(),
+        (("always = yes", {("civilian", "large"): "GFX_portrait_k"}),),
+    )
+    data = char_portraits.build(
+        [curtin], _catalog(), TEXTURES, {"GFX_portrait_k": "gfx/leaders/ENG/k.dds"}
+    )
+    assert data.values == {"ENG_k": char_portraits.LARGE_OFFSET + 1}
+    assert data.textures[char_portraits.LARGE_OFFSET + 1] == "gfx/leaders/ENG/k.dds"

@@ -42,7 +42,14 @@ KINDS = ("civilian", "army", "navy")
 """Portrait types in the order a character's portrait is taken from."""
 
 SMALL_OFFSET = 10000
-"""Values from here on are small portraits (``SMALL_OFFSET + k``); below are catalog entries."""
+"""Values from here on are small portraits (``SMALL_OFFSET + k``); below are large ones."""
+
+LARGE_OFFSET = 5000
+"""Large portraits outside the catalog get ``LARGE_OFFSET + j`` (below: catalog entries).
+
+A character defined by ``instance`` blocks (1.19 DLC characters) is not in the portrait catalog,
+so its large picture gets its own value; values below :data:`SMALL_OFFSET` use the large frame.
+"""
 
 UNKNOWN_TEXTURE = "gfx/leaders/leader_unknown.dds"
 """Texture of value 0, the game's unknown portrait (``GFX_portrait_unknown``, 156 x 210)."""
@@ -71,6 +78,69 @@ class CharPortraits:
     """Token to the country tag of the character (the group its comparison runs in)."""
 
 
+class _Picker:
+    """Numbers the pictures of the mini portraits (catalog, extra large, small) as it meets them."""
+
+    def __init__(self, catalog: portraits.PortraitCatalog) -> None:
+        """Start with only the unknown portrait in use.
+
+        Args:
+            catalog: The portrait catalog (its entries keep their numbers).
+        """
+        self.catalog = catalog
+        self.used: dict[int, str] = {0: UNKNOWN_TEXTURE}
+        self.large: dict[str, int] = {}
+        self.small: dict[str, int] = {}
+
+    def _number(self, index: dict[str, int], offset: int, texture: str) -> int:
+        value = offset + index.setdefault(texture, len(index) + 1)
+        self.used[value] = texture
+        return value
+
+    def pick(
+        self,
+        pictures: dict[tuple[str, str], str],
+        by_sprite: dict[str, int],
+        known: dict[str, str],
+    ) -> int | None:
+        """Return the value of the best picture: catalog entry, other large one, small one.
+
+        Args:
+            pictures: ``(type, size)`` to sprite of a character or instance.
+            by_sprite: Catalog sprite to catalog number (the entries this character may use).
+            known: Sprite to texture file (the folders this character's pictures may come from).
+
+        Returns:
+            The value, or None when no picture is usable.
+        """
+        hit = next((x for k in KINDS if (x := pictures.get((k, "large"))) in by_sprite), None)
+        if hit is not None:
+            self.used[by_sprite[hit]] = self.catalog.textures[hit]
+            return by_sprite[hit]
+        for size, index, offset in (
+            ("large", self.large, LARGE_OFFSET),
+            ("small", self.small, SMALL_OFFSET),
+        ):
+            for kind in KINDS:
+                sprite = pictures.get((kind, size))
+                if sprite is not None and portraits.STEM.fullmatch(sprite) and sprite in known:
+                    return self._number(index, offset, known[sprite])
+        return None
+
+    def check_ranges(self) -> None:
+        """Stop when a range of values runs into the next one.
+
+        Raises:
+            ValueError: More catalog entries than LARGE_OFFSET, or too many extra large pictures.
+        """
+        if (
+            len(self.catalog.entries) >= LARGE_OFFSET
+            or len(self.large) >= SMALL_OFFSET - LARGE_OFFSET
+        ):
+            msg = "portrait values overflow their range (LARGE_OFFSET / SMALL_OFFSET)"
+            raise ValueError(msg)
+
+
 def build(
     characters: list[portraits.Character],
     catalog: portraits.PortraitCatalog,
@@ -80,8 +150,8 @@ def build(
     """Choose the portrait value of every character.
 
     A character with top-level portraits uses base-game pictures only. A character defined by
-    ``instance`` blocks (DLC characters) gets one value per instance, kept with the instance's
-    ``allowed`` trigger; there a DLC picture is fine, because the instance exists only with it.
+    ``instance`` blocks (DLC characters) gets the picture of one instance, chosen at build time:
+    a DLC picture is fine there, because such an instance exists only with its DLC.
 
     Args:
         characters: Characters of ``common/characters``.
@@ -95,50 +165,30 @@ def build(
     base_sprites = {e.large: n for n, e in enumerate(catalog.entries, 1) if e.pack == 0}
     all_sprites = {e.large: n for n, e in enumerate(catalog.entries, 1)}
     with_dlc = {**(dlc_textures or {}), **textures}
-    used: dict[int, str] = {0: UNKNOWN_TEXTURE}
-    small_index: dict[str, int] = {}
-
-    def pick(
-        pictures: dict[tuple[str, str], str], by_sprite: dict[str, int], known: dict[str, str]
-    ) -> int | None:
-        hit = next((x for k in KINDS if (x := pictures.get((k, "large"))) in by_sprite), None)
-        if hit is not None:
-            n = by_sprite[hit]
-            used[n] = catalog.textures[hit]
-            return n
-        for kind in KINDS:
-            sprite = pictures.get((kind, "small"))
-            if sprite is not None and portraits.STEM.fullmatch(sprite) and sprite in known:
-                k = small_index.setdefault(known[sprite], len(small_index) + 1)
-                used[SMALL_OFFSET + k] = known[sprite]
-                return SMALL_OFFSET + k
-        return None
-
+    picker = _Picker(catalog)
     values: dict[str, int] = {}
     tags: dict[str, str] = {}
     for char in sorted(characters, key=lambda c: c.token):
         if char.token in values:
             continue
-        value = pick(char.portraits, base_sprites, textures) if char.portraits else None
+        value = picker.pick(char.portraits, base_sprites, textures) if char.portraits else None
+        if value is None:
+            options = [
+                (condition, v)
+                for condition, pictures in char.instances
+                if (v := picker.pick(pictures, all_sprites, with_dlc)) is not None
+            ]
+            # One fixed value, never a has_dlc test: the value is game state (a character
+            # variable) and must not depend on the player's DLC (inline_checks/portrait_cases.py).
+            # The instance without a DLC requirement wins (every player has that picture); a
+            # character with only DLC instances exists only with that DLC.
+            base = [v for c, v in options if c == "always = yes" or c.startswith("NOT = { has_dlc")]
+            value = base[0] if base else (options[0][1] if options else None)
         if value is not None:
             values[char.token] = value
             tags[char.token] = char.tag
-            continue
-        options = [
-            (condition, v)
-            for condition, pictures in char.instances
-            if (v := pick(pictures, all_sprites, with_dlc)) is not None
-        ]
-        if not options:
-            continue
-        # One fixed value, never a has_dlc test: the value is game state (a character variable)
-        # and must not depend on the player's DLC (inline_checks/portrait_cases.py). With several
-        # instances the one without a DLC requirement wins (every player has that picture);
-        # a character with only DLC instances exists only with that DLC, so its picture is safe.
-        base = [v for c, v in options if c == "always = yes" or c.startswith("NOT = { has_dlc")]
-        values[char.token] = base[0] if base else options[0][1]
-        tags[char.token] = char.tag
-    return CharPortraits(values, dict(sorted(used.items())), tags)
+    picker.check_ranges()
+    return CharPortraits(values, dict(sorted(picker.used.items())), tags)
 
 
 def read(root: str, catalog: portraits.PortraitCatalog) -> CharPortraits:
