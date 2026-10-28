@@ -18,23 +18,23 @@ rn_country_colour_carrier_set = {
 	clamp_temp_variable = { var = rn_cc_r min = 0 max = 255 }
 	clamp_temp_variable = { var = rn_cc_g min = 0 max = 255 }
 	clamp_temp_variable = { var = rn_cc_b min = 0 max = 255 }
+	set_variable = { rn_cc_mine = 1 }
 	set_variable = { capie_cc_r = temp_var:rn_cc_r }
 	set_variable = { capie_cc_g = temp_var:rn_cc_g }
 	set_variable = { capie_cc_b = temp_var:rn_cc_b }
 	rn_cp_cos_write = yes
-	set_variable = { rn_cc_mine = 1 }
 	set_variable = { capie_cc_ver = 1 }
 	set_variable = { capie_cc_rev = 1 }
 }
 
 # Removes the layer; the game's colour (cosmetic tag colour, else base colour) comes back.
 rn_country_colour_carrier_clear = {
+	clear_variable = rn_cc_mine
 	clear_variable = capie_cc_r
 	clear_variable = capie_cc_g
 	clear_variable = capie_cc_b
 	clear_array = capie_cc_cos
 	clear_variable = capie_cc_cos_len
 	clear_variable = capie_cc_ver
-	clear_variable = rn_cc_mine
 	set_variable = { capie_cc_rev = 1 }
 }

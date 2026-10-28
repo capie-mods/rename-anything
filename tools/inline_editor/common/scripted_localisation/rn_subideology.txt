@@ -1,4 +1,4 @@
-# Status line of the sub-ideology name editor ([ROOT.RN_SI_STATUS], display only) and its cooldown
+# Status line of the party ideology name editor ([ROOT.RN_SI_STATUS], display only) and its cooldown
 # line ([ROOT.RN_SI_CD], in the pencil's tooltip).
 defined_text = {
 	name = RN_SI_STATUS

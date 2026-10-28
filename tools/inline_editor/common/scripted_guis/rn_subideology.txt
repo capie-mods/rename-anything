@@ -1,4 +1,4 @@
-# Ruling party sub-ideology name (player_context in the politics view; THIS = ROOT = the player).
+# Ruling party ideology name (player_context in the politics view; THIS = ROOT = the player).
 # The pencil opens the editor; Apply and "Restore name" re-check everything in their effects
 # (rn_subideology.txt). The editor is a CAPIE v1.1 grammar model with its own mod id (rnsi).
 scripted_gui = {

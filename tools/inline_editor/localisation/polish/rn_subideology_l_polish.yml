@@ -1,7 +1,7 @@
 ﻿l_polish:
- RN_SI_OPEN_TT:0 "Zmień nazwę ideologii partii rządzącej ([ROOT.GetRulingIdeology]). Nowa nazwa jest widoczna w tym panelu, dopóki rządzi ta partia z tą ideologią.[ROOT.RN_SI_CD][ROOT.RN_FEAT_SUBIDEOLOGY]"
- RN_SI_LABEL:0 "§LNazwa ideologii§!"
- RN_SI_APPLY_TT:0 "Zapisz nazwę ideologii. Przestaje obowiązywać, gdy zmieni się partia rządząca lub jej ideologia.[ROOT.RN_FEAT_SUBIDEOLOGY]"
+ RN_SI_OPEN_TT:0 "Zmień w tym panelu nazwę ideologii partii rządzącej ([ROOT.GetRulingIdeology]). Nowa nazwa zostaje, dopóki rządzi ta partia z tym przywódcą.[ROOT.RN_SI_CD][ROOT.RN_FEAT_SUBIDEOLOGY]"
+ RN_SI_LABEL:0 "§LNazwa ideologii partii§!"
+ RN_SI_APPLY_TT:0 "Zapisz nazwę ideologii. Przestaje obowiązywać, gdy zmieni się partia rządząca lub jej przywódca.[ROOT.RN_FEAT_SUBIDEOLOGY]"
  RN_SI_RESET_TT:0 "Wróć do nazwy tej ideologii z gry. Liczy się jak nowa nazwa i zaczyna czas oczekiwania.[ROOT.RN_FEAT_SUBIDEOLOGY]"
  RN_SI_HINT:0 "§LWidoczna w tym panelu. Enter: zatwierdź§!"
  RN_SI_ERR_CAPIE_OLD:0 "§RNazwy ideologii wymagają CAPIE 1.6 lub nowszego. Nic nie zmieniono.§!"

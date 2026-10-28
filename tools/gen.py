@@ -110,7 +110,7 @@ import sys
 
 from modgen.build import summary, write_all
 from modgen.common import MOD
-from modgen.features import char_portraits, subideology
+from modgen.features import char_portraits
 from modgen.features.flags import read_catalog
 from modgen.features.portraits import read_catalog as read_portraits
 from modgen.output import DiskSink
@@ -153,7 +153,6 @@ def main() -> int:
         catalog=catalog,
         portrait_catalog=portrait_catalog,
         char_data=char_data,
-        subideologies=subideology.read_types(args.game),
         native_portrait_test=args.native_portrait_test,
     )
     if args.native_portrait_test:

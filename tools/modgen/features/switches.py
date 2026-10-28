@@ -68,7 +68,7 @@ FEATURES = (
     Feature("country", "Country name and adjective", "Nazwa i przymiotnik państwa"),
     Feature("leader", "Leader name", "Imię przywódcy"),
     Feature("party", "Party names", "Nazwy partii"),
-    Feature("subideology", "Ruling party sub-ideology name", "Nazwa ideologii partii rządzącej"),
+    Feature("subideology", "Ruling party ideology name", "Nazwa ideologii partii rządzącej"),
     Feature("flag", "Country flag", "Flaga państwa"),
     Feature("colour", "Country map colour", "Kolor państwa na mapie"),
     Feature("portrait", "Leader portrait", "Portret przywódcy"),

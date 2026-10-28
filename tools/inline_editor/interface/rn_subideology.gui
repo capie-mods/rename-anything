@@ -1,6 +1,6 @@
-# Ruling party sub-ideology name (CAPIE v1.1 grammar, one field; CONTRACT section 20, API level 8) in
+# Ruling party ideology name (CAPIE v1.1 grammar, one field; CONTRACT section 20, API level 8) in
 # the politics view. The pencil sits in vanilla ruling_party_info (88,305 255x60) under the party
-# pencil (228,310), next to the ideology line; the pie chart starts at x270. The open editor
+# pencil (228,310), next to the ideology line it renames; the pie chart starts at x270. The open editor
 # 18..438 x 291..383 covers ruling_party_info and the pie chart and ends above the actions row (383).
 guiTypes = {
 	containerWindowType = {
