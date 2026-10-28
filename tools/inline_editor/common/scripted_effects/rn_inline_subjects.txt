@@ -87,6 +87,12 @@ rn_sub_guard = {
 rn_sub_apply_country = {
 	set_temp_variable = { rn_sub_kind = 1 }
 	rn_sub_guard = yes
+	# The country name layer needs API level 4 (CONTRACT section 14): an older CAPIE would accept the
+	# Apply, start the cooldown and fire the news event while showing nothing (review 2026-10-27).
+	if = {
+		limit = { check_variable = { temp_var:rn_cv1_err = 0 } NOT = { check_variable = { temp_var:capie_cap > 3 } } }
+		set_temp_variable = { rn_cv1_err = 15 }
+	}
 	if = { limit = { check_variable = { temp_var:rn_cv1_err = 0 } } rn_cv1_take_two = yes }
 	if = {
 		limit = { check_variable = { temp_var:rn_cv1_err = 0 } }

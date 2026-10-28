@@ -286,6 +286,7 @@ class FlagVM:
         self.rules = {
             "rn_edit_rights": "RN_RIGHTS_SUBJECTS",
             "rn_flag_pool": "RN_FLAG_POOL_ALL",
+            "rn_rename_cooldown": "RN_COOLDOWN_DEFAULT",
         }
         self.writes: list[tuple[str, str]] = []
 

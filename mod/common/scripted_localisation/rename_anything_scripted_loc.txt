@@ -26987,7 +26987,9 @@ defined_text = {
 	text = { trigger = { check_variable = { rn_sel_state_id = 425 } } localization_key = VICTORY_POINTS_4315 }
 	text = { trigger = { check_variable = { rn_sel_state_id = 427 } } localization_key = VICTORY_POINTS_12114 }
 	text = { trigger = { check_variable = { rn_sel_state_id = 428 } } localization_key = VICTORY_POINTS_9975 }
+	text = { trigger = { check_variable = { rn_sel_state_id = 429 } } localization_key = VICTORY_POINTS_12269 }
 	text = { trigger = { check_variable = { rn_sel_state_id = 431 } } localization_key = VICTORY_POINTS_12338 }
+	text = { trigger = { check_variable = { rn_sel_state_id = 434 } } localization_key = VICTORY_POINTS_10810 }
 	text = { trigger = { check_variable = { rn_sel_state_id = 440 } } localization_key = VICTORY_POINTS_10898 }
 	text = { trigger = { check_variable = { rn_sel_state_id = 441 } } localization_key = VICTORY_POINTS_8005 }
 	text = { trigger = { check_variable = { rn_sel_state_id = 446 } } localization_key = VICTORY_POINTS_4073 }

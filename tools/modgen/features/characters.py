@@ -1,4 +1,4 @@
-"""Characters tab: a paged list of the player's characters with a role icon.
+"""Characters tab: a paged list of the player's characters with a mini portrait and a role icon.
 
 Scripted GUI cannot reach a character's portrait sprite: the game's Character
 localisation object has no portrait getter (documentation/loc_objects), and a
@@ -7,13 +7,18 @@ Vanilla scripted GUIs (``GER_inner_circle``) hard-code one sprite per known
 character. So each row starts with a role icon, a vanilla text-icon sprite
 whose tooltip names the role: country leader, army leader, navy leader or
 adviser. The country leader's row shares the in-place leader editor's cooldown.
+
+Mini portrait: a second grid drawn over the rows iterates the numeric array ``rn_chars_pp``
+(one portrait value per row, built with the page by ``rn_build_char_page``) and shows
+``GFX_rnchp_<value>``, the way the flag picker builds its cell images (:mod:`char_portraits`).
 """
 
 from __future__ import annotations
 
-from modgen.common import LIST_ROW_HEIGHT, LIST_WIDTH, TAB_CHARACTERS
+from modgen.common import LIST_ROW_HEIGHT, LIST_WIDTH, PAGE, TAB_CHARACTERS
+from modgen.features.char_portraits import SMALL_OFFSET
 from modgen.features.main_window import DynamicList, TabSpec
-from modgen.gui import BUTTON_SMALL, WINDOW_END, PagedList, btn, entry_window, paged_list, txt
+from modgen.gui import BUTTON_SMALL, WINDOW_END, PagedList, btn, entry_window, gridbox, paged_list, txt
 
 CHAR_ROLES = [
     ("is_country_leader", "LEADER", "GFX_pol_idea", (20, 16)),
@@ -27,16 +32,40 @@ The first matching role wins (a leader can also advise), so each icon's visible
 trigger excludes every earlier role.
 """
 
-ROLE_ICON_BOX = 20
-"""Square, in pixels, in which each role icon is centred at the start of a row."""
+PORTRAIT_X = 6
+"""X of the mini portrait at the start of a row."""
 
-ROLE_ICON_X = 6
+PORTRAIT_WIDTH = 26
+"""Width reserved for the mini portrait (a 156 x 210 portrait at :data:`LARGE_SCALE`)."""
+
+LARGE_SCALE = 0.16
+"""Scale of a large portrait (156 x 210 -> 25 x 34) in a 36 px row."""
+
+SMALL_SCALE = 0.42
+"""Scale of a small idea-style portrait (about 60 x 68 -> 25 x 29)."""
+
+PORTRAIT_GRID = "rn_chars_pp_grid"
+"""Grid over the list rows that shows the mini portraits."""
+
+PORTRAIT_ENTRY = "rn_char_pp_entry"
+"""Row template of :data:`PORTRAIT_GRID`."""
+
+PORTRAIT_ARRAY = "rn_chars_pp"
+"""Country array: the portrait value of each row of the page, in row order."""
+
+PORTRAIT_VALUE = "rn_pv"
+"""Value variable of a :data:`PORTRAIT_GRID` row."""
+
+ROLE_ICON_BOX = 20
+"""Square, in pixels, in which each role icon is centred after the portrait."""
+
+ROLE_ICON_X = PORTRAIT_X + PORTRAIT_WIDTH + 4
 """X of the role icon box inside a row."""
 
 NAME_X = ROLE_ICON_X + ROLE_ICON_BOX + 6
 """X of the character name, after the role icon and a 6 px gap."""
 
-NAME_WIDTH = 382
+NAME_WIDTH = 382 - PORTRAIT_WIDTH - 4
 """Width of the character name; it ends 6 px before the Rename button at x 420."""
 
 ROW_VARIABLE = "rn_row_character"
@@ -77,6 +106,18 @@ _ROLE_TRIGGERS = "".join(
 )
 """Visible triggers of the four role icons of a row."""
 
+_PORTRAIT_TRIGGERS = (
+    f"\t\t\trn_char_pp_l_visible = {{ check_variable = {{ {PORTRAIT_VALUE} < {SMALL_OFFSET} }} }}\n"
+    f"\t\t\trn_char_pp_s_visible = {{ NOT = {{ check_variable = {{ {PORTRAIT_VALUE} < {SMALL_OFFSET} }} }} }}\n"
+)
+"""Visible triggers of the two portrait icons: 156 x 210 (catalog or unknown) or a small one."""
+
+_PROPERTIES = (
+    f'\t\t\trn_char_pp_l = {{ image = "GFX_rnchp_[?{PORTRAIT_VALUE}|0]" }}\n'
+    f'\t\t\trn_char_pp_s = {{ image = "GFX_rnchp_[?{PORTRAIT_VALUE}|0]" }}\n'
+)
+"""Row images: the sprite number is the row's numeric value."""
+
 _TRIGGERS = f"""			rn_char_rename_click_enabled = {{ NOT = {{ AND = {{ var:{ROW_VARIABLE} = {{ is_country_leader = yes }} rn_ip_cooldown_active_leader = yes }} }} NOT = {{ AND = {{ var:{ROW_VARIABLE} = {{ is_country_leader = yes }} rn_feature_leader_off = yes }} }} NOT = {{ AND = {{ var:{ROW_VARIABLE} = {{ NOT = {{ is_country_leader = yes }} }} rn_feature_characters_off = yes }} }} }}
 			rn_cpage_prev_click_enabled = {{ check_variable = {{ rn_cpage > 0 }} }}
 			rn_cpage_next_click_enabled = {{ check_variable = {{ rn_cpage_disp < rn_cpages }} }}
@@ -97,13 +138,30 @@ def tab(content_y: int) -> TabSpec:
         TAB_CHARACTERS,
         "chars",
         _EFFECTS,
-        _ROLE_TRIGGERS + _TRIGGERS,
-        tuple(paged_list(PAGED_LIST, content_y)),
+        _PORTRAIT_TRIGGERS + _ROLE_TRIGGERS + _TRIGGERS,
+        (
+            *paged_list(PAGED_LIST, content_y),
+            gridbox(
+                PORTRAIT_GRID,
+                (20, content_y),
+                (PORTRAIT_X + PORTRAIT_WIDTH, PAGE * LIST_ROW_HEIGHT),
+                LIST_ROW_HEIGHT,
+            ),
+        ),
         DynamicList(
             PAGED_LIST.grid,
             "rn_chars_page",
             "rn_char_entry",
             f"\t\t\t\tvalue = {ROW_VARIABLE}\n\t\t\t\tchange_scope = no",
+        ),
+        _PROPERTIES,
+        (
+            DynamicList(
+                PORTRAIT_GRID,
+                PORTRAIT_ARRAY,
+                PORTRAIT_ENTRY,
+                f"\t\t\t\tvalue = {PORTRAIT_VALUE}\n\t\t\t\tchange_scope = no",
+            ),
         ),
     )
 
@@ -128,6 +186,40 @@ def list_entry() -> list[str]:
         ),
         WINDOW_END,
     ]
+
+
+def portrait_entry() -> list[str]:
+    """Return the row template of the mini portrait grid.
+
+    Returns:
+        GUI blocks of the ``rn_char_pp_entry`` window.
+    """
+    return [
+        entry_window(PORTRAIT_ENTRY, PORTRAIT_X + PORTRAIT_WIDTH, LIST_ROW_HEIGHT),
+        portrait_icon("l", "GFX_rnchp_0", LARGE_SCALE, (156, 210)),
+        portrait_icon("s", "GFX_rnchp_0", SMALL_SCALE, (60, 68)),
+        WINDOW_END,
+    ]
+
+
+def portrait_icon(kind: str, sprite: str, scale: float, size: tuple[int, int]) -> str:
+    """Return one icon of the mini portrait grid, centred in the portrait box.
+
+    Args:
+        kind: ``l`` (156 x 210: catalog or unknown) or ``s`` (small idea-style portrait).
+        sprite: Default sprite (the scripted GUI property replaces it for ``l`` and ``s``).
+        scale: Icon scale.
+        size: Texture width and height in pixels.
+
+    Returns:
+        The ``iconType`` line.
+    """
+    x = PORTRAIT_X + (PORTRAIT_WIDTH - round(size[0] * scale)) // 2
+    y = (LIST_ROW_HEIGHT - round(size[1] * scale)) // 2
+    return (
+        f'\t\ticonType = {{ name = "rn_char_pp_{kind}" position = {{ x = {x} y = {y} }}'
+        f' spriteType = "{sprite}" scale = {scale} }}\n'
+    )
 
 
 def role_icon(role: str, sprite: str, size: tuple[int, int]) -> str:

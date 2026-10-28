@@ -1,0 +1,12 @@
+﻿l_braz_por:
+ RN_RULE_COOLDOWN:0 "Rename Anything: rename cooldown"
+ RN_RULE_COOLDOWN_DEFAULT:0 "5 days"
+ RN_RULE_COOLDOWN_DEFAULT_DESC:0 "After a rename, the same kind of name (country, leader, parties, faction, flag, portrait, state, city) can be changed again after 5 days."
+ RN_RULE_COOLDOWN_OFF:0 "No cooldown"
+ RN_RULE_COOLDOWN_OFF_DESC:0 "Names can be changed again right away."
+ RN_RULE_COOLDOWN_1:0 "1 day"
+ RN_RULE_COOLDOWN_1_DESC:0 "After a rename, the same kind of name can be changed again after 1 day."
+ RN_RULE_COOLDOWN_15:0 "15 days"
+ RN_RULE_COOLDOWN_15_DESC:0 "After a rename, the same kind of name can be changed again after 15 days."
+ RN_RULE_COOLDOWN_30:0 "30 days"
+ RN_RULE_COOLDOWN_30_DESC:0 "After a rename, the same kind of name can be changed again after 30 days."

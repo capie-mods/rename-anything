@@ -86,6 +86,12 @@ class TabSpec:
     dynamic_list: DynamicList | None = None
     """The tab's list of rows, if it has one."""
 
+    properties: str = ""
+    """Scripted GUI ``properties`` lines (three tabs of indentation), e.g. a row image."""
+
+    extra_lists: tuple[DynamicList, ...] = ()
+    """Further dynamic lists of the tab (e.g. a grid drawn over the rows)."""
+
 
 def _header_effects(tabs: list[TabSpec]) -> str:
     """Return the close and tab-switch click effects every tab GUI shares.
@@ -145,15 +151,23 @@ def scripted_guis(tabs: list[TabSpec]) -> str:
 			rn_tab_{tab.number}_click_enabled = {{ always = no }}
 {tab.triggers}		}}
 """)
-        if tab.dynamic_list is not None:
-            dyn = tab.dynamic_list
-            out.append(f"""		dynamic_lists = {{
-			{dyn.grid} = {{
+        if tab.properties:
+            out.append(f"""		properties = {{
+{tab.properties}		}}
+""")
+        lists = ((tab.dynamic_list,) if tab.dynamic_list is not None else ()) + tab.extra_lists
+        if lists:
+            body = "".join(
+                f"""			{dyn.grid} = {{
 				array = {dyn.array}
 {dyn.row_context}
 				entry_container = "{dyn.entry}"
 			}}
-		}}
+"""
+                for dyn in lists
+            )
+            out.append(f"""		dynamic_lists = {{
+{body}		}}
 """)
         out.append("\t}\n\n")
     return "".join(out)

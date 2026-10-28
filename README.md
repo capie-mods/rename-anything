@@ -1,6 +1,6 @@
 # Rename Anything
 
-<img src="docs/assets/readme/badges.svg" alt="HOI4 1.19.3.0 only. Status: pre-release. Multiplayer: not supported. Built on CAPIE. License: MIT, planned." width="834">
+<img src="docs/assets/readme/badges.svg" alt="HOI4 1.19.4.0 only. Status: pre-release. Multiplayer: not supported. Built on CAPIE. License: MIT, planned." width="834">
 
 **Click the pencil next to a name, type a new one, press Enter.** Rename Anything lets you rename
 your country, its leader, its parties, its states and its cities in Hearts of Iron IV, right in
@@ -152,7 +152,7 @@ of every row.
 | Main-menu line showing whether CAPIE is loaded | Planned | |
 | Multiplayer | Not supported | Never tested with two players. |
 | Achievements and ironman | Not supported | See [FAQ](#faq). |
-| Any game version other than 1.19.3.0 | Not supported | CAPIE stays off; scripts keep working. |
+| Any game version other than 1.19.4.0 (CAPIE 1.5.1) | Not supported | CAPIE stays off; scripts keep working. |
 
 ## Safety
 
@@ -206,7 +206,8 @@ For testers comfortable with a developer setup.
    [plugin/capie/README.md](https://github.com/capie-mods/capie/blob/main/plugin/capie/README.md). This is a manual developer step and has to be
    repeated every time the game starts.
 
-`supported_version="1.19.*"` only quiets the launcher's warning. Only 1.19.3.0 was tested.
+`supported_version="1.19.*"` only quiets the launcher's warning. Tested in the game on 1.19.3.0;
+CAPIE 1.5.1 supports 1.19.4.0 and passes its offline checks there, the in-game test is pending.
 
 ## Roadmap
 
@@ -254,7 +255,7 @@ warnings are possible. Every released binary will be scanned on VirusTotal and t
 from the release notes. The source is here; you can build it yourself.
 
 **What happens after a game update?**
-CAPIE is pinned to the exact HOI4 1.19.3.0 executable. After a patch the game starts without
+CAPIE is pinned to one exact HOI4 executable (1.19.4.0 since CAPIE 1.5.1). After a patch the game starts without
 CAPIE and you are told why. States, cities and characters still work through scripts; a custom
 country name shows as the game's name until a CAPIE update supports the new version.
 

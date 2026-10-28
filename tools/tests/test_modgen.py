@@ -144,8 +144,25 @@ def test_cooldown_tooltips_and_wait_texts() -> None:
 
 
 def test_cooldown_days_reach_the_effect() -> None:
-    """The single cooldown constant is the value of ``rn_cd_days``."""
-    assert f"rn_cd_days = {cooldown.COOLDOWN_DAYS} }}" in cooldown.effects()
+    """``rn_cd_days`` takes the in-place editor's length, the single source read from the game rule."""
+    effects = cooldown.effects()
+    assert "rn_ip_cooldown_days = yes" in effects
+    assert "set_temp_variable = { rn_cd_days = temp_var:rn_ip_cd_days }" in effects
+
+
+def test_cooldown_rule_default_is_the_constant() -> None:
+    """The default branch of ``rn_ip_cooldown_days`` is :data:`COOLDOWN_DAYS`; every rule option has a branch."""
+    from modgen.features.inline_editor import gen_inline_editor
+
+    files = {f.relative: f.text for f in gen_inline_editor()}
+    source = files["common/scripted_effects/rn_inline_cooldown.txt"]
+    body = source[source.index("rn_ip_cooldown_days = {") :]
+    body = body[: body.index("\n}\n")]
+    assert f"else = {{\n\t\tset_temp_variable = {{ rn_ip_cd_days = {cooldown.COOLDOWN_DAYS} }}" in body
+    rules = files["common/game_rules/rn_rules.txt"]
+    for option, days in (("RN_COOLDOWN_OFF", 0), ("RN_COOLDOWN_1", 1), ("RN_COOLDOWN_15", 15), ("RN_COOLDOWN_30", 30)):
+        assert f'name = "{option}"' in rules
+        assert f"option = {option} }} }}\n\t\tset_temp_variable = {{ rn_ip_cd_days = {days} }}" in body
 
 
 def test_yml_escape_rejects_quotes() -> None:

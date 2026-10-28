@@ -33,7 +33,7 @@ możesz go zbudować samodzielnie.
 
 ## Co się dzieje po aktualizacji gry? { #aktualizacja-gry }
 
-CAPIE jest przypięte do dokładnego pliku wykonywalnego HOI4 1.19.3.0. Po łatce gra uruchamia się
+CAPIE jest przypięte do jednego, dokładnego pliku wykonywalnego HOI4 (1.19.4.0 od CAPIE 1.5.1). Po łatce gra uruchamia się
 bez CAPIE i dostajesz informację dlaczego. Stany, miasta i postacie nadal działają. Własna nazwa
 państwa jest pokazywana jako nazwa z gry, dopóki aktualizacja CAPIE nie obsłuży nowej wersji.
 

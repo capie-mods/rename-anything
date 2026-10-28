@@ -19,8 +19,8 @@ Subscribing to the two mods is not enough. Without the program the mod shows
 
 - Windows 10 or 11. CAPIE is Windows-only. On macOS and Linux the mod runs without CAPIE
   (see [Without CAPIE](#without-capie)).
-- Hearts of Iron IV 1.19.3.0 from Steam. The version is shown in the bottom left corner of
-  the main menu. CAPIE 1.5.0 supports only this build; on any other build the game starts
+- Hearts of Iron IV 1.19.4.0 from Steam. The version is shown in the bottom left corner of
+  the main menu. CAPIE 1.5.1 supports only this build (CAPIE 1.5.0 supported only 1.19.3.0); on any other build the game starts
   without CAPIE. Copies from other stores have a different `hoi4.exe` and are not supported.
 - No local copy of Rename Anything or CAPIE in `Documents\Paradox Interactive\Hearts of Iron IV\mod`
   with the same name as the Workshop item. With two mods of the same name the game uses the local
@@ -141,7 +141,7 @@ last start:
 | No new lines at all, or no `launcher.log` | the game was not started through the CAPIE launcher | check the Steam launch option (below) and start with Play in Steam |
 | `playset disabled: CAPIE mod not enabled in the playset` | the CAPIE mod was off in the playset you started | enable the CAPIE mod (step 3) |
 | `playset unknown: ...` | `dlc_load.json` could not be read | start once from the Paradox Launcher with your playset, then try again |
-| `game ... sha256=...` as a warning, and a "not supported" notice | your game build is not 1.19.3.0 from Steam | see [Wrong game version](#wrong-version) |
+| `game ... sha256=...` as a warning, and a "not supported" notice | your game build is not 1.19.4.0 from Steam | see [Wrong game version](#wrong-version) |
 | `bundle check failed` | CAPIE files are damaged or changed (often by an antivirus) | run the setup again and choose Install or update |
 | `no game appeared in the started tree in time` | the game was started by another, already open Paradox Launcher | close the Paradox Launcher, then Play in Steam |
 | `CAPIE loaded into pid=...` | CAPIE is running | if the mod still says missing, wait 20 s in the main menu and reopen the editor |
@@ -192,7 +192,7 @@ Go through these in order and test after each one:
 
 ### Wrong game version { #wrong-version }
 
-CAPIE 1.5.0 works only with Hearts of Iron IV 1.19.3.0 from Steam. On any other build, including a
+CAPIE 1.5.1 works only with Hearts of Iron IV 1.19.4.0 from Steam (CAPIE 1.5.0 only with 1.19.3.0). On any other build, including a
 beta branch, the game starts without CAPIE and the CAPIE-free features still work. In Steam,
 Properties, **Betas**, choose "None". A yellow "not supported" warning in the Paradox Launcher's
 mod list compares the mod's `supported_version` with your game and does not by itself stop

@@ -5,10 +5,29 @@
 # are saved with the game. Started ONLY from the successful branch of each guarded Apply.
 # Time only advances while the game is unpaused.
 
-# Cooldown length in game days: substituted by tools/gen.py from COOLDOWN_DAYS (single source,
-# shared with the state/city cooldown rn_cd_days).
+# Cooldown length in game days, the single source for every rename type (the state/city cooldown
+# rn_cd_days reads it too). The lobby rule rn_rename_cooldown picks it; its default option is
+# COOLDOWN_DAYS of tools/gen.py (Workshop request 2026-10-25). 0 days: a rename never blocks the next.
 rn_ip_cooldown_days = {
-	set_temp_variable = { rn_ip_cd_days = 5 }
+	if = {
+		limit = { has_game_rule = { rule = rn_rename_cooldown option = RN_COOLDOWN_OFF } }
+		set_temp_variable = { rn_ip_cd_days = 0 }
+	}
+	else_if = {
+		limit = { has_game_rule = { rule = rn_rename_cooldown option = RN_COOLDOWN_1 } }
+		set_temp_variable = { rn_ip_cd_days = 1 }
+	}
+	else_if = {
+		limit = { has_game_rule = { rule = rn_rename_cooldown option = RN_COOLDOWN_15 } }
+		set_temp_variable = { rn_ip_cd_days = 15 }
+	}
+	else_if = {
+		limit = { has_game_rule = { rule = rn_rename_cooldown option = RN_COOLDOWN_30 } }
+		set_temp_variable = { rn_ip_cd_days = 30 }
+	}
+	else = {
+		set_temp_variable = { rn_ip_cd_days = 5 }
+	}
 }
 
 rn_ip_cooldown_start_country = {

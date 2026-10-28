@@ -69,10 +69,14 @@ TOKEN = re.compile(r'"[^"]*"|[{}=]|[^\s{}="]+')
 """Tokens of a Paradox script file (quoted string, brace, equals, word)."""
 
 SPRITE = re.compile(
-    r'spriteType\s*=\s*\{[^{}]*?name\s*=\s*"?([^"\s}]+)"?[^{}]*?texturefile\s*=\s*"?([^"\s}]+)"?',
+    r'spriteType\s*=\s*\{[^{}]*?name\s*=\s*"?([^"\s}]+)"?[^{}]*?texturefile\s*=\s*(?:"([^"]+)"|([^\s}"]+))',
     re.IGNORECASE | re.DOTALL,
 )
-"""A ``spriteType`` with its name and texture file (name before texturefile, as in vanilla)."""
+"""A ``spriteType`` with its name and texture file (name before texturefile, as in vanilla).
+
+A quoted texture path may contain spaces (``gfx/leaders/South America/...``): group 2 is the
+quoted path, group 3 an unquoted one.
+"""
 
 DLC_NAME = re.compile(r'^\s*name\s*=\s*"([^"]+)"', re.MULTILINE)
 """The ``name`` of a ``.dlc`` descriptor, the value ``has_dlc`` takes."""
@@ -422,8 +426,12 @@ def read_textures(root: Path) -> dict[str, str]:
     """
     out: dict[str, str] = {}
     for path in sorted((root / "interface").glob("*.gfx")):
-        for name, texture in SPRITE.findall(path.read_text(encoding="utf-8", errors="replace")):
-            out.setdefault(name, texture.replace("\\\\", "/").replace("//", "/"))
+        for name, quoted, bare in SPRITE.findall(path.read_text(encoding="utf-8", errors="replace")):
+            texture = (quoted or bare).replace("\\\\", "/").replace("//", "/")
+            # A game sprite whose file is missing (e.g. a wrong path in the game's own .gfx) is
+            # skipped: copying it would only add a "texture not found" error and a blank cell.
+            if (root / texture).is_file():
+                out.setdefault(name, texture)
     return out
 
 
@@ -446,8 +454,10 @@ def read_dlc_textures(root: Path) -> dict[str, tuple[str, str]]:
             continue
         for path in sorted((folder / "interface").glob("*.gfx")):
             text = path.read_text(encoding="utf-8", errors="replace")
-            for name, texture in SPRITE.findall(text):
-                out.setdefault(name, (match[1], texture.replace("\\", "/").replace("//", "/")))
+            for name, quoted, bare in SPRITE.findall(text):
+                texture = (quoted or bare).replace("\\", "/").replace("//", "/")
+                if (folder / texture).is_file() or (root / texture).is_file():
+                    out.setdefault(name, (match[1], texture))
     return out
 
 
@@ -466,7 +476,39 @@ def read_catalog(root: str) -> PortraitCatalog:
     for path in sorted((game / "common" / "characters").glob("*.txt")):
         text = path.read_text(encoding="utf-8-sig", errors="replace")
         chars += characters_of(text, path.stem, tags)
-    return build_catalog(chars, read_textures(game), read_english(root), read_dlc_textures(game))
+    dlc = {**read_base_sprites_in_dlc(game), **read_dlc_textures(game)}
+    return build_catalog(chars, read_textures(game), read_english(root), dlc)
+
+
+def read_base_sprites_in_dlc(root: Path) -> dict[str, tuple[str, str]]:
+    """Return base-game sprites whose texture file exists only in a DLC folder.
+
+    The base ``interface/*.gfx`` defines some portraits (``gfx/leaders/Asia/portrait_asia_generic_4``)
+    whose file ships with a DLC. Without that DLC the sprite has no texture, so it belongs to the
+    DLC's pack (shown only with ``has_dlc``), not to the base game.
+
+    Args:
+        root: Game installation folder.
+
+    Returns:
+        Sprite name to ``(DLC name, texture file)``.
+    """
+    folders: list[tuple[Path, str]] = []
+    for folder in sorted((root / "dlc").glob("*")):
+        descriptor = next(iter(sorted(folder.glob("*.dlc"))), None)
+        match = DLC_NAME.search(descriptor.read_text(encoding="utf-8", errors="replace")) if descriptor else None
+        if match:
+            folders.append((folder, match[1]))
+    out: dict[str, tuple[str, str]] = {}
+    for path in sorted((root / "interface").glob("*.gfx")):
+        for name, quoted, bare in SPRITE.findall(path.read_text(encoding="utf-8", errors="replace")):
+            texture = (quoted or bare).replace("\\\\", "/").replace("//", "/")
+            if (root / texture).is_file():
+                continue
+            owner = next((dlc for folder, dlc in folders if (folder / texture).is_file()), None)
+            if owner is not None:
+                out.setdefault(name, (owner, texture))
+    return out
 
 
 # ----------------------------------------------------------------------------- output

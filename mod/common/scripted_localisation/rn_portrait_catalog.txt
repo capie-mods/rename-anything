@@ -1342,5 +1342,6 @@ defined_text = {
 	text = { trigger = { check_variable = { rn_pp_pack = 10 } } localization_key = RN_PP_PACK_10 }
 	text = { trigger = { check_variable = { rn_pp_pack = 11 } } localization_key = RN_PP_PACK_11 }
 	text = { trigger = { check_variable = { rn_pp_pack = 12 } } localization_key = RN_PP_PACK_12 }
+	text = { trigger = { check_variable = { rn_pp_pack = 13 } } localization_key = RN_PP_PACK_13 }
 	text = { localization_key = RN_PP_PACK_0 }
 }

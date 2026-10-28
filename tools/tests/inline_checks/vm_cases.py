@@ -67,6 +67,7 @@ class ProductVM(ApplyVM):
         self.rules = {
             "rn_edit_rights": "RN_RIGHTS_SUBJECTS",
             "rn_rename_event": "RN_RENAME_EVENT_OFF",
+            "rn_rename_cooldown": "RN_COOLDOWN_DEFAULT",
         }
 
     def rule_option(self, rule: str) -> str:
@@ -786,6 +787,14 @@ def run_cooldown(ctx: Context) -> int:
         assert ok.persistent[f"rn_ip_cd_{kind}_until"] == expiry
         assert f"rn_ip_cd_{other}_until" not in ok.persistent
         assert "rn_ip_cd_leader_until" not in ok.persistent
+        # The lobby rule rn_rename_cooldown sets the length; with no cooldown the next rename is free.
+        for option, days in (("RN_COOLDOWN_OFF", 0), ("RN_COOLDOWN_1", 1), ("RN_COOLDOWN_15", 15), ("RN_COOLDOWN_30", 30)):
+            ruled = ctx.vm(kind)
+            ruled.rules["rn_rename_cooldown"] = option
+            ruled.run("rn_inline_pair_apply_" + kind)
+            assert ruled.persistent[f"rn_ip_cd_{kind}_until"] == Decimal(VM_TODAY + days), (kind, option)
+            assert ruled.condition([(f"rn_ip_cooldown_active_{kind}", "=", "yes")]) == (days > 0), (kind, option)
+            cases += 1
         rejected = ctx.vm(kind)
         rejected.temp["rn_ip_cmd_epoch"] = Decimal(VM_EPOCH - 1)
         before = rejected.state()
