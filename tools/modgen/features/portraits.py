@@ -58,6 +58,7 @@ from modgen.features.catalog_common import (
     write_leaf,
 )
 from modgen.script import check_variable, defined_text
+from rncommon.game_data import HAS_DLC_NAMES
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
@@ -88,8 +89,9 @@ NO_CHECKSUM = re.compile(r"^\s*affects_checksum\s*=\s*no\s*$", re.MULTILINE)
 def checkable_dlc(descriptor: Path | None) -> str | None:
     """Return the ``has_dlc`` name of a DLC descriptor, or None when script cannot test it.
 
-    A cosmetic DLC (``affects_checksum = no``) cannot gate a portrait, so its pictures are left
-    out of every catalog: without the DLC their textures are missing.
+    ``has_dlc`` knows only the fixed names of :data:`~rncommon.game_data.HAS_DLC_NAMES`; any other
+    DLC (a cosmetic pack, ``affects_checksum = no``) cannot gate a portrait, so its pictures are
+    left out of every catalog: without the DLC their textures are missing.
 
     Args:
         descriptor: The folder's ``.dlc`` file, if any.
@@ -101,7 +103,9 @@ def checkable_dlc(descriptor: Path | None) -> str | None:
         return None
     text = descriptor.read_text(encoding="utf-8", errors="replace")
     match = DLC_NAME.search(text)
-    return match[1] if match and not NO_CHECKSUM.search(text) else None
+    if not match or NO_CHECKSUM.search(text) or match[1] not in HAS_DLC_NAMES:
+        return None
+    return match[1]
 
 
 LEADER = 1

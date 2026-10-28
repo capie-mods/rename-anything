@@ -239,3 +239,33 @@ def vp_key_ids(lines: Iterable[str]) -> set[str]:
         if match:
             ids.add(match.group(1))
     return ids
+
+
+HAS_DLC_NAMES = frozenset(
+    {
+        "Poland: United and Ready",
+        "Together for Victory",
+        "Death or Dishonor",
+        "Waking the Tiger",
+        "Man the Guns",
+        "La Resistance",
+        "Battle for the Bosporus",
+        "No Step Back",
+        "By Blood Alone",
+        "Axis Armor Pack",
+        "Arms Against Tyranny",
+        "Trial of Allegiance",
+        "Expansion Pass 1: Supporter Pack",
+        "Gotterdammerung",
+        "Graveyard of Empires",
+        "No Compromise, No Surrender",
+        "Peace For Our Time",
+        "Thunder at Our Gates",
+    }
+)
+"""The only names ``has_dlc`` accepts in HOI4 1.19.4.0 (exact, case-sensitive).
+
+hoi4.exe compares the value against this fixed table (``FUN_1401b7030``, called by the has_dlc
+parser; capie docs/research/ghidra-review-2026-10-28.md, R3). Any other name, e.g. a cosmetic
+pack such as "Anniversary Pack", is a script error. Re-read the table after each game update.
+"""

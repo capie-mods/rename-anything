@@ -68,6 +68,7 @@ from pathlib import Path
 
 from rncommon.game_data import (
     DEFAULT_GAME,
+    HAS_DLC_NAMES,
     GameData,
     GameInstallation,
     read_state_inventory,
@@ -284,9 +285,16 @@ def interface_check(game: GameData, gui: str, loc: dict[str, str]) -> list[str]:
     # exist in the mod, in the game or in one of its DLC folders (a cut path was a real bug).
     root = getattr(game, "root", None)
     if root:
-        bases = [Path(), Path(root), *sorted(Path(root, "dlc").glob("*")), *sorted(Path(root, "integrated_dlc").glob("*"))]
+        bases = [
+            Path(),
+            Path(root),
+            *sorted(Path(root, "dlc").glob("*")),
+            *sorted(Path(root, "integrated_dlc").glob("*")),
+        ]
         seen: set[str] = set()
-        for name in sorted(p.name for p in Path("interface").glob("*.gfx") if p.name != Path(GFX_FILE).name):
+        for name in sorted(
+            p.name for p in Path("interface").glob("*.gfx") if p.name != Path(GFX_FILE).name
+        ):
             for tex in GFX_TEXTURE.findall(rd(f"interface/{name}")):
                 if tex in seen:
                     continue
@@ -327,6 +335,22 @@ def scripted_loc_check(
         if k not in loc and k not in vk
     ]
     return bad
+
+
+def has_dlc_check() -> list[str]:
+    """Return every ``has_dlc`` value in the mod that the game does not accept.
+
+    Returns:
+        One problem per unknown name (see :data:`rncommon.game_data.HAS_DLC_NAMES`).
+    """
+    names: set[str] = set()
+    for path in sorted(Path().rglob("*.txt")):
+        names.update(HAS_DLC.findall(path.read_text(encoding="utf-8-sig", errors="replace")))
+    return [f"has_dlc name the game does not know: {n!r}" for n in sorted(names - HAS_DLC_NAMES)]
+
+
+HAS_DLC = re.compile(r'has_dlc\s*=\s*"([^"]*)"')
+"""A quoted ``has_dlc`` value."""
 
 
 def typed_scope_check(scripts: str, effects: str) -> list[str]:
@@ -522,6 +546,7 @@ def run_checks(game: GameData) -> list[str]:
     trig = read_joined("common/scripted_triggers/*.txt")
     sg = rd(SCRIPTED_GUI_FILE)
     bad += typed_scope_check(sg + allfx + sl, allfx)
+    bad += has_dlc_check()
     state_table_check(game, eff, bad)
     bad += wiring_check(gui, sg, sg + allfx + sl, allfx + trig)
     bad += brace_check()
