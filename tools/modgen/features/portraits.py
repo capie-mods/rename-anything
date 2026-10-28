@@ -495,6 +495,41 @@ def read_dlc_textures(root: Path) -> dict[str, tuple[str, str]]:
     return out
 
 
+EXPECTED_DLC = Path(__file__).with_name("portrait_dlc.txt")
+"""The DLC folders (``dlc/*``, ``integrated_dlc/*``) the committed catalogs were generated from."""
+
+
+def check_dlc_folders(root: Path) -> None:
+    """Stop when the installed DLC folders differ from :data:`EXPECTED_DLC`.
+
+    Steam creates a ``dlc/`` folder only for owned DLC, so a maintainer without one DLC would
+    generate a different catalog: other pack numbers, another fingerprint, and every player's
+    saved picker index would read as stale after the release.
+
+    Args:
+        root: Game installation folder.
+
+    Raises:
+        ValueError: A folder of the list is missing, or the game has one the list does not name.
+    """
+    lines = EXPECTED_DLC.read_text(encoding="utf-8").splitlines()
+    expected = {x.strip() for x in lines if x.strip() and not x.startswith("#")}
+    found = {
+        f"{kind}/{p.name}"
+        for kind in ("dlc", "integrated_dlc")
+        for p in (root / kind).glob("*")
+        if p.is_dir()
+    }
+    missing, extra = sorted(expected - found), sorted(found - expected)
+    if missing or extra:
+        msg = (
+            f"DLC folders differ from {EXPECTED_DLC.name}: missing {missing or 'none'}, "
+            f"not listed {extra or 'none'}. Install the missing DLC, or update the list "
+            "together with a release."
+        )
+        raise ValueError(msg)
+
+
 def read_catalog(root: str) -> PortraitCatalog:
     """Read the catalog from a HOI4 installation.
 
@@ -502,9 +537,11 @@ def read_catalog(root: str) -> PortraitCatalog:
         root: Game installation folder.
 
     Returns:
-        The catalog.
+        The catalog. :func:`check_dlc_folders` stops first when the installed DLC folders
+        differ from :data:`EXPECTED_DLC`.
     """
     game = Path(root)
+    check_dlc_folders(game)
     tags = set(read_tags(root))
     chars: list[Character] = []
     for path in sorted((game / "common" / "characters").glob("*.txt")):

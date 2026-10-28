@@ -2,8 +2,15 @@
 
 from __future__ import annotations
 
-from modgen.features import char_portraits
+from typing import TYPE_CHECKING
+
+import pytest
+
+from modgen.features import char_portraits, portraits
 from modgen.features.portraits import Character, Entry, PortraitCatalog
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def _char(token: str, **portraits: str) -> Character:
@@ -44,7 +51,9 @@ SMALL = char_portraits.SMALL_OFFSET
 def test_large_catalog_portrait_wins() -> None:
     """A base-game large portrait from the catalog is used before any small one."""
     data = char_portraits.build(
-        [_char("ENG_a", civilian_large="GFX_base_large", civilian_small="GFX_idea_a")], _catalog(), TEXTURES
+        [_char("ENG_a", civilian_large="GFX_base_large", civilian_small="GFX_idea_a")],
+        _catalog(),
+        TEXTURES,
     )
     assert data.values == {"ENG_a": 1}
     assert data.textures == {0: char_portraits.UNKNOWN_TEXTURE, 1: "gfx/leaders/base.dds"}
@@ -68,7 +77,9 @@ def test_dlc_portrait_falls_back_to_small_or_unknown() -> None:
 def test_small_textures_are_shared() -> None:
     """Two characters with the same small picture share one sprite value."""
     data = char_portraits.build(
-        [_char("ENG_b", civilian_small="GFX_idea_b"), _char("ENG_c", army_small="GFX_idea_b")], _catalog(), TEXTURES
+        [_char("ENG_b", civilian_small="GFX_idea_b"), _char("ENG_c", army_small="GFX_idea_b")],
+        _catalog(),
+        TEXTURES,
     )
     assert data.values == {"ENG_b": SMALL + 1, "ENG_c": SMALL + 1}
     assert len(data.textures) == 2  # unknown + one small
@@ -76,7 +87,9 @@ def test_small_textures_are_shared() -> None:
 
 def test_effect_caches_and_returns_the_value() -> None:
     """The chain runs only for a new table; the value always comes back in the temp variable."""
-    data = char_portraits.build([_char("ENG_a", civilian_large="GFX_base_large")], _catalog(), TEXTURES)
+    data = char_portraits.build(
+        [_char("ENG_a", civilian_large="GFX_base_large")], _catalog(), TEXTURES
+    )
     text = char_portraits.effects(data)
     fp = char_portraits.fingerprint(data)
     assert f"NOT = {{ check_variable = {{ rn_cp_c = {fp} }} }}" in text
@@ -89,7 +102,10 @@ def test_effect_caches_and_returns_the_value() -> None:
 def test_gfx_defines_every_value_including_unknown() -> None:
     """Every value the effect can return has a sprite, value 0 included."""
     data = char_portraits.build(
-        [_char("ENG_a", civilian_large="GFX_base_large"), _char("ENG_b", civilian_small="GFX_idea_b")],
+        [
+            _char("ENG_a", civilian_large="GFX_base_large"),
+            _char("ENG_b", civilian_small="GFX_idea_b"),
+        ],
         _catalog(),
         TEXTURES,
     )
@@ -106,3 +122,21 @@ def test_sprite_regex_keeps_paths_with_spaces() -> None:
     text += "spriteType = { name = GFX_b texturefile = gfx/leaders/x.dds }\n"
     found = [(name, quoted or bare) for name, quoted, bare in SPRITE.findall(text)]
     assert found == [("GFX_a", "gfx/leaders/South America/a b.dds"), ("GFX_b", "gfx/leaders/x.dds")]
+
+
+def test_dlc_folder_check(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """The generator stops on a missing or an unlisted DLC folder and accepts the listed set."""
+    lock = tmp_path / "portrait_dlc.txt"
+    lock.write_text("# comment\ndlc/dlc001_a\nintegrated_dlc/dlc018_b\n", encoding="utf-8")
+    monkeypatch.setattr(portraits, "EXPECTED_DLC", lock)
+    game = tmp_path / "game"
+    (game / "dlc" / "dlc001_a").mkdir(parents=True)
+    (game / "integrated_dlc" / "dlc018_b").mkdir(parents=True)
+    portraits.check_dlc_folders(game)
+    (game / "dlc" / "dlc099_new").mkdir()
+    with pytest.raises(ValueError, match="dlc099_new"):
+        portraits.check_dlc_folders(game)
+    (game / "dlc" / "dlc099_new").rmdir()
+    (game / "dlc" / "dlc001_a").rmdir()
+    with pytest.raises(ValueError, match="dlc001_a"):
+        portraits.check_dlc_folders(game)
