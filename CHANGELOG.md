@@ -6,7 +6,14 @@ turns the section of the version in `mod/descriptor.mod` into the Workshop chang
 
 ## [Unreleased]
 
-## [0.2.0] - unreleased
+## [0.2.1] - unreleased
+
+- Fixed: about 180 characters showed the unknown mini portrait in the Characters tab, and 10
+  leader and general portraits were missing from the portrait list. Their pictures come from the
+  four former DLC that HOI4 now gives every player (Together for Victory, Death or Dishonor,
+  Waking the Tiger, Man the Guns).
+
+## [0.2.0] - 2026-10-28
 
 - HOI4 1.19.4.0: the features that need CAPIE work again with CAPIE 1.5.1, which supports the
   new game build.

@@ -18,7 +18,16 @@ from __future__ import annotations
 from modgen.common import LIST_ROW_HEIGHT, LIST_WIDTH, PAGE, TAB_CHARACTERS
 from modgen.features.char_portraits import SMALL_OFFSET
 from modgen.features.main_window import DynamicList, TabSpec
-from modgen.gui import BUTTON_SMALL, WINDOW_END, PagedList, btn, entry_window, gridbox, paged_list, txt
+from modgen.gui import (
+    BUTTON_SMALL,
+    WINDOW_END,
+    PagedList,
+    btn,
+    entry_window,
+    gridbox,
+    paged_list,
+    txt,
+)
 
 CHAR_ROLES = [
     ("is_country_leader", "LEADER", "GFX_pol_idea", (20, 16)),
@@ -108,7 +117,8 @@ _ROLE_TRIGGERS = "".join(
 
 _PORTRAIT_TRIGGERS = (
     f"\t\t\trn_char_pp_l_visible = {{ check_variable = {{ {PORTRAIT_VALUE} < {SMALL_OFFSET} }} }}\n"
-    f"\t\t\trn_char_pp_s_visible = {{ NOT = {{ check_variable = {{ {PORTRAIT_VALUE} < {SMALL_OFFSET} }} }} }}\n"
+    "\t\t\trn_char_pp_s_visible = "
+    f"{{ NOT = {{ check_variable = {{ {PORTRAIT_VALUE} < {SMALL_OFFSET} }} }} }}\n"
 )
 """Visible triggers of the two portrait icons: 156 x 210 (catalog or unknown) or a small one."""
 

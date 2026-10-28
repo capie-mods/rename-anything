@@ -69,7 +69,9 @@ class CharPortraits:
 
 
 def build(
-    characters: list[portraits.Character], catalog: portraits.PortraitCatalog, textures: dict[str, str]
+    characters: list[portraits.Character],
+    catalog: portraits.PortraitCatalog,
+    textures: dict[str, str],
 ) -> CharPortraits:
     """Choose the portrait value of every character.
 
@@ -137,7 +139,8 @@ def gfx(data: CharPortraits) -> str:
         for value, texture in data.textures.items()
     )
     return (
-        f"{GEN_HEADER}# Mini portraits of the Characters list: GFX_rnchp_<value> (char_portraits.py).\n"
+        f"{GEN_HEADER}# Mini portraits of the Characters list: GFX_rnchp_<value>"
+        " (char_portraits.py).\n"
         f"spriteTypes = {{\n{lines}}}\n"
     )
 
@@ -172,8 +175,10 @@ def effects(data: CharPortraits) -> str:
     )
     fp = fingerprint(data)
     return (
-        f"{GEN_HEADER}# Characters list mini portraits (char_portraits.py). CHARACTER scope: stores the\n"
-        f"# portrait value in {VALUE_VAR} (cached per table in {CACHE_VAR}) and returns it in temp {TEMP_VAR}.\n"
+        f"{GEN_HEADER}# Characters list mini portraits (char_portraits.py)."
+        " CHARACTER scope: stores the\n"
+        f"# portrait value in {VALUE_VAR} (cached per table in {CACHE_VAR})"
+        f" and returns it in temp {TEMP_VAR}.\n"
         "rn_char_portrait_index = {\n"
         f"\tif = {{\n\t\tlimit = {{ NOT = {{ check_variable = {{ {CACHE_VAR} = {fp} }} }} }}\n"
         f"\t\tset_variable = {{ {VALUE_VAR} = 0 }}\n"

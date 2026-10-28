@@ -177,10 +177,11 @@ def gui() -> str:
     return "".join(parts)
 
 
-def write_all(
+def write_all(  # noqa: PLR0913 - one optional input per generated catalog, keyword-only
     sink: OutputSink,
     states_table: StateTable,
     keys: set[int],
+    *,
     catalog: flags.FlagCatalog | None = None,
     portrait_catalog: portraits.PortraitCatalog | None = None,
     char_data: char_portraits.CharPortraits | None = None,

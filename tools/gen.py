@@ -140,11 +140,20 @@ def main() -> int:
     catalog = read_catalog(args.game)
     portrait_catalog = read_portraits(args.game)
     char_data = char_portraits.read(args.game, portrait_catalog)
-    write_all(DiskSink(MOD), states, keys, catalog, portrait_catalog, char_data)
+    write_all(
+        DiskSink(MOD),
+        states,
+        keys,
+        catalog=catalog,
+        portrait_catalog=portrait_catalog,
+        char_data=char_data,
+    )
     print(summary(states, keys))
     print("flags:", ", ".join(f"{k} {v}" for k, v in catalog.report.items()))
     print("portraits:", ", ".join(f"{k} {v}" for k, v in portrait_catalog.report.items()))
-    print(f"character portraits: {len(char_data.values)} characters, {len(char_data.textures)} sprites")
+    print(
+        f"character portraits: {len(char_data.values)} characters, {len(char_data.textures)} sprites"
+    )
     return 0
 
 

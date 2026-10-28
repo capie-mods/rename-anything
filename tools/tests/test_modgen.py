@@ -16,6 +16,7 @@ from modgen import build
 from modgen.charset import CHARS, CODE, DISPLAY_ORDER, FORBIDDEN, LAST_CODE, PL_UPPER
 from modgen.common import LANGS, MAXLEN, MOD, STATE_BUCKET, VP_SLOTS, slots_expr
 from modgen.features import (
+    char_portraits,
     cities,
     cooldown,
     flag_picker,
@@ -158,11 +159,20 @@ def test_cooldown_rule_default_is_the_constant() -> None:
     source = files["common/scripted_effects/rn_inline_cooldown.txt"]
     body = source[source.index("rn_ip_cooldown_days = {") :]
     body = body[: body.index("\n}\n")]
-    assert f"else = {{\n\t\tset_temp_variable = {{ rn_ip_cd_days = {cooldown.COOLDOWN_DAYS} }}" in body
+    assert (
+        f"else = {{\n\t\tset_temp_variable = {{ rn_ip_cd_days = {cooldown.COOLDOWN_DAYS} }}" in body
+    )
     rules = files["common/game_rules/rn_rules.txt"]
-    for option, days in (("RN_COOLDOWN_OFF", 0), ("RN_COOLDOWN_1", 1), ("RN_COOLDOWN_15", 15), ("RN_COOLDOWN_30", 30)):
+    for option, days in (
+        ("RN_COOLDOWN_OFF", 0),
+        ("RN_COOLDOWN_1", 1),
+        ("RN_COOLDOWN_15", 15),
+        ("RN_COOLDOWN_30", 30),
+    ):
         assert f'name = "{option}"' in rules
-        assert f"option = {option} }} }}\n\t\tset_temp_variable = {{ rn_ip_cd_days = {days} }}" in body
+        assert (
+            f"option = {option} }} }}\n\t\tset_temp_variable = {{ rn_ip_cd_days = {days} }}" in body
+        )
 
 
 def test_yml_escape_rejects_quotes() -> None:
@@ -241,12 +251,14 @@ def test_generator_reproduces_committed_mod() -> None:
     states = dict(sorted(read_state_inventory(game.state_histories()).states.items()))
     keys = {int(i) for i in vp_key_ids(game.english_localisation_lines())}
     sink = MemorySink()
+    portrait_catalog = portraits.read_catalog(DEFAULT_GAME)
     build.write_all(
         sink,
         states,
         keys,
-        flags.read_catalog(DEFAULT_GAME),
-        portraits.read_catalog(DEFAULT_GAME),
+        catalog=flags.read_catalog(DEFAULT_GAME),
+        portrait_catalog=portrait_catalog,
+        char_data=char_portraits.read(DEFAULT_GAME, portrait_catalog),
     )
     assert flags.CATALOG_EFFECTS in sink.files
     for relative, data in sink.files.items():

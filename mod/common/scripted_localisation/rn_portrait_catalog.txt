@@ -1290,6 +1290,17 @@ defined_text = {
 	text = { trigger = { check_variable = { rn_pp_sel = 1191 } } localization_key = RN_PPL_1191 }
 	text = { trigger = { check_variable = { rn_pp_sel = 1192 } } localization_key = RN_PPL_1192 }
 	text = { trigger = { check_variable = { rn_pp_sel = 1193 } } localization_key = RN_PPL_1193 }
+	text = { trigger = { check_variable = { rn_pp_sel = 1194 } } localization_key = RN_PPL_1194 }
+	text = { trigger = { check_variable = { rn_pp_sel = 1195 } } localization_key = RN_PPL_1195 }
+	text = { trigger = { check_variable = { rn_pp_sel = 1196 } } localization_key = RN_PPL_1196 }
+	text = { trigger = { check_variable = { rn_pp_sel = 1197 } } localization_key = RN_PPL_1197 }
+	text = { trigger = { check_variable = { rn_pp_sel = 1198 } } localization_key = RN_PPL_1198 }
+	text = { trigger = { check_variable = { rn_pp_sel = 1199 } } localization_key = RN_PPL_1199 }
+	text = { trigger = { check_variable = { rn_pp_sel = 1200 } } localization_key = RN_PPL_1200 }
+	text = { trigger = { check_variable = { rn_pp_sel = 1201 } } localization_key = RN_PPL_1201 }
+	text = { trigger = { check_variable = { rn_pp_sel = 1202 } } localization_key = RN_PPL_1202 }
+	text = { trigger = { check_variable = { rn_pp_sel = 1203 } } localization_key = RN_PPL_1203 }
+	text = { trigger = { check_variable = { rn_pp_sel = 1204 } } localization_key = RN_PPL_1204 }
 	text = { localization_key = RN_IPP_EMPTY }
 }
 # Days left of the portrait cooldown (scope: the country whose leader changes).
@@ -1342,6 +1353,5 @@ defined_text = {
 	text = { trigger = { check_variable = { rn_pp_pack = 10 } } localization_key = RN_PP_PACK_10 }
 	text = { trigger = { check_variable = { rn_pp_pack = 11 } } localization_key = RN_PP_PACK_11 }
 	text = { trigger = { check_variable = { rn_pp_pack = 12 } } localization_key = RN_PP_PACK_12 }
-	text = { trigger = { check_variable = { rn_pp_pack = 13 } } localization_key = RN_PP_PACK_13 }
 	text = { localization_key = RN_PP_PACK_0 }
 }

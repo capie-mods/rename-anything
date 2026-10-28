@@ -415,8 +415,39 @@ def build_catalog(
     )
 
 
+def base_roots(root: Path) -> list[Path]:
+    """Return the folders whose files every player has: the game and its integrated DLC.
+
+    Since 1.19 the game ships four former DLC (Together for Victory, Death or Dishonor,
+    Waking the Tiger, Man the Guns) in ``integrated_dlc/*`` for every player; their sprites
+    and textures count as base game (pack 0, no ``has_dlc``).
+
+    Args:
+        root: Game installation folder.
+
+    Returns:
+        The game folder followed by each ``integrated_dlc`` folder, sorted.
+    """
+    return [root, *sorted(p for p in (root / "integrated_dlc").glob("*") if p.is_dir())]
+
+
+def has_base_file(root: Path, relative: str) -> bool:
+    """Return True when a file exists in the game or in one of its integrated DLC.
+
+    Args:
+        root: Game installation folder.
+        relative: Path relative to a content root (``gfx/leaders/...``).
+
+    Returns:
+        Whether every player has the file.
+    """
+    return any((base / relative).is_file() for base in base_roots(root))
+
+
 def read_textures(root: Path) -> dict[str, str]:
-    """Return every vanilla sprite name with its texture file.
+    """Return every base-game sprite name with its texture file.
+
+    Reads ``interface/*.gfx`` of the game and of its integrated DLC (:func:`base_roots`).
 
     Args:
         root: Game installation folder.
@@ -425,13 +456,16 @@ def read_textures(root: Path) -> dict[str, str]:
         Sprite name to texture file.
     """
     out: dict[str, str] = {}
-    for path in sorted((root / "interface").glob("*.gfx")):
-        for name, quoted, bare in SPRITE.findall(path.read_text(encoding="utf-8", errors="replace")):
-            texture = (quoted or bare).replace("\\\\", "/").replace("//", "/")
-            # A game sprite whose file is missing (e.g. a wrong path in the game's own .gfx) is
-            # skipped: copying it would only add a "texture not found" error and a blank cell.
-            if (root / texture).is_file():
-                out.setdefault(name, texture)
+    for base in base_roots(root):
+        for path in sorted((base / "interface").glob("*.gfx")):
+            for name, quoted, bare in SPRITE.findall(
+                path.read_text(encoding="utf-8", errors="replace")
+            ):
+                texture = (quoted or bare).replace("\\\\", "/").replace("//", "/")
+                # A game sprite whose file is missing (e.g. a wrong path in the game's own .gfx) is
+                # skipped: copying it would only add a "texture not found" error and a blank cell.
+                if has_base_file(root, texture):
+                    out.setdefault(name, texture)
     return out
 
 
@@ -456,7 +490,7 @@ def read_dlc_textures(root: Path) -> dict[str, tuple[str, str]]:
             text = path.read_text(encoding="utf-8", errors="replace")
             for name, quoted, bare in SPRITE.findall(text):
                 texture = (quoted or bare).replace("\\", "/").replace("//", "/")
-                if (folder / texture).is_file() or (root / texture).is_file():
+                if (folder / texture).is_file() or has_base_file(root, texture):
                     out.setdefault(name, (match[1], texture))
     return out
 
@@ -483,9 +517,10 @@ def read_catalog(root: str) -> PortraitCatalog:
 def read_base_sprites_in_dlc(root: Path) -> dict[str, tuple[str, str]]:
     """Return base-game sprites whose texture file exists only in a DLC folder.
 
-    The base ``interface/*.gfx`` defines some portraits (``gfx/leaders/Asia/portrait_asia_generic_4``)
-    whose file ships with a DLC. Without that DLC the sprite has no texture, so it belongs to the
-    DLC's pack (shown only with ``has_dlc``), not to the base game.
+    The base ``interface/*.gfx`` defines some portraits
+    (``gfx/leaders/Asia/portrait_asia_generic_4``) whose file ships with a DLC. Without that DLC
+    the sprite has no texture, so it belongs to the DLC's pack (shown only with ``has_dlc``), not
+    to the base game. A texture in the game or an integrated DLC (:func:`has_base_file`) is base.
 
     Args:
         root: Game installation folder.
@@ -496,14 +531,22 @@ def read_base_sprites_in_dlc(root: Path) -> dict[str, tuple[str, str]]:
     folders: list[tuple[Path, str]] = []
     for folder in sorted((root / "dlc").glob("*")):
         descriptor = next(iter(sorted(folder.glob("*.dlc"))), None)
-        match = DLC_NAME.search(descriptor.read_text(encoding="utf-8", errors="replace")) if descriptor else None
+        match = (
+            DLC_NAME.search(descriptor.read_text(encoding="utf-8", errors="replace"))
+            if descriptor
+            else None
+        )
         if match:
             folders.append((folder, match[1]))
     out: dict[str, tuple[str, str]] = {}
-    for path in sorted((root / "interface").glob("*.gfx")):
-        for name, quoted, bare in SPRITE.findall(path.read_text(encoding="utf-8", errors="replace")):
+    for path in [
+        p for base in base_roots(root) for p in sorted((base / "interface").glob("*.gfx"))
+    ]:
+        for name, quoted, bare in SPRITE.findall(
+            path.read_text(encoding="utf-8", errors="replace")
+        ):
             texture = (quoted or bare).replace("\\\\", "/").replace("//", "/")
-            if (root / texture).is_file():
+            if has_base_file(root, texture):
                 continue
             owner = next((dlc for folder, dlc in folders if (folder / texture).is_file()), None)
             if owner is not None:
