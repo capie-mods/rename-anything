@@ -46,6 +46,7 @@ rn_pp_open_own = {
 		}
 		rn_inline_leader_cancel = yes
 		rn_fp_close = yes
+		rn_cp_close = yes
 		rn_pp_close = yes
 		clear_array = rn_pp_target_arr
 		add_to_array = { rn_pp_target_arr = THIS }
@@ -69,6 +70,7 @@ rn_pp_open_sub = {
 			rn_sub_close = yes
 			rn_fac_close = yes
 			rn_fp_close = yes
+			rn_cp_close = yes
 			rn_pp_close = yes
 			clear_array = rn_pp_target_arr
 			add_to_array = { rn_pp_target_arr = PREV }

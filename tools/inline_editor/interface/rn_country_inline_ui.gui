@@ -37,7 +37,7 @@ guiTypes = {
 	}
 	containerWindowType = {
 		name = "rn_ip_country_window"
-		# Opened overlay 18..438 x 28..196 (tab row Name | Flag on top) temporarily covers the title subtitle row, the top of the
+		# Opened overlay 18..438 x 28..196 (tab row Name | Flag | Colour on top) temporarily covers the title subtitle row, the top of the
 		# portrait (from y58) and the top of the national-focus box. Design-system grid: each field
 		# has its own label (a labelled row adds 12 px, rows repeat every 42 px), status line last.
 		position = { x = 18 y = 28 }
@@ -77,7 +77,8 @@ guiTypes = {
 			fixedsize = yes
 			alwaystransparent = yes
 		}
-		# Tabs: Name (this editor, disabled) and Flag (the flag picker capie_v1_ed__rn__flag, same place).
+		# Tabs: Name (this editor, disabled), Flag (the flag picker capie_v1_ed__rn__flag) and Colour
+		# (the colour picker capie_v1_ed__rncc__colour), both in the same place.
 		buttonType = {
 			name = "rn_ip_country_tab_name"
 			position = { x = 0 y = 0 }
@@ -94,6 +95,15 @@ guiTypes = {
 			buttonText = "RN_FP_TAB_FLAG"
 			buttonFont = "hoi_16mbs"
 			pdx_tooltip = "RN_FP_TAB_FLAG_TT"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_ip_country_tab_colour"
+			position = { x = 192 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_CP_TAB"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_CP_TAB_TT"
 			clicksound = click_default
 		}
 		containerWindowType = {

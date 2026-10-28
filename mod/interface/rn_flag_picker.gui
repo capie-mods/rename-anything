@@ -39,6 +39,15 @@ guiTypes = {
 			pdx_tooltip = "RN_FP_TAB_FLAG_TT"
 			clicksound = click_default
 		}
+		buttonType = {
+			name = "rn_fp_flag_tab_colour"
+			position = { x = 192 y = 0 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_CP_TAB"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_CP_TAB_TT"
+			clicksound = click_default
+		}
 		# Preview: the selected flag (large sprite) in the vanilla large flag frame.
 		iconType = {
 			name = "rn_fp_preview"
@@ -1906,6 +1915,16 @@ guiTypes = {
 			buttonText = "RN_FP_RESET"
 			buttonFont = "hoi_16mbs"
 			pdx_tooltip = "RN_FP_RESET_TT"
+			clicksound = click_default
+		}
+		# Map colour: the colour picker of this country (capie_v1_ed__rncc__subcolour).
+		buttonType = {
+			name = "rn_fp_colour"
+			position = { x = 172 y = 196 }
+			spriteType = "GFX_button_123x34"
+			buttonText = "RN_CP_OPEN"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_CP_TAB_TT"
 			clicksound = click_default
 		}
 	}

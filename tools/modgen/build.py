@@ -15,6 +15,8 @@ from modgen.features import (
     char_portraits,
     characters,
     cities,
+    colour_picker,
+    colours,
     cooldown,
     country,
     flag_picker,
@@ -249,7 +251,7 @@ def _write_pickers(
     catalog: flags.FlagCatalog | None,
     portrait_catalog: portraits.PortraitCatalog | None,
 ) -> None:
-    """Write the flag and portrait catalogs and their pickers.
+    """Write the flag and portrait catalogs, their pickers and the colour picker.
 
     Args:
         sink: Destination of the files.
@@ -261,6 +263,11 @@ def _write_pickers(
         files += flags.write_files(catalog)
         files += [(rel, text, False) for rel, text in flag_picker.write_files(catalog)]
         for name, data in flag_picker.textures().items():
+            sink.write_bytes(f"{textures.TEXTURE_DIR}/{name}", data)
+        # The colour picker needs the flag catalog's cosmetic tags for its snapshot.
+        files += colours.write_files(catalog)
+        files += [(rel, text, False) for rel, text in colour_picker.write_files()]
+        for name, data in colours.textures().items():
             sink.write_bytes(f"{textures.TEXTURE_DIR}/{name}", data)
     if portrait_catalog is not None:
         files += portraits.write_files(portrait_catalog)

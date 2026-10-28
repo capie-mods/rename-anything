@@ -17,6 +17,7 @@ HIT_SPRITES = {
     "GFX_rn_hit_letter": ("rn_hit_letter.tga", (14, 16)),
     "GFX_rn_hit_other": ("rn_hit_other.tga", (52, 16)),
     "GFX_rn_hit_row108": ("rn_hit_row108.tga", (108, 16)),
+    "GFX_rn_hit_step": ("rn_hit_step.tga", (26, 16)),
 }
 """Transparent hit areas: sprite name to (texture file, size)."""
 

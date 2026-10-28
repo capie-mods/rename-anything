@@ -130,6 +130,9 @@ CANCEL_X = 396
 RESET_POS = (297, 196)
 """Position of "Restore game flag" (``GFX_button_123x34``), right-aligned like "Restore name"."""
 
+COLOUR_POS = (172, 196)
+"""Position of "Map colour" in the subject picker, which has no room for a fifth tab."""
+
 HIT_ROW_SPRITE = "GFX_rn_hit_row"
 """Transparent hit area of a country row."""
 
@@ -189,6 +192,7 @@ OWN = Picker(
     (
         ("name", "RN_FP_TAB_NAME", "RN_FP_TAB_NAME_TT"),
         ("flag", "RN_FP_TAB_FLAG", "RN_FP_TAB_FLAG_TT"),
+        ("colour", "RN_CP_TAB", "RN_CP_TAB_TT"),
     ),
 )
 """Own country: in the politics view, where the country name editor opens."""
@@ -364,9 +368,32 @@ def window(picker: Picker, letters: tuple[int, ...]) -> str:
             "GFX_button_123x34",
             attrs=captioned("RN_FP_RESET", "RN_FP_RESET_TT"),
         ),
+        *_colour_button(picker),
         "\t}\n",
     ]
     return "".join(parts)
+
+
+def _colour_button(picker: Picker) -> list[str]:
+    """Return the subject picker's "Map colour" button (the own picker has a tab).
+
+    Args:
+        picker: The editor.
+
+    Returns:
+        Element blocks, empty for the own picker.
+    """
+    if picker is OWN:
+        return []
+    return [
+        "\t\t# Map colour: the colour picker of this country (capie_v1_ed__rncc__subcolour).\n",
+        button(
+            "rn_fp_colour",
+            COLOUR_POS,
+            "GFX_button_123x34",
+            attrs=captioned("RN_CP_OPEN", "RN_CP_TAB_TT"),
+        ),
+    ]
 
 
 def entries() -> str:
@@ -497,15 +524,19 @@ def _tab_effects(picker: Picker) -> list[str]:
                 f"\t\t\t{prefix}name_click = "
                 "{ ROOT = { rn_fp_to_name_editor = yes rn_ip_status_clear = yes } }\n"
             ),
+            f"\t\t\t{prefix}colour_click = {{ ROOT = {{ rn_cp_open_own = yes }} }}\n",
         ]
     limit = f"rn_sub_may_edit = yes ROOT = {{ {_ROOT_OK} }}"
     return [
-        f"\t\t\t{prefix}{suffix}_click = {{\n"
-        f"\t\t\t\tif = {{\n\t\t\t\t\tlimit = {{ {limit} {_switched_on(suffix)} }}\n"
-        "\t\t\t\t\tROOT = { rn_fp_close = yes }\n\t\t\t\t\trn_sub_open_common = yes\n"
-        f"\t\t\t\t\tROOT = {{ set_country_flag = rn_sub_open_{suffix} }}\n"
-        "\t\t\t\t}\n\t\t\t}\n"
-        for suffix in ("country", "leader", "party")
+        "\t\t\trn_fp_colour_click = { rn_cp_open_sub = yes }\n",
+        *(
+            f"\t\t\t{prefix}{suffix}_click = {{\n"
+            f"\t\t\t\tif = {{\n\t\t\t\t\tlimit = {{ {limit} {_switched_on(suffix)} }}\n"
+            "\t\t\t\t\tROOT = { rn_fp_close = yes }\n\t\t\t\t\trn_sub_open_common = yes\n"
+            f"\t\t\t\t\tROOT = {{ set_country_flag = rn_sub_open_{suffix} }}\n"
+            "\t\t\t\t}\n\t\t\t}\n"
+            for suffix in ("country", "leader", "party")
+        ),
     ]
 
 
@@ -526,12 +557,18 @@ def _tab_triggers(picker: Picker) -> list[str]:
             "{ NOT = { rn_ip_cooldown_active_country = yes } "
             "NOT = { rn_feature_country_off = yes } }\n"
         )
+        out.append(f"\t\t\t{prefix}colour_click_enabled = {{ {_switched_on('colour', picker)} }}\n")
     else:
         out += [
             f"\t\t\t{prefix}{s}_click_enabled = "
             f"{{ rn_sub_may_edit = yes ROOT = {{ {_ROOT_OK} }} {_switched_on(s)} }}\n"
             for s in ("country", "leader", "party")
         ]
+        out.append(
+            "\t\t\trn_fp_colour_click_enabled = "
+            f"{{ rn_sub_may_edit = yes ROOT = {{ {_ROOT_OK} }} "
+            f"{_switched_on('colour', picker)} }}\n"
+        )
     return out
 
 
