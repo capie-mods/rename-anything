@@ -173,6 +173,22 @@ def test_cooldown_rule_default_is_the_constant() -> None:
         assert (
             f"option = {option} }} }}\n\t\tset_temp_variable = {{ rn_ip_cd_days = {days} }}" in body
         )
+        # The default must not repeat another option's value (the lobby would list it twice).
+        assert days != cooldown.COOLDOWN_DAYS
+
+
+def test_cooldown_label_names_the_constant() -> None:
+    """The default option's label and description show :data:`COOLDOWN_DAYS`, in every language."""
+    from modgen.features.inline_editor import gen_inline_editor
+
+    days = cooldown.COOLDOWN_DAYS
+    for f in gen_inline_editor():
+        if f.relative.endswith(".yml") and "rn_cooldown_rule_l_" in f.relative:
+            label = next(x for x in f.text.splitlines() if "RN_RULE_COOLDOWN_DEFAULT:" in x)
+            desc = next(x for x in f.text.splitlines() if "RN_RULE_COOLDOWN_DEFAULT_DESC:" in x)
+            assert f'"{days} ' in label, f.relative
+            assert f" {days} " in desc, f.relative
+            assert "@RN_" not in f.text, f.relative
 
 
 def test_yml_escape_rejects_quotes() -> None:
