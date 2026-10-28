@@ -15,7 +15,7 @@ turns the section of the version in `mod/descriptor.mod` into the Workshop chang
   unknown portrait, as elsewhere in the game.
 - The portrait list has 10 more leader and general portraits (from Together for Victory, Death
   or Dishonor, Waking the Tiger and Man the Guns, which every player now has). The Anniversary
-  Pack portraits are no longer offered: the game cannot check that DLC, so they showed as blank.
+  Pack portraits are no longer offered: the game cannot check that DLC, which caused an error.
 - Portraits you already chose stay as they are; the portrait list may start from the first
   entry again.
 
