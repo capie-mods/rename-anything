@@ -81,6 +81,29 @@ quoted path, group 3 an unquoted one.
 DLC_NAME = re.compile(r'^\s*name\s*=\s*"([^"]+)"', re.MULTILINE)
 """The ``name`` of a ``.dlc`` descriptor, the value ``has_dlc`` takes."""
 
+NO_CHECKSUM = re.compile(r"^\s*affects_checksum\s*=\s*no\s*$", re.MULTILINE)
+"""A cosmetic DLC: the game rejects its name in ``has_dlc`` (e.g. "Anniversary Pack")."""
+
+
+def checkable_dlc(descriptor: Path | None) -> str | None:
+    """Return the ``has_dlc`` name of a DLC descriptor, or None when script cannot test it.
+
+    A cosmetic DLC (``affects_checksum = no``) cannot gate a portrait, so its pictures are left
+    out of every catalog: without the DLC their textures are missing.
+
+    Args:
+        descriptor: The folder's ``.dlc`` file, if any.
+
+    Returns:
+        The DLC name, or None.
+    """
+    if descriptor is None:
+        return None
+    text = descriptor.read_text(encoding="utf-8", errors="replace")
+    match = DLC_NAME.search(text)
+    return match[1] if match and not NO_CHECKSUM.search(text) else None
+
+
 LEADER = 1
 """``rn_pp_kind`` of the leaders' portraits."""
 
@@ -124,6 +147,14 @@ class Character:
 
     roles: frozenset[str]
     """Role blocks of the character (``country_leader``, ``field_marshal``, ...)."""
+
+    instances: tuple[tuple[str, dict[tuple[str, str], str]], ...] = ()
+    """``instance`` blocks with portraits: ``(allowed trigger as script, portraits)``.
+
+    Since 1.19 a DLC character has no top-level ``portraits``; each ``instance`` has its own,
+    chosen by its ``allowed`` (``has_dlc``, ``NOT = { has_dlc }``, ``has_aat``). Instances whose
+    ``allowed`` uses anything else are left out (:func:`instance_condition`).
+    """
 
 
 @dataclass(frozen=True)
@@ -234,6 +265,66 @@ def parse_block(items: list[str], i: int) -> tuple[list[tuple[str, object]], int
     return out, i + 1
 
 
+INSTANCE_TRIGGERS = frozenset({"has_dlc", "has_aat", "NOT", "AND", "OR"})
+"""Triggers an instance's ``allowed`` may use for the generator to copy it into script."""
+
+SCRIPT_WORD = re.compile(r"[A-Za-z0-9_.]+")
+"""A script value that needs no quotes."""
+
+
+def instance_condition(allowed: object) -> str | None:
+    """Return an instance's ``allowed`` block as a script trigger, or None when it is not copied.
+
+    Args:
+        allowed: The parsed ``allowed`` body (pairs), or None when the instance has none.
+
+    Returns:
+        ``"always = yes"`` without ``allowed``; the trigger text when every key is in
+        :data:`INSTANCE_TRIGGERS`; None otherwise.
+    """
+    if allowed is None:
+        return "always = yes"
+
+    def render(pairs: object) -> str | None:
+        if not isinstance(pairs, list) or not pairs:
+            return None
+        parts = []
+        for key, value in pairs:
+            if key not in INSTANCE_TRIGGERS:
+                return None
+            if isinstance(value, list):
+                inner = render(value)
+                if inner is None:
+                    return None
+                parts.append(f"{key} = {{ {inner} }}")
+            else:
+                text = str(value)
+                parts.append(
+                    f"{key} = {text}" if SCRIPT_WORD.fullmatch(text) else f'{key} = "{text}"'
+                )
+        return " ".join(parts)
+
+    return render(allowed)
+
+
+def _portraits_of(block: list[tuple[str, object]]) -> dict[tuple[str, str], str]:
+    """Return the ``portraits`` of a character or instance block.
+
+    Args:
+        block: Parsed pairs of the block.
+
+    Returns:
+        ``(type, size)`` to sprite name or path.
+    """
+    out: dict[tuple[str, str], str] = {}
+    for k, v in block:
+        if k == "portraits" and isinstance(v, list):
+            for kind, sizes in v:
+                if isinstance(sizes, list):
+                    out.update({(kind, size): str(x) for size, x in sizes if isinstance(x, str)})
+    return out
+
+
 def characters_of(text: str, file_tag: str, tags: set[str]) -> list[Character]:
     """Return the characters of one ``common/characters`` file.
 
@@ -258,17 +349,19 @@ def characters_of(text: str, file_tag: str, tags: set[str]) -> list[Character]:
             tag = prefix if prefix in tags and token[TAG_LEN : TAG_LEN + 1] == "_" else file_tag
             if tag not in tags:
                 continue  # no country to list it under (e.g. a shared file like Warlords_China)
-            portraits: dict[tuple[str, str], str] = {}
+            portraits = _portraits_of(block)
+            instances = []
             for k, v in block:
-                if k == "portraits" and isinstance(v, list):
-                    for kind, sizes in v:
-                        if isinstance(sizes, list):
-                            portraits.update(
-                                {(kind, size): str(s) for size, s in sizes if isinstance(s, str)}
-                            )
+                if k != "instance" or not isinstance(v, list):
+                    continue
+                pictures = _portraits_of(v)
+                allowed = next((x for kk, x in v if kk == "allowed"), None)
+                condition = instance_condition(allowed)
+                if pictures and condition is not None:
+                    instances.append((condition, pictures))
             name = next((str(v) for k, v in block if k == "name" and isinstance(v, str)), token)
             roles = frozenset(k for k, v in block if isinstance(v, list))
-            out.append(Character(token, tag, name, portraits, roles))
+            out.append(Character(token, tag, name, portraits, roles, tuple(instances)))
     return out
 
 
@@ -480,18 +573,15 @@ def read_dlc_textures(root: Path) -> dict[str, tuple[str, str]]:
     """
     out: dict[str, tuple[str, str]] = {}
     for folder in sorted((root / "dlc").glob("*")):
-        descriptor = next(iter(sorted(folder.glob("*.dlc"))), None)
-        if descriptor is None:
-            continue
-        match = DLC_NAME.search(descriptor.read_text(encoding="utf-8", errors="replace"))
-        if not match:
+        dlc_name = checkable_dlc(next(iter(sorted(folder.glob("*.dlc"))), None))
+        if dlc_name is None:
             continue
         for path in sorted((folder / "interface").glob("*.gfx")):
             text = path.read_text(encoding="utf-8", errors="replace")
             for name, quoted, bare in SPRITE.findall(text):
                 texture = (quoted or bare).replace("\\", "/").replace("//", "/")
                 if (folder / texture).is_file() or has_base_file(root, texture):
-                    out.setdefault(name, (match[1], texture))
+                    out.setdefault(name, (dlc_name, texture))
     return out
 
 
@@ -567,14 +657,9 @@ def read_base_sprites_in_dlc(root: Path) -> dict[str, tuple[str, str]]:
     """
     folders: list[tuple[Path, str]] = []
     for folder in sorted((root / "dlc").glob("*")):
-        descriptor = next(iter(sorted(folder.glob("*.dlc"))), None)
-        match = (
-            DLC_NAME.search(descriptor.read_text(encoding="utf-8", errors="replace"))
-            if descriptor
-            else None
-        )
-        if match:
-            folders.append((folder, match[1]))
+        name = checkable_dlc(next(iter(sorted(folder.glob("*.dlc"))), None))
+        if name is not None:
+            folders.append((folder, name))
     out: dict[str, tuple[str, str]] = {}
     for path in [
         p for base in base_roots(root) for p in sorted((base / "interface").glob("*.gfx"))

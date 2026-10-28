@@ -24,7 +24,7 @@ def _char(token: str, **portraits: str) -> Character:
         The character.
     """
     pics = {tuple(k.split("_")): v for k, v in portraits.items()}
-    return Character(token, "ENG", token, pics, frozenset({"country_leader"}))
+    return Character(token, token[:3], token, pics, frozenset({"country_leader"}))
 
 
 def _catalog() -> PortraitCatalog:
@@ -140,3 +140,56 @@ def test_dlc_folder_check(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> No
     (game / "dlc" / "dlc001_a").rmdir()
     with pytest.raises(ValueError, match="dlc001_a"):
         portraits.check_dlc_folders(game)
+
+
+def test_instance_condition_copies_only_dlc_triggers() -> None:
+    """An instance's ``allowed`` becomes script only when it uses DLC triggers."""
+    assert portraits.instance_condition(None) == "always = yes"
+    assert portraits.instance_condition([("has_dlc", "Thunder at Our Gates")]) == (
+        'has_dlc = "Thunder at Our Gates"'
+    )
+    assert portraits.instance_condition([("NOT", [("has_dlc", "Gotterdammerung")])]) == (
+        "NOT = { has_dlc = Gotterdammerung }"
+    )
+    assert portraits.instance_condition([("has_completed_focus", "X")]) is None
+
+
+def test_instance_character_gets_one_fixed_value() -> None:
+    """A DLC character uses its no-DLC instance picture; a DLC-only one its DLC picture."""
+    both = Character(
+        "ENG_i",
+        "ENG",
+        "ENG_i",
+        {},
+        frozenset(),
+        (
+            ('has_dlc = "X"', {("army", "large"): "GFX_dlc_large"}),
+            ('NOT = { has_dlc = "X" }', {("army", "large"): "GFX_base_large"}),
+        ),
+    )
+    only = Character(
+        "ENG_j",
+        "ENG",
+        "ENG_j",
+        {},
+        frozenset(),
+        (('has_dlc = "X"', {("army", "large"): "GFX_dlc_large"}),),
+    )
+    data = char_portraits.build([both, only], _catalog(), TEXTURES)
+    assert data.values == {"ENG_i": 1, "ENG_j": 2}
+    assert "has_dlc" not in char_portraits.effects(data)
+
+
+def test_effect_compares_only_roots_country() -> None:
+    """Each country's tokens sit in a ROOT original_tag group (no foreign-token lookups)."""
+    data = char_portraits.build(
+        [
+            _char("ENG_a", civilian_large="GFX_base_large"),
+            _char("GER_b", civilian_small="GFX_idea_b"),
+        ],
+        _catalog(),
+        TEXTURES,
+    )
+    text = char_portraits.effects(data)
+    eng, ger = text.index("original_tag = ENG"), text.index("original_tag = GER")
+    assert eng < text.index("is_character = ENG_a") < ger < text.index("is_character = GER_b")

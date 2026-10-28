@@ -8,10 +8,14 @@ turns the section of the version in `mod/descriptor.mod` into the Workshop chang
 
 ## [0.2.1] - unreleased
 
-- Fixed: about 180 characters showed the unknown mini portrait in the Characters tab, and 10
-  leader and general portraits were missing from the portrait list. Their pictures come from the
-  four former DLC that HOI4 now gives every player (Together for Victory, Death or Dishonor,
-  Waking the Tiger, Man the Guns).
+- Fixed: opening the Characters tab wrote about 100,000 error lines to the game's error.log
+  (one per character of every other country). Only the player's own country is checked now.
+- Fixed: about 600 characters showed the unknown mini portrait in the Characters tab: the
+  characters whose definition depends on a DLC, and the pictures HOI4 now gives every player
+  from four former DLC (Together for Victory, Death or Dishonor, Waking the Tiger, Man the Guns).
+  The leader and general portrait list has 10 more portraits from those four.
+- Fixed: the portrait list no longer offers the Anniversary Pack portraits. The game cannot check
+  that cosmetic DLC, so the list showed an error in error.log and blank pictures without it.
 
 ## [0.2.0] - 2026-10-28
 

@@ -1250,57 +1250,6 @@ defined_text = {
 	name = RN_PP_SEL_NAME_18
 	text = { trigger = { check_variable = { rn_pp_sel = 1152 } } localization_key = RN_PPL_1152 }
 	text = { trigger = { check_variable = { rn_pp_sel = 1153 } } localization_key = RN_PPL_1153 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1154 } } localization_key = RN_PPL_1154 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1155 } } localization_key = RN_PPL_1155 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1156 } } localization_key = RN_PPL_1156 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1157 } } localization_key = RN_PPL_1157 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1158 } } localization_key = RN_PPL_1158 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1159 } } localization_key = RN_PPL_1159 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1160 } } localization_key = RN_PPL_1160 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1161 } } localization_key = RN_PPL_1161 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1162 } } localization_key = RN_PPL_1162 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1163 } } localization_key = RN_PPL_1163 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1164 } } localization_key = RN_PPL_1164 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1165 } } localization_key = RN_PPL_1165 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1166 } } localization_key = RN_PPL_1166 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1167 } } localization_key = RN_PPL_1167 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1168 } } localization_key = RN_PPL_1168 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1169 } } localization_key = RN_PPL_1169 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1170 } } localization_key = RN_PPL_1170 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1171 } } localization_key = RN_PPL_1171 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1172 } } localization_key = RN_PPL_1172 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1173 } } localization_key = RN_PPL_1173 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1174 } } localization_key = RN_PPL_1174 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1175 } } localization_key = RN_PPL_1175 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1176 } } localization_key = RN_PPL_1176 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1177 } } localization_key = RN_PPL_1177 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1178 } } localization_key = RN_PPL_1178 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1179 } } localization_key = RN_PPL_1179 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1180 } } localization_key = RN_PPL_1180 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1181 } } localization_key = RN_PPL_1181 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1182 } } localization_key = RN_PPL_1182 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1183 } } localization_key = RN_PPL_1183 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1184 } } localization_key = RN_PPL_1184 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1185 } } localization_key = RN_PPL_1185 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1186 } } localization_key = RN_PPL_1186 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1187 } } localization_key = RN_PPL_1187 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1188 } } localization_key = RN_PPL_1188 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1189 } } localization_key = RN_PPL_1189 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1190 } } localization_key = RN_PPL_1190 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1191 } } localization_key = RN_PPL_1191 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1192 } } localization_key = RN_PPL_1192 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1193 } } localization_key = RN_PPL_1193 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1194 } } localization_key = RN_PPL_1194 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1195 } } localization_key = RN_PPL_1195 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1196 } } localization_key = RN_PPL_1196 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1197 } } localization_key = RN_PPL_1197 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1198 } } localization_key = RN_PPL_1198 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1199 } } localization_key = RN_PPL_1199 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1200 } } localization_key = RN_PPL_1200 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1201 } } localization_key = RN_PPL_1201 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1202 } } localization_key = RN_PPL_1202 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1203 } } localization_key = RN_PPL_1203 }
-	text = { trigger = { check_variable = { rn_pp_sel = 1204 } } localization_key = RN_PPL_1204 }
 	text = { localization_key = RN_IPP_EMPTY }
 }
 # Days left of the portrait cooldown (scope: the country whose leader changes).
@@ -1352,6 +1301,5 @@ defined_text = {
 	text = { trigger = { check_variable = { rn_pp_pack = 9 } } localization_key = RN_PP_PACK_9 }
 	text = { trigger = { check_variable = { rn_pp_pack = 10 } } localization_key = RN_PP_PACK_10 }
 	text = { trigger = { check_variable = { rn_pp_pack = 11 } } localization_key = RN_PP_PACK_11 }
-	text = { trigger = { check_variable = { rn_pp_pack = 12 } } localization_key = RN_PP_PACK_12 }
 	text = { localization_key = RN_PP_PACK_0 }
 }

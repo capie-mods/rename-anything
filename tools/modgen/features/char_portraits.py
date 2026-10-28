@@ -25,7 +25,7 @@ needs CAPIE (backlog).
 from __future__ import annotations
 
 import hashlib
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from modgen.common import GEN_HEADER
@@ -67,43 +67,78 @@ class CharPortraits:
     textures: dict[int, str]
     """Portrait value to texture file, value 0 included."""
 
+    tags: dict[str, str] = field(default_factory=dict)
+    """Token to the country tag of the character (the group its comparison runs in)."""
+
 
 def build(
     characters: list[portraits.Character],
     catalog: portraits.PortraitCatalog,
     textures: dict[str, str],
+    dlc_textures: dict[str, str] | None = None,
 ) -> CharPortraits:
     """Choose the portrait value of every character.
 
+    A character with top-level portraits uses base-game pictures only. A character defined by
+    ``instance`` blocks (DLC characters) gets one value per instance, kept with the instance's
+    ``allowed`` trigger; there a DLC picture is fine, because the instance exists only with it.
+
     Args:
         characters: Characters of ``common/characters``.
-        catalog: The portrait catalog (its base-game entries are reused).
+        catalog: The portrait catalog (its entries are reused).
         textures: Sprite name to texture file of the base game.
+        dlc_textures: Sprite name to texture file of the DLC folders (instance pictures).
 
     Returns:
         The values and the textures of the used values.
     """
-    by_sprite = {e.large: n for n, e in enumerate(catalog.entries, 1) if e.pack == 0}
-    values: dict[str, int] = {}
+    base_sprites = {e.large: n for n, e in enumerate(catalog.entries, 1) if e.pack == 0}
+    all_sprites = {e.large: n for n, e in enumerate(catalog.entries, 1)}
+    with_dlc = {**(dlc_textures or {}), **textures}
     used: dict[int, str] = {0: UNKNOWN_TEXTURE}
     small_index: dict[str, int] = {}
+
+    def pick(
+        pictures: dict[tuple[str, str], str], by_sprite: dict[str, int], known: dict[str, str]
+    ) -> int | None:
+        hit = next((x for k in KINDS if (x := pictures.get((k, "large"))) in by_sprite), None)
+        if hit is not None:
+            n = by_sprite[hit]
+            used[n] = catalog.textures[hit]
+            return n
+        for kind in KINDS:
+            sprite = pictures.get((kind, "small"))
+            if sprite is not None and portraits.STEM.fullmatch(sprite) and sprite in known:
+                k = small_index.setdefault(known[sprite], len(small_index) + 1)
+                used[SMALL_OFFSET + k] = known[sprite]
+                return SMALL_OFFSET + k
+        return None
+
+    values: dict[str, int] = {}
+    tags: dict[str, str] = {}
     for char in sorted(characters, key=lambda c: c.token):
         if char.token in values:
             continue
-        hit = next((s for k in KINDS if (s := char.portraits.get((k, "large"))) in by_sprite), None)
-        if hit is not None:
-            n = by_sprite[hit]
-            values[char.token] = n
-            used[n] = catalog.textures[hit]
+        value = pick(char.portraits, base_sprites, textures) if char.portraits else None
+        if value is not None:
+            values[char.token] = value
+            tags[char.token] = char.tag
             continue
-        for kind in KINDS:
-            sprite = char.portraits.get((kind, "small"))
-            if sprite is not None and portraits.STEM.fullmatch(sprite) and sprite in textures:
-                k = small_index.setdefault(textures[sprite], len(small_index) + 1)
-                values[char.token] = SMALL_OFFSET + k
-                used[SMALL_OFFSET + k] = textures[sprite]
-                break
-    return CharPortraits(values, dict(sorted(used.items())))
+        options = [
+            (condition, v)
+            for condition, pictures in char.instances
+            if (v := pick(pictures, all_sprites, with_dlc)) is not None
+        ]
+        if not options:
+            continue
+        # One fixed value, never a has_dlc test: the value is game state (a character variable)
+        # and must not depend on the player's DLC (inline_checks/portrait_cases.py). With several
+        # instances the one without a DLC requirement wins (every player has that picture);
+        # a character with only DLC instances exists only with that DLC, so its picture is safe.
+        base = [v for c, v in options if c == "always = yes" or c.startswith("NOT = { has_dlc")]
+        values[char.token] = base[0] if base else options[0][1]
+        tags[char.token] = char.tag
+    return CharPortraits(values, dict(sorted(used.items())), tags)
 
 
 def read(root: str, catalog: portraits.PortraitCatalog) -> CharPortraits:
@@ -122,7 +157,8 @@ def read(root: str, catalog: portraits.PortraitCatalog) -> CharPortraits:
     for path in sorted((game / "common" / "characters").glob("*.txt")):
         text = path.read_text(encoding="utf-8-sig", errors="replace")
         chars += portraits.characters_of(text, path.stem, tags)
-    return build(chars, catalog, portraits.read_textures(game))
+    dlc = {name: texture for name, (_, texture) in portraits.read_dlc_textures(game).items()}
+    return build(chars, catalog, portraits.read_textures(game), dlc)
 
 
 def gfx(data: CharPortraits) -> str:
@@ -162,17 +198,33 @@ def fingerprint(data: CharPortraits) -> int:
 def effects(data: CharPortraits) -> str:
     """Return ``rn_char_portrait_index`` (character scope).
 
+    ``is_character = <token>`` looks the token up among the characters of the scope's country and
+    logs "Input <token> is not a valid character" to error.log when it is not there (hoi4.exe
+    1.19.4.0). One chain over every character of the game wrote one line per foreign token for
+    every row (100 000 lines on the first page). The comparisons are therefore grouped by country:
+    the Characters list holds ROOT's characters, so only the group of ROOT's tag runs.
+
     Args:
         data: The values and textures.
 
     Returns:
         The scripted effect file.
     """
-    body = "".join(
-        f"\t\t{'if' if i == 0 else 'else_if'} = {{ limit = {{ is_character = {token} }}"
-        f" set_variable = {{ {VALUE_VAR} = {value} }} }}\n"
-        for i, (token, value) in enumerate(sorted(data.values.items()))
-    )
+    groups: dict[str, list[tuple[str, str]]] = {}
+    rows_of = {t: f"set_variable = {{ {VALUE_VAR} = {v} }}" for t, v in data.values.items()}
+    for token, action in sorted(rows_of.items()):
+        groups.setdefault(data.tags.get(token, token[:3]), []).append((token, action))
+    body = ""
+    for g, (tag, rows) in enumerate(sorted(groups.items())):
+        inner = "".join(
+            f"\t\t\t{'if' if i == 0 else 'else_if'} = {{ limit = {{ is_character = {token} }}"
+            f" {action} }}\n"
+            for i, (token, action) in enumerate(rows)
+        )
+        body += (
+            f"\t\t{'if' if g == 0 else 'else_if'} = {{\n"
+            f"\t\t\tlimit = {{ ROOT = {{ original_tag = {tag} }} }}\n{inner}\t\t}}\n"
+        )
     fp = fingerprint(data)
     return (
         f"{GEN_HEADER}# Characters list mini portraits (char_portraits.py)."

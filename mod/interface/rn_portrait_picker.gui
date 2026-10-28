@@ -256,13 +256,6 @@ guiTypes = {
 			clicksound = click_default
 		}
 		buttonType = {
-			name = "rn_pp_pack_0_12"
-			position = { x = 347 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
 			name = "rn_pp_pack_1_0"
 			position = { x = 192 y = 257 }
 			spriteType = "GFX_opinion_arrow_left"
@@ -334,13 +327,6 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_pp_pack_1_11"
-			position = { x = 347 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_1_12"
 			position = { x = 347 y = 257 }
 			spriteType = "GFX_opinion_arrow_right"
 			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
@@ -424,13 +410,6 @@ guiTypes = {
 			clicksound = click_default
 		}
 		buttonType = {
-			name = "rn_pp_pack_2_12"
-			position = { x = 347 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
 			name = "rn_pp_pack_3_0"
 			position = { x = 192 y = 257 }
 			spriteType = "GFX_opinion_arrow_left"
@@ -502,13 +481,6 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_pp_pack_3_11"
-			position = { x = 347 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_3_12"
 			position = { x = 347 y = 257 }
 			spriteType = "GFX_opinion_arrow_right"
 			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
@@ -592,13 +564,6 @@ guiTypes = {
 			clicksound = click_default
 		}
 		buttonType = {
-			name = "rn_pp_pack_4_12"
-			position = { x = 347 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
 			name = "rn_pp_pack_5_0"
 			position = { x = 192 y = 257 }
 			spriteType = "GFX_opinion_arrow_left"
@@ -670,13 +635,6 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_pp_pack_5_11"
-			position = { x = 347 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_5_12"
 			position = { x = 347 y = 257 }
 			spriteType = "GFX_opinion_arrow_right"
 			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
@@ -760,13 +718,6 @@ guiTypes = {
 			clicksound = click_default
 		}
 		buttonType = {
-			name = "rn_pp_pack_6_12"
-			position = { x = 347 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
 			name = "rn_pp_pack_7_0"
 			position = { x = 192 y = 257 }
 			spriteType = "GFX_opinion_arrow_left"
@@ -838,13 +789,6 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_pp_pack_7_11"
-			position = { x = 347 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_7_12"
 			position = { x = 347 y = 257 }
 			spriteType = "GFX_opinion_arrow_right"
 			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
@@ -928,13 +872,6 @@ guiTypes = {
 			clicksound = click_default
 		}
 		buttonType = {
-			name = "rn_pp_pack_8_12"
-			position = { x = 347 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
 			name = "rn_pp_pack_9_0"
 			position = { x = 192 y = 257 }
 			spriteType = "GFX_opinion_arrow_left"
@@ -1006,13 +943,6 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_pp_pack_9_11"
-			position = { x = 347 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_9_12"
 			position = { x = 347 y = 257 }
 			spriteType = "GFX_opinion_arrow_right"
 			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
@@ -1096,13 +1026,6 @@ guiTypes = {
 			clicksound = click_default
 		}
 		buttonType = {
-			name = "rn_pp_pack_10_12"
-			position = { x = 347 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
 			name = "rn_pp_pack_11_0"
 			position = { x = 192 y = 257 }
 			spriteType = "GFX_opinion_arrow_left"
@@ -1174,97 +1097,6 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_pp_pack_11_10"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_11_12"
-			position = { x = 347 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_0"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_1"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_2"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_3"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_4"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_5"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_6"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_7"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_8"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_9"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_10"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_11"
 			position = { x = 192 y = 257 }
 			spriteType = "GFX_opinion_arrow_left"
 			pdx_tooltip = "RN_PP_PACK_PREV_TT"
@@ -2217,13 +2049,6 @@ guiTypes = {
 			clicksound = click_default
 		}
 		buttonType = {
-			name = "rn_pp_pack_0_12"
-			position = { x = 367 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
 			name = "rn_pp_pack_1_0"
 			position = { x = 192 y = 257 }
 			spriteType = "GFX_opinion_arrow_left"
@@ -2295,13 +2120,6 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_pp_pack_1_11"
-			position = { x = 367 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_1_12"
 			position = { x = 367 y = 257 }
 			spriteType = "GFX_opinion_arrow_right"
 			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
@@ -2385,13 +2203,6 @@ guiTypes = {
 			clicksound = click_default
 		}
 		buttonType = {
-			name = "rn_pp_pack_2_12"
-			position = { x = 367 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
 			name = "rn_pp_pack_3_0"
 			position = { x = 192 y = 257 }
 			spriteType = "GFX_opinion_arrow_left"
@@ -2463,13 +2274,6 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_pp_pack_3_11"
-			position = { x = 367 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_3_12"
 			position = { x = 367 y = 257 }
 			spriteType = "GFX_opinion_arrow_right"
 			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
@@ -2553,13 +2357,6 @@ guiTypes = {
 			clicksound = click_default
 		}
 		buttonType = {
-			name = "rn_pp_pack_4_12"
-			position = { x = 367 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
 			name = "rn_pp_pack_5_0"
 			position = { x = 192 y = 257 }
 			spriteType = "GFX_opinion_arrow_left"
@@ -2631,13 +2428,6 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_pp_pack_5_11"
-			position = { x = 367 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_5_12"
 			position = { x = 367 y = 257 }
 			spriteType = "GFX_opinion_arrow_right"
 			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
@@ -2721,13 +2511,6 @@ guiTypes = {
 			clicksound = click_default
 		}
 		buttonType = {
-			name = "rn_pp_pack_6_12"
-			position = { x = 367 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
 			name = "rn_pp_pack_7_0"
 			position = { x = 192 y = 257 }
 			spriteType = "GFX_opinion_arrow_left"
@@ -2799,13 +2582,6 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_pp_pack_7_11"
-			position = { x = 367 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_7_12"
 			position = { x = 367 y = 257 }
 			spriteType = "GFX_opinion_arrow_right"
 			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
@@ -2889,13 +2665,6 @@ guiTypes = {
 			clicksound = click_default
 		}
 		buttonType = {
-			name = "rn_pp_pack_8_12"
-			position = { x = 367 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
 			name = "rn_pp_pack_9_0"
 			position = { x = 192 y = 257 }
 			spriteType = "GFX_opinion_arrow_left"
@@ -2967,13 +2736,6 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_pp_pack_9_11"
-			position = { x = 367 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_9_12"
 			position = { x = 367 y = 257 }
 			spriteType = "GFX_opinion_arrow_right"
 			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
@@ -3057,13 +2819,6 @@ guiTypes = {
 			clicksound = click_default
 		}
 		buttonType = {
-			name = "rn_pp_pack_10_12"
-			position = { x = 367 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
 			name = "rn_pp_pack_11_0"
 			position = { x = 192 y = 257 }
 			spriteType = "GFX_opinion_arrow_left"
@@ -3135,97 +2890,6 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_pp_pack_11_10"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_11_12"
-			position = { x = 367 y = 257 }
-			spriteType = "GFX_opinion_arrow_right"
-			pdx_tooltip = "RN_PP_PACK_NEXT_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_0"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_1"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_2"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_3"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_4"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_5"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_6"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_7"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_8"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_9"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_10"
-			position = { x = 192 y = 257 }
-			spriteType = "GFX_opinion_arrow_left"
-			pdx_tooltip = "RN_PP_PACK_PREV_TT"
-			clicksound = click_default
-		}
-		buttonType = {
-			name = "rn_pp_pack_12_11"
 			position = { x = 192 y = 257 }
 			spriteType = "GFX_opinion_arrow_left"
 			pdx_tooltip = "RN_PP_PACK_PREV_TT"
