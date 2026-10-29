@@ -30,7 +30,6 @@ from modgen.features import (
     portraits,
     refresh,
     states,
-    subideology,
     switches,
     textures,
 )
@@ -230,8 +229,6 @@ def write_all(  # noqa: PLR0913 - one optional input per generated catalog, keyw
     for rel, text, bom in switches.write_files():
         sink.write_text(rel, text, bom=bom)
     _write_pickers(sink, catalog, portrait_catalog)
-    for rel, text, bom in subideology.write_files():
-        sink.write_text(rel, text, bom=bom)
     if char_data is not None:
         for rel, text, bom in char_portraits.write_files(char_data):
             sink.write_text(rel, text, bom=bom)

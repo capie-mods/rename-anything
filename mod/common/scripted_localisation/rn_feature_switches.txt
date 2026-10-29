@@ -31,16 +31,6 @@ defined_text = {
 	text = { localization_key = RN_IPP_EMPTY }
 }
 defined_text = {
-	name = RN_FEAT_SUBIDEOLOGY
-	text = { trigger = { rn_feature_subideology_off = yes } localization_key = RN_FEAT_SUBIDEOLOGY_OFF }
-	text = { localization_key = RN_IPP_EMPTY }
-}
-defined_text = {
-	name = RN_FEAT_SUBIDEOLOGY_LINE
-	text = { trigger = { rn_feature_subideology_off = yes } localization_key = RN_FEAT_SUBIDEOLOGY_OFF_LINE }
-	text = { localization_key = RN_IPP_EMPTY }
-}
-defined_text = {
 	name = RN_FEAT_FLAG
 	text = { trigger = { rn_feature_flag_off = yes } localization_key = RN_FEAT_FLAG_OFF }
 	text = { localization_key = RN_IPP_EMPTY }

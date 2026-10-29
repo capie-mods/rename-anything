@@ -9,9 +9,6 @@ rn_feature_leader_off = {
 rn_feature_party_off = {
 	has_game_rule = { rule = rn_feature_party option = RN_FEATURE_PARTY_OFF }
 }
-rn_feature_subideology_off = {
-	has_game_rule = { rule = rn_feature_subideology option = RN_FEATURE_SUBIDEOLOGY_OFF }
-}
 rn_feature_flag_off = {
 	has_game_rule = { rule = rn_feature_flag option = RN_FEATURE_FLAG_OFF }
 }

@@ -42,8 +42,6 @@ def check_models(models: dict[str, Any], triggers: dict[str, Any]) -> dict[str, 
         "capie_v1_ed__rn__subleader",
         "capie_v1_ed__rn__subparty",
         "capie_v1_ed__rn__faction",
-        "rn_si_launcher_gui",
-        "capie_v1_ed__rnsi__subideo",
     }
     assert "rn_ip_subject_rename_enabled" not in triggers, "placeholder switch retired"
     # The subject models are checked by inline_checks.capie_cases.check_capie_structure.
@@ -305,13 +303,12 @@ def check_guards(effects: dict[str, Any], triggers: dict[str, Any]) -> None:
     assert ("check_variable", "=", [("rn_ip_leader_current^num", "=", "1")]) in list(walk(final))
     assert len([n for n in walk(leader) if n[0] == "set_character_name"]) == 1
     assert not any(v == "POL" or v.startswith("POL_") for b in effects.values() for v in tokens(b))
-    # Own party Apply: one copy per group branch. Subject, faction and sub-ideology setters reuse
-    # the copy as scratch (checked in inline_checks.capie_cases and subideology_cases), so they are
-    # counted apart.
+    # Own party Apply: one copy per group branch. Subject and faction setters reuse the copy as
+    # scratch (checked in inline_checks.capie_cases), so they are counted apart.
     copies = [
         n
         for name, b in effects.items()
-        if not name.startswith(("rn_sub_", "rn_fac_", "rn_si_"))
+        if not name.startswith(("rn_sub_", "rn_fac_"))
         for n in walk(b)
         if n[0] == "rn_inline_party_copy_validated"
     ]
