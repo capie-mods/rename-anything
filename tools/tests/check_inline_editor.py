@@ -31,6 +31,9 @@ What it checks:
   panel, only the Apply buttons have a shortcut and none of them is ESCAPE.
 * Wording. The design system's voice rules: no dashes, straight quotes in
   English, no internal words such as DLL or bridge, no "okres karencji".
+* Colour and party ideology name (CAPIE API level 8). ``colour_cases`` and
+  ``subideology_cases`` run Apply, Restore, the cooldown, the API level gate, the host
+  switches, the carriers' CONTRACT 19.5 and 20.4 statement order and the lapse checks.
 * Limited execution. The ApplyVM from ``probes/rn_inline_pair_apply_source``
   runs the real party and country Apply paths: all four groups under every
   government, the I4-M1 placeholder, the tabs, the cooldown, the missing-bridge
@@ -78,6 +81,7 @@ from inline_checks.capie_cases import (  # noqa: E402
     run_subject_apply,
     run_subject_rejections,
 )
+from inline_checks.colour_cases import run_colour_cases  # noqa: E402
 from inline_checks.constants import MOD  # noqa: E402
 from inline_checks.flag_cases import (  # noqa: E402
     check_flag_geometry,
@@ -98,6 +102,7 @@ from inline_checks.portrait_cases import (  # noqa: E402
     run_portrait_cases,
 )
 from inline_checks.structure import structural  # noqa: E402
+from inline_checks.subideology_cases import run_ideology_cases  # noqa: E402
 from inline_checks.switch_cases import check_switch_structure, run_switch_cases  # noqa: E402
 from inline_checks.tree import models_of  # noqa: E402
 from inline_checks.vm_cases import (  # noqa: E402
@@ -158,6 +163,8 @@ def main() -> int:
         **run_flag_cases(),
         "switch_cases": run_switch_cases(ctx),
         **run_portrait_cases(),
+        **run_colour_cases(),
+        **run_ideology_cases(),
         "keyboard_refresh_cases": run_keyboard_refresh(
             ctx,
             models_of(MOD / "common" / "scripted_guis", "rename_anything_*.txt")["rn_input_gui"],
