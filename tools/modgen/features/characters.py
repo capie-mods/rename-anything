@@ -163,6 +163,15 @@ def portrait_triggers(packs: tuple[str, ...] = ()) -> str:
     v = PORTRAIT_VALUE
 
     def in_range(lo: int, hi: int) -> str:
+        """Return a trigger that holds when the row value is in ``[lo, hi)``.
+
+        Args:
+            lo: Lowest value included.
+            hi: First value excluded.
+
+        Returns:
+            The trigger text.
+        """
         return f"NOT = {{ check_variable = {{ {v} < {lo} }} }} check_variable = {{ {v} < {hi} }}"
 
     large = [f"check_variable = {{ {v} < {SMALL_OFFSET} }}"]

@@ -112,6 +112,16 @@ class _Picker:
         self.dlc: dict[tuple[str, str], dict[str, int]] = {}
 
     def _number(self, index: dict[str, int], offset: int, texture: str) -> int:
+        """Return the value of a texture in one range, numbering it on first use.
+
+        Args:
+            index: Texture to number within the range.
+            offset: First value of the range minus one.
+            texture: Texture file.
+
+        Returns:
+            The value.
+        """
         value = offset + index.setdefault(texture, len(index) + 1)
         self.used[value] = texture
         return value

@@ -290,6 +290,14 @@ def instance_condition(allowed: object) -> str | None:
         return "always = yes"
 
     def render(pairs: object) -> str | None:
+        """Return parsed trigger pairs as script, or None when a key is not allowed.
+
+        Args:
+            pairs: Parsed ``allowed`` body.
+
+        Returns:
+            The trigger text, or None.
+        """
         if not isinstance(pairs, list) or not pairs:
             return None
         parts = []
