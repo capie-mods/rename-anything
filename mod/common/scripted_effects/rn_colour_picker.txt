@@ -2,9 +2,11 @@
 # Colour picker (plugin/capie/CONTRACT.md section 19, API level 8, CAPIE 1.6). The windows are
 # generated (tools/modgen/features/colour_picker.py): capie_v1_ed__rncc__colour for the player's own
 # country (politics view, "Colour" tab of the name editor and the flag picker) and
-# capie_v1_ed__rncc__subcolour for another country (diplomacy view, "Map colour" in the subject's
-# flag picker; rights of the rn_edit_rights rule as for names). The preset lookups they call are
-# generated too (rn_colour_catalog.txt: rn_cp_presets, rn_cp_load_preset, rn_cp_match_preset,
+# capie_v1_ed__rncc__subcolour for another country (diplomacy view: "Map colour" in the subject's
+# flag picker, or the diplomatic action rn_country_colour). Whose colour the player may change is
+# the colour game rule (rn_feature_colour: own country only; own country and subjects, the default;
+# any country for the host; off), read through rn_cp_may_edit. The lookups they call are generated
+# too (rn_colour_catalog.txt: rn_cp_presets, rn_cp_load_preset, rn_cp_match_preset, rn_cp_native,
 # rn_cp_cos_write, rn_cp_cos_match).
 #
 # State (on ROOT, the player; nothing here is game state of another country):
@@ -14,6 +16,11 @@
 #   rn_cp_r / rn_cp_g / rn_cp_b      the picked colour, integers 0..255;
 #   rn_cp_sel                        the preset of that colour, 0 = none;
 #   rn_cp_frame                      preview frame (3 bits per channel, 1..512);
+#   rn_cp_x1 .. rn_cp_x6             the picked colour's six hex digits (#RRGGBB, 0..15 each);
+#   rn_cp_in (array)                 the typed colour code: 0..15 a hex digit, 16 the separator;
+#   rn_cp_in_st                      what the code is: 0 nothing typed, 1 a valid colour, 2 a hex
+#                                    code shorter than 6 digits, 3 longer, 4 a letter among R G B
+#                                    numbers, 5 a number above 255, 6 not three numbers;
 #   rn_cp_dirty                      refresh gate of the own picker (dirty = rn_cp_dirty).
 # On the country whose colour changes: the CAPIE layer capie_cc_* (section 19.2), the mod's own
 # rn_cc_mine (this mod wrote the layer), and the colour cooldown rn_ip_cd_colour_until /
@@ -21,7 +28,8 @@
 #
 # Errors (temp rn_cv1_err, shown through rn_cv1_st_err): 10 CAPIE missing, 11 cooldown, 12 stale
 # opening, 13 editor unavailable, 15 CAPIE older than API level 8, 16 CAPIE without the colour
-# layer (capie_colour is not 1), 20 not allowed, 21 switched off by the host.
+# layer (capie_colour is not 1), 17 the typed colour code is not valid, 18 "My colour" without a
+# known colour, 20 not allowed, 21 switched off by the host.
 
 rn_cp_touch = {
 	add_to_variable = { rn_cp_dirty = 1 }
@@ -58,9 +66,10 @@ rn_cp_open_own = {
 rn_cp_open_sub = {
 	if = {
 		limit = {
+			NOT = { tag = ROOT }
 			NOT = { rn_feature_colour_off = yes }
 			NOT = { rn_feature_subjects_off = yes }
-			rn_sub_may_edit = yes
+			rn_cp_may_edit = yes
 			ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } }
 		}
 		ROOT = {
@@ -78,8 +87,8 @@ rn_cp_open_sub = {
 	}
 }
 
-# ROOT scope, target pinned. The picker starts at the target's layer colour, or mid grey when the
-# game's colour is in use (script cannot read the game's colour).
+# ROOT scope, target pinned. The picker starts at the target's layer colour, else at its colour in
+# the game's files (rn_cp_native), else mid grey (script cannot read a colour the game made up).
 rn_cp_open_common = {
 	add_to_variable = { rn_cp_epoch = 1 }
 	if = { limit = { check_variable = { rn_cp_epoch > 999999 } } set_variable = { rn_cp_epoch = 1 } }
@@ -95,10 +104,20 @@ rn_cp_open_common = {
 			set_temp_variable = { rn_cp_tg = capie_cc_g }
 			set_temp_variable = { rn_cp_tb = capie_cc_b }
 		}
+		else = {
+			rn_cp_native = yes
+			if = {
+				limit = { check_variable = { temp_var:rn_cp_nk = 1 } }
+				set_temp_variable = { rn_cp_tr = temp_var:rn_cp_nr }
+				set_temp_variable = { rn_cp_tg = temp_var:rn_cp_ng }
+				set_temp_variable = { rn_cp_tb = temp_var:rn_cp_nb }
+			}
+		}
 	}
 	set_variable = { rn_cp_r = temp_var:rn_cp_tr }
 	set_variable = { rn_cp_g = temp_var:rn_cp_tg }
 	set_variable = { rn_cp_b = temp_var:rn_cp_tb }
+	rn_cp_code_clear = yes
 	rn_cp_match_preset = yes
 	rn_cp_frame_update = yes
 	rn_cp_touch = yes
@@ -121,6 +140,14 @@ rn_cp_close = {
 	clear_variable = rn_cp_b
 	clear_variable = rn_cp_sel
 	clear_variable = rn_cp_frame
+	clear_variable = rn_cp_x1
+	clear_variable = rn_cp_x2
+	clear_variable = rn_cp_x3
+	clear_variable = rn_cp_x4
+	clear_variable = rn_cp_x5
+	clear_variable = rn_cp_x6
+	clear_array = rn_cp_in
+	clear_variable = rn_cp_in_st
 	rn_cp_touch = yes
 }
 
@@ -136,6 +163,17 @@ rn_cp_to_name_editor = {
 
 # ----------------------------------------------------------------------------- picking
 
+# ROOT scope. After a preset, a stepper or "My colour": the typed code is dropped (the picked colour
+# is the new one), the preset mark, the preview and the hex digits follow.
+rn_cp_picked = {
+	rn_cp_code_clear = yes
+	rn_cp_match_preset = yes
+	set_country_flag = rn_cp_changed
+	rn_cp_frame_update = yes
+	rn_cv1_status_clear = yes
+	rn_cp_touch = yes
+}
+
 # ROOT scope. Input temp rn_cp_pick: a preset number.
 rn_cp_pick_preset = {
 	rn_cp_presets = yes
@@ -146,15 +184,11 @@ rn_cp_pick_preset = {
 			NOT = { check_variable = { temp_var:rn_cp_pick > temp_var:rn_cp_n } }
 		}
 		rn_cp_load_preset = yes
-		set_variable = { rn_cp_sel = temp_var:rn_cp_pick }
-		set_country_flag = rn_cp_changed
-		rn_cp_frame_update = yes
-		rn_cv1_status_clear = yes
-		rn_cp_touch = yes
+		rn_cp_picked = yes
 	}
 }
 
-# ROOT scope. Input temps rn_cp_ch (1 red, 2 green, 3 blue) and rn_cp_d (the step, -16..16).
+# ROOT scope. Input temps rn_cp_ch (1 red, 2 green, 3 blue) and rn_cp_d (the step, -50..50).
 # The channel stays an integer in 0..255.
 rn_cp_step = {
 	if = {
@@ -174,15 +208,49 @@ rn_cp_step = {
 		clamp_variable = { var = rn_cp_r min = 0 max = 255 }
 		clamp_variable = { var = rn_cp_g min = 0 max = 255 }
 		clamp_variable = { var = rn_cp_b min = 0 max = 255 }
-		rn_cp_match_preset = yes
-		set_country_flag = rn_cp_changed
-		rn_cp_frame_update = yes
-		rn_cv1_status_clear = yes
-		rn_cp_touch = yes
+		rn_cp_picked = yes
 	}
 }
 
-# ROOT scope. rn_cp_frame = (r/32)*64 + (g/32)*8 + (b/32) + 1, with whole-number divisions.
+# ROOT scope. "My colour" (another country's picker, only for a subject of the player): the
+# player's own colour as the map shows it now, its colour layer when it has one, else its colour in
+# the game's files. Apply then gives it to the subject; the subject keeps it when the player's
+# colour changes later. Error 18 when neither is known (a dynamic tag or another mod's colour).
+rn_cp_pick_mine = {
+	if = {
+		limit = {
+			rn_cp_is_open = yes
+			has_country_flag = rn_cp_open_sub
+			has_variable = rn_cp_target
+			var:rn_cp_target = { is_subject_of = ROOT }
+		}
+		if = {
+			limit = { has_variable = capie_cc_ver }
+			set_temp_variable = { rn_cp_nr = capie_cc_r }
+			set_temp_variable = { rn_cp_ng = capie_cc_g }
+			set_temp_variable = { rn_cp_nb = capie_cc_b }
+			set_temp_variable = { rn_cp_nk = 1 }
+		}
+		else = { rn_cp_native = yes }
+		if = {
+			limit = { check_variable = { temp_var:rn_cp_nk = 1 } }
+			set_variable = { rn_cp_r = temp_var:rn_cp_nr }
+			set_variable = { rn_cp_g = temp_var:rn_cp_ng }
+			set_variable = { rn_cp_b = temp_var:rn_cp_nb }
+			rn_cp_picked = yes
+		}
+		else = {
+			set_temp_variable = { rn_cv1_err = 18 }
+			set_temp_variable = { rn_cv1_field = 0 }
+			set_temp_variable = { rn_cv1_why = 0 }
+			rn_cv1_status_record = yes
+			rn_cp_touch = yes
+		}
+	}
+}
+
+# ROOT scope. rn_cp_frame = (r/32)*64 + (g/32)*8 + (b/32) + 1, with whole-number divisions, and the
+# hex digits rn_cp_x1..6 of #RRGGBB.
 rn_cp_frame_update = {
 	set_temp_variable = { rn_cp_q = rn_cp_r }
 	modulo_temp_variable = { var = rn_cp_q value = 32 }
@@ -205,9 +273,169 @@ rn_cp_frame_update = {
 	add_to_variable = { rn_cp_frame = temp_var:rn_cp_lg }
 	add_to_variable = { rn_cp_frame = temp_var:rn_cp_lb }
 	add_to_variable = { rn_cp_frame = 1 }
+	set_temp_variable = { rn_cp_q = rn_cp_r }
+	modulo_temp_variable = { var = rn_cp_q value = 16 }
+	set_variable = { rn_cp_x2 = temp_var:rn_cp_q }
+	set_variable = { rn_cp_x1 = rn_cp_r }
+	subtract_from_variable = { rn_cp_x1 = temp_var:rn_cp_q }
+	divide_variable = { rn_cp_x1 = 16 }
+	set_temp_variable = { rn_cp_q = rn_cp_g }
+	modulo_temp_variable = { var = rn_cp_q value = 16 }
+	set_variable = { rn_cp_x4 = temp_var:rn_cp_q }
+	set_variable = { rn_cp_x3 = rn_cp_g }
+	subtract_from_variable = { rn_cp_x3 = temp_var:rn_cp_q }
+	divide_variable = { rn_cp_x3 = 16 }
+	set_temp_variable = { rn_cp_q = rn_cp_b }
+	modulo_temp_variable = { var = rn_cp_q value = 16 }
+	set_variable = { rn_cp_x6 = temp_var:rn_cp_q }
+	set_variable = { rn_cp_x5 = rn_cp_b }
+	subtract_from_variable = { rn_cp_x5 = temp_var:rn_cp_q }
+	divide_variable = { rn_cp_x5 = 16 }
 }
 
-# ----------------------------------------------------------------------------- Apply, Restore
+# ----------------------------------------------------------------------------- colour code
+
+# ROOT scope. Drops the typed code.
+rn_cp_code_clear = {
+	clear_array = rn_cp_in
+	set_variable = { rn_cp_in_st = 0 }
+}
+
+# ROOT scope. A keypad key or its keyboard shortcut. Input temp rn_cp_k: 0..15 a hex digit, 16 the
+# separator. At most 11 characters ("255 255 255"); a valid code is picked at once.
+rn_cp_key = {
+	if = {
+		limit = {
+			rn_cp_is_open = yes
+			check_variable = { rn_cp_in^num < 11 }
+			check_variable = { temp_var:rn_cp_k > -1 }
+			check_variable = { temp_var:rn_cp_k < 17 }
+		}
+		add_to_array = { rn_cp_in = temp_var:rn_cp_k }
+		rn_cp_code_parse = yes
+	}
+}
+
+# ROOT scope. Delete: removes the last typed character.
+rn_cp_key_back = {
+	if = {
+		limit = { rn_cp_is_open = yes check_variable = { rn_cp_in^num > 0 } }
+		# Without value or index, remove_from_array removes the last element (effects_documentation).
+		remove_from_array = { array = rn_cp_in }
+		rn_cp_code_parse = yes
+	}
+}
+
+# ROOT scope. Clear: removes the whole code.
+rn_cp_key_clear = {
+	if = {
+		limit = { rn_cp_is_open = yes }
+		rn_cp_code_clear = yes
+		rn_cv1_status_clear = yes
+		rn_cp_touch = yes
+	}
+}
+
+# ROOT scope. Reads the typed code into rn_cp_in_st. Without a separator it is a hex code of exactly
+# six digits (the '#' is shown, not typed); with one it is three numbers 0..255 ("30 90 160"). A
+# valid code becomes the picked colour; an invalid one leaves the picked colour as it was.
+rn_cp_code_parse = {
+	set_temp_variable = { rn_cp_il = rn_cp_in^num }
+	set_temp_variable = { rn_cp_seps = 0 }
+	set_temp_variable = { rn_cp_lets = 0 }
+	for_each_loop = {
+		array = rn_cp_in
+		value = rn_cp_v
+		if = { limit = { check_variable = { temp_var:rn_cp_v = 16 } } add_to_temp_variable = { rn_cp_seps = 1 } }
+		else_if = { limit = { check_variable = { temp_var:rn_cp_v > 9 } } add_to_temp_variable = { rn_cp_lets = 1 } }
+	}
+	set_variable = { rn_cp_in_st = 0 }
+	if = {
+		limit = { check_variable = { temp_var:rn_cp_il > 0 } }
+		if = {
+			limit = { check_variable = { temp_var:rn_cp_seps = 0 } }
+			if = { limit = { check_variable = { temp_var:rn_cp_il < 6 } } set_variable = { rn_cp_in_st = 2 } }
+			else_if = { limit = { check_variable = { temp_var:rn_cp_il > 6 } } set_variable = { rn_cp_in_st = 3 } }
+			else = {
+				set_temp_variable = { rn_cp_tr = rn_cp_in^0 }
+				multiply_temp_variable = { rn_cp_tr = 16 }
+				add_to_temp_variable = { rn_cp_tr = rn_cp_in^1 }
+				set_temp_variable = { rn_cp_tg = rn_cp_in^2 }
+				multiply_temp_variable = { rn_cp_tg = 16 }
+				add_to_temp_variable = { rn_cp_tg = rn_cp_in^3 }
+				set_temp_variable = { rn_cp_tb = rn_cp_in^4 }
+				multiply_temp_variable = { rn_cp_tb = 16 }
+				add_to_temp_variable = { rn_cp_tb = rn_cp_in^5 }
+				set_variable = { rn_cp_in_st = 1 }
+			}
+		}
+		else_if = {
+			limit = { check_variable = { temp_var:rn_cp_lets > 0 } }
+			set_variable = { rn_cp_in_st = 4 }
+		}
+		else = { rn_cp_code_numbers = yes }
+	}
+	if = {
+		limit = { check_variable = { rn_cp_in_st = 1 } }
+		set_variable = { rn_cp_r = temp_var:rn_cp_tr }
+		set_variable = { rn_cp_g = temp_var:rn_cp_tg }
+		set_variable = { rn_cp_b = temp_var:rn_cp_tb }
+		rn_cp_match_preset = yes
+		set_country_flag = rn_cp_changed
+		rn_cp_frame_update = yes
+	}
+	rn_cv1_status_clear = yes
+	rn_cp_touch = yes
+}
+
+# ROOT scope, the code has a separator and no letter. Three numbers: rn_cp_in_st 1 with temps
+# rn_cp_tr/tg/tb, 5 when a number is above 255, 6 when there are not three numbers (or an empty
+# one, from two separators in a row or one at either end). A number stops growing at 256, so a
+# long run of digits cannot overflow a variable.
+rn_cp_code_numbers = {
+	set_temp_variable = { rn_cp_cnt = 0 }
+	set_temp_variable = { rn_cp_acc = 0 }
+	set_temp_variable = { rn_cp_dg = 0 }
+	set_temp_variable = { rn_cp_bad = 0 }
+	set_temp_variable = { rn_cp_big = 0 }
+	for_each_loop = {
+		array = rn_cp_in
+		value = rn_cp_v
+		if = { limit = { check_variable = { temp_var:rn_cp_v = 16 } } rn_cp_code_number_end = yes }
+		else = {
+			multiply_temp_variable = { rn_cp_acc = 10 }
+			add_to_temp_variable = { rn_cp_acc = temp_var:rn_cp_v }
+			add_to_temp_variable = { rn_cp_dg = 1 }
+			if = {
+				limit = { check_variable = { temp_var:rn_cp_acc > 255 } }
+				set_temp_variable = { rn_cp_big = 1 }
+				set_temp_variable = { rn_cp_acc = 256 }
+			}
+		}
+	}
+	rn_cp_code_number_end = yes
+	if = { limit = { check_variable = { temp_var:rn_cp_big = 1 } } set_variable = { rn_cp_in_st = 5 } }
+	else_if = {
+		limit = { OR = { check_variable = { temp_var:rn_cp_bad = 1 } NOT = { check_variable = { temp_var:rn_cp_cnt = 3 } } } }
+		set_variable = { rn_cp_in_st = 6 }
+	}
+	else = { set_variable = { rn_cp_in_st = 1 } }
+}
+
+# ROOT scope. Ends one number of rn_cp_code_numbers.
+rn_cp_code_number_end = {
+	if = { limit = { check_variable = { temp_var:rn_cp_dg = 0 } } set_temp_variable = { rn_cp_bad = 1 } }
+	else = {
+		add_to_temp_variable = { rn_cp_cnt = 1 }
+		if = { limit = { check_variable = { temp_var:rn_cp_cnt = 1 } } set_temp_variable = { rn_cp_tr = temp_var:rn_cp_acc } }
+		else_if = { limit = { check_variable = { temp_var:rn_cp_cnt = 2 } } set_temp_variable = { rn_cp_tg = temp_var:rn_cp_acc } }
+		else_if = { limit = { check_variable = { temp_var:rn_cp_cnt = 3 } } set_temp_variable = { rn_cp_tb = temp_var:rn_cp_acc } }
+	}
+	set_temp_variable = { rn_cp_acc = 0 }
+	set_temp_variable = { rn_cp_dg = 0 }
+}
+
+# ----------------------------------------------------------------------------- Apply, Reset
 
 # ROOT scope. Host switches (ADR-0036): temp rn_cv1_err 21 when the colour is switched off, or
 # "other countries" while the picker is open for another country. Wins over every other error.
@@ -223,7 +451,8 @@ rn_cp_switch = {
 	}
 }
 
-# ROOT scope. temp rn_cv1_err 20 when the picker is not open for a target the player may change.
+# ROOT scope. temp rn_cv1_err 20 when the picker is not open for a target the colour rule lets the
+# player change.
 rn_cp_rights = {
 	if = {
 		limit = {
@@ -236,7 +465,8 @@ rn_cp_rights = {
 				NOT = { check_variable = { rn_cp_target_arr^num = 1 } }
 				NOT = { rn_cp_is_open = yes }
 				AND = { has_country_flag = rn_cp_open_own NOT = { var:rn_cp_target = { tag = ROOT } } }
-				AND = { has_country_flag = rn_cp_open_sub NOT = { var:rn_cp_target = { rn_sub_may_edit = yes } } }
+				AND = { has_country_flag = rn_cp_open_sub var:rn_cp_target = { tag = ROOT } }
+				AND = { has_country_flag = rn_cp_open_sub NOT = { var:rn_cp_target = { rn_cp_may_edit = yes } } }
 			}
 		}
 		set_temp_variable = { rn_cv1_err = 20 }
@@ -244,8 +474,8 @@ rn_cp_rights = {
 }
 
 # ROOT scope. Apply of either picker (capie_v1_ed__rncc__colour / __subcolour): CAPIE header
-# (epoch, API level 8, capie_colour = 1), switches, rights and the target's colour cooldown, then
-# the carrier.
+# (epoch, API level 8, capie_colour = 1), switches, rights, the typed code and the target's colour
+# cooldown, then the carrier.
 rn_cp_apply = {
 	set_temp_variable = { rn_cv1_open = rn_cp_epoch }
 	rn_cv1_header = yes
@@ -259,6 +489,14 @@ rn_cp_apply = {
 	}
 	rn_cp_switch = yes
 	rn_cp_rights = yes
+	if = {
+		limit = {
+			check_variable = { temp_var:rn_cv1_err = 0 }
+			check_variable = { rn_cp_in^num > 0 }
+			NOT = { check_variable = { rn_cp_in_st = 1 } }
+		}
+		set_temp_variable = { rn_cv1_err = 17 }
+	}
 	if = {
 		limit = { check_variable = { temp_var:rn_cv1_err = 0 } var:rn_cp_target = { rn_cp_cooldown_active = yes } }
 		set_temp_variable = { rn_cv1_err = 11 }
@@ -278,9 +516,10 @@ rn_cp_apply = {
 	if = { limit = { check_variable = { temp_var:rn_cv1_err > 0 } rn_cp_is_open = yes } rn_cp_touch = yes }
 }
 
-# ROOT scope. "Restore colour": removes the layer of the pinned target, under the same colour
-# cooldown as Apply. It changes no name, flag or cosmetic tag and needs no CAPIE. Without a layer
-# it changes nothing and starts no cooldown.
+# ROOT scope. "Reset": removes the layer of the pinned target, under the same colour cooldown as
+# Apply; the target's own colour (cosmetic tag colour, else base colour) returns. It changes no
+# name, flag or cosmetic tag and needs no CAPIE. Without a layer it changes nothing and starts no
+# cooldown.
 rn_cp_reset = {
 	set_temp_variable = { rn_cv1_err = 0 }
 	rn_cp_switch = yes
@@ -335,7 +574,7 @@ rn_cp_daily_check = {
 }
 
 # Colour cooldown (scope: the country whose colour changes): its own counter, the same length as
-# the name cooldown (game rule rn_rename_cooldown), started only by a successful Apply or Restore.
+# the name cooldown (game rule rn_rename_cooldown), started only by a successful Apply or Reset.
 rn_cp_cooldown_start = {
 	rn_ip_cooldown_days = yes
 	set_variable = { rn_ip_cd_colour_until = global.num_days }

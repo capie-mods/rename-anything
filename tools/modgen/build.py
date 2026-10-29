@@ -203,6 +203,7 @@ def write_all(  # noqa: PLR0913 - one optional input per generated catalog, keyw
     catalog: flags.FlagCatalog | None = None,
     portrait_catalog: portraits.PortraitCatalog | None = None,
     char_data: char_portraits.CharPortraits | None = None,
+    natives: colours.NativeColours = colours.NO_NATIVES,
     native_portrait_test: bool = False,
 ) -> None:
     """Write every generated file.
@@ -214,6 +215,7 @@ def write_all(  # noqa: PLR0913 - one optional input per generated catalog, keyw
         catalog: Flag catalog of the game; without it the flag picker files are not written.
         portrait_catalog: Portrait catalog; without it the portrait picker files are not written.
         char_data: Mini portraits of the Characters list; without them the list shows no portraits.
+        natives: The game's map colours (the colour picker's start and "My colour").
         native_portrait_test: Add the native portrait experiment (review R2); never committed.
     """
     sink.write_text(SCRIPTED_LOC_FILE, scripted_loc(states_table, keys))
@@ -228,7 +230,7 @@ def write_all(  # noqa: PLR0913 - one optional input per generated catalog, keyw
         sink.write_bytes(f"{textures.TEXTURE_DIR}/{name}", data)
     for rel, text, bom in switches.write_files():
         sink.write_text(rel, text, bom=bom)
-    _write_pickers(sink, catalog, portrait_catalog)
+    _write_pickers(sink, catalog, portrait_catalog, natives)
     if char_data is not None:
         for rel, text, bom in char_portraits.write_files(char_data):
             sink.write_text(rel, text, bom=bom)
@@ -250,6 +252,7 @@ def _write_pickers(
     sink: OutputSink,
     catalog: flags.FlagCatalog | None,
     portrait_catalog: portraits.PortraitCatalog | None,
+    natives: colours.NativeColours = colours.NO_NATIVES,
 ) -> None:
     """Write the flag and portrait catalogs, their pickers and the colour picker.
 
@@ -257,6 +260,7 @@ def _write_pickers(
         sink: Destination of the files.
         catalog: Flag catalog, or None to skip the flag files.
         portrait_catalog: Portrait catalog, or None to skip the portrait files.
+        natives: The game's map colours.
     """
     files: list[tuple[str, str, bool]] = []
     if catalog is not None:
@@ -265,7 +269,7 @@ def _write_pickers(
         for name, data in flag_picker.textures().items():
             sink.write_bytes(f"{textures.TEXTURE_DIR}/{name}", data)
         # The colour picker needs the flag catalog's cosmetic tags for its snapshot.
-        files += colours.write_files(catalog)
+        files += colours.write_files(catalog, natives)
         files += [(rel, text, False) for rel, text in colour_picker.write_files()]
         for name, data in colours.textures().items():
             sink.write_bytes(f"{textures.TEXTURE_DIR}/{name}", data)

@@ -566,7 +566,7 @@ def _tab_triggers(picker: Picker) -> list[str]:
         ]
         out.append(
             "\t\t\trn_fp_colour_click_enabled = "
-            f"{{ rn_sub_may_edit = yes ROOT = {{ {_ROOT_OK} }} "
+            f"{{ rn_cp_may_edit = yes ROOT = {{ {_ROOT_OK} }} "
             f"{_switched_on('colour', picker)} }}\n"
         )
     return out

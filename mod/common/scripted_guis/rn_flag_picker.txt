@@ -303,7 +303,7 @@ scripted_gui = {
 			rn_fp_subflag_tab_country_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_country_off = yes } NOT = { rn_feature_subjects_off = yes } }
 			rn_fp_subflag_tab_leader_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_leader_off = yes } NOT = { rn_feature_subjects_off = yes } }
 			rn_fp_subflag_tab_party_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_party_off = yes } NOT = { rn_feature_subjects_off = yes } }
-			rn_fp_colour_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_colour_off = yes } NOT = { rn_feature_subjects_off = yes } }
+			rn_fp_colour_click_enabled = { rn_cp_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_colour_off = yes } NOT = { rn_feature_subjects_off = yes } }
 			rn_fp_letter_1_visible = { has_game_rule = { rule = rn_flag_pool option = RN_FLAG_POOL_ALL } ROOT = { OR = { check_variable = { rn_fp_view = 2 } has_country_flag = rn_fp_view_other } } }
 			rn_fp_letter_1_click_enabled = { ROOT = { NOT = { check_variable = { rn_fp_letter = 1 } } } }
 			rn_fp_lt_1_visible = { has_game_rule = { rule = rn_flag_pool option = RN_FLAG_POOL_ALL } ROOT = { OR = { check_variable = { rn_fp_view = 2 } has_country_flag = rn_fp_view_other } } ROOT = { NOT = { check_variable = { rn_fp_letter = 1 } } } }

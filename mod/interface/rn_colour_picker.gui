@@ -5,7 +5,7 @@ guiTypes = {
 	containerWindowType = {
 		name = "capie_v1_ed__rncc__colour"
 		position = { x = 18 y = 28 }
-		size = { width = 420 height = 228 }
+		size = { width = 420 height = 336 }
 		orientation = upper_left
 		clipping = no
 		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
@@ -47,27 +47,28 @@ guiTypes = {
 			pdx_tooltip = "RN_CP_TAB_TT"
 			clicksound = click_default
 		}
-		# Preview of the picked colour (3 bits per channel; the map shows it exactly).
+		# Preview of the picked colour (3 bits per channel; #RRGGBB and the map are exact).
 		iconType = {
 			name = "rn_cp_preview"
-			position = { x = 6 y = 40 }
+			position = { x = 18 y = 38 }
 			spriteType = "GFX_rn_cp_preview"
-			scale = 5
+			scale = 8
 			alwaystransparent = yes
 		}
 		instantTextboxType = {
-			name = "rn_cp_rgb"
-			position = { x = 0 y = 86 }
+			name = "rn_cp_hex"
+			position = { x = 0 y = 104 }
 			font = "Arial12"
-			text = "RN_CP_RGB"
+			text = "RN_CP_HEX"
 			maxWidth = 100
 			maxHeight = 14
 			fixedsize = yes
+			format = centre
 			alwaystransparent = yes
 		}
 		instantTextboxType = {
 			name = "rn_cp_note_game"
-			position = { x = 0 y = 102 }
+			position = { x = 0 y = 118 }
 			font = "Arial12"
 			text = "RN_CP_NOTE_GAME"
 			maxWidth = 100
@@ -77,7 +78,7 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_cp_note_current"
-			position = { x = 0 y = 102 }
+			position = { x = 0 y = 118 }
 			font = "Arial12"
 			text = "RN_CP_NOTE_CURRENT"
 			maxWidth = 100
@@ -87,13 +88,23 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_cp_note_new"
-			position = { x = 0 y = 102 }
+			position = { x = 0 y = 118 }
 			font = "Arial12"
 			text = "RN_CP_NOTE_NEW"
 			maxWidth = 100
 			maxHeight = 28
 			fixedsize = yes
 			alwaystransparent = yes
+		}
+		# Reset: removes the colour layer (only while one is set).
+		buttonType = {
+			name = "rn_cp_reset"
+			position = { x = 3 y = 184 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_CP_RESET"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_CP_RESET_TT"
+			clicksound = click_default
 		}
 		# Preset swatches.
 		buttonType = {
@@ -111,300 +122,1158 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_cp_sw_2"
-			position = { x = 134 y = 38 }
+			position = { x = 132 y = 38 }
 			spriteType = "GFX_rn_cp_sw_2"
 			pdx_tooltip = "RN_CP_SW_2"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_2"
-			position = { x = 132 y = 36 }
+			position = { x = 130 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_3"
-			position = { x = 162 y = 38 }
+			position = { x = 158 y = 38 }
 			spriteType = "GFX_rn_cp_sw_3"
 			pdx_tooltip = "RN_CP_SW_3"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_3"
-			position = { x = 160 y = 36 }
+			position = { x = 156 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_4"
-			position = { x = 190 y = 38 }
+			position = { x = 184 y = 38 }
 			spriteType = "GFX_rn_cp_sw_4"
 			pdx_tooltip = "RN_CP_SW_4"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_4"
-			position = { x = 188 y = 36 }
+			position = { x = 182 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_5"
-			position = { x = 218 y = 38 }
+			position = { x = 210 y = 38 }
 			spriteType = "GFX_rn_cp_sw_5"
 			pdx_tooltip = "RN_CP_SW_5"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_5"
-			position = { x = 216 y = 36 }
+			position = { x = 208 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_6"
-			position = { x = 246 y = 38 }
+			position = { x = 236 y = 38 }
 			spriteType = "GFX_rn_cp_sw_6"
 			pdx_tooltip = "RN_CP_SW_6"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_6"
-			position = { x = 244 y = 36 }
+			position = { x = 234 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_7"
-			position = { x = 274 y = 38 }
+			position = { x = 262 y = 38 }
 			spriteType = "GFX_rn_cp_sw_7"
 			pdx_tooltip = "RN_CP_SW_7"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_7"
-			position = { x = 272 y = 36 }
+			position = { x = 260 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_8"
-			position = { x = 302 y = 38 }
+			position = { x = 288 y = 38 }
 			spriteType = "GFX_rn_cp_sw_8"
 			pdx_tooltip = "RN_CP_SW_8"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_8"
-			position = { x = 300 y = 36 }
+			position = { x = 286 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_9"
-			position = { x = 106 y = 62 }
+			position = { x = 314 y = 38 }
 			spriteType = "GFX_rn_cp_sw_9"
 			pdx_tooltip = "RN_CP_SW_9"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_9"
-			position = { x = 104 y = 60 }
+			position = { x = 312 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_10"
-			position = { x = 134 y = 62 }
+			position = { x = 340 y = 38 }
 			spriteType = "GFX_rn_cp_sw_10"
 			pdx_tooltip = "RN_CP_SW_10"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_10"
-			position = { x = 132 y = 60 }
+			position = { x = 338 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_11"
-			position = { x = 162 y = 62 }
+			position = { x = 106 y = 56 }
 			spriteType = "GFX_rn_cp_sw_11"
 			pdx_tooltip = "RN_CP_SW_11"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_11"
-			position = { x = 160 y = 60 }
+			position = { x = 104 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_12"
-			position = { x = 190 y = 62 }
+			position = { x = 132 y = 56 }
 			spriteType = "GFX_rn_cp_sw_12"
 			pdx_tooltip = "RN_CP_SW_12"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_12"
-			position = { x = 188 y = 60 }
+			position = { x = 130 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_13"
-			position = { x = 218 y = 62 }
+			position = { x = 158 y = 56 }
 			spriteType = "GFX_rn_cp_sw_13"
 			pdx_tooltip = "RN_CP_SW_13"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_13"
-			position = { x = 216 y = 60 }
+			position = { x = 156 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_14"
-			position = { x = 246 y = 62 }
+			position = { x = 184 y = 56 }
 			spriteType = "GFX_rn_cp_sw_14"
 			pdx_tooltip = "RN_CP_SW_14"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_14"
-			position = { x = 244 y = 60 }
+			position = { x = 182 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_15"
-			position = { x = 274 y = 62 }
+			position = { x = 210 y = 56 }
 			spriteType = "GFX_rn_cp_sw_15"
 			pdx_tooltip = "RN_CP_SW_15"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_15"
-			position = { x = 272 y = 60 }
+			position = { x = 208 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_16"
-			position = { x = 302 y = 62 }
+			position = { x = 236 y = 56 }
 			spriteType = "GFX_rn_cp_sw_16"
 			pdx_tooltip = "RN_CP_SW_16"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_16"
-			position = { x = 300 y = 60 }
+			position = { x = 234 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_17"
-			position = { x = 106 y = 86 }
+			position = { x = 262 y = 56 }
 			spriteType = "GFX_rn_cp_sw_17"
 			pdx_tooltip = "RN_CP_SW_17"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_17"
-			position = { x = 104 y = 84 }
+			position = { x = 260 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_18"
-			position = { x = 134 y = 86 }
+			position = { x = 288 y = 56 }
 			spriteType = "GFX_rn_cp_sw_18"
 			pdx_tooltip = "RN_CP_SW_18"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_18"
-			position = { x = 132 y = 84 }
+			position = { x = 286 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_19"
-			position = { x = 162 y = 86 }
+			position = { x = 314 y = 56 }
 			spriteType = "GFX_rn_cp_sw_19"
 			pdx_tooltip = "RN_CP_SW_19"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_19"
-			position = { x = 160 y = 84 }
+			position = { x = 312 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_20"
-			position = { x = 190 y = 86 }
+			position = { x = 340 y = 56 }
 			spriteType = "GFX_rn_cp_sw_20"
 			pdx_tooltip = "RN_CP_SW_20"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_20"
-			position = { x = 188 y = 84 }
+			position = { x = 338 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_21"
-			position = { x = 218 y = 86 }
+			position = { x = 106 y = 74 }
 			spriteType = "GFX_rn_cp_sw_21"
 			pdx_tooltip = "RN_CP_SW_21"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_21"
-			position = { x = 216 y = 84 }
+			position = { x = 104 y = 72 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_22"
-			position = { x = 246 y = 86 }
+			position = { x = 132 y = 74 }
 			spriteType = "GFX_rn_cp_sw_22"
 			pdx_tooltip = "RN_CP_SW_22"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_22"
-			position = { x = 244 y = 84 }
+			position = { x = 130 y = 72 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_23"
-			position = { x = 274 y = 86 }
+			position = { x = 158 y = 74 }
 			spriteType = "GFX_rn_cp_sw_23"
 			pdx_tooltip = "RN_CP_SW_23"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_23"
-			position = { x = 272 y = 84 }
+			position = { x = 156 y = 72 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_24"
-			position = { x = 302 y = 86 }
+			position = { x = 184 y = 74 }
 			spriteType = "GFX_rn_cp_sw_24"
 			pdx_tooltip = "RN_CP_SW_24"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_24"
-			position = { x = 300 y = 84 }
+			position = { x = 182 y = 72 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_25"
+			position = { x = 210 y = 74 }
+			spriteType = "GFX_rn_cp_sw_25"
+			pdx_tooltip = "RN_CP_SW_25"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_25"
+			position = { x = 208 y = 72 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_26"
+			position = { x = 236 y = 74 }
+			spriteType = "GFX_rn_cp_sw_26"
+			pdx_tooltip = "RN_CP_SW_26"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_26"
+			position = { x = 234 y = 72 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_27"
+			position = { x = 262 y = 74 }
+			spriteType = "GFX_rn_cp_sw_27"
+			pdx_tooltip = "RN_CP_SW_27"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_27"
+			position = { x = 260 y = 72 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_28"
+			position = { x = 288 y = 74 }
+			spriteType = "GFX_rn_cp_sw_28"
+			pdx_tooltip = "RN_CP_SW_28"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_28"
+			position = { x = 286 y = 72 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_29"
+			position = { x = 314 y = 74 }
+			spriteType = "GFX_rn_cp_sw_29"
+			pdx_tooltip = "RN_CP_SW_29"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_29"
+			position = { x = 312 y = 72 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_30"
+			position = { x = 340 y = 74 }
+			spriteType = "GFX_rn_cp_sw_30"
+			pdx_tooltip = "RN_CP_SW_30"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_30"
+			position = { x = 338 y = 72 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_31"
+			position = { x = 106 y = 92 }
+			spriteType = "GFX_rn_cp_sw_31"
+			pdx_tooltip = "RN_CP_SW_31"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_31"
+			position = { x = 104 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_32"
+			position = { x = 132 y = 92 }
+			spriteType = "GFX_rn_cp_sw_32"
+			pdx_tooltip = "RN_CP_SW_32"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_32"
+			position = { x = 130 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_33"
+			position = { x = 158 y = 92 }
+			spriteType = "GFX_rn_cp_sw_33"
+			pdx_tooltip = "RN_CP_SW_33"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_33"
+			position = { x = 156 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_34"
+			position = { x = 184 y = 92 }
+			spriteType = "GFX_rn_cp_sw_34"
+			pdx_tooltip = "RN_CP_SW_34"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_34"
+			position = { x = 182 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_35"
+			position = { x = 210 y = 92 }
+			spriteType = "GFX_rn_cp_sw_35"
+			pdx_tooltip = "RN_CP_SW_35"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_35"
+			position = { x = 208 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_36"
+			position = { x = 236 y = 92 }
+			spriteType = "GFX_rn_cp_sw_36"
+			pdx_tooltip = "RN_CP_SW_36"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_36"
+			position = { x = 234 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_37"
+			position = { x = 262 y = 92 }
+			spriteType = "GFX_rn_cp_sw_37"
+			pdx_tooltip = "RN_CP_SW_37"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_37"
+			position = { x = 260 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_38"
+			position = { x = 288 y = 92 }
+			spriteType = "GFX_rn_cp_sw_38"
+			pdx_tooltip = "RN_CP_SW_38"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_38"
+			position = { x = 286 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_39"
+			position = { x = 314 y = 92 }
+			spriteType = "GFX_rn_cp_sw_39"
+			pdx_tooltip = "RN_CP_SW_39"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_39"
+			position = { x = 312 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_40"
+			position = { x = 340 y = 92 }
+			spriteType = "GFX_rn_cp_sw_40"
+			pdx_tooltip = "RN_CP_SW_40"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_40"
+			position = { x = 338 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_41"
+			position = { x = 106 y = 110 }
+			spriteType = "GFX_rn_cp_sw_41"
+			pdx_tooltip = "RN_CP_SW_41"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_41"
+			position = { x = 104 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_42"
+			position = { x = 132 y = 110 }
+			spriteType = "GFX_rn_cp_sw_42"
+			pdx_tooltip = "RN_CP_SW_42"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_42"
+			position = { x = 130 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_43"
+			position = { x = 158 y = 110 }
+			spriteType = "GFX_rn_cp_sw_43"
+			pdx_tooltip = "RN_CP_SW_43"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_43"
+			position = { x = 156 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_44"
+			position = { x = 184 y = 110 }
+			spriteType = "GFX_rn_cp_sw_44"
+			pdx_tooltip = "RN_CP_SW_44"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_44"
+			position = { x = 182 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_45"
+			position = { x = 210 y = 110 }
+			spriteType = "GFX_rn_cp_sw_45"
+			pdx_tooltip = "RN_CP_SW_45"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_45"
+			position = { x = 208 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_46"
+			position = { x = 236 y = 110 }
+			spriteType = "GFX_rn_cp_sw_46"
+			pdx_tooltip = "RN_CP_SW_46"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_46"
+			position = { x = 234 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_47"
+			position = { x = 262 y = 110 }
+			spriteType = "GFX_rn_cp_sw_47"
+			pdx_tooltip = "RN_CP_SW_47"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_47"
+			position = { x = 260 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_48"
+			position = { x = 288 y = 110 }
+			spriteType = "GFX_rn_cp_sw_48"
+			pdx_tooltip = "RN_CP_SW_48"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_48"
+			position = { x = 286 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_49"
+			position = { x = 314 y = 110 }
+			spriteType = "GFX_rn_cp_sw_49"
+			pdx_tooltip = "RN_CP_SW_49"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_49"
+			position = { x = 312 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_50"
+			position = { x = 340 y = 110 }
+			spriteType = "GFX_rn_cp_sw_50"
+			pdx_tooltip = "RN_CP_SW_50"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_50"
+			position = { x = 338 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_51"
+			position = { x = 106 y = 128 }
+			spriteType = "GFX_rn_cp_sw_51"
+			pdx_tooltip = "RN_CP_SW_51"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_51"
+			position = { x = 104 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_52"
+			position = { x = 132 y = 128 }
+			spriteType = "GFX_rn_cp_sw_52"
+			pdx_tooltip = "RN_CP_SW_52"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_52"
+			position = { x = 130 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_53"
+			position = { x = 158 y = 128 }
+			spriteType = "GFX_rn_cp_sw_53"
+			pdx_tooltip = "RN_CP_SW_53"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_53"
+			position = { x = 156 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_54"
+			position = { x = 184 y = 128 }
+			spriteType = "GFX_rn_cp_sw_54"
+			pdx_tooltip = "RN_CP_SW_54"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_54"
+			position = { x = 182 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_55"
+			position = { x = 210 y = 128 }
+			spriteType = "GFX_rn_cp_sw_55"
+			pdx_tooltip = "RN_CP_SW_55"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_55"
+			position = { x = 208 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_56"
+			position = { x = 236 y = 128 }
+			spriteType = "GFX_rn_cp_sw_56"
+			pdx_tooltip = "RN_CP_SW_56"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_56"
+			position = { x = 234 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_57"
+			position = { x = 262 y = 128 }
+			spriteType = "GFX_rn_cp_sw_57"
+			pdx_tooltip = "RN_CP_SW_57"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_57"
+			position = { x = 260 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_58"
+			position = { x = 288 y = 128 }
+			spriteType = "GFX_rn_cp_sw_58"
+			pdx_tooltip = "RN_CP_SW_58"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_58"
+			position = { x = 286 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_59"
+			position = { x = 314 y = 128 }
+			spriteType = "GFX_rn_cp_sw_59"
+			pdx_tooltip = "RN_CP_SW_59"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_59"
+			position = { x = 312 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_60"
+			position = { x = 340 y = 128 }
+			spriteType = "GFX_rn_cp_sw_60"
+			pdx_tooltip = "RN_CP_SW_60"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_60"
+			position = { x = 338 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_61"
+			position = { x = 106 y = 146 }
+			spriteType = "GFX_rn_cp_sw_61"
+			pdx_tooltip = "RN_CP_SW_61"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_61"
+			position = { x = 104 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_62"
+			position = { x = 132 y = 146 }
+			spriteType = "GFX_rn_cp_sw_62"
+			pdx_tooltip = "RN_CP_SW_62"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_62"
+			position = { x = 130 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_63"
+			position = { x = 158 y = 146 }
+			spriteType = "GFX_rn_cp_sw_63"
+			pdx_tooltip = "RN_CP_SW_63"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_63"
+			position = { x = 156 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_64"
+			position = { x = 184 y = 146 }
+			spriteType = "GFX_rn_cp_sw_64"
+			pdx_tooltip = "RN_CP_SW_64"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_64"
+			position = { x = 182 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_65"
+			position = { x = 210 y = 146 }
+			spriteType = "GFX_rn_cp_sw_65"
+			pdx_tooltip = "RN_CP_SW_65"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_65"
+			position = { x = 208 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_66"
+			position = { x = 236 y = 146 }
+			spriteType = "GFX_rn_cp_sw_66"
+			pdx_tooltip = "RN_CP_SW_66"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_66"
+			position = { x = 234 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_67"
+			position = { x = 262 y = 146 }
+			spriteType = "GFX_rn_cp_sw_67"
+			pdx_tooltip = "RN_CP_SW_67"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_67"
+			position = { x = 260 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_68"
+			position = { x = 288 y = 146 }
+			spriteType = "GFX_rn_cp_sw_68"
+			pdx_tooltip = "RN_CP_SW_68"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_68"
+			position = { x = 286 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_69"
+			position = { x = 314 y = 146 }
+			spriteType = "GFX_rn_cp_sw_69"
+			pdx_tooltip = "RN_CP_SW_69"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_69"
+			position = { x = 312 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_70"
+			position = { x = 340 y = 146 }
+			spriteType = "GFX_rn_cp_sw_70"
+			pdx_tooltip = "RN_CP_SW_70"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_70"
+			position = { x = 338 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_71"
+			position = { x = 106 y = 164 }
+			spriteType = "GFX_rn_cp_sw_71"
+			pdx_tooltip = "RN_CP_SW_71"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_71"
+			position = { x = 104 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_72"
+			position = { x = 132 y = 164 }
+			spriteType = "GFX_rn_cp_sw_72"
+			pdx_tooltip = "RN_CP_SW_72"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_72"
+			position = { x = 130 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_73"
+			position = { x = 158 y = 164 }
+			spriteType = "GFX_rn_cp_sw_73"
+			pdx_tooltip = "RN_CP_SW_73"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_73"
+			position = { x = 156 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_74"
+			position = { x = 184 y = 164 }
+			spriteType = "GFX_rn_cp_sw_74"
+			pdx_tooltip = "RN_CP_SW_74"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_74"
+			position = { x = 182 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_75"
+			position = { x = 210 y = 164 }
+			spriteType = "GFX_rn_cp_sw_75"
+			pdx_tooltip = "RN_CP_SW_75"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_75"
+			position = { x = 208 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_76"
+			position = { x = 236 y = 164 }
+			spriteType = "GFX_rn_cp_sw_76"
+			pdx_tooltip = "RN_CP_SW_76"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_76"
+			position = { x = 234 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_77"
+			position = { x = 262 y = 164 }
+			spriteType = "GFX_rn_cp_sw_77"
+			pdx_tooltip = "RN_CP_SW_77"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_77"
+			position = { x = 260 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_78"
+			position = { x = 288 y = 164 }
+			spriteType = "GFX_rn_cp_sw_78"
+			pdx_tooltip = "RN_CP_SW_78"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_78"
+			position = { x = 286 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_79"
+			position = { x = 314 y = 164 }
+			spriteType = "GFX_rn_cp_sw_79"
+			pdx_tooltip = "RN_CP_SW_79"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_79"
+			position = { x = 312 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_80"
+			position = { x = 340 y = 164 }
+			spriteType = "GFX_rn_cp_sw_80"
+			pdx_tooltip = "RN_CP_SW_80"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_80"
+			position = { x = 338 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_81"
+			position = { x = 106 y = 182 }
+			spriteType = "GFX_rn_cp_sw_81"
+			pdx_tooltip = "RN_CP_SW_81"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_81"
+			position = { x = 104 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_82"
+			position = { x = 132 y = 182 }
+			spriteType = "GFX_rn_cp_sw_82"
+			pdx_tooltip = "RN_CP_SW_82"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_82"
+			position = { x = 130 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_83"
+			position = { x = 158 y = 182 }
+			spriteType = "GFX_rn_cp_sw_83"
+			pdx_tooltip = "RN_CP_SW_83"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_83"
+			position = { x = 156 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_84"
+			position = { x = 184 y = 182 }
+			spriteType = "GFX_rn_cp_sw_84"
+			pdx_tooltip = "RN_CP_SW_84"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_84"
+			position = { x = 182 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_85"
+			position = { x = 210 y = 182 }
+			spriteType = "GFX_rn_cp_sw_85"
+			pdx_tooltip = "RN_CP_SW_85"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_85"
+			position = { x = 208 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_86"
+			position = { x = 236 y = 182 }
+			spriteType = "GFX_rn_cp_sw_86"
+			pdx_tooltip = "RN_CP_SW_86"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_86"
+			position = { x = 234 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_87"
+			position = { x = 262 y = 182 }
+			spriteType = "GFX_rn_cp_sw_87"
+			pdx_tooltip = "RN_CP_SW_87"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_87"
+			position = { x = 260 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_88"
+			position = { x = 288 y = 182 }
+			spriteType = "GFX_rn_cp_sw_88"
+			pdx_tooltip = "RN_CP_SW_88"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_88"
+			position = { x = 286 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_89"
+			position = { x = 314 y = 182 }
+			spriteType = "GFX_rn_cp_sw_89"
+			pdx_tooltip = "RN_CP_SW_89"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_89"
+			position = { x = 312 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_90"
+			position = { x = 340 y = 182 }
+			spriteType = "GFX_rn_cp_sw_90"
+			pdx_tooltip = "RN_CP_SW_90"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_90"
+			position = { x = 338 y = 180 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
@@ -424,29 +1293,47 @@ guiTypes = {
 			pdx_tooltip = "RN_IP_CANCEL"
 			clicksound = click_default
 		}
-		# Red, green and blue, 0..255, in steps of 1 and 16.
+		# Red, green and blue, 0..255, in steps of 1, 10 and 50.
 		instantTextboxType = {
 			name = "rn_cp_r_label"
-			position = { x = 104 y = 117 }
+			position = { x = 104 y = 203 }
 			font = "Arial12"
 			text = "RN_CP_RED"
-			maxWidth = 70
+			maxWidth = 56
 			maxHeight = 14
 			fixedsize = yes
 			alwaystransparent = yes
 		}
 		buttonType = {
-			name = "rn_cp_r_m16"
-			position = { x = 176 y = 116 }
+			name = "rn_cp_r_m50"
+			position = { x = 160 y = 202 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
-			name = "rn_cp_r_m16_t"
-			position = { x = 176 y = 117 }
+			name = "rn_cp_r_m50_t"
+			position = { x = 160 y = 203 }
 			font = "Arial12"
-			text = "RN_CP_STEP_M16"
+			text = "RN_CP_STEP_M50"
+			maxWidth = 26
+			maxHeight = 14
+			fixedsize = yes
+			format = centre
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_r_m10"
+			position = { x = 186 y = 202 }
+			spriteType = "GFX_rn_hit_step"
+			pdx_tooltip = "RN_CP_STEP_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_cp_r_m10_t"
+			position = { x = 186 y = 203 }
+			font = "Arial12"
+			text = "RN_CP_STEP_M10"
 			maxWidth = 26
 			maxHeight = 14
 			fixedsize = yes
@@ -455,14 +1342,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_cp_r_m1"
-			position = { x = 204 y = 116 }
+			position = { x = 212 y = 202 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
 			name = "rn_cp_r_m1_t"
-			position = { x = 204 y = 117 }
+			position = { x = 212 y = 203 }
 			font = "Arial12"
 			text = "RN_CP_STEP_M1"
 			maxWidth = 26
@@ -473,14 +1360,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_cp_r_p1"
-			position = { x = 268 y = 116 }
+			position = { x = 272 y = 202 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
 			name = "rn_cp_r_p1_t"
-			position = { x = 268 y = 117 }
+			position = { x = 272 y = 203 }
 			font = "Arial12"
 			text = "RN_CP_STEP_P1"
 			maxWidth = 26
@@ -490,17 +1377,35 @@ guiTypes = {
 			alwaystransparent = yes
 		}
 		buttonType = {
-			name = "rn_cp_r_p16"
-			position = { x = 296 y = 116 }
+			name = "rn_cp_r_p10"
+			position = { x = 298 y = 202 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
-			name = "rn_cp_r_p16_t"
-			position = { x = 296 y = 117 }
+			name = "rn_cp_r_p10_t"
+			position = { x = 298 y = 203 }
 			font = "Arial12"
-			text = "RN_CP_STEP_P16"
+			text = "RN_CP_STEP_P10"
+			maxWidth = 26
+			maxHeight = 14
+			fixedsize = yes
+			format = centre
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_r_p50"
+			position = { x = 324 y = 202 }
+			spriteType = "GFX_rn_hit_step"
+			pdx_tooltip = "RN_CP_STEP_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_cp_r_p50_t"
+			position = { x = 324 y = 203 }
+			font = "Arial12"
+			text = "RN_CP_STEP_P50"
 			maxWidth = 26
 			maxHeight = 14
 			fixedsize = yes
@@ -509,7 +1414,7 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_cp_r_value"
-			position = { x = 232 y = 117 }
+			position = { x = 238 y = 203 }
 			font = "Arial12"
 			text = "[?ROOT.rn_cp_r|0]"
 			maxWidth = 34
@@ -520,26 +1425,44 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_cp_g_label"
-			position = { x = 104 y = 137 }
+			position = { x = 104 y = 221 }
 			font = "Arial12"
 			text = "RN_CP_GREEN"
-			maxWidth = 70
+			maxWidth = 56
 			maxHeight = 14
 			fixedsize = yes
 			alwaystransparent = yes
 		}
 		buttonType = {
-			name = "rn_cp_g_m16"
-			position = { x = 176 y = 136 }
+			name = "rn_cp_g_m50"
+			position = { x = 160 y = 220 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
-			name = "rn_cp_g_m16_t"
-			position = { x = 176 y = 137 }
+			name = "rn_cp_g_m50_t"
+			position = { x = 160 y = 221 }
 			font = "Arial12"
-			text = "RN_CP_STEP_M16"
+			text = "RN_CP_STEP_M50"
+			maxWidth = 26
+			maxHeight = 14
+			fixedsize = yes
+			format = centre
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_g_m10"
+			position = { x = 186 y = 220 }
+			spriteType = "GFX_rn_hit_step"
+			pdx_tooltip = "RN_CP_STEP_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_cp_g_m10_t"
+			position = { x = 186 y = 221 }
+			font = "Arial12"
+			text = "RN_CP_STEP_M10"
 			maxWidth = 26
 			maxHeight = 14
 			fixedsize = yes
@@ -548,14 +1471,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_cp_g_m1"
-			position = { x = 204 y = 136 }
+			position = { x = 212 y = 220 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
 			name = "rn_cp_g_m1_t"
-			position = { x = 204 y = 137 }
+			position = { x = 212 y = 221 }
 			font = "Arial12"
 			text = "RN_CP_STEP_M1"
 			maxWidth = 26
@@ -566,14 +1489,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_cp_g_p1"
-			position = { x = 268 y = 136 }
+			position = { x = 272 y = 220 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
 			name = "rn_cp_g_p1_t"
-			position = { x = 268 y = 137 }
+			position = { x = 272 y = 221 }
 			font = "Arial12"
 			text = "RN_CP_STEP_P1"
 			maxWidth = 26
@@ -583,17 +1506,35 @@ guiTypes = {
 			alwaystransparent = yes
 		}
 		buttonType = {
-			name = "rn_cp_g_p16"
-			position = { x = 296 y = 136 }
+			name = "rn_cp_g_p10"
+			position = { x = 298 y = 220 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
-			name = "rn_cp_g_p16_t"
-			position = { x = 296 y = 137 }
+			name = "rn_cp_g_p10_t"
+			position = { x = 298 y = 221 }
 			font = "Arial12"
-			text = "RN_CP_STEP_P16"
+			text = "RN_CP_STEP_P10"
+			maxWidth = 26
+			maxHeight = 14
+			fixedsize = yes
+			format = centre
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_g_p50"
+			position = { x = 324 y = 220 }
+			spriteType = "GFX_rn_hit_step"
+			pdx_tooltip = "RN_CP_STEP_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_cp_g_p50_t"
+			position = { x = 324 y = 221 }
+			font = "Arial12"
+			text = "RN_CP_STEP_P50"
 			maxWidth = 26
 			maxHeight = 14
 			fixedsize = yes
@@ -602,7 +1543,7 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_cp_g_value"
-			position = { x = 232 y = 137 }
+			position = { x = 238 y = 221 }
 			font = "Arial12"
 			text = "[?ROOT.rn_cp_g|0]"
 			maxWidth = 34
@@ -613,26 +1554,44 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_cp_b_label"
-			position = { x = 104 y = 157 }
+			position = { x = 104 y = 239 }
 			font = "Arial12"
 			text = "RN_CP_BLUE"
-			maxWidth = 70
+			maxWidth = 56
 			maxHeight = 14
 			fixedsize = yes
 			alwaystransparent = yes
 		}
 		buttonType = {
-			name = "rn_cp_b_m16"
-			position = { x = 176 y = 156 }
+			name = "rn_cp_b_m50"
+			position = { x = 160 y = 238 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
-			name = "rn_cp_b_m16_t"
-			position = { x = 176 y = 157 }
+			name = "rn_cp_b_m50_t"
+			position = { x = 160 y = 239 }
 			font = "Arial12"
-			text = "RN_CP_STEP_M16"
+			text = "RN_CP_STEP_M50"
+			maxWidth = 26
+			maxHeight = 14
+			fixedsize = yes
+			format = centre
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_b_m10"
+			position = { x = 186 y = 238 }
+			spriteType = "GFX_rn_hit_step"
+			pdx_tooltip = "RN_CP_STEP_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_cp_b_m10_t"
+			position = { x = 186 y = 239 }
+			font = "Arial12"
+			text = "RN_CP_STEP_M10"
 			maxWidth = 26
 			maxHeight = 14
 			fixedsize = yes
@@ -641,14 +1600,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_cp_b_m1"
-			position = { x = 204 y = 156 }
+			position = { x = 212 y = 238 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
 			name = "rn_cp_b_m1_t"
-			position = { x = 204 y = 157 }
+			position = { x = 212 y = 239 }
 			font = "Arial12"
 			text = "RN_CP_STEP_M1"
 			maxWidth = 26
@@ -659,14 +1618,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_cp_b_p1"
-			position = { x = 268 y = 156 }
+			position = { x = 272 y = 238 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
 			name = "rn_cp_b_p1_t"
-			position = { x = 268 y = 157 }
+			position = { x = 272 y = 239 }
 			font = "Arial12"
 			text = "RN_CP_STEP_P1"
 			maxWidth = 26
@@ -676,17 +1635,35 @@ guiTypes = {
 			alwaystransparent = yes
 		}
 		buttonType = {
-			name = "rn_cp_b_p16"
-			position = { x = 296 y = 156 }
+			name = "rn_cp_b_p10"
+			position = { x = 298 y = 238 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
-			name = "rn_cp_b_p16_t"
-			position = { x = 296 y = 157 }
+			name = "rn_cp_b_p10_t"
+			position = { x = 298 y = 239 }
 			font = "Arial12"
-			text = "RN_CP_STEP_P16"
+			text = "RN_CP_STEP_P10"
+			maxWidth = 26
+			maxHeight = 14
+			fixedsize = yes
+			format = centre
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_b_p50"
+			position = { x = 324 y = 238 }
+			spriteType = "GFX_rn_hit_step"
+			pdx_tooltip = "RN_CP_STEP_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_cp_b_p50_t"
+			position = { x = 324 y = 239 }
+			font = "Arial12"
+			text = "RN_CP_STEP_P50"
 			maxWidth = 26
 			maxHeight = 14
 			fixedsize = yes
@@ -695,7 +1672,7 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_cp_b_value"
-			position = { x = 232 y = 157 }
+			position = { x = 238 y = 239 }
 			font = "Arial12"
 			text = "[?ROOT.rn_cp_b|0]"
 			maxWidth = 34
@@ -704,9 +1681,272 @@ guiTypes = {
 			format = centre
 			alwaystransparent = yes
 		}
+		# Colour code: #RRGGBB or three numbers 0..255, from the keypad or the keyboard.
+		instantTextboxType = {
+			name = "rn_cp_code_label"
+			position = { x = 6 y = 259 }
+			font = "Arial12"
+			text = "RN_CP_CODE"
+			maxWidth = 44
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextboxType = {
+			name = "rn_cp_code"
+			position = { x = 50 y = 259 }
+			font = "Arial12"
+			text = "RN_CP_IN_TEXT"
+			maxWidth = 364
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		# shift+A..F, each under (and covered by) its letter key: the same digit.
+		buttonType = {
+			name = "rn_cp_key_Sa"
+			position = { x = 6 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			shortcut = "shift+a"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_Sb"
+			position = { x = 30 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			shortcut = "shift+b"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_Sc"
+			position = { x = 54 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			shortcut = "shift+c"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_Sd"
+			position = { x = 78 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			shortcut = "shift+d"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_Se"
+			position = { x = 102 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			shortcut = "shift+e"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_Sf"
+			position = { x = 126 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			shortcut = "shift+f"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_0"
+			position = { x = 6 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_0"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "0"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_1"
+			position = { x = 30 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_1"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "1"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_2"
+			position = { x = 54 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_2"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "2"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_3"
+			position = { x = 78 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_3"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "3"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_4"
+			position = { x = 102 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_4"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "4"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_5"
+			position = { x = 126 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_5"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "5"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_6"
+			position = { x = 150 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_6"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "6"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_7"
+			position = { x = 174 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_7"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "7"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_8"
+			position = { x = 198 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_8"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "8"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_9"
+			position = { x = 222 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_9"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "9"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_sep"
+			position = { x = 246 y = 276 }
+			spriteType = "GFX_rn_cp_key_wide"
+			buttonText = "RN_CP_KEY_SEP"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "SPACE"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_a"
+			position = { x = 6 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_10"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "a"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_b"
+			position = { x = 30 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_11"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "b"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_c"
+			position = { x = 54 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_12"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "c"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_d"
+			position = { x = 78 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_13"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "d"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_e"
+			position = { x = 102 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_14"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "e"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_f"
+			position = { x = 126 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_15"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "f"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_back"
+			position = { x = 150 y = 296 }
+			spriteType = "GFX_rn_cp_key_wide"
+			buttonText = "RN_CP_KEY_BACK"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "BACKSPACE"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_clear"
+			position = { x = 208 y = 296 }
+			spriteType = "GFX_rn_cp_key_wide"
+			buttonText = "RN_CP_KEY_CLEAR"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_cp_code_msg"
+			position = { x = 310 y = 278 }
+			font = "Arial12"
+			text = "[ROOT.RN_CP_IN_MSG]"
+			maxWidth = 104
+			maxHeight = 36
+			fixedsize = yes
+			alwaystransparent = yes
+		}
 		instantTextboxType = {
 			name = "rn_cp_status"
-			position = { x = 6 y = 180 }
+			position = { x = 6 y = 318 }
 			font = "Arial12"
 			text = "[This.RN_CP_STATUS]"
 			maxWidth = 408
@@ -714,21 +1954,11 @@ guiTypes = {
 			fixedsize = yes
 			alwaystransparent = yes
 		}
-		# Restore colour: removes the colour layer (only while one is set).
-		buttonType = {
-			name = "rn_cp_reset"
-			position = { x = 297 y = 192 }
-			spriteType = "GFX_button_123x34"
-			buttonText = "RN_CP_RESET"
-			buttonFont = "hoi_16mbs"
-			pdx_tooltip = "RN_CP_RESET_TT"
-			clicksound = click_default
-		}
 	}
 	containerWindowType = {
 		name = "capie_v1_ed__rncc__subcolour"
 		position = { x = 65 y = 37 }
-		size = { width = 420 height = 228 }
+		size = { width = 420 height = 336 }
 		orientation = upper_left
 		clipping = no
 		background = { name = "Background" quadTextureSprite = "GFX_generic_bg2" }
@@ -779,27 +2009,28 @@ guiTypes = {
 			pdx_tooltip = "RN_FP_TAB_FLAG_TT"
 			clicksound = click_default
 		}
-		# Preview of the picked colour (3 bits per channel; the map shows it exactly).
+		# Preview of the picked colour (3 bits per channel; #RRGGBB and the map are exact).
 		iconType = {
 			name = "rn_cp_preview"
-			position = { x = 6 y = 40 }
+			position = { x = 18 y = 38 }
 			spriteType = "GFX_rn_cp_preview"
-			scale = 5
+			scale = 8
 			alwaystransparent = yes
 		}
 		instantTextboxType = {
-			name = "rn_cp_rgb"
-			position = { x = 0 y = 86 }
+			name = "rn_cp_hex"
+			position = { x = 0 y = 104 }
 			font = "Arial12"
-			text = "RN_CP_RGB"
+			text = "RN_CP_HEX"
 			maxWidth = 100
 			maxHeight = 14
 			fixedsize = yes
+			format = centre
 			alwaystransparent = yes
 		}
 		instantTextboxType = {
 			name = "rn_cp_note_game"
-			position = { x = 0 y = 102 }
+			position = { x = 0 y = 118 }
 			font = "Arial12"
 			text = "RN_CP_NOTE_GAME"
 			maxWidth = 100
@@ -809,7 +2040,7 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_cp_note_current"
-			position = { x = 0 y = 102 }
+			position = { x = 0 y = 118 }
 			font = "Arial12"
 			text = "RN_CP_NOTE_CURRENT"
 			maxWidth = 100
@@ -819,13 +2050,33 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_cp_note_new"
-			position = { x = 0 y = 102 }
+			position = { x = 0 y = 118 }
 			font = "Arial12"
 			text = "RN_CP_NOTE_NEW"
 			maxWidth = 100
 			maxHeight = 28
 			fixedsize = yes
 			alwaystransparent = yes
+		}
+		# My colour: the player's own current colour (a subject of the player only).
+		buttonType = {
+			name = "rn_cp_mine"
+			position = { x = 3 y = 150 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_CP_MINE"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_CP_MINE_TT"
+			clicksound = click_default
+		}
+		# Reset: removes the colour layer (only while one is set).
+		buttonType = {
+			name = "rn_cp_reset"
+			position = { x = 3 y = 184 }
+			spriteType = "GFX_button_94x31"
+			buttonText = "RN_CP_RESET"
+			buttonFont = "hoi_16mbs"
+			pdx_tooltip = "RN_CP_RESET_TT"
+			clicksound = click_default
 		}
 		# Preset swatches.
 		buttonType = {
@@ -843,300 +2094,1158 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_cp_sw_2"
-			position = { x = 134 y = 38 }
+			position = { x = 132 y = 38 }
 			spriteType = "GFX_rn_cp_sw_2"
 			pdx_tooltip = "RN_CP_SW_2"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_2"
-			position = { x = 132 y = 36 }
+			position = { x = 130 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_3"
-			position = { x = 162 y = 38 }
+			position = { x = 158 y = 38 }
 			spriteType = "GFX_rn_cp_sw_3"
 			pdx_tooltip = "RN_CP_SW_3"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_3"
-			position = { x = 160 y = 36 }
+			position = { x = 156 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_4"
-			position = { x = 190 y = 38 }
+			position = { x = 184 y = 38 }
 			spriteType = "GFX_rn_cp_sw_4"
 			pdx_tooltip = "RN_CP_SW_4"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_4"
-			position = { x = 188 y = 36 }
+			position = { x = 182 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_5"
-			position = { x = 218 y = 38 }
+			position = { x = 210 y = 38 }
 			spriteType = "GFX_rn_cp_sw_5"
 			pdx_tooltip = "RN_CP_SW_5"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_5"
-			position = { x = 216 y = 36 }
+			position = { x = 208 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_6"
-			position = { x = 246 y = 38 }
+			position = { x = 236 y = 38 }
 			spriteType = "GFX_rn_cp_sw_6"
 			pdx_tooltip = "RN_CP_SW_6"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_6"
-			position = { x = 244 y = 36 }
+			position = { x = 234 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_7"
-			position = { x = 274 y = 38 }
+			position = { x = 262 y = 38 }
 			spriteType = "GFX_rn_cp_sw_7"
 			pdx_tooltip = "RN_CP_SW_7"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_7"
-			position = { x = 272 y = 36 }
+			position = { x = 260 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_8"
-			position = { x = 302 y = 38 }
+			position = { x = 288 y = 38 }
 			spriteType = "GFX_rn_cp_sw_8"
 			pdx_tooltip = "RN_CP_SW_8"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_8"
-			position = { x = 300 y = 36 }
+			position = { x = 286 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_9"
-			position = { x = 106 y = 62 }
+			position = { x = 314 y = 38 }
 			spriteType = "GFX_rn_cp_sw_9"
 			pdx_tooltip = "RN_CP_SW_9"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_9"
-			position = { x = 104 y = 60 }
+			position = { x = 312 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_10"
-			position = { x = 134 y = 62 }
+			position = { x = 340 y = 38 }
 			spriteType = "GFX_rn_cp_sw_10"
 			pdx_tooltip = "RN_CP_SW_10"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_10"
-			position = { x = 132 y = 60 }
+			position = { x = 338 y = 36 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_11"
-			position = { x = 162 y = 62 }
+			position = { x = 106 y = 56 }
 			spriteType = "GFX_rn_cp_sw_11"
 			pdx_tooltip = "RN_CP_SW_11"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_11"
-			position = { x = 160 y = 60 }
+			position = { x = 104 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_12"
-			position = { x = 190 y = 62 }
+			position = { x = 132 y = 56 }
 			spriteType = "GFX_rn_cp_sw_12"
 			pdx_tooltip = "RN_CP_SW_12"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_12"
-			position = { x = 188 y = 60 }
+			position = { x = 130 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_13"
-			position = { x = 218 y = 62 }
+			position = { x = 158 y = 56 }
 			spriteType = "GFX_rn_cp_sw_13"
 			pdx_tooltip = "RN_CP_SW_13"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_13"
-			position = { x = 216 y = 60 }
+			position = { x = 156 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_14"
-			position = { x = 246 y = 62 }
+			position = { x = 184 y = 56 }
 			spriteType = "GFX_rn_cp_sw_14"
 			pdx_tooltip = "RN_CP_SW_14"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_14"
-			position = { x = 244 y = 60 }
+			position = { x = 182 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_15"
-			position = { x = 274 y = 62 }
+			position = { x = 210 y = 56 }
 			spriteType = "GFX_rn_cp_sw_15"
 			pdx_tooltip = "RN_CP_SW_15"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_15"
-			position = { x = 272 y = 60 }
+			position = { x = 208 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_16"
-			position = { x = 302 y = 62 }
+			position = { x = 236 y = 56 }
 			spriteType = "GFX_rn_cp_sw_16"
 			pdx_tooltip = "RN_CP_SW_16"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_16"
-			position = { x = 300 y = 60 }
+			position = { x = 234 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_17"
-			position = { x = 106 y = 86 }
+			position = { x = 262 y = 56 }
 			spriteType = "GFX_rn_cp_sw_17"
 			pdx_tooltip = "RN_CP_SW_17"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_17"
-			position = { x = 104 y = 84 }
+			position = { x = 260 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_18"
-			position = { x = 134 y = 86 }
+			position = { x = 288 y = 56 }
 			spriteType = "GFX_rn_cp_sw_18"
 			pdx_tooltip = "RN_CP_SW_18"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_18"
-			position = { x = 132 y = 84 }
+			position = { x = 286 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_19"
-			position = { x = 162 y = 86 }
+			position = { x = 314 y = 56 }
 			spriteType = "GFX_rn_cp_sw_19"
 			pdx_tooltip = "RN_CP_SW_19"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_19"
-			position = { x = 160 y = 84 }
+			position = { x = 312 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_20"
-			position = { x = 190 y = 86 }
+			position = { x = 340 y = 56 }
 			spriteType = "GFX_rn_cp_sw_20"
 			pdx_tooltip = "RN_CP_SW_20"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_20"
-			position = { x = 188 y = 84 }
+			position = { x = 338 y = 54 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_21"
-			position = { x = 218 y = 86 }
+			position = { x = 106 y = 74 }
 			spriteType = "GFX_rn_cp_sw_21"
 			pdx_tooltip = "RN_CP_SW_21"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_21"
-			position = { x = 216 y = 84 }
+			position = { x = 104 y = 72 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_22"
-			position = { x = 246 y = 86 }
+			position = { x = 132 y = 74 }
 			spriteType = "GFX_rn_cp_sw_22"
 			pdx_tooltip = "RN_CP_SW_22"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_22"
-			position = { x = 244 y = 84 }
+			position = { x = 130 y = 72 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_23"
-			position = { x = 274 y = 86 }
+			position = { x = 158 y = 74 }
 			spriteType = "GFX_rn_cp_sw_23"
 			pdx_tooltip = "RN_CP_SW_23"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_23"
-			position = { x = 272 y = 84 }
+			position = { x = 156 y = 72 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
 		buttonType = {
 			name = "rn_cp_sw_24"
-			position = { x = 302 y = 86 }
+			position = { x = 184 y = 74 }
 			spriteType = "GFX_rn_cp_sw_24"
 			pdx_tooltip = "RN_CP_SW_24"
 			clicksound = click_default
 		}
 		iconType = {
 			name = "rn_cp_mark_24"
-			position = { x = 300 y = 84 }
+			position = { x = 182 y = 72 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_25"
+			position = { x = 210 y = 74 }
+			spriteType = "GFX_rn_cp_sw_25"
+			pdx_tooltip = "RN_CP_SW_25"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_25"
+			position = { x = 208 y = 72 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_26"
+			position = { x = 236 y = 74 }
+			spriteType = "GFX_rn_cp_sw_26"
+			pdx_tooltip = "RN_CP_SW_26"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_26"
+			position = { x = 234 y = 72 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_27"
+			position = { x = 262 y = 74 }
+			spriteType = "GFX_rn_cp_sw_27"
+			pdx_tooltip = "RN_CP_SW_27"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_27"
+			position = { x = 260 y = 72 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_28"
+			position = { x = 288 y = 74 }
+			spriteType = "GFX_rn_cp_sw_28"
+			pdx_tooltip = "RN_CP_SW_28"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_28"
+			position = { x = 286 y = 72 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_29"
+			position = { x = 314 y = 74 }
+			spriteType = "GFX_rn_cp_sw_29"
+			pdx_tooltip = "RN_CP_SW_29"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_29"
+			position = { x = 312 y = 72 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_30"
+			position = { x = 340 y = 74 }
+			spriteType = "GFX_rn_cp_sw_30"
+			pdx_tooltip = "RN_CP_SW_30"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_30"
+			position = { x = 338 y = 72 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_31"
+			position = { x = 106 y = 92 }
+			spriteType = "GFX_rn_cp_sw_31"
+			pdx_tooltip = "RN_CP_SW_31"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_31"
+			position = { x = 104 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_32"
+			position = { x = 132 y = 92 }
+			spriteType = "GFX_rn_cp_sw_32"
+			pdx_tooltip = "RN_CP_SW_32"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_32"
+			position = { x = 130 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_33"
+			position = { x = 158 y = 92 }
+			spriteType = "GFX_rn_cp_sw_33"
+			pdx_tooltip = "RN_CP_SW_33"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_33"
+			position = { x = 156 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_34"
+			position = { x = 184 y = 92 }
+			spriteType = "GFX_rn_cp_sw_34"
+			pdx_tooltip = "RN_CP_SW_34"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_34"
+			position = { x = 182 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_35"
+			position = { x = 210 y = 92 }
+			spriteType = "GFX_rn_cp_sw_35"
+			pdx_tooltip = "RN_CP_SW_35"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_35"
+			position = { x = 208 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_36"
+			position = { x = 236 y = 92 }
+			spriteType = "GFX_rn_cp_sw_36"
+			pdx_tooltip = "RN_CP_SW_36"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_36"
+			position = { x = 234 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_37"
+			position = { x = 262 y = 92 }
+			spriteType = "GFX_rn_cp_sw_37"
+			pdx_tooltip = "RN_CP_SW_37"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_37"
+			position = { x = 260 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_38"
+			position = { x = 288 y = 92 }
+			spriteType = "GFX_rn_cp_sw_38"
+			pdx_tooltip = "RN_CP_SW_38"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_38"
+			position = { x = 286 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_39"
+			position = { x = 314 y = 92 }
+			spriteType = "GFX_rn_cp_sw_39"
+			pdx_tooltip = "RN_CP_SW_39"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_39"
+			position = { x = 312 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_40"
+			position = { x = 340 y = 92 }
+			spriteType = "GFX_rn_cp_sw_40"
+			pdx_tooltip = "RN_CP_SW_40"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_40"
+			position = { x = 338 y = 90 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_41"
+			position = { x = 106 y = 110 }
+			spriteType = "GFX_rn_cp_sw_41"
+			pdx_tooltip = "RN_CP_SW_41"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_41"
+			position = { x = 104 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_42"
+			position = { x = 132 y = 110 }
+			spriteType = "GFX_rn_cp_sw_42"
+			pdx_tooltip = "RN_CP_SW_42"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_42"
+			position = { x = 130 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_43"
+			position = { x = 158 y = 110 }
+			spriteType = "GFX_rn_cp_sw_43"
+			pdx_tooltip = "RN_CP_SW_43"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_43"
+			position = { x = 156 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_44"
+			position = { x = 184 y = 110 }
+			spriteType = "GFX_rn_cp_sw_44"
+			pdx_tooltip = "RN_CP_SW_44"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_44"
+			position = { x = 182 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_45"
+			position = { x = 210 y = 110 }
+			spriteType = "GFX_rn_cp_sw_45"
+			pdx_tooltip = "RN_CP_SW_45"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_45"
+			position = { x = 208 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_46"
+			position = { x = 236 y = 110 }
+			spriteType = "GFX_rn_cp_sw_46"
+			pdx_tooltip = "RN_CP_SW_46"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_46"
+			position = { x = 234 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_47"
+			position = { x = 262 y = 110 }
+			spriteType = "GFX_rn_cp_sw_47"
+			pdx_tooltip = "RN_CP_SW_47"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_47"
+			position = { x = 260 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_48"
+			position = { x = 288 y = 110 }
+			spriteType = "GFX_rn_cp_sw_48"
+			pdx_tooltip = "RN_CP_SW_48"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_48"
+			position = { x = 286 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_49"
+			position = { x = 314 y = 110 }
+			spriteType = "GFX_rn_cp_sw_49"
+			pdx_tooltip = "RN_CP_SW_49"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_49"
+			position = { x = 312 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_50"
+			position = { x = 340 y = 110 }
+			spriteType = "GFX_rn_cp_sw_50"
+			pdx_tooltip = "RN_CP_SW_50"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_50"
+			position = { x = 338 y = 108 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_51"
+			position = { x = 106 y = 128 }
+			spriteType = "GFX_rn_cp_sw_51"
+			pdx_tooltip = "RN_CP_SW_51"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_51"
+			position = { x = 104 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_52"
+			position = { x = 132 y = 128 }
+			spriteType = "GFX_rn_cp_sw_52"
+			pdx_tooltip = "RN_CP_SW_52"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_52"
+			position = { x = 130 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_53"
+			position = { x = 158 y = 128 }
+			spriteType = "GFX_rn_cp_sw_53"
+			pdx_tooltip = "RN_CP_SW_53"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_53"
+			position = { x = 156 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_54"
+			position = { x = 184 y = 128 }
+			spriteType = "GFX_rn_cp_sw_54"
+			pdx_tooltip = "RN_CP_SW_54"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_54"
+			position = { x = 182 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_55"
+			position = { x = 210 y = 128 }
+			spriteType = "GFX_rn_cp_sw_55"
+			pdx_tooltip = "RN_CP_SW_55"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_55"
+			position = { x = 208 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_56"
+			position = { x = 236 y = 128 }
+			spriteType = "GFX_rn_cp_sw_56"
+			pdx_tooltip = "RN_CP_SW_56"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_56"
+			position = { x = 234 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_57"
+			position = { x = 262 y = 128 }
+			spriteType = "GFX_rn_cp_sw_57"
+			pdx_tooltip = "RN_CP_SW_57"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_57"
+			position = { x = 260 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_58"
+			position = { x = 288 y = 128 }
+			spriteType = "GFX_rn_cp_sw_58"
+			pdx_tooltip = "RN_CP_SW_58"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_58"
+			position = { x = 286 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_59"
+			position = { x = 314 y = 128 }
+			spriteType = "GFX_rn_cp_sw_59"
+			pdx_tooltip = "RN_CP_SW_59"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_59"
+			position = { x = 312 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_60"
+			position = { x = 340 y = 128 }
+			spriteType = "GFX_rn_cp_sw_60"
+			pdx_tooltip = "RN_CP_SW_60"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_60"
+			position = { x = 338 y = 126 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_61"
+			position = { x = 106 y = 146 }
+			spriteType = "GFX_rn_cp_sw_61"
+			pdx_tooltip = "RN_CP_SW_61"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_61"
+			position = { x = 104 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_62"
+			position = { x = 132 y = 146 }
+			spriteType = "GFX_rn_cp_sw_62"
+			pdx_tooltip = "RN_CP_SW_62"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_62"
+			position = { x = 130 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_63"
+			position = { x = 158 y = 146 }
+			spriteType = "GFX_rn_cp_sw_63"
+			pdx_tooltip = "RN_CP_SW_63"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_63"
+			position = { x = 156 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_64"
+			position = { x = 184 y = 146 }
+			spriteType = "GFX_rn_cp_sw_64"
+			pdx_tooltip = "RN_CP_SW_64"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_64"
+			position = { x = 182 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_65"
+			position = { x = 210 y = 146 }
+			spriteType = "GFX_rn_cp_sw_65"
+			pdx_tooltip = "RN_CP_SW_65"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_65"
+			position = { x = 208 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_66"
+			position = { x = 236 y = 146 }
+			spriteType = "GFX_rn_cp_sw_66"
+			pdx_tooltip = "RN_CP_SW_66"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_66"
+			position = { x = 234 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_67"
+			position = { x = 262 y = 146 }
+			spriteType = "GFX_rn_cp_sw_67"
+			pdx_tooltip = "RN_CP_SW_67"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_67"
+			position = { x = 260 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_68"
+			position = { x = 288 y = 146 }
+			spriteType = "GFX_rn_cp_sw_68"
+			pdx_tooltip = "RN_CP_SW_68"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_68"
+			position = { x = 286 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_69"
+			position = { x = 314 y = 146 }
+			spriteType = "GFX_rn_cp_sw_69"
+			pdx_tooltip = "RN_CP_SW_69"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_69"
+			position = { x = 312 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_70"
+			position = { x = 340 y = 146 }
+			spriteType = "GFX_rn_cp_sw_70"
+			pdx_tooltip = "RN_CP_SW_70"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_70"
+			position = { x = 338 y = 144 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_71"
+			position = { x = 106 y = 164 }
+			spriteType = "GFX_rn_cp_sw_71"
+			pdx_tooltip = "RN_CP_SW_71"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_71"
+			position = { x = 104 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_72"
+			position = { x = 132 y = 164 }
+			spriteType = "GFX_rn_cp_sw_72"
+			pdx_tooltip = "RN_CP_SW_72"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_72"
+			position = { x = 130 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_73"
+			position = { x = 158 y = 164 }
+			spriteType = "GFX_rn_cp_sw_73"
+			pdx_tooltip = "RN_CP_SW_73"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_73"
+			position = { x = 156 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_74"
+			position = { x = 184 y = 164 }
+			spriteType = "GFX_rn_cp_sw_74"
+			pdx_tooltip = "RN_CP_SW_74"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_74"
+			position = { x = 182 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_75"
+			position = { x = 210 y = 164 }
+			spriteType = "GFX_rn_cp_sw_75"
+			pdx_tooltip = "RN_CP_SW_75"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_75"
+			position = { x = 208 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_76"
+			position = { x = 236 y = 164 }
+			spriteType = "GFX_rn_cp_sw_76"
+			pdx_tooltip = "RN_CP_SW_76"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_76"
+			position = { x = 234 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_77"
+			position = { x = 262 y = 164 }
+			spriteType = "GFX_rn_cp_sw_77"
+			pdx_tooltip = "RN_CP_SW_77"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_77"
+			position = { x = 260 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_78"
+			position = { x = 288 y = 164 }
+			spriteType = "GFX_rn_cp_sw_78"
+			pdx_tooltip = "RN_CP_SW_78"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_78"
+			position = { x = 286 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_79"
+			position = { x = 314 y = 164 }
+			spriteType = "GFX_rn_cp_sw_79"
+			pdx_tooltip = "RN_CP_SW_79"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_79"
+			position = { x = 312 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_80"
+			position = { x = 340 y = 164 }
+			spriteType = "GFX_rn_cp_sw_80"
+			pdx_tooltip = "RN_CP_SW_80"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_80"
+			position = { x = 338 y = 162 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_81"
+			position = { x = 106 y = 182 }
+			spriteType = "GFX_rn_cp_sw_81"
+			pdx_tooltip = "RN_CP_SW_81"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_81"
+			position = { x = 104 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_82"
+			position = { x = 132 y = 182 }
+			spriteType = "GFX_rn_cp_sw_82"
+			pdx_tooltip = "RN_CP_SW_82"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_82"
+			position = { x = 130 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_83"
+			position = { x = 158 y = 182 }
+			spriteType = "GFX_rn_cp_sw_83"
+			pdx_tooltip = "RN_CP_SW_83"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_83"
+			position = { x = 156 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_84"
+			position = { x = 184 y = 182 }
+			spriteType = "GFX_rn_cp_sw_84"
+			pdx_tooltip = "RN_CP_SW_84"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_84"
+			position = { x = 182 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_85"
+			position = { x = 210 y = 182 }
+			spriteType = "GFX_rn_cp_sw_85"
+			pdx_tooltip = "RN_CP_SW_85"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_85"
+			position = { x = 208 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_86"
+			position = { x = 236 y = 182 }
+			spriteType = "GFX_rn_cp_sw_86"
+			pdx_tooltip = "RN_CP_SW_86"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_86"
+			position = { x = 234 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_87"
+			position = { x = 262 y = 182 }
+			spriteType = "GFX_rn_cp_sw_87"
+			pdx_tooltip = "RN_CP_SW_87"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_87"
+			position = { x = 260 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_88"
+			position = { x = 288 y = 182 }
+			spriteType = "GFX_rn_cp_sw_88"
+			pdx_tooltip = "RN_CP_SW_88"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_88"
+			position = { x = 286 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_89"
+			position = { x = 314 y = 182 }
+			spriteType = "GFX_rn_cp_sw_89"
+			pdx_tooltip = "RN_CP_SW_89"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_89"
+			position = { x = 312 y = 180 }
+			spriteType = "GFX_rn_cp_mark"
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_sw_90"
+			position = { x = 340 y = 182 }
+			spriteType = "GFX_rn_cp_sw_90"
+			pdx_tooltip = "RN_CP_SW_90"
+			clicksound = click_default
+		}
+		iconType = {
+			name = "rn_cp_mark_90"
+			position = { x = 338 y = 180 }
 			spriteType = "GFX_rn_cp_mark"
 			alwaystransparent = yes
 		}
@@ -1156,29 +3265,47 @@ guiTypes = {
 			pdx_tooltip = "RN_IP_CANCEL"
 			clicksound = click_default
 		}
-		# Red, green and blue, 0..255, in steps of 1 and 16.
+		# Red, green and blue, 0..255, in steps of 1, 10 and 50.
 		instantTextboxType = {
 			name = "rn_cp_r_label"
-			position = { x = 104 y = 117 }
+			position = { x = 104 y = 203 }
 			font = "Arial12"
 			text = "RN_CP_RED"
-			maxWidth = 70
+			maxWidth = 56
 			maxHeight = 14
 			fixedsize = yes
 			alwaystransparent = yes
 		}
 		buttonType = {
-			name = "rn_cp_r_m16"
-			position = { x = 176 y = 116 }
+			name = "rn_cp_r_m50"
+			position = { x = 160 y = 202 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
-			name = "rn_cp_r_m16_t"
-			position = { x = 176 y = 117 }
+			name = "rn_cp_r_m50_t"
+			position = { x = 160 y = 203 }
 			font = "Arial12"
-			text = "RN_CP_STEP_M16"
+			text = "RN_CP_STEP_M50"
+			maxWidth = 26
+			maxHeight = 14
+			fixedsize = yes
+			format = centre
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_r_m10"
+			position = { x = 186 y = 202 }
+			spriteType = "GFX_rn_hit_step"
+			pdx_tooltip = "RN_CP_STEP_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_cp_r_m10_t"
+			position = { x = 186 y = 203 }
+			font = "Arial12"
+			text = "RN_CP_STEP_M10"
 			maxWidth = 26
 			maxHeight = 14
 			fixedsize = yes
@@ -1187,14 +3314,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_cp_r_m1"
-			position = { x = 204 y = 116 }
+			position = { x = 212 y = 202 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
 			name = "rn_cp_r_m1_t"
-			position = { x = 204 y = 117 }
+			position = { x = 212 y = 203 }
 			font = "Arial12"
 			text = "RN_CP_STEP_M1"
 			maxWidth = 26
@@ -1205,14 +3332,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_cp_r_p1"
-			position = { x = 268 y = 116 }
+			position = { x = 272 y = 202 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
 			name = "rn_cp_r_p1_t"
-			position = { x = 268 y = 117 }
+			position = { x = 272 y = 203 }
 			font = "Arial12"
 			text = "RN_CP_STEP_P1"
 			maxWidth = 26
@@ -1222,17 +3349,35 @@ guiTypes = {
 			alwaystransparent = yes
 		}
 		buttonType = {
-			name = "rn_cp_r_p16"
-			position = { x = 296 y = 116 }
+			name = "rn_cp_r_p10"
+			position = { x = 298 y = 202 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
-			name = "rn_cp_r_p16_t"
-			position = { x = 296 y = 117 }
+			name = "rn_cp_r_p10_t"
+			position = { x = 298 y = 203 }
 			font = "Arial12"
-			text = "RN_CP_STEP_P16"
+			text = "RN_CP_STEP_P10"
+			maxWidth = 26
+			maxHeight = 14
+			fixedsize = yes
+			format = centre
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_r_p50"
+			position = { x = 324 y = 202 }
+			spriteType = "GFX_rn_hit_step"
+			pdx_tooltip = "RN_CP_STEP_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_cp_r_p50_t"
+			position = { x = 324 y = 203 }
+			font = "Arial12"
+			text = "RN_CP_STEP_P50"
 			maxWidth = 26
 			maxHeight = 14
 			fixedsize = yes
@@ -1241,7 +3386,7 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_cp_r_value"
-			position = { x = 232 y = 117 }
+			position = { x = 238 y = 203 }
 			font = "Arial12"
 			text = "[?ROOT.rn_cp_r|0]"
 			maxWidth = 34
@@ -1252,26 +3397,44 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_cp_g_label"
-			position = { x = 104 y = 137 }
+			position = { x = 104 y = 221 }
 			font = "Arial12"
 			text = "RN_CP_GREEN"
-			maxWidth = 70
+			maxWidth = 56
 			maxHeight = 14
 			fixedsize = yes
 			alwaystransparent = yes
 		}
 		buttonType = {
-			name = "rn_cp_g_m16"
-			position = { x = 176 y = 136 }
+			name = "rn_cp_g_m50"
+			position = { x = 160 y = 220 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
-			name = "rn_cp_g_m16_t"
-			position = { x = 176 y = 137 }
+			name = "rn_cp_g_m50_t"
+			position = { x = 160 y = 221 }
 			font = "Arial12"
-			text = "RN_CP_STEP_M16"
+			text = "RN_CP_STEP_M50"
+			maxWidth = 26
+			maxHeight = 14
+			fixedsize = yes
+			format = centre
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_g_m10"
+			position = { x = 186 y = 220 }
+			spriteType = "GFX_rn_hit_step"
+			pdx_tooltip = "RN_CP_STEP_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_cp_g_m10_t"
+			position = { x = 186 y = 221 }
+			font = "Arial12"
+			text = "RN_CP_STEP_M10"
 			maxWidth = 26
 			maxHeight = 14
 			fixedsize = yes
@@ -1280,14 +3443,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_cp_g_m1"
-			position = { x = 204 y = 136 }
+			position = { x = 212 y = 220 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
 			name = "rn_cp_g_m1_t"
-			position = { x = 204 y = 137 }
+			position = { x = 212 y = 221 }
 			font = "Arial12"
 			text = "RN_CP_STEP_M1"
 			maxWidth = 26
@@ -1298,14 +3461,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_cp_g_p1"
-			position = { x = 268 y = 136 }
+			position = { x = 272 y = 220 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
 			name = "rn_cp_g_p1_t"
-			position = { x = 268 y = 137 }
+			position = { x = 272 y = 221 }
 			font = "Arial12"
 			text = "RN_CP_STEP_P1"
 			maxWidth = 26
@@ -1315,17 +3478,35 @@ guiTypes = {
 			alwaystransparent = yes
 		}
 		buttonType = {
-			name = "rn_cp_g_p16"
-			position = { x = 296 y = 136 }
+			name = "rn_cp_g_p10"
+			position = { x = 298 y = 220 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
-			name = "rn_cp_g_p16_t"
-			position = { x = 296 y = 137 }
+			name = "rn_cp_g_p10_t"
+			position = { x = 298 y = 221 }
 			font = "Arial12"
-			text = "RN_CP_STEP_P16"
+			text = "RN_CP_STEP_P10"
+			maxWidth = 26
+			maxHeight = 14
+			fixedsize = yes
+			format = centre
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_g_p50"
+			position = { x = 324 y = 220 }
+			spriteType = "GFX_rn_hit_step"
+			pdx_tooltip = "RN_CP_STEP_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_cp_g_p50_t"
+			position = { x = 324 y = 221 }
+			font = "Arial12"
+			text = "RN_CP_STEP_P50"
 			maxWidth = 26
 			maxHeight = 14
 			fixedsize = yes
@@ -1334,7 +3515,7 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_cp_g_value"
-			position = { x = 232 y = 137 }
+			position = { x = 238 y = 221 }
 			font = "Arial12"
 			text = "[?ROOT.rn_cp_g|0]"
 			maxWidth = 34
@@ -1345,26 +3526,44 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_cp_b_label"
-			position = { x = 104 y = 157 }
+			position = { x = 104 y = 239 }
 			font = "Arial12"
 			text = "RN_CP_BLUE"
-			maxWidth = 70
+			maxWidth = 56
 			maxHeight = 14
 			fixedsize = yes
 			alwaystransparent = yes
 		}
 		buttonType = {
-			name = "rn_cp_b_m16"
-			position = { x = 176 y = 156 }
+			name = "rn_cp_b_m50"
+			position = { x = 160 y = 238 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
-			name = "rn_cp_b_m16_t"
-			position = { x = 176 y = 157 }
+			name = "rn_cp_b_m50_t"
+			position = { x = 160 y = 239 }
 			font = "Arial12"
-			text = "RN_CP_STEP_M16"
+			text = "RN_CP_STEP_M50"
+			maxWidth = 26
+			maxHeight = 14
+			fixedsize = yes
+			format = centre
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_b_m10"
+			position = { x = 186 y = 238 }
+			spriteType = "GFX_rn_hit_step"
+			pdx_tooltip = "RN_CP_STEP_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_cp_b_m10_t"
+			position = { x = 186 y = 239 }
+			font = "Arial12"
+			text = "RN_CP_STEP_M10"
 			maxWidth = 26
 			maxHeight = 14
 			fixedsize = yes
@@ -1373,14 +3572,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_cp_b_m1"
-			position = { x = 204 y = 156 }
+			position = { x = 212 y = 238 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
 			name = "rn_cp_b_m1_t"
-			position = { x = 204 y = 157 }
+			position = { x = 212 y = 239 }
 			font = "Arial12"
 			text = "RN_CP_STEP_M1"
 			maxWidth = 26
@@ -1391,14 +3590,14 @@ guiTypes = {
 		}
 		buttonType = {
 			name = "rn_cp_b_p1"
-			position = { x = 268 y = 156 }
+			position = { x = 272 y = 238 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
 			name = "rn_cp_b_p1_t"
-			position = { x = 268 y = 157 }
+			position = { x = 272 y = 239 }
 			font = "Arial12"
 			text = "RN_CP_STEP_P1"
 			maxWidth = 26
@@ -1408,17 +3607,35 @@ guiTypes = {
 			alwaystransparent = yes
 		}
 		buttonType = {
-			name = "rn_cp_b_p16"
-			position = { x = 296 y = 156 }
+			name = "rn_cp_b_p10"
+			position = { x = 298 y = 238 }
 			spriteType = "GFX_rn_hit_step"
 			pdx_tooltip = "RN_CP_STEP_TT"
 			clicksound = click_default
 		}
 		instantTextboxType = {
-			name = "rn_cp_b_p16_t"
-			position = { x = 296 y = 157 }
+			name = "rn_cp_b_p10_t"
+			position = { x = 298 y = 239 }
 			font = "Arial12"
-			text = "RN_CP_STEP_P16"
+			text = "RN_CP_STEP_P10"
+			maxWidth = 26
+			maxHeight = 14
+			fixedsize = yes
+			format = centre
+			alwaystransparent = yes
+		}
+		buttonType = {
+			name = "rn_cp_b_p50"
+			position = { x = 324 y = 238 }
+			spriteType = "GFX_rn_hit_step"
+			pdx_tooltip = "RN_CP_STEP_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_cp_b_p50_t"
+			position = { x = 324 y = 239 }
+			font = "Arial12"
+			text = "RN_CP_STEP_P50"
 			maxWidth = 26
 			maxHeight = 14
 			fixedsize = yes
@@ -1427,7 +3644,7 @@ guiTypes = {
 		}
 		instantTextboxType = {
 			name = "rn_cp_b_value"
-			position = { x = 232 y = 157 }
+			position = { x = 238 y = 239 }
 			font = "Arial12"
 			text = "[?ROOT.rn_cp_b|0]"
 			maxWidth = 34
@@ -1436,25 +3653,278 @@ guiTypes = {
 			format = centre
 			alwaystransparent = yes
 		}
+		# Colour code: #RRGGBB or three numbers 0..255, from the keypad or the keyboard.
+		instantTextboxType = {
+			name = "rn_cp_code_label"
+			position = { x = 6 y = 259 }
+			font = "Arial12"
+			text = "RN_CP_CODE"
+			maxWidth = 44
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		instantTextboxType = {
+			name = "rn_cp_code"
+			position = { x = 50 y = 259 }
+			font = "Arial12"
+			text = "RN_CP_IN_TEXT"
+			maxWidth = 364
+			maxHeight = 14
+			fixedsize = yes
+			alwaystransparent = yes
+		}
+		# shift+A..F, each under (and covered by) its letter key: the same digit.
+		buttonType = {
+			name = "rn_cp_key_Sa"
+			position = { x = 6 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			shortcut = "shift+a"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_Sb"
+			position = { x = 30 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			shortcut = "shift+b"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_Sc"
+			position = { x = 54 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			shortcut = "shift+c"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_Sd"
+			position = { x = 78 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			shortcut = "shift+d"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_Se"
+			position = { x = 102 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			shortcut = "shift+e"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_Sf"
+			position = { x = 126 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			shortcut = "shift+f"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_0"
+			position = { x = 6 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_0"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "0"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_1"
+			position = { x = 30 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_1"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "1"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_2"
+			position = { x = 54 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_2"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "2"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_3"
+			position = { x = 78 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_3"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "3"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_4"
+			position = { x = 102 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_4"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "4"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_5"
+			position = { x = 126 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_5"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "5"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_6"
+			position = { x = 150 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_6"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "6"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_7"
+			position = { x = 174 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_7"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "7"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_8"
+			position = { x = 198 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_8"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "8"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_9"
+			position = { x = 222 y = 276 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_9"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "9"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_sep"
+			position = { x = 246 y = 276 }
+			spriteType = "GFX_rn_cp_key_wide"
+			buttonText = "RN_CP_KEY_SEP"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "SPACE"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_a"
+			position = { x = 6 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_10"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "a"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_b"
+			position = { x = 30 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_11"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "b"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_c"
+			position = { x = 54 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_12"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "c"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_d"
+			position = { x = 78 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_13"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "d"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_e"
+			position = { x = 102 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_14"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "e"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_f"
+			position = { x = 126 y = 296 }
+			spriteType = "GFX_rn_cp_key"
+			buttonText = "RN_CP_HD_15"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "f"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_back"
+			position = { x = 150 y = 296 }
+			spriteType = "GFX_rn_cp_key_wide"
+			buttonText = "RN_CP_KEY_BACK"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			shortcut = "BACKSPACE"
+			clicksound = click_default
+		}
+		buttonType = {
+			name = "rn_cp_key_clear"
+			position = { x = 208 y = 296 }
+			spriteType = "GFX_rn_cp_key_wide"
+			buttonText = "RN_CP_KEY_CLEAR"
+			buttonFont = "Arial12"
+			pdx_tooltip = "RN_CP_KEY_TT"
+			clicksound = click_default
+		}
+		instantTextboxType = {
+			name = "rn_cp_code_msg"
+			position = { x = 310 y = 278 }
+			font = "Arial12"
+			text = "[ROOT.RN_CP_IN_MSG]"
+			maxWidth = 104
+			maxHeight = 36
+			fixedsize = yes
+			alwaystransparent = yes
+		}
 		instantTextboxType = {
 			name = "rn_cp_status"
-			position = { x = 6 y = 180 }
+			position = { x = 6 y = 318 }
 			font = "Arial12"
 			text = "[This.RN_CP_STATUS]"
 			maxWidth = 408
 			maxHeight = 14
 			fixedsize = yes
 			alwaystransparent = yes
-		}
-		# Restore colour: removes the colour layer (only while one is set).
-		buttonType = {
-			name = "rn_cp_reset"
-			position = { x = 297 y = 192 }
-			spriteType = "GFX_button_123x34"
-			buttonText = "RN_CP_RESET"
-			buttonFont = "hoi_16mbs"
-			pdx_tooltip = "RN_CP_RESET_TT"
-			clicksound = click_default
 		}
 	}
 }

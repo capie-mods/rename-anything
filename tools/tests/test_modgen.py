@@ -18,6 +18,7 @@ from modgen.common import LANGS, MAXLEN, MOD, STATE_BUCKET, VP_SLOTS, slots_expr
 from modgen.features import (
     char_portraits,
     cities,
+    colours,
     cooldown,
     flag_picker,
     flags,
@@ -275,6 +276,7 @@ def test_generator_reproduces_committed_mod() -> None:
         catalog=flags.read_catalog(DEFAULT_GAME),
         portrait_catalog=portrait_catalog,
         char_data=char_portraits.read(DEFAULT_GAME, portrait_catalog),
+        natives=colours.read_natives(DEFAULT_GAME),
     )
     assert flags.CATALOG_EFFECTS in sink.files
     for relative, data in sink.files.items():

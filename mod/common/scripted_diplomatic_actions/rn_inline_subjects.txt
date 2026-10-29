@@ -44,6 +44,25 @@ scripted_diplomatic_actions = {
 		accept_description = RN_RENAME_SUBJECT_ACCEPT_DESC
 		ai_desire = { base = 0 }
 	}
+	# Map colour of another country (colour rule rn_feature_colour, trigger rn_cp_may_edit): a
+	# subject by default, any country for the host under "Any country". Opens the colour picker
+	# capie_v1_ed__rncc__subcolour in the same Diplomacy view; rn_cp_open_sub checks it all again.
+	rn_country_colour = {
+		allowed = { always = yes }
+		visible = { rn_editor_bridge_available = yes NOT = { tag = ROOT } rn_cp_may_edit = yes ROOT = { is_ai = no } }
+		selectable = { custom_trigger_tooltip = { tooltip = RN_FEAT_COLOUR_ALLOWED NOT = { rn_feature_colour_off = yes } } custom_trigger_tooltip = { tooltip = RN_FEAT_SUBJECTS_ALLOWED NOT = { rn_feature_subjects_off = yes } } custom_trigger_tooltip = { tooltip = RN_EDITOR_FREE_TT ROOT = { NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } } }
+		requires_acceptance = no
+		cost = 0
+		command_power = 0
+		show_acceptance_on_action_button = no
+		icon = 1
+		complete_effect = { rn_cp_open_sub = yes }
+		send_description = RN_COUNTRY_COLOUR_SEND
+		receive_description = RN_COUNTRY_COLOUR_RECEIVE
+		accept_title = RN_COUNTRY_COLOUR_ACCEPT
+		accept_description = RN_COUNTRY_COLOUR_ACCEPT_DESC
+		ai_desire = { base = 0 }
+	}
 	rn_rename_faction = {
 		allowed = { always = yes }
 		visible = { rn_editor_bridge_available = yes is_in_faction = yes ROOT = { is_ai = no } var:faction_leader = { rn_fac_may_edit = yes } }

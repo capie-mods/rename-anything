@@ -8,12 +8,20 @@ turns the section of the version in `mod/descriptor.mod` into the Workshop chang
 
 ## [0.3.0] - 2026-10-29
 
-- New, needs CAPIE 1.6: your country's colour on the map. Open the "Colour" tab of the country
-  name editor or the flag picker (for a subject: "Map colour" in its flag picker). Pick one of
-  24 colours or set red, green and blue, then Apply. "Original colour" brings the game's colour
-  back, and so does a change of the country's form of state.
-- It follows the rename cooldown and the rule on who may rename what, and the host can turn it
-  off with its own game rule.
+- New, needs CAPIE 1.6: country colours on the map. Open the "Colour" tab of the country name
+  editor or the flag picker; for another country, "Change map colour" in its Diplomacy view or
+  "Map colour" in a subject's flag picker. Then Apply. The name and the flag do not change.
+- 90 colours to pick from, grouped by hue, with a row of the great powers' own map colours.
+- Red, green and blue can be changed by 1, 10 or 50, and the code under the preview shows the
+  exact colour as #RRGGBB.
+- Type a colour code: six hex digits such as 1E5AA0, or red, green and blue such as 30 90 160.
+  Use the keypad in the picker or your keyboard. A wrong code shows what is wrong and is not
+  applied.
+- For a subject: "My colour" gives it your country's current colour; "Reset" brings back its
+  own colour. "Reset" works for your own country too, and a change of the country's form of
+  state also brings its own colour back.
+- New game rule "Rename Anything: Country map colour": own country and subjects (default),
+  own country only, any country (the host), or off. Colours follow the rename cooldown.
 
 ## [0.2.1] - 2026-10-28
 

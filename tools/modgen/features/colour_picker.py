@@ -1,29 +1,36 @@
-"""Colour picker: the "Colour" tab of the politics name editor and the subject's map colour.
+"""Colour picker: the "Colour" tab of the politics name editor and another country's map colour.
 
 Two CAPIE grammar editors without text fields (CONTRACT section 3) share one
 layout: ``capie_v1_ed__rncc__colour`` for the player's own country (politics view,
-``player_context``) and ``capie_v1_ed__rncc__subcolour`` for a country the player
-may rename (diplomacy view, ``selected_country_context``). They are grammar
-editors so that their Apply carries ``capie_cap`` and ``capie_colour`` (API level
-8, CONTRACT section 19); the choice lives in script variables on the player
-(``rn_cp_*``) and the hand-written effects in
+``player_context``) and ``capie_v1_ed__rncc__subcolour`` for another country
+(diplomacy view, ``selected_country_context``). They are grammar editors so that
+their Apply carries ``capie_cap`` and ``capie_colour`` (API level 8, CONTRACT
+section 19); the choice lives in script variables on the player (``rn_cp_*``) and
+the hand-written effects in
 ``tools/inline_editor/common/scripted_effects/rn_colour_picker.txt`` check
 everything again. The editors use their own mod id ``rncc`` (at most eight
-editors per mod id).
+editors per mod id). Whose colour the player may change is the colour game rule
+(``rn_feature_colour``, :mod:`modgen.features.switches`).
 
 Layout (420 px wide, local coordinates, the same frame as the flag picker)::
 
-    y   0  tabs                  Name | Flag | Colour   or  Country | Leader | Party | Flag
-    y  36  preview (40 x 40)     grid of 8 x 3 preset swatches      Apply, Cancel
-    y  86  label, note
-    y 116                        Red    -16 -1  value  +1 +16
-    y 136                        Green  ...
-    y 156                        Blue   ...
-    y 180  status line
-    y 192                        Original colour (only while a colour is set)
+    y   0  tabs                   Name | Flag | Colour   or  Country | Leader | Party | Flag
+    y  36  preview (64 x 64)      grid of 10 x 9 preset swatches       Apply, Cancel
+    y 104  #RRGGBB, note
+    y 150  My colour (a subject of the player only)
+    y 184  Reset (only while a colour is set)
+    y 202                         Red    -50 -10 -1  value  +1 +10 +50
+    y 220                         Green  ...
+    y 238                         Blue   ...
+    y 258  Code  #1E5AA0
+    y 276  0 1 2 ... 9  Space                         message of the typed code
+    y 296  A B C D E F  Delete Clear
+    y 318  status line
 
 The preview is the 512-frame strip of :mod:`modgen.features.colours` (3 bits per
-channel); the exact colour shows on the map after Apply.
+channel); the exact colour shows as ``#RRGGBB`` under it and on the map after
+Apply. The keypad keys have keyboard shortcuts (0..9, A..F, Space, Backspace),
+like the keyboard of the legacy input window.
 """
 
 from __future__ import annotations
@@ -31,61 +38,90 @@ from __future__ import annotations
 from typing import NamedTuple
 
 from modgen.common import GEN_HEADER
-from modgen.features.colours import MARK_SPRITE, PRESETS, PREVIEW_SPRITE, swatch_sprite
+from modgen.features.colours import (
+    HEX_DIGITS,
+    KEY_SPRITE,
+    KEY_WIDE,
+    KEY_WIDE_SPRITE,
+    MARK_SPRITE,
+    PRESETS,
+    PREVIEW_SPRITE,
+    SEPARATOR,
+    swatch_sprite,
+)
 from modgen.features.picker_common import button, captioned, icon, text
 
 WIDTH = 420
 """Window width, the same as the name editors."""
 
-HEIGHT = 228
-"""Window height: tabs, grid, channels, status and the Restore button."""
+HEIGHT = 336
+"""Window height: tabs, grid, channels, the code keypad and the status line."""
 
 TAB_PITCH = 96
 """Distance between two tabs, as in the subject editor."""
 
 CONTENT_Y = 36
-"""Top of the preview and the grid."""
+"""Top of the grid."""
 
-PREVIEW_POS = (6, 40)
+PREVIEW_POS = (18, 38)
 """Position of the preview."""
 
-PREVIEW_SCALE = 5
-"""Scale of the 8 x 8 preview frame (40 x 40 on screen)."""
+PREVIEW_SCALE = 8
+"""Scale of the 8 x 8 preview frame (64 x 64 on screen)."""
 
-RGB_Y = 86
-"""Top of the R G B numbers under the preview."""
+HEX_Y = 104
+"""Top of the ``#RRGGBB`` under the preview."""
 
-NOTE_Y = 102
-"""Top of the note under the numbers."""
+NOTE_Y = 118
+"""Top of the note under the hex code."""
 
 LEFT_W = 100
 """Width of the preview column."""
 
+SIDE_BUTTON_X = 3
+"""X of the buttons of the preview column."""
+
+MINE_Y = 150
+"""Top of "My colour"."""
+
+RESET_Y = 184
+"""Top of "Reset"."""
+
+SIDE_BUTTON = "GFX_button_94x31"
+"""Sprite of the preview column's buttons (the tab sprite, 94 x 31)."""
+
 GRID_X = 104
 """Left edge of the swatch grid and of the channel rows."""
 
-CELL = (28, 24)
+CELL = (26, 18)
 """Grid slot: the selection mark; the swatch sits 2 px inside."""
 
-GRID_COLUMNS = 8
+GRID_COLUMNS = 10
 """Swatches per row."""
 
-CHANNEL_Y = 116
+CHANNEL_Y = 202
 """Top of the first channel row."""
 
-CHANNEL_PITCH = 20
+CHANNEL_PITCH = 18
 """Distance between two channel rows."""
 
-LABEL_W = 70
+LABEL_W = 56
 """Width of a channel label."""
 
 STEP_W = 26
 """Width of one stepper hit area."""
 
-STEPS = (("m16", -16, 176), ("m1", -1, 204), ("p1", 1, 268), ("p16", 16, 296))
+STEPS = (
+    ("m50", -50, 160),
+    ("m10", -10, 186),
+    ("m1", -1, 212),
+    ("p1", 1, 272),
+    ("p10", 10, 298),
+    ("p50", 50, 324),
+)
 """Steppers: element suffix, step and x position."""
 
-VALUE_POS = 232
+VALUE_POS = 238
 """X of the channel value."""
 
 VALUE_W = 34
@@ -94,7 +130,28 @@ VALUE_W = 34
 CHANNELS = (("r", "RN_CP_RED"), ("g", "RN_CP_GREEN"), ("b", "RN_CP_BLUE"))
 """Channel ids and label keys, in row order."""
 
-STATUS_Y = 180
+CODE_Y = 258
+"""Top of the typed code row."""
+
+CODE_LABEL_W = 44
+"""Width of the "Code" label."""
+
+KEY_ROWS_Y = (276, 296)
+"""Tops of the two keypad rows."""
+
+KEY_X = 6
+"""Left edge of the keypad."""
+
+KEY_PITCH = 24
+"""Distance between two keypad keys."""
+
+MESSAGE_POS = (310, 278)
+"""Position of the typed code's message, right of the keypad."""
+
+MESSAGE_SIZE = (WIDTH - 6 - 310, 36)
+"""Size of the typed code's message."""
+
+STATUS_Y = 318
 """Top of the status line."""
 
 APPLY_X = 370
@@ -102,9 +159,6 @@ APPLY_X = 370
 
 CANCEL_X = 396
 """X of Cancel, the same as in the name editors."""
-
-RESET_POS = (297, 192)
-"""Position of "Restore colour" (``GFX_button_123x34``)."""
 
 STEP_SPRITE = "GFX_rn_hit_step"
 """Transparent hit area of a stepper (``picker_common.HIT_SPRITES``)."""
@@ -117,6 +171,91 @@ SCRIPTED_GUI_FILE = "common/scripted_guis/rn_colour_picker.txt"
 
 ON_ACTIONS_FILE = "common/on_actions/rn_colour_on_actions.txt"
 """Daily checks, relative to ``mod/``."""
+
+
+class Key(NamedTuple):
+    """One keypad key."""
+
+    name: str
+    """Element suffix (``rn_cp_key_<name>``)."""
+
+    caption: str
+    """Caption key."""
+
+    shortcut: str | None
+    """Keyboard shortcut."""
+
+    effect: str
+    """Click effect body (ROOT scope)."""
+
+    pos: tuple[int, int]
+    """Position."""
+
+    wide: bool = False
+    """Space, Delete or Clear (the wide sprite)."""
+
+
+def _type(code: int) -> str:
+    """Return the click effect that types one code.
+
+    Args:
+        code: 0..15 a hex digit, 16 the separator.
+
+    Returns:
+        Effect body.
+    """
+    return f"set_temp_variable = {{ rn_cp_k = {code} }} rn_cp_key = yes"
+
+
+def keys() -> list[Key]:
+    """Return the keypad: 0..9 and Space, then A..F, Delete and Clear.
+
+    Returns:
+        The keys in drawing order.
+    """
+    top, bottom = KEY_ROWS_Y
+    out = [
+        Key(d, f"RN_CP_HD_{v}", d, _type(v), (KEY_X + v * KEY_PITCH, top))
+        for v, d in enumerate(HEX_DIGITS[:10])
+    ]
+    wide_x = KEY_X + 10 * KEY_PITCH
+    out.append(Key("sep", "RN_CP_KEY_SEP", "SPACE", _type(SEPARATOR), (wide_x, top), wide=True))
+    out += [
+        Key(d.lower(), f"RN_CP_HD_{v}", d.lower(), _type(v), (KEY_X + (v - 10) * KEY_PITCH, bottom))
+        for v, d in enumerate(HEX_DIGITS)
+        if v >= 10  # noqa: PLR2004 - the letters A..F
+    ]
+    after = KEY_X + 6 * KEY_PITCH
+    out.append(
+        Key(
+            "back",
+            "RN_CP_KEY_BACK",
+            "BACKSPACE",
+            "rn_cp_key_back = yes",
+            (after, bottom),
+            wide=True,
+        )
+    )
+    clear_x = after + KEY_WIDE[0] + 2
+    out.append(
+        Key("clear", "RN_CP_KEY_CLEAR", None, "rn_cp_key_clear = yes", (clear_x, bottom), wide=True)
+    )
+    return out
+
+
+def shift_keys() -> list[Key]:
+    """Return the invisible ``shift+a`` .. ``shift+f`` buttons (upper-case A..F typed).
+
+    Each sits under its visible letter key, so a click types the same digit either way.
+
+    Returns:
+        Keys drawn under the keypad.
+    """
+    return [
+        Key(f"S{k.name}", "", f"shift+{k.name}", k.effect, k.pos)
+        for k in keys()
+        if k.name in HEX_DIGITS.lower()[10:]
+    ]
 
 
 class Picker(NamedTuple):
@@ -177,7 +316,7 @@ SUBJECT = Picker(
         ("flag", "RN_FP_TAB_FLAG", "RN_FP_TAB_FLAG_TT"),
     ),
 )
-"""Another country (subject, or any country for the host): in its diplomacy view."""
+"""Another country (a subject, or any country for the host): in its diplomacy view."""
 
 PICKERS = (OWN, SUBJECT)
 """Both editors."""
@@ -245,7 +384,7 @@ def _swatches() -> str:
 
 
 def _channels() -> str:
-    """Return the three channel rows: label, four steppers and the value.
+    """Return the three channel rows: label, six steppers and the value.
 
     Returns:
         Element blocks.
@@ -267,6 +406,51 @@ def _channels() -> str:
     return "".join(out)
 
 
+def _keypad() -> str:
+    """Return the colour code row and the keypad.
+
+    Returns:
+        Element blocks.
+    """
+    out = [
+        text("rn_cp_code_label", (KEY_X, CODE_Y + 1), "RN_CP_CODE", (CODE_LABEL_W, 14)),
+        text(
+            "rn_cp_code",
+            (KEY_X + CODE_LABEL_W, CODE_Y + 1),
+            "RN_CP_IN_TEXT",
+            (WIDTH - 12 - CODE_LABEL_W, 14),
+        ),
+        "\t\t# shift+A..F, each under (and covered by) its letter key: the same digit.\n",
+    ]
+    out += [
+        button(f"rn_cp_key_{k.name}", k.pos, KEY_SPRITE, attrs=f'\t\t\tshortcut = "{k.shortcut}"\n')
+        for k in shift_keys()
+    ]
+    for k in keys():
+        sprite = KEY_WIDE_SPRITE if k.wide else KEY_SPRITE
+        attrs = (
+            f'\t\t\tbuttonText = "{k.caption}"\n\t\t\tbuttonFont = "Arial12"\n'
+            '\t\t\tpdx_tooltip = "RN_CP_KEY_TT"\n'
+        )
+        if k.shortcut:
+            attrs += f'\t\t\tshortcut = "{k.shortcut}"\n'
+        out.append(button(f"rn_cp_key_{k.name}", k.pos, sprite, attrs=attrs))
+    out.append(text("rn_cp_code_msg", MESSAGE_POS, "[ROOT.RN_CP_IN_MSG]", MESSAGE_SIZE))
+    return "".join(out)
+
+
+def _tip(key: str) -> str:
+    """Return a ``pdx_tooltip`` attribute line.
+
+    Args:
+        key: Tooltip key.
+
+    Returns:
+        The line.
+    """
+    return f'\t\t\tpdx_tooltip = "{key}"\n'
+
+
 def window(picker: Picker) -> str:
     """Return the window of one picker.
 
@@ -277,6 +461,7 @@ def window(picker: Picker) -> str:
         The ``containerWindowType`` block.
     """
     x, y = picker.position
+    side = '\t\t\tbuttonFont = "hoi_16mbs"\n'
     parts = [
         f'\tcontainerWindowType = {{\n\t\tname = "{picker.key}"\n',
         f"\t\tposition = {{ x = {x} y = {y} }}\n",
@@ -286,17 +471,36 @@ def window(picker: Picker) -> str:
         "\t\t# CAPIE epoch carrier (hidden).\n",
         text(f"capie_v1_ep__rncc__{picker.editor}", (0, 0), "[?ROOT.rn_cp_epoch|0]", (120, 14)),
         _tab_buttons(picker),
-        "\t\t# Preview of the picked colour (3 bits per channel; the map shows it exactly).\n",
+        "\t\t# Preview of the picked colour (3 bits per channel; #RRGGBB and the map are exact).\n",
         icon(
             "rn_cp_preview",
             PREVIEW_POS,
             PREVIEW_SPRITE,
             attrs=f"\t\t\tscale = {PREVIEW_SCALE}\n\t\t\talwaystransparent = yes\n",
         ),
-        text("rn_cp_rgb", (0, RGB_Y), "RN_CP_RGB", (LEFT_W, 14)),
+        text("rn_cp_hex", (0, HEX_Y), "RN_CP_HEX", (LEFT_W, 14), extra="\t\t\tformat = centre\n"),
         text("rn_cp_note_game", (0, NOTE_Y), "RN_CP_NOTE_GAME", (LEFT_W, 28)),
         text("rn_cp_note_current", (0, NOTE_Y), "RN_CP_NOTE_CURRENT", (LEFT_W, 28)),
         text("rn_cp_note_new", (0, NOTE_Y), "RN_CP_NOTE_NEW", (LEFT_W, 28)),
+    ]
+    if picker is SUBJECT:
+        parts += [
+            "\t\t# My colour: the player's own current colour (a subject of the player only).\n",
+            button(
+                "rn_cp_mine",
+                (SIDE_BUTTON_X, MINE_Y),
+                SIDE_BUTTON,
+                attrs=f'\t\t\tbuttonText = "RN_CP_MINE"\n{side}' + _tip("RN_CP_MINE_TT"),
+            ),
+        ]
+    parts += [
+        "\t\t# Reset: removes the colour layer (only while one is set).\n",
+        button(
+            "rn_cp_reset",
+            (SIDE_BUTTON_X, RESET_Y),
+            SIDE_BUTTON,
+            attrs=f'\t\t\tbuttonText = "RN_CP_RESET"\n{side}' + _tip("RN_CP_RESET_TT"),
+        ),
         "\t\t# Preset swatches.\n",
         _swatches(),
         button(
@@ -316,16 +520,11 @@ def window(picker: Picker) -> str:
             attrs='\t\t\tpdx_tooltip = "RN_IP_CANCEL"\n',
             quad=True,
         ),
-        "\t\t# Red, green and blue, 0..255, in steps of 1 and 16.\n",
+        "\t\t# Red, green and blue, 0..255, in steps of 1, 10 and 50.\n",
         _channels(),
+        "\t\t# Colour code: #RRGGBB or three numbers 0..255, from the keypad or the keyboard.\n",
+        _keypad(),
         text("rn_cp_status", (6, STATUS_Y), "[This.RN_CP_STATUS]", (WIDTH - 12, 14)),
-        "\t\t# Restore colour: removes the colour layer (only while one is set).\n",
-        button(
-            "rn_cp_reset",
-            RESET_POS,
-            "GFX_button_123x34",
-            attrs=captioned("RN_CP_RESET", "RN_CP_RESET_TT"),
-        ),
         "\t}\n",
     ]
     return "".join(parts)
@@ -366,7 +565,7 @@ def _visible(picker: Picker) -> str:
             "is_in_array = { array = rn_cp_target_arr value = THIS }"
         )
     return (
-        "NOT = { tag = ROOT } rn_sub_may_edit = yes "
+        "NOT = { tag = ROOT } rn_cp_may_edit = yes "
         "is_in_array = { array = ROOT.rn_cp_target_arr value = THIS } "
         f"ROOT = {{ {_ROOT_OK} has_country_flag = {picker.open_flag} }}"
     )
@@ -476,6 +675,18 @@ def _channel_lines() -> tuple[list[str], list[str]]:
     return effects, triggers
 
 
+def _key_lines() -> list[str]:
+    """Return the keypad click effects.
+
+    Returns:
+        Effect lines.
+    """
+    return [
+        f"\t\t\trn_cp_key_{k.name}_click = {{ ROOT = {{ {k.effect} }} }}\n"
+        for k in [*shift_keys(), *keys()]
+    ]
+
+
 _EFFECTS = """\t\t\trn_cp_cancel_click = { ROOT = { rn_cp_close = yes rn_cv1_status_clear = yes } }
 \t\t\trn_cp_reset_click = { ROOT = { rn_cp_reset = yes } }
 """
@@ -488,6 +699,11 @@ _TRIGGERS = """\t\t\trn_cp_reset_visible = { has_variable = capie_cc_ver }
 \t\t\trn_cp_note_new_visible = { ROOT = { has_country_flag = rn_cp_changed } }
 """  # noqa: E501 - generated script lines are emitted verbatim
 """Visible and enabled triggers both pickers share (THIS is the country whose colour changes)."""
+
+_SUBJECT_TRIGGERS = """\t\t\trn_cp_mine_visible = { is_subject_of = ROOT }
+\t\t\trn_cp_mine_click_enabled = { is_subject_of = ROOT NOT = { rn_feature_colour_off = yes } NOT = { rn_feature_subjects_off = yes } }
+"""  # noqa: E501 - generated script lines are emitted verbatim
+"""Triggers of "My colour" (another country's picker only)."""
 
 
 def scripted_gui(picker: Picker) -> str:
@@ -505,6 +721,7 @@ def scripted_gui(picker: Picker) -> str:
     dirty = "\t\tdirty = rn_cp_dirty\n" if picker is OWN else ""
     # The preview frame is on ROOT (the player); THIS is the target in the diplomacy view.
     frame = "rn_cp_frame" if picker is OWN else "ROOT.rn_cp_frame"
+    mine = "\t\t\trn_cp_mine_click = { ROOT = { rn_cp_pick_mine = yes } }\n"
     lines = [
         f"\t{picker.key} = {{\n",
         f"\t\tcontext_type = {picker.context}\n",
@@ -516,9 +733,11 @@ def scripted_gui(picker: Picker) -> str:
         "\t\teffects = {\n",
         f"\t\t\t{picker.key}_apply_click = {{ ROOT = {{ rn_cp_apply = yes }} }}\n",
         _EFFECTS,
+        mine if picker is SUBJECT else "",
         *tab_effects,
         *grid_effects,
         *step_effects,
+        *_key_lines(),
         "\t\t}\n",
         "\t\ttriggers = {\n",
         f"\t\t\tcapie_v1_ep__rncc__{picker.editor}_visible = {{ always = no }}\n",
@@ -528,6 +747,7 @@ def scripted_gui(picker: Picker) -> str:
             f"NOT = {{ rn_cp_cooldown_active = yes }} {_switched_on('colour', picker)} }}\n"
         ),
         _TRIGGERS,
+        _SUBJECT_TRIGGERS if picker is SUBJECT else "",
         *tab_triggers,
         *grid_triggers,
         *step_triggers,
@@ -549,8 +769,8 @@ def scripted_guis() -> str:
         + "# Colour picker (tools/modgen/features/colour_picker.py). ROOT is the player in both\n"
         "# editors; THIS is the country whose colour changes (the player in the politics view,\n"
         "# the selected country in its diplomacy view). The effects (rn_colour_picker.txt)\n"
-        "# re-check the pinned target, the rights, the cooldown and the CAPIE records; a click\n"
-        "# never trusts the command scope.\n"
+        "# re-check the pinned target, the colour rule, the cooldown and the CAPIE records; a\n"
+        "# click never trusts the command scope.\n"
         "scripted_gui = {\n" + "".join(scripted_gui(p) for p in PICKERS) + "}\n"
     )
 

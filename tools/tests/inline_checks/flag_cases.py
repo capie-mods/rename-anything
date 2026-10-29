@@ -570,6 +570,16 @@ class FlagVM:
                 self.temp[params.get("index", "i")] = Decimal(i)
                 self.execute(body)
             return
+        if key == "remove_from_array":
+            # The block form only; without value or index the game removes the last element.
+            items = self.array(get(value, "array"))
+            keys = {k for k, _, _ in value}
+            assert keys <= {"array", "index"}, ("remove_from_array form not modelled", keys)
+            i = int(self.value(get(value, "index"))) if "index" in keys else len(items) - 1
+            assert 0 <= i < len(items), ("remove_from_array index", i, len(items))
+            items.pop(i)
+            self.writes.append((here.tag, "remove_from_array:" + get(value, "array")))
+            return
         if key == "modulo_temp_variable":
             name, by = get(value, "var"), self.value(get(value, "value"))
             self.temp[name] = self.temp.get(name, Decimal(0)) % by

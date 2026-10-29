@@ -82,6 +82,7 @@ def _all_models() -> dict[str, Any]:
         **models_of(MOD / "common" / "scripted_guis", "rename_anything_*.txt"),
         **models_of(MOD / "common" / "scripted_guis", "rn_flag_picker.txt"),
         **models_of(MOD / "common" / "scripted_guis", "rn_portrait_picker.txt"),
+        **models_of(MOD / "common" / "scripted_guis", "rn_colour_picker.txt"),
     }
 
 
@@ -96,6 +97,7 @@ def _buttons() -> dict[str, list[Any]]:
         MOD / "interface" / "rename_anything.gui",
         MOD / "interface" / "rn_flag_picker.gui",
         MOD / "interface" / "rn_portrait_picker.gui",
+        MOD / "interface" / "rn_colour_picker.gui",
     ]
     out: dict[str, list[Any]] = {}
     for path in paths:
@@ -114,10 +116,12 @@ def check_switch_structure() -> None:
         rule = by_name[f"rn_feature_{f.id}"]
         assert not any(k == "desc" for k, _, _ in rule), "rule-level desc is a parser error"
         assert get(get(rule, "default"), "name") == f"RN_FEATURE_{f.id.upper()}_ON"
-        assert get(get(rule, "option"), "name") == _off(f.id)
-        for block in ("default", "option"):
+        options = [v for k, _, v in rule if k == "option"]
+        assert get(options[-1], "name") == _off(f.id), "Off is the last option"
+        assert len(options) == (3 if f.id == "colour" else 1), f.id  # colour: own, any, off
+        for block in [get(rule, "default"), *options]:
             for key in ("text", "desc"):
-                loc_key = get(get(rule, block), key)
+                loc_key = get(block, key)
                 assert all(loc_key in texts[lang] for lang in LANGS), (f.id, loc_key)
         name = get(rule, "name")
         assert all(texts[lang][name].startswith("Rename Anything: ") for lang in LANGS)

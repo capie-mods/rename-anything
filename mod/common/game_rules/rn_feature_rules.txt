@@ -70,8 +70,20 @@ rn_feature_colour = {
 	group = "RULE_GROUP_GAMEPLAY"
 	default = {
 		name = "RN_FEATURE_COLOUR_ON"
-		text = "RN_RULE_FEATURE_ON"
+		text = "RN_RULE_FEATURE_COLOUR_ON"
 		desc = "RN_RULE_FEATURE_COLOUR_ON_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_FEATURE_COLOUR_OWN"
+		text = "RN_RULE_FEATURE_COLOUR_OWN"
+		desc = "RN_RULE_FEATURE_COLOUR_OWN_DESC"
+		allow_achievements = yes
+	}
+	option = {
+		name = "RN_FEATURE_COLOUR_ANY"
+		text = "RN_RULE_FEATURE_COLOUR_ANY"
+		desc = "RN_RULE_FEATURE_COLOUR_ANY_DESC"
 		allow_achievements = yes
 	}
 	option = {

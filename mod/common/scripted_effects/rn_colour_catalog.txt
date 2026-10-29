@@ -3,64 +3,843 @@
 
 # Constant: the number of presets.
 rn_cp_presets = {
-	set_temp_variable = { rn_cp_n = 24 }
+	set_temp_variable = { rn_cp_n = 90 }
 }
 
 # ROOT scope. Input temp rn_cp_pick (1..presets): puts that preset into rn_cp_r/g/b.
 rn_cp_load_preset = {
 	if = { limit = { check_variable = { temp_var:rn_cp_pick = 1 } } set_variable = { rn_cp_r = 200 } set_variable = { rn_cp_g = 30 } set_variable = { rn_cp_b = 45 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 2 } } set_variable = { rn_cp_r = 230 } set_variable = { rn_cp_g = 70 } set_variable = { rn_cp_b = 30 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 3 } } set_variable = { rn_cp_r = 240 } set_variable = { rn_cp_g = 135 } set_variable = { rn_cp_b = 20 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 4 } } set_variable = { rn_cp_r = 245 } set_variable = { rn_cp_g = 185 } set_variable = { rn_cp_b = 40 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 5 } } set_variable = { rn_cp_r = 240 } set_variable = { rn_cp_g = 225 } set_variable = { rn_cp_b = 50 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 6 } } set_variable = { rn_cp_r = 140 } set_variable = { rn_cp_g = 150 } set_variable = { rn_cp_b = 40 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 7 } } set_variable = { rn_cp_r = 150 } set_variable = { rn_cp_g = 210 } set_variable = { rn_cp_b = 60 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 8 } } set_variable = { rn_cp_r = 40 } set_variable = { rn_cp_g = 160 } set_variable = { rn_cp_b = 60 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 9 } } set_variable = { rn_cp_r = 25 } set_variable = { rn_cp_g = 100 } set_variable = { rn_cp_b = 45 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 10 } } set_variable = { rn_cp_r = 20 } set_variable = { rn_cp_g = 150 } set_variable = { rn_cp_b = 140 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 11 } } set_variable = { rn_cp_r = 60 } set_variable = { rn_cp_g = 200 } set_variable = { rn_cp_b = 200 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 12 } } set_variable = { rn_cp_r = 90 } set_variable = { rn_cp_g = 170 } set_variable = { rn_cp_b = 235 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 13 } } set_variable = { rn_cp_r = 30 } set_variable = { rn_cp_g = 90 } set_variable = { rn_cp_b = 200 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 14 } } set_variable = { rn_cp_r = 25 } set_variable = { rn_cp_g = 40 } set_variable = { rn_cp_b = 120 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 15 } } set_variable = { rn_cp_r = 75 } set_variable = { rn_cp_g = 50 } set_variable = { rn_cp_b = 160 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 16 } } set_variable = { rn_cp_r = 140 } set_variable = { rn_cp_g = 70 } set_variable = { rn_cp_b = 200 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 17 } } set_variable = { rn_cp_r = 110 } set_variable = { rn_cp_g = 30 } set_variable = { rn_cp_b = 110 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 18 } } set_variable = { rn_cp_r = 210 } set_variable = { rn_cp_g = 50 } set_variable = { rn_cp_b = 160 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 19 } } set_variable = { rn_cp_r = 240 } set_variable = { rn_cp_g = 140 } set_variable = { rn_cp_b = 180 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 20 } } set_variable = { rn_cp_r = 120 } set_variable = { rn_cp_g = 70 } set_variable = { rn_cp_b = 35 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 21 } } set_variable = { rn_cp_r = 200 } set_variable = { rn_cp_g = 160 } set_variable = { rn_cp_b = 110 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 22 } } set_variable = { rn_cp_r = 130 } set_variable = { rn_cp_g = 130 } set_variable = { rn_cp_b = 130 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 23 } } set_variable = { rn_cp_r = 235 } set_variable = { rn_cp_g = 235 } set_variable = { rn_cp_b = 230 } }
-	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 24 } } set_variable = { rn_cp_r = 35 } set_variable = { rn_cp_g = 35 } set_variable = { rn_cp_b = 35 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 2 } } set_variable = { rn_cp_r = 230 } set_variable = { rn_cp_g = 50 } set_variable = { rn_cp_b = 40 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 3 } } set_variable = { rn_cp_r = 220 } set_variable = { rn_cp_g = 20 } set_variable = { rn_cp_b = 20 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 4 } } set_variable = { rn_cp_r = 140 } set_variable = { rn_cp_g = 15 } set_variable = { rn_cp_b = 20 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 5 } } set_variable = { rn_cp_r = 110 } set_variable = { rn_cp_g = 25 } set_variable = { rn_cp_b = 40 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 6 } } set_variable = { rn_cp_r = 230 } set_variable = { rn_cp_g = 80 } set_variable = { rn_cp_b = 110 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 7 } } set_variable = { rn_cp_r = 240 } set_variable = { rn_cp_g = 140 } set_variable = { rn_cp_b = 180 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 8 } } set_variable = { rn_cp_r = 250 } set_variable = { rn_cp_g = 190 } set_variable = { rn_cp_b = 210 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 9 } } set_variable = { rn_cp_r = 250 } set_variable = { rn_cp_g = 128 } set_variable = { rn_cp_b = 114 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 10 } } set_variable = { rn_cp_r = 240 } set_variable = { rn_cp_g = 100 } set_variable = { rn_cp_b = 80 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 11 } } set_variable = { rn_cp_r = 240 } set_variable = { rn_cp_g = 135 } set_variable = { rn_cp_b = 20 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 12 } } set_variable = { rn_cp_r = 220 } set_variable = { rn_cp_g = 100 } set_variable = { rn_cp_b = 10 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 13 } } set_variable = { rn_cp_r = 250 } set_variable = { rn_cp_g = 160 } set_variable = { rn_cp_b = 60 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 14 } } set_variable = { rn_cp_r = 250 } set_variable = { rn_cp_g = 190 } set_variable = { rn_cp_b = 140 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 15 } } set_variable = { rn_cp_r = 180 } set_variable = { rn_cp_g = 70 } set_variable = { rn_cp_b = 30 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 16 } } set_variable = { rn_cp_r = 185 } set_variable = { rn_cp_g = 110 } set_variable = { rn_cp_b = 60 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 17 } } set_variable = { rn_cp_r = 120 } set_variable = { rn_cp_g = 70 } set_variable = { rn_cp_b = 35 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 18 } } set_variable = { rn_cp_r = 90 } set_variable = { rn_cp_g = 50 } set_variable = { rn_cp_b = 25 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 19 } } set_variable = { rn_cp_r = 200 } set_variable = { rn_cp_g = 160 } set_variable = { rn_cp_b = 110 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 20 } } set_variable = { rn_cp_r = 190 } set_variable = { rn_cp_g = 170 } set_variable = { rn_cp_b = 110 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 21 } } set_variable = { rn_cp_r = 245 } set_variable = { rn_cp_g = 185 } set_variable = { rn_cp_b = 40 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 22 } } set_variable = { rn_cp_r = 230 } set_variable = { rn_cp_g = 190 } set_variable = { rn_cp_b = 30 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 23 } } set_variable = { rn_cp_r = 240 } set_variable = { rn_cp_g = 225 } set_variable = { rn_cp_b = 50 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 24 } } set_variable = { rn_cp_r = 250 } set_variable = { rn_cp_g = 240 } set_variable = { rn_cp_b = 120 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 25 } } set_variable = { rn_cp_r = 245 } set_variable = { rn_cp_g = 235 } set_variable = { rn_cp_b = 190 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 26 } } set_variable = { rn_cp_r = 225 } set_variable = { rn_cp_g = 200 } set_variable = { rn_cp_b = 120 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 27 } } set_variable = { rn_cp_r = 200 } set_variable = { rn_cp_g = 170 } set_variable = { rn_cp_b = 40 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 28 } } set_variable = { rn_cp_r = 190 } set_variable = { rn_cp_g = 140 } set_variable = { rn_cp_b = 40 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 29 } } set_variable = { rn_cp_r = 140 } set_variable = { rn_cp_g = 150 } set_variable = { rn_cp_b = 40 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 30 } } set_variable = { rn_cp_r = 90 } set_variable = { rn_cp_g = 100 } set_variable = { rn_cp_b = 40 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 31 } } set_variable = { rn_cp_r = 150 } set_variable = { rn_cp_g = 210 } set_variable = { rn_cp_b = 60 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 32 } } set_variable = { rn_cp_r = 140 } set_variable = { rn_cp_g = 220 } set_variable = { rn_cp_b = 120 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 33 } } set_variable = { rn_cp_r = 30 } set_variable = { rn_cp_g = 200 } set_variable = { rn_cp_b = 80 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 34 } } set_variable = { rn_cp_r = 40 } set_variable = { rn_cp_g = 160 } set_variable = { rn_cp_b = 60 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 35 } } set_variable = { rn_cp_r = 20 } set_variable = { rn_cp_g = 150 } set_variable = { rn_cp_b = 90 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 36 } } set_variable = { rn_cp_r = 25 } set_variable = { rn_cp_g = 100 } set_variable = { rn_cp_b = 45 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 37 } } set_variable = { rn_cp_r = 15 } set_variable = { rn_cp_g = 70 } set_variable = { rn_cp_b = 30 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 38 } } set_variable = { rn_cp_r = 140 } set_variable = { rn_cp_g = 170 } set_variable = { rn_cp_b = 120 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 39 } } set_variable = { rn_cp_r = 100 } set_variable = { rn_cp_g = 120 } set_variable = { rn_cp_b = 60 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 40 } } set_variable = { rn_cp_r = 150 } set_variable = { rn_cp_g = 230 } set_variable = { rn_cp_b = 180 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 41 } } set_variable = { rn_cp_r = 20 } set_variable = { rn_cp_g = 150 } set_variable = { rn_cp_b = 140 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 42 } } set_variable = { rn_cp_r = 15 } set_variable = { rn_cp_g = 95 } set_variable = { rn_cp_b = 95 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 43 } } set_variable = { rn_cp_r = 46 } set_variable = { rn_cp_g = 139 } set_variable = { rn_cp_b = 110 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 44 } } set_variable = { rn_cp_r = 60 } set_variable = { rn_cp_g = 200 } set_variable = { rn_cp_b = 200 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 45 } } set_variable = { rn_cp_r = 100 } set_variable = { rn_cp_g = 220 } set_variable = { rn_cp_b = 190 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 46 } } set_variable = { rn_cp_r = 30 } set_variable = { rn_cp_g = 210 } set_variable = { rn_cp_b = 230 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 47 } } set_variable = { rn_cp_r = 160 } set_variable = { rn_cp_g = 230 } set_variable = { rn_cp_b = 240 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 48 } } set_variable = { rn_cp_r = 20 } set_variable = { rn_cp_g = 110 } set_variable = { rn_cp_b = 130 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 49 } } set_variable = { rn_cp_r = 70 } set_variable = { rn_cp_g = 130 } set_variable = { rn_cp_b = 170 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 50 } } set_variable = { rn_cp_r = 90 } set_variable = { rn_cp_g = 110 } set_variable = { rn_cp_b = 130 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 51 } } set_variable = { rn_cp_r = 90 } set_variable = { rn_cp_g = 170 } set_variable = { rn_cp_b = 235 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 52 } } set_variable = { rn_cp_r = 150 } set_variable = { rn_cp_g = 200 } set_variable = { rn_cp_b = 245 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 53 } } set_variable = { rn_cp_r = 40 } set_variable = { rn_cp_g = 130 } set_variable = { rn_cp_b = 230 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 54 } } set_variable = { rn_cp_r = 100 } set_variable = { rn_cp_g = 140 } set_variable = { rn_cp_b = 230 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 55 } } set_variable = { rn_cp_r = 30 } set_variable = { rn_cp_g = 90 } set_variable = { rn_cp_b = 200 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 56 } } set_variable = { rn_cp_r = 50 } set_variable = { rn_cp_g = 70 } set_variable = { rn_cp_b = 190 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 57 } } set_variable = { rn_cp_r = 0 } set_variable = { rn_cp_g = 70 } set_variable = { rn_cp_b = 170 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 58 } } set_variable = { rn_cp_r = 25 } set_variable = { rn_cp_g = 40 } set_variable = { rn_cp_b = 120 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 59 } } set_variable = { rn_cp_r = 20 } set_variable = { rn_cp_g = 25 } set_variable = { rn_cp_b = 80 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 60 } } set_variable = { rn_cp_r = 150 } set_variable = { rn_cp_g = 150 } set_variable = { rn_cp_b = 230 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 61 } } set_variable = { rn_cp_r = 75 } set_variable = { rn_cp_g = 50 } set_variable = { rn_cp_b = 160 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 62 } } set_variable = { rn_cp_r = 140 } set_variable = { rn_cp_g = 70 } set_variable = { rn_cp_b = 200 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 63 } } set_variable = { rn_cp_r = 190 } set_variable = { rn_cp_g = 160 } set_variable = { rn_cp_b = 230 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 64 } } set_variable = { rn_cp_r = 200 } set_variable = { rn_cp_g = 140 } set_variable = { rn_cp_b = 200 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 65 } } set_variable = { rn_cp_r = 110 } set_variable = { rn_cp_g = 30 } set_variable = { rn_cp_b = 110 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 66 } } set_variable = { rn_cp_r = 140 } set_variable = { rn_cp_g = 60 } set_variable = { rn_cp_b = 120 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 67 } } set_variable = { rn_cp_r = 170 } set_variable = { rn_cp_g = 110 } set_variable = { rn_cp_b = 150 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 68 } } set_variable = { rn_cp_r = 210 } set_variable = { rn_cp_g = 50 } set_variable = { rn_cp_b = 160 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 69 } } set_variable = { rn_cp_r = 240 } set_variable = { rn_cp_g = 60 } set_variable = { rn_cp_b = 200 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 70 } } set_variable = { rn_cp_r = 100 } set_variable = { rn_cp_g = 20 } set_variable = { rn_cp_b = 60 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 71 } } set_variable = { rn_cp_r = 235 } set_variable = { rn_cp_g = 235 } set_variable = { rn_cp_b = 230 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 72 } } set_variable = { rn_cp_r = 240 } set_variable = { rn_cp_g = 230 } set_variable = { rn_cp_b = 210 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 73 } } set_variable = { rn_cp_r = 210 } set_variable = { rn_cp_g = 195 } set_variable = { rn_cp_b = 165 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 74 } } set_variable = { rn_cp_r = 190 } set_variable = { rn_cp_g = 190 } set_variable = { rn_cp_b = 190 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 75 } } set_variable = { rn_cp_r = 160 } set_variable = { rn_cp_g = 165 } set_variable = { rn_cp_b = 170 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 76 } } set_variable = { rn_cp_r = 130 } set_variable = { rn_cp_g = 130 } set_variable = { rn_cp_b = 130 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 77 } } set_variable = { rn_cp_r = 120 } set_variable = { rn_cp_g = 105 } set_variable = { rn_cp_b = 90 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 78 } } set_variable = { rn_cp_r = 80 } set_variable = { rn_cp_g = 80 } set_variable = { rn_cp_b = 80 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 79 } } set_variable = { rn_cp_r = 55 } set_variable = { rn_cp_g = 55 } set_variable = { rn_cp_b = 60 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 80 } } set_variable = { rn_cp_r = 35 } set_variable = { rn_cp_g = 35 } set_variable = { rn_cp_b = 35 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 81 } } set_variable = { rn_cp_r = 102 } set_variable = { rn_cp_g = 96 } set_variable = { rn_cp_b = 87 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 82 } } set_variable = { rn_cp_r = 201 } set_variable = { rn_cp_g = 56 } set_variable = { rn_cp_b = 93 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 83 } } set_variable = { rn_cp_r = 57 } set_variable = { rn_cp_g = 113 } set_variable = { rn_cp_b = 228 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 84 } } set_variable = { rn_cp_r = 125 } set_variable = { rn_cp_g = 13 } set_variable = { rn_cp_b = 24 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 85 } } set_variable = { rn_cp_r = 67 } set_variable = { rn_cp_g = 127 } set_variable = { rn_cp_b = 63 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 86 } } set_variable = { rn_cp_r = 20 } set_variable = { rn_cp_g = 133 } set_variable = { rn_cp_b = 237 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 87 } } set_variable = { rn_cp_r = 255 } set_variable = { rn_cp_g = 201 } set_variable = { rn_cp_b = 178 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 88 } } set_variable = { rn_cp_r = 40 } set_variable = { rn_cp_g = 40 } set_variable = { rn_cp_b = 140 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 89 } } set_variable = { rn_cp_r = 214 } set_variable = { rn_cp_g = 102 } set_variable = { rn_cp_b = 139 } }
+	else_if = { limit = { check_variable = { temp_var:rn_cp_pick = 90 } } set_variable = { rn_cp_r = 242 } set_variable = { rn_cp_g = 205 } set_variable = { rn_cp_b = 94 } }
 }
 
 # ROOT scope. rn_cp_sel = the preset whose colour is rn_cp_r/g/b, 0 when none is.
 rn_cp_match_preset = {
 	set_variable = { rn_cp_sel = 0 }
 	if = { limit = { check_variable = { rn_cp_r = 200 } check_variable = { rn_cp_g = 30 } check_variable = { rn_cp_b = 45 } } set_variable = { rn_cp_sel = 1 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 230 } check_variable = { rn_cp_g = 70 } check_variable = { rn_cp_b = 30 } } set_variable = { rn_cp_sel = 2 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 240 } check_variable = { rn_cp_g = 135 } check_variable = { rn_cp_b = 20 } } set_variable = { rn_cp_sel = 3 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 245 } check_variable = { rn_cp_g = 185 } check_variable = { rn_cp_b = 40 } } set_variable = { rn_cp_sel = 4 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 240 } check_variable = { rn_cp_g = 225 } check_variable = { rn_cp_b = 50 } } set_variable = { rn_cp_sel = 5 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 140 } check_variable = { rn_cp_g = 150 } check_variable = { rn_cp_b = 40 } } set_variable = { rn_cp_sel = 6 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 150 } check_variable = { rn_cp_g = 210 } check_variable = { rn_cp_b = 60 } } set_variable = { rn_cp_sel = 7 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 40 } check_variable = { rn_cp_g = 160 } check_variable = { rn_cp_b = 60 } } set_variable = { rn_cp_sel = 8 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 25 } check_variable = { rn_cp_g = 100 } check_variable = { rn_cp_b = 45 } } set_variable = { rn_cp_sel = 9 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 20 } check_variable = { rn_cp_g = 150 } check_variable = { rn_cp_b = 140 } } set_variable = { rn_cp_sel = 10 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 60 } check_variable = { rn_cp_g = 200 } check_variable = { rn_cp_b = 200 } } set_variable = { rn_cp_sel = 11 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 90 } check_variable = { rn_cp_g = 170 } check_variable = { rn_cp_b = 235 } } set_variable = { rn_cp_sel = 12 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 30 } check_variable = { rn_cp_g = 90 } check_variable = { rn_cp_b = 200 } } set_variable = { rn_cp_sel = 13 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 25 } check_variable = { rn_cp_g = 40 } check_variable = { rn_cp_b = 120 } } set_variable = { rn_cp_sel = 14 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 75 } check_variable = { rn_cp_g = 50 } check_variable = { rn_cp_b = 160 } } set_variable = { rn_cp_sel = 15 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 140 } check_variable = { rn_cp_g = 70 } check_variable = { rn_cp_b = 200 } } set_variable = { rn_cp_sel = 16 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 110 } check_variable = { rn_cp_g = 30 } check_variable = { rn_cp_b = 110 } } set_variable = { rn_cp_sel = 17 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 210 } check_variable = { rn_cp_g = 50 } check_variable = { rn_cp_b = 160 } } set_variable = { rn_cp_sel = 18 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 240 } check_variable = { rn_cp_g = 140 } check_variable = { rn_cp_b = 180 } } set_variable = { rn_cp_sel = 19 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 120 } check_variable = { rn_cp_g = 70 } check_variable = { rn_cp_b = 35 } } set_variable = { rn_cp_sel = 20 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 200 } check_variable = { rn_cp_g = 160 } check_variable = { rn_cp_b = 110 } } set_variable = { rn_cp_sel = 21 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 130 } check_variable = { rn_cp_g = 130 } check_variable = { rn_cp_b = 130 } } set_variable = { rn_cp_sel = 22 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 235 } check_variable = { rn_cp_g = 235 } check_variable = { rn_cp_b = 230 } } set_variable = { rn_cp_sel = 23 } }
-	else_if = { limit = { check_variable = { rn_cp_r = 35 } check_variable = { rn_cp_g = 35 } check_variable = { rn_cp_b = 35 } } set_variable = { rn_cp_sel = 24 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 230 } check_variable = { rn_cp_g = 50 } check_variable = { rn_cp_b = 40 } } set_variable = { rn_cp_sel = 2 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 220 } check_variable = { rn_cp_g = 20 } check_variable = { rn_cp_b = 20 } } set_variable = { rn_cp_sel = 3 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 140 } check_variable = { rn_cp_g = 15 } check_variable = { rn_cp_b = 20 } } set_variable = { rn_cp_sel = 4 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 110 } check_variable = { rn_cp_g = 25 } check_variable = { rn_cp_b = 40 } } set_variable = { rn_cp_sel = 5 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 230 } check_variable = { rn_cp_g = 80 } check_variable = { rn_cp_b = 110 } } set_variable = { rn_cp_sel = 6 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 240 } check_variable = { rn_cp_g = 140 } check_variable = { rn_cp_b = 180 } } set_variable = { rn_cp_sel = 7 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 250 } check_variable = { rn_cp_g = 190 } check_variable = { rn_cp_b = 210 } } set_variable = { rn_cp_sel = 8 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 250 } check_variable = { rn_cp_g = 128 } check_variable = { rn_cp_b = 114 } } set_variable = { rn_cp_sel = 9 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 240 } check_variable = { rn_cp_g = 100 } check_variable = { rn_cp_b = 80 } } set_variable = { rn_cp_sel = 10 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 240 } check_variable = { rn_cp_g = 135 } check_variable = { rn_cp_b = 20 } } set_variable = { rn_cp_sel = 11 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 220 } check_variable = { rn_cp_g = 100 } check_variable = { rn_cp_b = 10 } } set_variable = { rn_cp_sel = 12 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 250 } check_variable = { rn_cp_g = 160 } check_variable = { rn_cp_b = 60 } } set_variable = { rn_cp_sel = 13 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 250 } check_variable = { rn_cp_g = 190 } check_variable = { rn_cp_b = 140 } } set_variable = { rn_cp_sel = 14 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 180 } check_variable = { rn_cp_g = 70 } check_variable = { rn_cp_b = 30 } } set_variable = { rn_cp_sel = 15 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 185 } check_variable = { rn_cp_g = 110 } check_variable = { rn_cp_b = 60 } } set_variable = { rn_cp_sel = 16 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 120 } check_variable = { rn_cp_g = 70 } check_variable = { rn_cp_b = 35 } } set_variable = { rn_cp_sel = 17 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 90 } check_variable = { rn_cp_g = 50 } check_variable = { rn_cp_b = 25 } } set_variable = { rn_cp_sel = 18 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 200 } check_variable = { rn_cp_g = 160 } check_variable = { rn_cp_b = 110 } } set_variable = { rn_cp_sel = 19 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 190 } check_variable = { rn_cp_g = 170 } check_variable = { rn_cp_b = 110 } } set_variable = { rn_cp_sel = 20 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 245 } check_variable = { rn_cp_g = 185 } check_variable = { rn_cp_b = 40 } } set_variable = { rn_cp_sel = 21 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 230 } check_variable = { rn_cp_g = 190 } check_variable = { rn_cp_b = 30 } } set_variable = { rn_cp_sel = 22 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 240 } check_variable = { rn_cp_g = 225 } check_variable = { rn_cp_b = 50 } } set_variable = { rn_cp_sel = 23 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 250 } check_variable = { rn_cp_g = 240 } check_variable = { rn_cp_b = 120 } } set_variable = { rn_cp_sel = 24 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 245 } check_variable = { rn_cp_g = 235 } check_variable = { rn_cp_b = 190 } } set_variable = { rn_cp_sel = 25 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 225 } check_variable = { rn_cp_g = 200 } check_variable = { rn_cp_b = 120 } } set_variable = { rn_cp_sel = 26 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 200 } check_variable = { rn_cp_g = 170 } check_variable = { rn_cp_b = 40 } } set_variable = { rn_cp_sel = 27 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 190 } check_variable = { rn_cp_g = 140 } check_variable = { rn_cp_b = 40 } } set_variable = { rn_cp_sel = 28 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 140 } check_variable = { rn_cp_g = 150 } check_variable = { rn_cp_b = 40 } } set_variable = { rn_cp_sel = 29 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 90 } check_variable = { rn_cp_g = 100 } check_variable = { rn_cp_b = 40 } } set_variable = { rn_cp_sel = 30 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 150 } check_variable = { rn_cp_g = 210 } check_variable = { rn_cp_b = 60 } } set_variable = { rn_cp_sel = 31 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 140 } check_variable = { rn_cp_g = 220 } check_variable = { rn_cp_b = 120 } } set_variable = { rn_cp_sel = 32 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 30 } check_variable = { rn_cp_g = 200 } check_variable = { rn_cp_b = 80 } } set_variable = { rn_cp_sel = 33 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 40 } check_variable = { rn_cp_g = 160 } check_variable = { rn_cp_b = 60 } } set_variable = { rn_cp_sel = 34 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 20 } check_variable = { rn_cp_g = 150 } check_variable = { rn_cp_b = 90 } } set_variable = { rn_cp_sel = 35 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 25 } check_variable = { rn_cp_g = 100 } check_variable = { rn_cp_b = 45 } } set_variable = { rn_cp_sel = 36 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 15 } check_variable = { rn_cp_g = 70 } check_variable = { rn_cp_b = 30 } } set_variable = { rn_cp_sel = 37 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 140 } check_variable = { rn_cp_g = 170 } check_variable = { rn_cp_b = 120 } } set_variable = { rn_cp_sel = 38 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 100 } check_variable = { rn_cp_g = 120 } check_variable = { rn_cp_b = 60 } } set_variable = { rn_cp_sel = 39 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 150 } check_variable = { rn_cp_g = 230 } check_variable = { rn_cp_b = 180 } } set_variable = { rn_cp_sel = 40 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 20 } check_variable = { rn_cp_g = 150 } check_variable = { rn_cp_b = 140 } } set_variable = { rn_cp_sel = 41 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 15 } check_variable = { rn_cp_g = 95 } check_variable = { rn_cp_b = 95 } } set_variable = { rn_cp_sel = 42 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 46 } check_variable = { rn_cp_g = 139 } check_variable = { rn_cp_b = 110 } } set_variable = { rn_cp_sel = 43 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 60 } check_variable = { rn_cp_g = 200 } check_variable = { rn_cp_b = 200 } } set_variable = { rn_cp_sel = 44 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 100 } check_variable = { rn_cp_g = 220 } check_variable = { rn_cp_b = 190 } } set_variable = { rn_cp_sel = 45 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 30 } check_variable = { rn_cp_g = 210 } check_variable = { rn_cp_b = 230 } } set_variable = { rn_cp_sel = 46 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 160 } check_variable = { rn_cp_g = 230 } check_variable = { rn_cp_b = 240 } } set_variable = { rn_cp_sel = 47 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 20 } check_variable = { rn_cp_g = 110 } check_variable = { rn_cp_b = 130 } } set_variable = { rn_cp_sel = 48 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 70 } check_variable = { rn_cp_g = 130 } check_variable = { rn_cp_b = 170 } } set_variable = { rn_cp_sel = 49 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 90 } check_variable = { rn_cp_g = 110 } check_variable = { rn_cp_b = 130 } } set_variable = { rn_cp_sel = 50 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 90 } check_variable = { rn_cp_g = 170 } check_variable = { rn_cp_b = 235 } } set_variable = { rn_cp_sel = 51 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 150 } check_variable = { rn_cp_g = 200 } check_variable = { rn_cp_b = 245 } } set_variable = { rn_cp_sel = 52 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 40 } check_variable = { rn_cp_g = 130 } check_variable = { rn_cp_b = 230 } } set_variable = { rn_cp_sel = 53 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 100 } check_variable = { rn_cp_g = 140 } check_variable = { rn_cp_b = 230 } } set_variable = { rn_cp_sel = 54 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 30 } check_variable = { rn_cp_g = 90 } check_variable = { rn_cp_b = 200 } } set_variable = { rn_cp_sel = 55 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 50 } check_variable = { rn_cp_g = 70 } check_variable = { rn_cp_b = 190 } } set_variable = { rn_cp_sel = 56 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 0 } check_variable = { rn_cp_g = 70 } check_variable = { rn_cp_b = 170 } } set_variable = { rn_cp_sel = 57 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 25 } check_variable = { rn_cp_g = 40 } check_variable = { rn_cp_b = 120 } } set_variable = { rn_cp_sel = 58 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 20 } check_variable = { rn_cp_g = 25 } check_variable = { rn_cp_b = 80 } } set_variable = { rn_cp_sel = 59 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 150 } check_variable = { rn_cp_g = 150 } check_variable = { rn_cp_b = 230 } } set_variable = { rn_cp_sel = 60 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 75 } check_variable = { rn_cp_g = 50 } check_variable = { rn_cp_b = 160 } } set_variable = { rn_cp_sel = 61 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 140 } check_variable = { rn_cp_g = 70 } check_variable = { rn_cp_b = 200 } } set_variable = { rn_cp_sel = 62 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 190 } check_variable = { rn_cp_g = 160 } check_variable = { rn_cp_b = 230 } } set_variable = { rn_cp_sel = 63 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 200 } check_variable = { rn_cp_g = 140 } check_variable = { rn_cp_b = 200 } } set_variable = { rn_cp_sel = 64 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 110 } check_variable = { rn_cp_g = 30 } check_variable = { rn_cp_b = 110 } } set_variable = { rn_cp_sel = 65 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 140 } check_variable = { rn_cp_g = 60 } check_variable = { rn_cp_b = 120 } } set_variable = { rn_cp_sel = 66 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 170 } check_variable = { rn_cp_g = 110 } check_variable = { rn_cp_b = 150 } } set_variable = { rn_cp_sel = 67 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 210 } check_variable = { rn_cp_g = 50 } check_variable = { rn_cp_b = 160 } } set_variable = { rn_cp_sel = 68 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 240 } check_variable = { rn_cp_g = 60 } check_variable = { rn_cp_b = 200 } } set_variable = { rn_cp_sel = 69 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 100 } check_variable = { rn_cp_g = 20 } check_variable = { rn_cp_b = 60 } } set_variable = { rn_cp_sel = 70 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 235 } check_variable = { rn_cp_g = 235 } check_variable = { rn_cp_b = 230 } } set_variable = { rn_cp_sel = 71 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 240 } check_variable = { rn_cp_g = 230 } check_variable = { rn_cp_b = 210 } } set_variable = { rn_cp_sel = 72 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 210 } check_variable = { rn_cp_g = 195 } check_variable = { rn_cp_b = 165 } } set_variable = { rn_cp_sel = 73 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 190 } check_variable = { rn_cp_g = 190 } check_variable = { rn_cp_b = 190 } } set_variable = { rn_cp_sel = 74 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 160 } check_variable = { rn_cp_g = 165 } check_variable = { rn_cp_b = 170 } } set_variable = { rn_cp_sel = 75 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 130 } check_variable = { rn_cp_g = 130 } check_variable = { rn_cp_b = 130 } } set_variable = { rn_cp_sel = 76 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 120 } check_variable = { rn_cp_g = 105 } check_variable = { rn_cp_b = 90 } } set_variable = { rn_cp_sel = 77 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 80 } check_variable = { rn_cp_g = 80 } check_variable = { rn_cp_b = 80 } } set_variable = { rn_cp_sel = 78 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 55 } check_variable = { rn_cp_g = 55 } check_variable = { rn_cp_b = 60 } } set_variable = { rn_cp_sel = 79 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 35 } check_variable = { rn_cp_g = 35 } check_variable = { rn_cp_b = 35 } } set_variable = { rn_cp_sel = 80 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 102 } check_variable = { rn_cp_g = 96 } check_variable = { rn_cp_b = 87 } } set_variable = { rn_cp_sel = 81 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 201 } check_variable = { rn_cp_g = 56 } check_variable = { rn_cp_b = 93 } } set_variable = { rn_cp_sel = 82 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 57 } check_variable = { rn_cp_g = 113 } check_variable = { rn_cp_b = 228 } } set_variable = { rn_cp_sel = 83 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 125 } check_variable = { rn_cp_g = 13 } check_variable = { rn_cp_b = 24 } } set_variable = { rn_cp_sel = 84 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 67 } check_variable = { rn_cp_g = 127 } check_variable = { rn_cp_b = 63 } } set_variable = { rn_cp_sel = 85 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 20 } check_variable = { rn_cp_g = 133 } check_variable = { rn_cp_b = 237 } } set_variable = { rn_cp_sel = 86 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 255 } check_variable = { rn_cp_g = 201 } check_variable = { rn_cp_b = 178 } } set_variable = { rn_cp_sel = 87 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 40 } check_variable = { rn_cp_g = 40 } check_variable = { rn_cp_b = 140 } } set_variable = { rn_cp_sel = 88 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 214 } check_variable = { rn_cp_g = 102 } check_variable = { rn_cp_b = 139 } } set_variable = { rn_cp_sel = 89 } }
+	else_if = { limit = { check_variable = { rn_cp_r = 242 } check_variable = { rn_cp_g = 205 } check_variable = { rn_cp_b = 94 } } set_variable = { rn_cp_sel = 90 } }
+}
+
+# Country scope. The game's map colour of this country, read from the game's files
+# (383 cosmetic tags of common/countries/cosmetic.txt first,
+# then 254 tags of common/countries/colors.txt). Output temps
+# rn_cp_nr, rn_cp_ng, rn_cp_nb and rn_cp_nk (1 = known; 0 for a dynamic tag or
+# another mod's tag). The colours are the base game's: a mod that recolours a
+# country is not seen.
+rn_cp_native = {
+	set_temp_variable = { rn_cp_nk = 0 }
+	if = { limit = { has_cosmetic_tag = AFG_BUK_emirate } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = AFG_central_asia } set_temp_variable = { rn_cp_nr = 41 } set_temp_variable = { rn_cp_ng = 82 } set_temp_variable = { rn_cp_nb = 163 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = AFG_confederation_pak } set_temp_variable = { rn_cp_nr = 48 } set_temp_variable = { rn_cp_ng = 96 } set_temp_variable = { rn_cp_nb = 48 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = AFG_mughal_emirate } set_temp_variable = { rn_cp_nr = 48 } set_temp_variable = { rn_cp_ng = 96 } set_temp_variable = { rn_cp_nb = 48 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = AFG_second_empire } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = AFG_tribal_rebels_tag } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 77 } set_temp_variable = { rn_cp_nb = 77 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = AFG_wazir_caliphate } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 77 } set_temp_variable = { rn_cp_nb = 77 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ARA_UNIFIED } set_temp_variable = { rn_cp_nr = 85 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ARG_fourth_reich_fascism } set_temp_variable = { rn_cp_nr = 106 } set_temp_variable = { rn_cp_ng = 119 } set_temp_variable = { rn_cp_nb = 89 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ARG_independent_democracy_democratic } set_temp_variable = { rn_cp_nr = 170 } set_temp_variable = { rn_cp_ng = 169 } set_temp_variable = { rn_cp_nb = 173 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ARG_independent_socialist_communism } set_temp_variable = { rn_cp_nr = 80 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 20 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ARG_military_union_south_america } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 56 } set_temp_variable = { rn_cp_nb = 55 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ARG_nationalist_union_south_america_fascism } set_temp_variable = { rn_cp_nr = 2 } set_temp_variable = { rn_cp_ng = 2 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ARG_soviet_aligned_communism } set_temp_variable = { rn_cp_nr = 99 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ARM_UK } set_temp_variable = { rn_cp_nr = 201 } set_temp_variable = { rn_cp_ng = 56 } set_temp_variable = { rn_cp_nb = 93 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = AST_australasia } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 180 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = AST_monarchy } set_temp_variable = { rn_cp_nr = 218 } set_temp_variable = { rn_cp_ng = 165 } set_temp_variable = { rn_cp_nb = 32 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = AUS_NOT_WHITE } set_temp_variable = { rn_cp_nr = 249 } set_temp_variable = { rn_cp_ng = 126 } set_temp_variable = { rn_cp_nb = 98 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = AUS_liechtenstein } set_temp_variable = { rn_cp_nr = 39 } set_temp_variable = { rn_cp_ng = 46 } set_temp_variable = { rn_cp_nb = 160 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = AUS_true_liechtenstein } set_temp_variable = { rn_cp_nr = 39 } set_temp_variable = { rn_cp_ng = 46 } set_temp_variable = { rn_cp_nb = 160 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BAL_UNIFIED } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 102 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BEL_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BEL_beligca } set_temp_variable = { rn_cp_nr = 153 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BEL_burgundy } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 32 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BEL_european_union_leader } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 51 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BEL_flanders } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BEL_greater_netherlands } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BEL_reichskommissariat } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BEL_vnv_dominant } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BLR_reichskommissariat } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BOL_orelia } set_temp_variable = { rn_cp_nr = 85 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BOS_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BRA_america_do_sul } set_temp_variable = { rn_cp_nr = 69 } set_temp_variable = { rn_cp_ng = 192 } set_temp_variable = { rn_cp_nb = 201 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BRA_union_of_latin_american_socialist_republics_cos_tag } set_temp_variable = { rn_cp_nr = 166 } set_temp_variable = { rn_cp_ng = 49 } set_temp_variable = { rn_cp_nb = 49 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BRA_united_states_of_south_america_cos_tag } set_temp_variable = { rn_cp_nr = 37 } set_temp_variable = { rn_cp_ng = 55 } set_temp_variable = { rn_cp_nb = 129 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BRM_british } set_temp_variable = { rn_cp_nr = 201 } set_temp_variable = { rn_cp_ng = 56 } set_temp_variable = { rn_cp_nb = 93 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BRM_state_of_burma_japanese_splinter_tag } set_temp_variable = { rn_cp_nr = 85 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BUL_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BUL_ff_bulgaria } set_temp_variable = { rn_cp_nr = 158 } set_temp_variable = { rn_cp_ng = 36 } set_temp_variable = { rn_cp_nb = 30 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BUL_zveno_bulgaria } set_temp_variable = { rn_cp_nr = 215 } set_temp_variable = { rn_cp_ng = 210 } set_temp_variable = { rn_cp_nb = 204 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BYZ_UNIFIED } set_temp_variable = { rn_cp_nr = 143 } set_temp_variable = { rn_cp_ng = 12 } set_temp_variable = { rn_cp_nb = 125 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BYZ_UNIFIED_communism } set_temp_variable = { rn_cp_nr = 143 } set_temp_variable = { rn_cp_ng = 12 } set_temp_variable = { rn_cp_nb = 125 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BYZ_UNIFIED_democratic } set_temp_variable = { rn_cp_nr = 143 } set_temp_variable = { rn_cp_ng = 12 } set_temp_variable = { rn_cp_nb = 125 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BYZ_UNIFIED_fascism } set_temp_variable = { rn_cp_nr = 143 } set_temp_variable = { rn_cp_ng = 12 } set_temp_variable = { rn_cp_nb = 125 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = BYZ_UNIFIED_neutrality } set_temp_variable = { rn_cp_nr = 143 } set_temp_variable = { rn_cp_ng = 12 } set_temp_variable = { rn_cp_nb = 125 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CAN_FREE } set_temp_variable = { rn_cp_nr = 233 } set_temp_variable = { rn_cp_ng = 59 } set_temp_variable = { rn_cp_nb = 59 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CAN_UK } set_temp_variable = { rn_cp_nr = 119 } set_temp_variable = { rn_cp_ng = 48 } set_temp_variable = { rn_cp_nb = 39 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CAN_north_america_dominion } set_temp_variable = { rn_cp_nr = 160 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CAT_aragon } set_temp_variable = { rn_cp_nr = 166 } set_temp_variable = { rn_cp_ng = 68 } set_temp_variable = { rn_cp_nb = 72 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CHI_dai_lis_peoples_state } set_temp_variable = { rn_cp_nr = 30 } set_temp_variable = { rn_cp_ng = 30 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CHI_great_ma } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CHI_great_yuan } set_temp_variable = { rn_cp_nr = 45 } set_temp_variable = { rn_cp_ng = 80 } set_temp_variable = { rn_cp_nb = 10 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CHI_panthay_empire } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CHI_power_struggle_defeated } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 130 } set_temp_variable = { rn_cp_nb = 191 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CHI_warlord_PRC } set_temp_variable = { rn_cp_nr = 245 } set_temp_variable = { rn_cp_ng = 12 } set_temp_variable = { rn_cp_nb = 55 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CHI_warlord_leader } set_temp_variable = { rn_cp_nr = 218 } set_temp_variable = { rn_cp_ng = 230 } set_temp_variable = { rn_cp_nb = 92 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CHL_amerindian_federation } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 204 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CHL_hispanic_union } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CHL_mapuche_state } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 204 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CHL_new_fatherland } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 224 } set_temp_variable = { rn_cp_nb = 102 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = COG_belgian_congo } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 71 } set_temp_variable = { rn_cp_nb = 179 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = COG_kingdom_of_burundi } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = COG_kingdom_of_kongo } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 179 } set_temp_variable = { rn_cp_nb = 179 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = COG_kingdom_of_kuba } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = COG_kingdom_of_loango } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = COG_kingdom_of_rwanda } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 179 } set_temp_variable = { rn_cp_nb = 89 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = COG_mittelafrikan_kingdom } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = COG_peoples_republic_of_congo } set_temp_variable = { rn_cp_nr = 179 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CRO_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CYP_UK } set_temp_variable = { rn_cp_nr = 201 } set_temp_variable = { rn_cp_ng = 56 } set_temp_variable = { rn_cp_nb = 93 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CZE_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CZE_CEF } set_temp_variable = { rn_cp_nr = 85 } set_temp_variable = { rn_cp_ng = 200 } set_temp_variable = { rn_cp_nb = 203 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CZE_CEF_puppet } set_temp_variable = { rn_cp_nr = 85 } set_temp_variable = { rn_cp_ng = 200 } set_temp_variable = { rn_cp_nb = 203 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CZE_SLO_bohemia_expansion } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 166 } set_temp_variable = { rn_cp_nb = 2 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CZE_fascist_color } set_temp_variable = { rn_cp_nr = 47 } set_temp_variable = { rn_cp_ng = 141 } set_temp_variable = { rn_cp_nb = 130 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CZE_first_monarchy_color } set_temp_variable = { rn_cp_nr = 111 } set_temp_variable = { rn_cp_ng = 110 } set_temp_variable = { rn_cp_nb = 137 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CZE_great_moravia } set_temp_variable = { rn_cp_nr = 245 } set_temp_variable = { rn_cp_ng = 135 } set_temp_variable = { rn_cp_nb = 45 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CZE_puppet } set_temp_variable = { rn_cp_nr = 54 } set_temp_variable = { rn_cp_ng = 167 } set_temp_variable = { rn_cp_nb = 156 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CZE_union_expanded } set_temp_variable = { rn_cp_nr = 11 } set_temp_variable = { rn_cp_ng = 11 } set_temp_variable = { rn_cp_nb = 11 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = CZE_union_expanded_puppet } set_temp_variable = { rn_cp_nr = 11 } set_temp_variable = { rn_cp_ng = 11 } set_temp_variable = { rn_cp_nb = 11 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = DEN_greater_denmark } set_temp_variable = { rn_cp_nr = 218 } set_temp_variable = { rn_cp_ng = 41 } set_temp_variable = { rn_cp_nb = 28 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = DEN_imperial } set_temp_variable = { rn_cp_nr = 200 } set_temp_variable = { rn_cp_ng = 210 } set_temp_variable = { rn_cp_nb = 220 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = EGY_brit_puppet } set_temp_variable = { rn_cp_nr = 201 } set_temp_variable = { rn_cp_ng = 56 } set_temp_variable = { rn_cp_nb = 93 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ENE } set_temp_variable = { rn_cp_nr = 46 } set_temp_variable = { rn_cp_ng = 80 } set_temp_variable = { rn_cp_nb = 144 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ENG_imperial_federation_india_unified } set_temp_variable = { rn_cp_nr = 180 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ENG_imperial_federation_unified } set_temp_variable = { rn_cp_nr = 180 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = EST_FIN } set_temp_variable = { rn_cp_nr = 45 } set_temp_variable = { rn_cp_ng = 190 } set_temp_variable = { rn_cp_nb = 235 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = EST_UGRA } set_temp_variable = { rn_cp_nr = 20 } set_temp_variable = { rn_cp_ng = 175 } set_temp_variable = { rn_cp_nb = 145 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = EST_belarus } set_temp_variable = { rn_cp_nr = 141 } set_temp_variable = { rn_cp_ng = 2 } set_temp_variable = { rn_cp_nb = 31 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ESU_POR_unified } set_temp_variable = { rn_cp_nr = 253 } set_temp_variable = { rn_cp_ng = 232 } set_temp_variable = { rn_cp_nb = 129 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ETH_African_Union } set_temp_variable = { rn_cp_nr = 193 } set_temp_variable = { rn_cp_ng = 43 } set_temp_variable = { rn_cp_nb = 43 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ETH_African_Union_communism } set_temp_variable = { rn_cp_nr = 186 } set_temp_variable = { rn_cp_ng = 46 } set_temp_variable = { rn_cp_nb = 46 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ETH_ethiopian_federation } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 130 } set_temp_variable = { rn_cp_nb = 191 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = EUR_UNIFIED } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 51 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = FIN_confederated_finno_russian_republics } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 231 } set_temp_variable = { rn_cp_nb = 71 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = FIN_finnish_democratic_republic } set_temp_variable = { rn_cp_nr = 200 } set_temp_variable = { rn_cp_ng = 122 } set_temp_variable = { rn_cp_nb = 125 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = FIN_grand_finnish_federation } set_temp_variable = { rn_cp_nr = 167 } set_temp_variable = { rn_cp_ng = 195 } set_temp_variable = { rn_cp_nb = 187 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = FIN_greater_finland } set_temp_variable = { rn_cp_nr = 250 } set_temp_variable = { rn_cp_ng = 235 } set_temp_variable = { rn_cp_nb = 232 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = FIN_greater_kingdom_of_finland } set_temp_variable = { rn_cp_nr = 90 } set_temp_variable = { rn_cp_ng = 38 } set_temp_variable = { rn_cp_nb = 106 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = FIN_kingdom_of_finland } set_temp_variable = { rn_cp_nr = 126 } set_temp_variable = { rn_cp_ng = 59 } set_temp_variable = { rn_cp_nb = 110 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = FIN_red_finland } set_temp_variable = { rn_cp_nr = 254 } set_temp_variable = { rn_cp_ng = 26 } set_temp_variable = { rn_cp_nb = 63 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = FRA_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = FRA_VICHY } set_temp_variable = { rn_cp_nr = 80 } set_temp_variable = { rn_cp_ng = 168 } set_temp_variable = { rn_cp_nb = 181 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GCO_UNIFIED } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 255 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GER_civil_war } set_temp_variable = { rn_cp_nr = 102 } set_temp_variable = { rn_cp_ng = 96 } set_temp_variable = { rn_cp_nb = 87 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GER_communism } set_temp_variable = { rn_cp_nr = 175 } set_temp_variable = { rn_cp_ng = 20 } set_temp_variable = { rn_cp_nb = 60 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GER_german_empire } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GER_german_kaiserreich } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GER_german_monarchy } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GER_german_monarchy_conservative } set_temp_variable = { rn_cp_nr = 160 } set_temp_variable = { rn_cp_ng = 160 } set_temp_variable = { rn_cp_nb = 160 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GER_german_monarchy_democratic } set_temp_variable = { rn_cp_nr = 160 } set_temp_variable = { rn_cp_ng = 160 } set_temp_variable = { rn_cp_nb = 160 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GER_german_monarchy_liberal } set_temp_variable = { rn_cp_nr = 160 } set_temp_variable = { rn_cp_ng = 160 } set_temp_variable = { rn_cp_nb = 160 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GER_german_socialist_union } set_temp_variable = { rn_cp_nr = 125 } set_temp_variable = { rn_cp_ng = 20 } set_temp_variable = { rn_cp_nb = 50 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GER_greater_german_reich } set_temp_variable = { rn_cp_nr = 54 } set_temp_variable = { rn_cp_ng = 54 } set_temp_variable = { rn_cp_nb = 54 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GER_greater_proletarian_german_state } set_temp_variable = { rn_cp_nr = 90 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GER_peoples_republic } set_temp_variable = { rn_cp_nr = 175 } set_temp_variable = { rn_cp_ng = 20 } set_temp_variable = { rn_cp_nb = 60 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GER_provisional_gvt } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GER_strasserite_state } set_temp_variable = { rn_cp_nr = 54 } set_temp_variable = { rn_cp_ng = 54 } set_temp_variable = { rn_cp_nb = 54 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GOT } set_temp_variable = { rn_cp_nr = 65 } set_temp_variable = { rn_cp_ng = 194 } set_temp_variable = { rn_cp_nb = 171 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GREATER_LIT } set_temp_variable = { rn_cp_nr = 154 } set_temp_variable = { rn_cp_ng = 69 } set_temp_variable = { rn_cp_nb = 116 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_GREATER_GREECE_communism } set_temp_variable = { rn_cp_nr = 19 } set_temp_variable = { rn_cp_ng = 131 } set_temp_variable = { rn_cp_nb = 196 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_GREATER_GREECE_democratic } set_temp_variable = { rn_cp_nr = 19 } set_temp_variable = { rn_cp_ng = 131 } set_temp_variable = { rn_cp_nb = 196 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_GREATER_GREECE_fascism } set_temp_variable = { rn_cp_nr = 19 } set_temp_variable = { rn_cp_ng = 131 } set_temp_variable = { rn_cp_nb = 196 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_GREATER_GREECE_neutrality } set_temp_variable = { rn_cp_nr = 19 } set_temp_variable = { rn_cp_ng = 131 } set_temp_variable = { rn_cp_nb = 196 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_byz_republic } set_temp_variable = { rn_cp_nr = 93 } set_temp_variable = { rn_cp_ng = 181 } set_temp_variable = { rn_cp_nb = 227 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_com_independent_communism } set_temp_variable = { rn_cp_nr = 195 } set_temp_variable = { rn_cp_ng = 8 } set_temp_variable = { rn_cp_nb = 8 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_com_independent_democratic } set_temp_variable = { rn_cp_nr = 195 } set_temp_variable = { rn_cp_ng = 8 } set_temp_variable = { rn_cp_nb = 8 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_com_independent_fascism } set_temp_variable = { rn_cp_nr = 195 } set_temp_variable = { rn_cp_ng = 8 } set_temp_variable = { rn_cp_nb = 8 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_com_independent_neutrality } set_temp_variable = { rn_cp_nr = 195 } set_temp_variable = { rn_cp_ng = 8 } set_temp_variable = { rn_cp_nb = 8 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_dem_monarchy } set_temp_variable = { rn_cp_nr = 93 } set_temp_variable = { rn_cp_ng = 181 } set_temp_variable = { rn_cp_nb = 227 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_dem_monarchy_communism } set_temp_variable = { rn_cp_nr = 93 } set_temp_variable = { rn_cp_ng = 181 } set_temp_variable = { rn_cp_nb = 227 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_dem_monarchy_democratic } set_temp_variable = { rn_cp_nr = 93 } set_temp_variable = { rn_cp_ng = 181 } set_temp_variable = { rn_cp_nb = 227 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_dem_monarchy_fascism } set_temp_variable = { rn_cp_nr = 93 } set_temp_variable = { rn_cp_ng = 181 } set_temp_variable = { rn_cp_nb = 227 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_dem_monarchy_neutrality } set_temp_variable = { rn_cp_nr = 93 } set_temp_variable = { rn_cp_ng = 181 } set_temp_variable = { rn_cp_nb = 227 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = GRE_stalinist } set_temp_variable = { rn_cp_nr = 165 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = HND_UNIFIED } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = HOL_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = HOL_benelux_unified } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = HOL_reichskommissariat } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = HRE_UNIFIED } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = HUN_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = HUN_EMPIRE } set_temp_variable = { rn_cp_nr = 194 } set_temp_variable = { rn_cp_ng = 198 } set_temp_variable = { rn_cp_nb = 215 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = HUN_GREATER } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = HUN_GREATER_COMMUNIST_STATE } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ICE_personal_union } set_temp_variable = { rn_cp_nr = 153 } set_temp_variable = { rn_cp_ng = 116 } set_temp_variable = { rn_cp_nb = 93 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = INS_HOL } set_temp_variable = { rn_cp_nr = 176 } set_temp_variable = { rn_cp_ng = 90 } set_temp_variable = { rn_cp_nb = 70 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = INS_HOL_FLAG } set_temp_variable = { rn_cp_nr = 176 } set_temp_variable = { rn_cp_ng = 90 } set_temp_variable = { rn_cp_nb = 70 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = INS_REP_UNION } set_temp_variable = { rn_cp_nr = 176 } set_temp_variable = { rn_cp_ng = 24 } set_temp_variable = { rn_cp_nb = 35 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = INS_UNION } set_temp_variable = { rn_cp_nr = 240 } set_temp_variable = { rn_cp_ng = 166 } set_temp_variable = { rn_cp_nb = 139 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = INS_aslia } set_temp_variable = { rn_cp_nr = 101 } set_temp_variable = { rn_cp_ng = 163 } set_temp_variable = { rn_cp_nb = 145 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = IRQ_kurdistan_tag } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 184 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ITA_italian_empire } set_temp_variable = { rn_cp_nr = 10 } set_temp_variable = { rn_cp_ng = 100 } set_temp_variable = { rn_cp_nb = 70 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ITA_rds } set_temp_variable = { rn_cp_nr = 10 } set_temp_variable = { rn_cp_ng = 150 } set_temp_variable = { rn_cp_nb = 90 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ITA_rsi } set_temp_variable = { rn_cp_nr = 10 } set_temp_variable = { rn_cp_ng = 80 } set_temp_variable = { rn_cp_nb = 20 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ITA_socialist_republic } set_temp_variable = { rn_cp_nr = 150 } set_temp_variable = { rn_cp_ng = 50 } set_temp_variable = { rn_cp_nb = 20 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = JAP_pacific_union } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 184 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = JAP_pure_buddhist_land_tag } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = JAP_showa_restoration } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 230 } set_temp_variable = { rn_cp_nb = 230 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = JOR_emirate } set_temp_variable = { rn_cp_nr = 201 } set_temp_variable = { rn_cp_ng = 56 } set_temp_variable = { rn_cp_nb = 93 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = KOP_kingdom_portugal } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 80 } set_temp_variable = { rn_cp_nb = 152 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = KPB_kingdom_portugal_and_brazil } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 80 } set_temp_variable = { rn_cp_nb = 152 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = KUR_FRA } set_temp_variable = { rn_cp_nr = 57 } set_temp_variable = { rn_cp_ng = 113 } set_temp_variable = { rn_cp_nb = 228 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = KUW_protectorate } set_temp_variable = { rn_cp_nr = 201 } set_temp_variable = { rn_cp_ng = 56 } set_temp_variable = { rn_cp_nb = 93 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = LAT_MIL } set_temp_variable = { rn_cp_nr = 106 } set_temp_variable = { rn_cp_ng = 70 } set_temp_variable = { rn_cp_nb = 227 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = LAT_belarus } set_temp_variable = { rn_cp_nr = 141 } set_temp_variable = { rn_cp_ng = 2 } set_temp_variable = { rn_cp_nb = 31 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = LBV_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = LEB_mandate } set_temp_variable = { rn_cp_nr = 57 } set_temp_variable = { rn_cp_ng = 113 } set_temp_variable = { rn_cp_nb = 228 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = LEB_vichy } set_temp_variable = { rn_cp_nr = 80 } set_temp_variable = { rn_cp_ng = 168 } set_temp_variable = { rn_cp_nb = 181 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = LGF_UNIFIED } set_temp_variable = { rn_cp_nr = 205 } set_temp_variable = { rn_cp_ng = 69 } set_temp_variable = { rn_cp_nb = 69 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = LIT_belarus } set_temp_variable = { rn_cp_nr = 141 } set_temp_variable = { rn_cp_ng = 2 } set_temp_variable = { rn_cp_nb = 31 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = LIVONIA } set_temp_variable = { rn_cp_nr = 110 } set_temp_variable = { rn_cp_ng = 80 } set_temp_variable = { rn_cp_nb = 168 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = LUX_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = MAC_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = MAE_communism } set_temp_variable = { rn_cp_nr = 35 } set_temp_variable = { rn_cp_ng = 65 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = MAE_democratic } set_temp_variable = { rn_cp_nr = 35 } set_temp_variable = { rn_cp_ng = 65 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = MAE_fascism } set_temp_variable = { rn_cp_nr = 35 } set_temp_variable = { rn_cp_ng = 65 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = MAE_neutrality } set_temp_variable = { rn_cp_nr = 35 } set_temp_variable = { rn_cp_ng = 65 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = MAJ_UNIFIED } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 51 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = MAL_UK } set_temp_variable = { rn_cp_nr = 201 } set_temp_variable = { rn_cp_ng = 56 } set_temp_variable = { rn_cp_nb = 93 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = MAN_peoples_republic_of_china } set_temp_variable = { rn_cp_nr = 199 } set_temp_variable = { rn_cp_ng = 18 } set_temp_variable = { rn_cp_nb = 18 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = MAN_republic_of_china } set_temp_variable = { rn_cp_nr = 237 } set_temp_variable = { rn_cp_ng = 179 } set_temp_variable = { rn_cp_nb = 18 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = MAN_restored } set_temp_variable = { rn_cp_nr = 237 } set_temp_variable = { rn_cp_ng = 152 } set_temp_variable = { rn_cp_nb = 18 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = MEX_cristero } set_temp_variable = { rn_cp_nr = 140 } set_temp_variable = { rn_cp_ng = 200 } set_temp_variable = { rn_cp_nb = 120 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = MNT_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = MUT_UNIFIED } set_temp_variable = { rn_cp_nr = 153 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = NDC_UNIFIED } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 76 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = NOR_GER_fascism } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = NOR_SOV_communism } set_temp_variable = { rn_cp_nr = 180 } set_temp_variable = { rn_cp_ng = 40 } set_temp_variable = { rn_cp_nb = 40 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = NOR_alt_democratic } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 105 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = NOR_cw_communism } set_temp_variable = { rn_cp_nr = 145 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = NOR_fascism } set_temp_variable = { rn_cp_nr = 134 } set_temp_variable = { rn_cp_ng = 120 } set_temp_variable = { rn_cp_nb = 66 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = NOR_neutrality_purple_flag } set_temp_variable = { rn_cp_nr = 92 } set_temp_variable = { rn_cp_ng = 6 } set_temp_variable = { rn_cp_nb = 67 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = NOR_norgesveldet_fascism } set_temp_variable = { rn_cp_nr = 178 } set_temp_variable = { rn_cp_ng = 172 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = NOR_trotsky_communism } set_temp_variable = { rn_cp_nr = 205 } set_temp_variable = { rn_cp_ng = 69 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = NSE_UNIFIED } set_temp_variable = { rn_cp_nr = 30 } set_temp_variable = { rn_cp_ng = 10 } set_temp_variable = { rn_cp_nb = 50 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = OSTLAND } set_temp_variable = { rn_cp_nr = 86 } set_temp_variable = { rn_cp_ng = 78 } set_temp_variable = { rn_cp_nb = 112 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = OTT_SULTANATE_communism } set_temp_variable = { rn_cp_nr = 227 } set_temp_variable = { rn_cp_ng = 10 } set_temp_variable = { rn_cp_nb = 23 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = OTT_SULTANATE_democratic } set_temp_variable = { rn_cp_nr = 227 } set_temp_variable = { rn_cp_ng = 10 } set_temp_variable = { rn_cp_nb = 23 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = OTT_SULTANATE_fascism } set_temp_variable = { rn_cp_nr = 227 } set_temp_variable = { rn_cp_ng = 10 } set_temp_variable = { rn_cp_nb = 23 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = OTT_SULTANATE_neutrality } set_temp_variable = { rn_cp_nr = 227 } set_temp_variable = { rn_cp_ng = 10 } set_temp_variable = { rn_cp_nb = 23 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = OTT_UNIFIED } set_temp_variable = { rn_cp_nr = 26 } set_temp_variable = { rn_cp_ng = 138 } set_temp_variable = { rn_cp_nb = 4 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = OTT_UNIFIED_communism } set_temp_variable = { rn_cp_nr = 26 } set_temp_variable = { rn_cp_ng = 138 } set_temp_variable = { rn_cp_nb = 4 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = OTT_UNIFIED_democratic } set_temp_variable = { rn_cp_nr = 26 } set_temp_variable = { rn_cp_ng = 138 } set_temp_variable = { rn_cp_nb = 4 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = OTT_UNIFIED_fascism } set_temp_variable = { rn_cp_nr = 26 } set_temp_variable = { rn_cp_ng = 138 } set_temp_variable = { rn_cp_nb = 4 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = OTT_UNIFIED_neutrality } set_temp_variable = { rn_cp_nr = 26 } set_temp_variable = { rn_cp_ng = 138 } set_temp_variable = { rn_cp_nb = 4 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PAL_mandate } set_temp_variable = { rn_cp_nr = 201 } set_temp_variable = { rn_cp_ng = 56 } set_temp_variable = { rn_cp_nb = 93 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PAR_anti_imperialism } set_temp_variable = { rn_cp_nr = 92 } set_temp_variable = { rn_cp_ng = 28 } set_temp_variable = { rn_cp_nb = 119 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PAR_greater_paraguay } set_temp_variable = { rn_cp_nr = 174 } set_temp_variable = { rn_cp_ng = 11 } set_temp_variable = { rn_cp_nb = 53 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PER_UNIFIED } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 215 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PER_great_iranian_empire } set_temp_variable = { rn_cp_nr = 35 } set_temp_variable = { rn_cp_ng = 159 } set_temp_variable = { rn_cp_nb = 64 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PER_great_persian_empire } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 165 } set_temp_variable = { rn_cp_nb = 114 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PER_iranian_empire } set_temp_variable = { rn_cp_nr = 35 } set_temp_variable = { rn_cp_ng = 159 } set_temp_variable = { rn_cp_nb = 64 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PER_persia } set_temp_variable = { rn_cp_nr = 139 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PER_persian_empire } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 165 } set_temp_variable = { rn_cp_nb = 114 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PER_viceroyalty_of_iran } set_temp_variable = { rn_cp_nr = 139 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PER_viceroyalty_of_persia } set_temp_variable = { rn_cp_nr = 139 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PHI_hispanic_empire_tag } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 191 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PHI_hispanic_empire_tag_war } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 191 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PHI_manila_tag } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 130 } set_temp_variable = { rn_cp_nb = 191 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PHI_manila_tag_war } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 130 } set_temp_variable = { rn_cp_nb = 191 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PHI_reino_de_filipinas_tag } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 160 } set_temp_variable = { rn_cp_nb = 94 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PHI_reino_de_filipinas_tag_war } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 160 } set_temp_variable = { rn_cp_nb = 94 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PHI_second_republic_tag } set_temp_variable = { rn_cp_nr = 31 } set_temp_variable = { rn_cp_ng = 31 } set_temp_variable = { rn_cp_nb = 122 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PHI_second_republic_tag_war } set_temp_variable = { rn_cp_nr = 31 } set_temp_variable = { rn_cp_ng = 31 } set_temp_variable = { rn_cp_nb = 122 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PLC_UNIFIED } set_temp_variable = { rn_cp_nr = 176 } set_temp_variable = { rn_cp_ng = 81 } set_temp_variable = { rn_cp_nb = 111 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PLC_UNIFIED_RUS } set_temp_variable = { rn_cp_nr = 193 } set_temp_variable = { rn_cp_ng = 208 } set_temp_variable = { rn_cp_nb = 241 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = POL_KINGDOM } set_temp_variable = { rn_cp_nr = 176 } set_temp_variable = { rn_cp_ng = 81 } set_temp_variable = { rn_cp_nb = 111 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = POL_KINGDOM_RUS } set_temp_variable = { rn_cp_nr = 193 } set_temp_variable = { rn_cp_ng = 208 } set_temp_variable = { rn_cp_nb = 241 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = POL_PEASANT } set_temp_variable = { rn_cp_nr = 62 } set_temp_variable = { rn_cp_ng = 180 } set_temp_variable = { rn_cp_nb = 61 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = POL_ROM_UNION } set_temp_variable = { rn_cp_nr = 222 } set_temp_variable = { rn_cp_ng = 107 } set_temp_variable = { rn_cp_nb = 53 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = POL_SANATION } set_temp_variable = { rn_cp_nr = 212 } set_temp_variable = { rn_cp_ng = 33 } set_temp_variable = { rn_cp_nb = 61 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = POR_empire } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 160 } set_temp_variable = { rn_cp_nb = 15 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = PRC_proclaimed } set_temp_variable = { rn_cp_nr = 245 } set_temp_variable = { rn_cp_ng = 12 } set_temp_variable = { rn_cp_nb = 55 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = RAJ_FREE } set_temp_variable = { rn_cp_nr = 80 } set_temp_variable = { rn_cp_ng = 165 } set_temp_variable = { rn_cp_nb = 10 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = RAJ_UK } set_temp_variable = { rn_cp_nr = 170 } set_temp_variable = { rn_cp_ng = 10 } set_temp_variable = { rn_cp_nb = 10 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = RAJ_akhand_bharat_tag } set_temp_variable = { rn_cp_nr = 245 } set_temp_variable = { rn_cp_ng = 50 } set_temp_variable = { rn_cp_nb = 25 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = RAJ_al_hind } set_temp_variable = { rn_cp_nr = 48 } set_temp_variable = { rn_cp_ng = 96 } set_temp_variable = { rn_cp_nb = 48 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = RAJ_azad_hind } set_temp_variable = { rn_cp_nr = 250 } set_temp_variable = { rn_cp_ng = 65 } set_temp_variable = { rn_cp_nb = 86 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = RAJ_azad_hind_tag } set_temp_variable = { rn_cp_nr = 226 } set_temp_variable = { rn_cp_ng = 135 } set_temp_variable = { rn_cp_nb = 40 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = RAJ_eic_tag } set_temp_variable = { rn_cp_nr = 25 } set_temp_variable = { rn_cp_ng = 25 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = RAJ_kalat } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 171 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = RAJ_mughal_breakaway_state } set_temp_variable = { rn_cp_nr = 227 } set_temp_variable = { rn_cp_ng = 66 } set_temp_variable = { rn_cp_nb = 52 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = RAJ_mughal_empire } set_temp_variable = { rn_cp_nr = 48 } set_temp_variable = { rn_cp_ng = 96 } set_temp_variable = { rn_cp_nb = 48 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = RAJ_timurid_empire } set_temp_variable = { rn_cp_nr = 153 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = RAT_UNIFIED } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 255 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ROM_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SCA_UNIFIED } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 204 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SIA_great_thai_empire } set_temp_variable = { rn_cp_nr = 252 } set_temp_variable = { rn_cp_ng = 253 } set_temp_variable = { rn_cp_nb = 254 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SIA_pan_tai_empire } set_temp_variable = { rn_cp_nr = 212 } set_temp_variable = { rn_cp_ng = 160 } set_temp_variable = { rn_cp_nb = 23 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SIA_thailand } set_temp_variable = { rn_cp_nr = 244 } set_temp_variable = { rn_cp_ng = 25 } set_temp_variable = { rn_cp_nb = 2 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SIK_ssr } set_temp_variable = { rn_cp_nr = 105 } set_temp_variable = { rn_cp_ng = 28 } set_temp_variable = { rn_cp_nb = 28 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SIL_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SLAVIC_UNIFIED } set_temp_variable = { rn_cp_nr = 43 } set_temp_variable = { rn_cp_ng = 96 } set_temp_variable = { rn_cp_nb = 40 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SLO_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SLV_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SOV_PANSLAVIC } set_temp_variable = { rn_cp_nr = 40 } set_temp_variable = { rn_cp_ng = 80 } set_temp_variable = { rn_cp_nb = 40 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SOV_PROVISIONAL } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 255 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SOV_ROME } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SOV_left_opposition } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 5 } set_temp_variable = { rn_cp_nb = 5 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SOV_right_opposition } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SOV_russia } set_temp_variable = { rn_cp_nr = 72 } set_temp_variable = { rn_cp_ng = 143 } set_temp_variable = { rn_cp_nb = 68 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPA_directory } set_temp_variable = { rn_cp_nr = 200 } set_temp_variable = { rn_cp_ng = 100 } set_temp_variable = { rn_cp_nb = 31 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPA_spanish_empire } set_temp_variable = { rn_cp_nr = 200 } set_temp_variable = { rn_cp_ng = 100 } set_temp_variable = { rn_cp_nb = 31 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPB_kingdom } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPC_global_defense_council } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPC_poum } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPC_regional_defense_council_of_iberia } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPQR_UNIFIED } set_temp_variable = { rn_cp_nr = 153 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPR_anarchist_castille } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPR_anarchist_spain } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPR_carlist_castille } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPR_carlist_spain } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPR_castille } set_temp_variable = { rn_cp_nr = 200 } set_temp_variable = { rn_cp_ng = 100 } set_temp_variable = { rn_cp_nb = 31 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPR_civil_war } set_temp_variable = { rn_cp_nr = 200 } set_temp_variable = { rn_cp_ng = 100 } set_temp_variable = { rn_cp_nb = 31 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPR_habsburg } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPR_nationalist_castille } set_temp_variable = { rn_cp_nr = 200 } set_temp_variable = { rn_cp_ng = 100 } set_temp_variable = { rn_cp_nb = 31 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPR_nationalist_spain } set_temp_variable = { rn_cp_nr = 200 } set_temp_variable = { rn_cp_ng = 100 } set_temp_variable = { rn_cp_nb = 31 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPR_republican_castille } set_temp_variable = { rn_cp_nr = 242 } set_temp_variable = { rn_cp_ng = 205 } set_temp_variable = { rn_cp_nb = 94 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SPR_republican_spain } set_temp_variable = { rn_cp_nr = 242 } set_temp_variable = { rn_cp_ng = 205 } set_temp_variable = { rn_cp_nb = 94 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWE_greater_nordic_reich_tag } set_temp_variable = { rn_cp_nr = 7 } set_temp_variable = { rn_cp_ng = 10 } set_temp_variable = { rn_cp_nb = 92 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWE_nordic_defense_council } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 223 } set_temp_variable = { rn_cp_nb = 241 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWE_nordland } set_temp_variable = { rn_cp_nr = 7 } set_temp_variable = { rn_cp_ng = 10 } set_temp_variable = { rn_cp_nb = 92 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWE_nordland_ger } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWE_reichs_protectorate } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWE_the_new_order } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 107 } set_temp_variable = { rn_cp_nb = 16 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWI_ENG_puppet_democratic } set_temp_variable = { rn_cp_nr = 5 } set_temp_variable = { rn_cp_ng = 5 } set_temp_variable = { rn_cp_nb = 249 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWI_ENG_puppet_fascism } set_temp_variable = { rn_cp_nr = 60 } set_temp_variable = { rn_cp_ng = 60 } set_temp_variable = { rn_cp_nb = 100 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWI_FRA_puppet_democratic } set_temp_variable = { rn_cp_nr = 247 } set_temp_variable = { rn_cp_ng = 200 } set_temp_variable = { rn_cp_nb = 15 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWI_FRA_puppet_fascism } set_temp_variable = { rn_cp_nr = 100 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 100 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWI_GER_puppet_democratic } set_temp_variable = { rn_cp_nr = 140 } set_temp_variable = { rn_cp_ng = 140 } set_temp_variable = { rn_cp_nb = 140 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWI_GER_puppet_fascism } set_temp_variable = { rn_cp_nr = 125 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWI_ITA_puppet_democratic } set_temp_variable = { rn_cp_nr = 129 } set_temp_variable = { rn_cp_ng = 163 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWI_ITA_puppet_fascism } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 100 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWI_SOV_puppet_communism } set_temp_variable = { rn_cp_nr = 192 } set_temp_variable = { rn_cp_ng = 50 } set_temp_variable = { rn_cp_nb = 50 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWI_alpine_communism } set_temp_variable = { rn_cp_nr = 250 } set_temp_variable = { rn_cp_ng = 215 } set_temp_variable = { rn_cp_nb = 215 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWI_alpine_democratic } set_temp_variable = { rn_cp_nr = 220 } set_temp_variable = { rn_cp_ng = 220 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWI_alpine_fascism } set_temp_variable = { rn_cp_nr = 120 } set_temp_variable = { rn_cp_ng = 120 } set_temp_variable = { rn_cp_nb = 120 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWI_alpine_neutrality } set_temp_variable = { rn_cp_nr = 180 } set_temp_variable = { rn_cp_ng = 180 } set_temp_variable = { rn_cp_nb = 180 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SWI_helvetic_republic } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 54 } set_temp_variable = { rn_cp_nb = 163 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SYR_EYALET } set_temp_variable = { rn_cp_nr = 26 } set_temp_variable = { rn_cp_ng = 138 } set_temp_variable = { rn_cp_nb = 4 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SYR_mandate } set_temp_variable = { rn_cp_nr = 57 } set_temp_variable = { rn_cp_ng = 113 } set_temp_variable = { rn_cp_nb = 228 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = SYR_vichy } set_temp_variable = { rn_cp_nr = 80 } set_temp_variable = { rn_cp_ng = 168 } set_temp_variable = { rn_cp_nb = 181 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TBE_third_bulgarian_empire_communism } set_temp_variable = { rn_cp_nr = 138 } set_temp_variable = { rn_cp_ng = 249 } set_temp_variable = { rn_cp_nb = 195 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TBE_third_bulgarian_empire_democratic } set_temp_variable = { rn_cp_nr = 138 } set_temp_variable = { rn_cp_ng = 249 } set_temp_variable = { rn_cp_nb = 195 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TBE_third_bulgarian_empire_fascism } set_temp_variable = { rn_cp_nr = 138 } set_temp_variable = { rn_cp_ng = 249 } set_temp_variable = { rn_cp_nb = 195 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TBE_third_bulgarian_empire_neutrality } set_temp_variable = { rn_cp_nr = 138 } set_temp_variable = { rn_cp_ng = 249 } set_temp_variable = { rn_cp_nb = 195 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TRA_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TRN_communism } set_temp_variable = { rn_cp_nr = 213 } set_temp_variable = { rn_cp_ng = 253 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TRN_democratic } set_temp_variable = { rn_cp_nr = 213 } set_temp_variable = { rn_cp_ng = 253 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TRN_fascism } set_temp_variable = { rn_cp_nr = 213 } set_temp_variable = { rn_cp_ng = 253 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TRN_neutrality } set_temp_variable = { rn_cp_nr = 213 } set_temp_variable = { rn_cp_ng = 253 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TSR_empire_of_china } set_temp_variable = { rn_cp_nr = 237 } set_temp_variable = { rn_cp_ng = 152 } set_temp_variable = { rn_cp_nb = 18 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TUR_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TUR_GREATER_TURKEY_communism } set_temp_variable = { rn_cp_nr = 227 } set_temp_variable = { rn_cp_ng = 10 } set_temp_variable = { rn_cp_nb = 23 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TUR_GREATER_TURKEY_democratic } set_temp_variable = { rn_cp_nr = 227 } set_temp_variable = { rn_cp_ng = 10 } set_temp_variable = { rn_cp_nb = 23 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TUR_GREATER_TURKEY_fascism } set_temp_variable = { rn_cp_nr = 227 } set_temp_variable = { rn_cp_ng = 10 } set_temp_variable = { rn_cp_nb = 23 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TUR_GREATER_TURKEY_neutrality } set_temp_variable = { rn_cp_nr = 227 } set_temp_variable = { rn_cp_ng = 10 } set_temp_variable = { rn_cp_nb = 23 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TUR_PROVISIONARY_communism } set_temp_variable = { rn_cp_nr = 193 } set_temp_variable = { rn_cp_ng = 99 } set_temp_variable = { rn_cp_nb = 99 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TUR_PROVISIONARY_democratic } set_temp_variable = { rn_cp_nr = 193 } set_temp_variable = { rn_cp_ng = 99 } set_temp_variable = { rn_cp_nb = 99 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TUR_PROVISIONARY_fascism } set_temp_variable = { rn_cp_nr = 193 } set_temp_variable = { rn_cp_ng = 99 } set_temp_variable = { rn_cp_nb = 99 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = TUR_PROVISIONARY_neutrality } set_temp_variable = { rn_cp_nr = 193 } set_temp_variable = { rn_cp_ng = 99 } set_temp_variable = { rn_cp_nb = 99 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = UBF_united_balkan_federation } set_temp_variable = { rn_cp_nr = 11 } set_temp_variable = { rn_cp_ng = 11 } set_temp_variable = { rn_cp_nb = 11 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = UBF_united_balkan_federation_communism } set_temp_variable = { rn_cp_nr = 11 } set_temp_variable = { rn_cp_ng = 11 } set_temp_variable = { rn_cp_nb = 11 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = UBF_united_balkan_federation_democratic } set_temp_variable = { rn_cp_nr = 11 } set_temp_variable = { rn_cp_ng = 11 } set_temp_variable = { rn_cp_nb = 11 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = UBF_united_balkan_federation_fascism } set_temp_variable = { rn_cp_nr = 11 } set_temp_variable = { rn_cp_ng = 11 } set_temp_variable = { rn_cp_nb = 11 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = UBF_united_balkan_federation_neutrality } set_temp_variable = { rn_cp_nr = 11 } set_temp_variable = { rn_cp_ng = 11 } set_temp_variable = { rn_cp_nb = 11 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = UKR_reichskommissariat } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = UNL_UNIFIED } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = URG_anti_imperialism } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 255 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = URG_german } set_temp_variable = { rn_cp_nr = 102 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = URG_greater_uruguay } set_temp_variable = { rn_cp_nr = 46 } set_temp_variable = { rn_cp_ng = 96 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = URG_is_unaligned_URG_but_has_normal_URG_flag } set_temp_variable = { rn_cp_nr = 171 } set_temp_variable = { rn_cp_ng = 190 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = USA_CSA } set_temp_variable = { rn_cp_nr = 145 } set_temp_variable = { rn_cp_ng = 163 } set_temp_variable = { rn_cp_nb = 176 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = USC_UNIFIED } set_temp_variable = { rn_cp_nr = 103 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = XIC_new_fengtian_clique } set_temp_variable = { rn_cp_nr = 237 } set_temp_variable = { rn_cp_ng = 179 } set_temp_variable = { rn_cp_nb = 18 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = YUG_AUS_danubian_state } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 228 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = YUG_puppet_1 } set_temp_variable = { rn_cp_nr = 61 } set_temp_variable = { rn_cp_ng = 50 } set_temp_variable = { rn_cp_nb = 147 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = YUG_puppet_2 } set_temp_variable = { rn_cp_nr = 65 } set_temp_variable = { rn_cp_ng = 60 } set_temp_variable = { rn_cp_nb = 100 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = YUG_puppet_3 } set_temp_variable = { rn_cp_nr = 100 } set_temp_variable = { rn_cp_ng = 95 } set_temp_variable = { rn_cp_nb = 162 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = YUG_puppet_4 } set_temp_variable = { rn_cp_nr = 50 } set_temp_variable = { rn_cp_ng = 57 } set_temp_variable = { rn_cp_nb = 147 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = YUG_puppet_5 } set_temp_variable = { rn_cp_nr = 68 } set_temp_variable = { rn_cp_ng = 67 } set_temp_variable = { rn_cp_nb = 96 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = YUG_puppet_6 } set_temp_variable = { rn_cp_nr = 85 } set_temp_variable = { rn_cp_ng = 85 } set_temp_variable = { rn_cp_nb = 145 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = antilles } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = dalmatia } set_temp_variable = { rn_cp_nr = 46 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 188 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = east_africa } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 51 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = ethiopia_anarcho_communist } set_temp_variable = { rn_cp_nr = 193 } set_temp_variable = { rn_cp_ng = 43 } set_temp_variable = { rn_cp_nb = 43 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = european_union_leader } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 51 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = first_nations_canada } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = gojjam } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 255 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = greater_gojjam } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 255 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = greater_italy } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = greater_jimma } set_temp_variable = { rn_cp_nr = 71 } set_temp_variable = { rn_cp_ng = 209 } set_temp_variable = { rn_cp_nb = 71 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = greater_kurdistan } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 184 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = greater_mongolia } set_temp_variable = { rn_cp_nr = 38 } set_temp_variable = { rn_cp_ng = 77 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = hispaniola } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 51 } set_temp_variable = { rn_cp_nb = 204 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = horn_of_africa } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 255 } set_temp_variable = { rn_cp_nb = 179 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = idel_ural } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = indigenous_brazil } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 77 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = indigenous_mexico } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = italo_ethiopian_empire } set_temp_variable = { rn_cp_nr = 71 } set_temp_variable = { rn_cp_ng = 209 } set_temp_variable = { rn_cp_nb = 71 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = jimma } set_temp_variable = { rn_cp_nr = 71 } set_temp_variable = { rn_cp_ng = 209 } set_temp_variable = { rn_cp_nb = 71 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = kingdom_of_araucania_and_patagonia } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = latin_africa } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 45 } set_temp_variable = { rn_cp_nb = 179 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = liangguang_clique } set_temp_variable = { rn_cp_nr = 71 } set_temp_variable = { rn_cp_ng = 113 } set_temp_variable = { rn_cp_nb = 97 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = mountainous_republics_unified } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 212 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = native_american_usa } set_temp_variable = { rn_cp_nr = 153 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 102 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = neo_mesopotamia } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 51 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = papal_states } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 255 } set_temp_variable = { rn_cp_nb = 204 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = peru_bolivian_confederation } set_temp_variable = { rn_cp_nr = 179 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = regnum_bospori } set_temp_variable = { rn_cp_nr = 179 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 179 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = reunified_germany } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = russian_empire } set_temp_variable = { rn_cp_nr = 64 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = samanid_empire_tag } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 165 } set_temp_variable = { rn_cp_nb = 114 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = siberia_unified } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = sinkiang_ma } set_temp_variable = { rn_cp_nr = 97 } set_temp_variable = { rn_cp_ng = 51 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = stalinist_soviet_union } set_temp_variable = { rn_cp_nr = 125 } set_temp_variable = { rn_cp_ng = 13 } set_temp_variable = { rn_cp_nb = 24 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = transcaucasia_unified } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = true_plurinational_bolivia } set_temp_variable = { rn_cp_nr = 179 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 179 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = turkestan_united } set_temp_variable = { rn_cp_nr = 155 } set_temp_variable = { rn_cp_ng = 230 } set_temp_variable = { rn_cp_nb = 240 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = united_guiana } set_temp_variable = { rn_cp_nr = 153 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = united_mahgreb } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 43 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { has_cosmetic_tag = united_polynesia } set_temp_variable = { rn_cp_nr = 220 } set_temp_variable = { rn_cp_ng = 105 } set_temp_variable = { rn_cp_nb = 70 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ABK } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = AFA } set_temp_variable = { rn_cp_nr = 153 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = AFG } set_temp_variable = { rn_cp_nr = 64 } set_temp_variable = { rn_cp_ng = 160 } set_temp_variable = { rn_cp_nb = 167 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ALB } set_temp_variable = { rn_cp_nr = 149 } set_temp_variable = { rn_cp_ng = 45 } set_temp_variable = { rn_cp_nb = 102 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ALT } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 255 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ANG } set_temp_variable = { rn_cp_nr = 37 } set_temp_variable = { rn_cp_ng = 140 } set_temp_variable = { rn_cp_nb = 61 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ANU } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 191 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = AOI } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ARG } set_temp_variable = { rn_cp_nr = 145 } set_temp_variable = { rn_cp_ng = 157 } set_temp_variable = { rn_cp_nb = 236 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ARM } set_temp_variable = { rn_cp_nr = 176 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 180 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = AST } set_temp_variable = { rn_cp_nr = 57 } set_temp_variable = { rn_cp_ng = 143 } set_temp_variable = { rn_cp_nb = 97 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ASY } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 96 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ATJ } set_temp_variable = { rn_cp_nr = 191 } set_temp_variable = { rn_cp_ng = 120 } set_temp_variable = { rn_cp_nb = 105 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = AUS } set_temp_variable = { rn_cp_nr = 194 } set_temp_variable = { rn_cp_ng = 198 } set_temp_variable = { rn_cp_nb = 215 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = AZR } set_temp_variable = { rn_cp_nr = 69 } set_temp_variable = { rn_cp_ng = 151 } set_temp_variable = { rn_cp_nb = 49 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BAR } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 77 } set_temp_variable = { rn_cp_nb = 77 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BAY } set_temp_variable = { rn_cp_nr = 233 } set_temp_variable = { rn_cp_ng = 231 } set_temp_variable = { rn_cp_nb = 246 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BEG } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 212 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BEL } set_temp_variable = { rn_cp_nr = 193 } set_temp_variable = { rn_cp_ng = 171 } set_temp_variable = { rn_cp_nb = 8 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BHR } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BHU } set_temp_variable = { rn_cp_nr = 172 } set_temp_variable = { rn_cp_ng = 122 } set_temp_variable = { rn_cp_nb = 88 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BIA } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BLC } set_temp_variable = { rn_cp_nr = 77 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BLI } set_temp_variable = { rn_cp_nr = 76 } set_temp_variable = { rn_cp_ng = 199 } set_temp_variable = { rn_cp_nb = 230 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BLR } set_temp_variable = { rn_cp_nr = 180 } set_temp_variable = { rn_cp_ng = 220 } set_temp_variable = { rn_cp_nb = 190 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BOL } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 166 } set_temp_variable = { rn_cp_nb = 108 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BOT } set_temp_variable = { rn_cp_nr = 11 } set_temp_variable = { rn_cp_ng = 132 } set_temp_variable = { rn_cp_nb = 112 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BOU } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 43 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BRA } set_temp_variable = { rn_cp_nr = 76 } set_temp_variable = { rn_cp_ng = 145 } set_temp_variable = { rn_cp_nb = 63 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BRN } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 230 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BSK } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BUK } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 102 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BUL } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 155 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = BYA } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 64 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CAM } set_temp_variable = { rn_cp_nr = 100 } set_temp_variable = { rn_cp_ng = 71 } set_temp_variable = { rn_cp_nb = 150 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CAN } set_temp_variable = { rn_cp_nr = 233 } set_temp_variable = { rn_cp_ng = 59 } set_temp_variable = { rn_cp_nb = 59 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CBV } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 204 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CHI } set_temp_variable = { rn_cp_nr = 40 } set_temp_variable = { rn_cp_ng = 40 } set_temp_variable = { rn_cp_nb = 140 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CHL } set_temp_variable = { rn_cp_nr = 155 } set_temp_variable = { rn_cp_ng = 101 } set_temp_variable = { rn_cp_nb = 107 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CHM } set_temp_variable = { rn_cp_nr = 46 } set_temp_variable = { rn_cp_ng = 46 } set_temp_variable = { rn_cp_nb = 184 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CHR } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 122 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CHU } set_temp_variable = { rn_cp_nr = 191 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 64 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CIN } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CKK } set_temp_variable = { rn_cp_nr = 179 } set_temp_variable = { rn_cp_ng = 179 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = COG } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 159 } set_temp_variable = { rn_cp_nb = 209 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = COL } set_temp_variable = { rn_cp_nr = 222 } set_temp_variable = { rn_cp_ng = 187 } set_temp_variable = { rn_cp_nb = 91 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = COS } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 43 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CPS } set_temp_variable = { rn_cp_nr = 46 } set_temp_variable = { rn_cp_ng = 92 } set_temp_variable = { rn_cp_nb = 184 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CRI } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 80 } set_temp_variable = { rn_cp_nb = 80 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CRO } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 70 } set_temp_variable = { rn_cp_nb = 180 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CSA } set_temp_variable = { rn_cp_nr = 145 } set_temp_variable = { rn_cp_ng = 163 } set_temp_variable = { rn_cp_nb = 176 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CUB } set_temp_variable = { rn_cp_nr = 140 } set_temp_variable = { rn_cp_ng = 65 } set_temp_variable = { rn_cp_nb = 166 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = CZE } set_temp_variable = { rn_cp_nr = 54 } set_temp_variable = { rn_cp_ng = 167 } set_temp_variable = { rn_cp_nb = 156 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = DAG } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = DEN } set_temp_variable = { rn_cp_nr = 153 } set_temp_variable = { rn_cp_ng = 116 } set_temp_variable = { rn_cp_nb = 93 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = DIP } set_temp_variable = { rn_cp_nr = 125 } set_temp_variable = { rn_cp_ng = 41 } set_temp_variable = { rn_cp_nb = 49 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = DOM } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 130 } set_temp_variable = { rn_cp_nb = 191 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = DON } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 170 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ECU } set_temp_variable = { rn_cp_nr = 249 } set_temp_variable = { rn_cp_ng = 146 } set_temp_variable = { rn_cp_nb = 98 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = EGY } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 230 } set_temp_variable = { rn_cp_nb = 70 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ELS } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 130 } set_temp_variable = { rn_cp_nb = 191 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ENG } set_temp_variable = { rn_cp_nr = 201 } set_temp_variable = { rn_cp_ng = 56 } set_temp_variable = { rn_cp_nb = 93 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = EST } set_temp_variable = { rn_cp_nr = 50 } set_temp_variable = { rn_cp_ng = 135 } set_temp_variable = { rn_cp_nb = 175 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ETH } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 130 } set_temp_variable = { rn_cp_nb = 191 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = EVE } set_temp_variable = { rn_cp_nr = 153 } set_temp_variable = { rn_cp_ng = 221 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = EZO } set_temp_variable = { rn_cp_nr = 102 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = FER } set_temp_variable = { rn_cp_nr = 179 } set_temp_variable = { rn_cp_ng = 45 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = FIN } set_temp_variable = { rn_cp_nr = 205 } set_temp_variable = { rn_cp_ng = 212 } set_temp_variable = { rn_cp_nb = 228 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = FOR } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = FRA } set_temp_variable = { rn_cp_nr = 57 } set_temp_variable = { rn_cp_ng = 113 } set_temp_variable = { rn_cp_nb = 228 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = FSA } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 179 } set_temp_variable = { rn_cp_nb = 60 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = GAL } set_temp_variable = { rn_cp_nr = 195 } set_temp_variable = { rn_cp_ng = 72 } set_temp_variable = { rn_cp_nb = 17 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = GAR } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = GBA } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = GDC } set_temp_variable = { rn_cp_nr = 45 } set_temp_variable = { rn_cp_ng = 134 } set_temp_variable = { rn_cp_nb = 89 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = GEN } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = GEO } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 150 } set_temp_variable = { rn_cp_nb = 150 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = GER } set_temp_variable = { rn_cp_nr = 102 } set_temp_variable = { rn_cp_ng = 96 } set_temp_variable = { rn_cp_nb = 87 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = GOW } set_temp_variable = { rn_cp_nr = 177 } set_temp_variable = { rn_cp_ng = 232 } set_temp_variable = { rn_cp_nb = 67 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = GRE } set_temp_variable = { rn_cp_nr = 93 } set_temp_variable = { rn_cp_ng = 181 } set_temp_variable = { rn_cp_nb = 227 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = GRN } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 80 } set_temp_variable = { rn_cp_nb = 80 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = GSM } set_temp_variable = { rn_cp_nr = 105 } set_temp_variable = { rn_cp_ng = 60 } set_temp_variable = { rn_cp_nb = 100 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = GUA } set_temp_variable = { rn_cp_nr = 72 } set_temp_variable = { rn_cp_ng = 49 } set_temp_variable = { rn_cp_nb = 112 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = GXC } set_temp_variable = { rn_cp_nr = 71 } set_temp_variable = { rn_cp_ng = 113 } set_temp_variable = { rn_cp_nb = 97 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = HAI } set_temp_variable = { rn_cp_nr = 174 } set_temp_variable = { rn_cp_ng = 113 } set_temp_variable = { rn_cp_nb = 113 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = HAN } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = HAR } set_temp_variable = { rn_cp_nr = 242 } set_temp_variable = { rn_cp_ng = 242 } set_temp_variable = { rn_cp_nb = 242 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = HBC } set_temp_variable = { rn_cp_nr = 156 } set_temp_variable = { rn_cp_ng = 27 } set_temp_variable = { rn_cp_nb = 22 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = HES } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 179 } set_temp_variable = { rn_cp_nb = 179 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = HOL } set_temp_variable = { rn_cp_nr = 203 } set_temp_variable = { rn_cp_ng = 138 } set_temp_variable = { rn_cp_nb = 74 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = HON } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 145 } set_temp_variable = { rn_cp_nb = 65 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = HUN } set_temp_variable = { rn_cp_nr = 249 } set_temp_variable = { rn_cp_ng = 126 } set_temp_variable = { rn_cp_nb = 98 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = IAS } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ICE } set_temp_variable = { rn_cp_nr = 100 } set_temp_variable = { rn_cp_ng = 125 } set_temp_variable = { rn_cp_nb = 175 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = IMO } set_temp_variable = { rn_cp_nr = 242 } set_temp_variable = { rn_cp_ng = 242 } set_temp_variable = { rn_cp_nb = 242 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = INC } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = INS } set_temp_variable = { rn_cp_nr = 252 } set_temp_variable = { rn_cp_ng = 57 } set_temp_variable = { rn_cp_nb = 50 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = INU } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 204 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = IRE } set_temp_variable = { rn_cp_nr = 80 } set_temp_variable = { rn_cp_ng = 159 } set_temp_variable = { rn_cp_nb = 90 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = IRQ } set_temp_variable = { rn_cp_nr = 178 } set_temp_variable = { rn_cp_ng = 114 } set_temp_variable = { rn_cp_nb = 99 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ISR } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 130 } set_temp_variable = { rn_cp_nb = 191 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ITA } set_temp_variable = { rn_cp_nr = 67 } set_temp_variable = { rn_cp_ng = 127 } set_temp_variable = { rn_cp_nb = 63 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ITZ } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = JAP } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 201 } set_temp_variable = { rn_cp_nb = 178 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = JOR } set_temp_variable = { rn_cp_nr = 111 } set_temp_variable = { rn_cp_ng = 55 } set_temp_variable = { rn_cp_nb = 78 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KAL } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KAR } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KAT } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 41 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KBK } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 71 } set_temp_variable = { rn_cp_nb = 26 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KEN } set_temp_variable = { rn_cp_nr = 145 } set_temp_variable = { rn_cp_ng = 103 } set_temp_variable = { rn_cp_nb = 14 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KHA } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KHI } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KHM } set_temp_variable = { rn_cp_nr = 153 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KKP } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KLT } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 171 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KOM } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 230 } set_temp_variable = { rn_cp_nb = 184 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KOR } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 240 } set_temp_variable = { rn_cp_nb = 195 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KUB } set_temp_variable = { rn_cp_nr = 102 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KUM } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 230 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = KUR } set_temp_variable = { rn_cp_nr = 234 } set_temp_variable = { rn_cp_ng = 179 } set_temp_variable = { rn_cp_nb = 30 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = LAO } set_temp_variable = { rn_cp_nr = 176 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 136 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = LAT } set_temp_variable = { rn_cp_nr = 75 } set_temp_variable = { rn_cp_ng = 77 } set_temp_variable = { rn_cp_nb = 186 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = LBA } set_temp_variable = { rn_cp_nr = 200 } set_temp_variable = { rn_cp_ng = 180 } set_temp_variable = { rn_cp_nb = 90 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = LBV } set_temp_variable = { rn_cp_nr = 179 } set_temp_variable = { rn_cp_ng = 11 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = LEB } set_temp_variable = { rn_cp_nr = 130 } set_temp_variable = { rn_cp_ng = 150 } set_temp_variable = { rn_cp_nb = 60 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = LIB } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 130 } set_temp_variable = { rn_cp_nb = 191 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = LIT } set_temp_variable = { rn_cp_nr = 219 } set_temp_variable = { rn_cp_ng = 219 } set_temp_variable = { rn_cp_nb = 119 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = LUX } set_temp_variable = { rn_cp_nr = 65 } set_temp_variable = { rn_cp_ng = 175 } set_temp_variable = { rn_cp_nb = 179 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = MAL } set_temp_variable = { rn_cp_nr = 197 } set_temp_variable = { rn_cp_ng = 96 } set_temp_variable = { rn_cp_nb = 100 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = MAN } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 120 } set_temp_variable = { rn_cp_nb = 71 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = MAY } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 80 } set_temp_variable = { rn_cp_nb = 80 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = MEK } set_temp_variable = { rn_cp_nr = 186 } set_temp_variable = { rn_cp_ng = 245 } set_temp_variable = { rn_cp_nb = 86 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = MEL } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 230 } set_temp_variable = { rn_cp_nb = 230 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = MEN } set_temp_variable = { rn_cp_nr = 185 } set_temp_variable = { rn_cp_ng = 255 } set_temp_variable = { rn_cp_nb = 152 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = MEX } set_temp_variable = { rn_cp_nr = 104 } set_temp_variable = { rn_cp_ng = 152 } set_temp_variable = { rn_cp_nb = 83 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = MIS } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 51 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = MNT } set_temp_variable = { rn_cp_nr = 77 } set_temp_variable = { rn_cp_ng = 90 } set_temp_variable = { rn_cp_nb = 105 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = MON } set_temp_variable = { rn_cp_nr = 108 } set_temp_variable = { rn_cp_ng = 140 } set_temp_variable = { rn_cp_nb = 42 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = MZB } set_temp_variable = { rn_cp_nr = 112 } set_temp_variable = { rn_cp_ng = 62 } set_temp_variable = { rn_cp_nb = 90 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = NAH } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 102 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = NEN } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 255 } set_temp_variable = { rn_cp_nb = 204 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = NEP } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 130 } set_temp_variable = { rn_cp_nb = 191 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = NIC } set_temp_variable = { rn_cp_nr = 146 } set_temp_variable = { rn_cp_ng = 179 } set_temp_variable = { rn_cp_nb = 191 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = NOA } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 170 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = NOR } set_temp_variable = { rn_cp_nr = 111 } set_temp_variable = { rn_cp_ng = 71 } set_temp_variable = { rn_cp_nb = 71 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = NXM } set_temp_variable = { rn_cp_nr = 105 } set_temp_variable = { rn_cp_ng = 125 } set_temp_variable = { rn_cp_nb = 150 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = NZL } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 130 } set_temp_variable = { rn_cp_nb = 191 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = OKN } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 140 } set_temp_variable = { rn_cp_nb = 26 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = OMA } set_temp_variable = { rn_cp_nr = 155 } set_temp_variable = { rn_cp_ng = 101 } set_temp_variable = { rn_cp_nb = 107 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ORO } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 77 } set_temp_variable = { rn_cp_nb = 77 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = OVO } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = PAK } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = PAL } set_temp_variable = { rn_cp_nr = 170 } set_temp_variable = { rn_cp_ng = 125 } set_temp_variable = { rn_cp_nb = 80 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = PAN } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 130 } set_temp_variable = { rn_cp_nb = 191 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = PAP } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 255 } set_temp_variable = { rn_cp_nb = 204 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = PAR } set_temp_variable = { rn_cp_nr = 57 } set_temp_variable = { rn_cp_ng = 113 } set_temp_variable = { rn_cp_nb = 228 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = PER } set_temp_variable = { rn_cp_nr = 71 } set_temp_variable = { rn_cp_ng = 113 } set_temp_variable = { rn_cp_nb = 97 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = PHI } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 40 } set_temp_variable = { rn_cp_nb = 195 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = PLU } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = POK } set_temp_variable = { rn_cp_nr = 252 } set_temp_variable = { rn_cp_ng = 57 } set_temp_variable = { rn_cp_nb = 50 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = POL } set_temp_variable = { rn_cp_nr = 214 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 139 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = POR } set_temp_variable = { rn_cp_nr = 39 } set_temp_variable = { rn_cp_ng = 116 } set_temp_variable = { rn_cp_nb = 70 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = PRC } set_temp_variable = { rn_cp_nr = 245 } set_temp_variable = { rn_cp_ng = 12 } set_temp_variable = { rn_cp_nb = 55 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = PRE } set_temp_variable = { rn_cp_nr = 160 } set_temp_variable = { rn_cp_ng = 160 } set_temp_variable = { rn_cp_nb = 160 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = PRU } set_temp_variable = { rn_cp_nr = 196 } set_temp_variable = { rn_cp_ng = 189 } set_temp_variable = { rn_cp_nb = 204 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = PSH } set_temp_variable = { rn_cp_nr = 31 } set_temp_variable = { rn_cp_ng = 138 } set_temp_variable = { rn_cp_nb = 31 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = PSR } set_temp_variable = { rn_cp_nr = 31 } set_temp_variable = { rn_cp_ng = 31 } set_temp_variable = { rn_cp_nb = 122 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = QEM } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = QUE } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RAA } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RAJ } set_temp_variable = { rn_cp_nr = 226 } set_temp_variable = { rn_cp_ng = 135 } set_temp_variable = { rn_cp_nb = 40 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RAN } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RAP } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RAR } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RCO } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RGB } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RHD } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RHI } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 51 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RIG } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RKA } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RKB } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RKC } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RKG } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RKH } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RKI } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RKK } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RKL } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RKM } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RKN } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RKO } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RKT } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RKU } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RKV } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RNA } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RNG } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 191 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ROA } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ROM } set_temp_variable = { rn_cp_nr = 215 } set_temp_variable = { rn_cp_ng = 196 } set_temp_variable = { rn_cp_nb = 72 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RUS } set_temp_variable = { rn_cp_nr = 115 } set_temp_variable = { rn_cp_ng = 115 } set_temp_variable = { rn_cp_nb = 115 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = RUT } set_temp_variable = { rn_cp_nr = 10 } set_temp_variable = { rn_cp_ng = 67 } set_temp_variable = { rn_cp_nb = 199 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SAB } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 172 } set_temp_variable = { rn_cp_nb = 230 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SAF } set_temp_variable = { rn_cp_nr = 195 } set_temp_variable = { rn_cp_ng = 107 } set_temp_variable = { rn_cp_nb = 160 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SAR } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 184 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SAU } set_temp_variable = { rn_cp_nr = 171 } set_temp_variable = { rn_cp_ng = 190 } set_temp_variable = { rn_cp_nb = 152 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SAX } set_temp_variable = { rn_cp_nr = 102 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SER } set_temp_variable = { rn_cp_nr = 160 } set_temp_variable = { rn_cp_ng = 110 } set_temp_variable = { rn_cp_nb = 110 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SHL } set_temp_variable = { rn_cp_nr = 51 } set_temp_variable = { rn_cp_ng = 51 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SHX } set_temp_variable = { rn_cp_nr = 82 } set_temp_variable = { rn_cp_ng = 2 } set_temp_variable = { rn_cp_nb = 15 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SIA } set_temp_variable = { rn_cp_nr = 171 } set_temp_variable = { rn_cp_ng = 190 } set_temp_variable = { rn_cp_nb = 152 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SIC } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 96 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SID } set_temp_variable = { rn_cp_nr = 102 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SIK } set_temp_variable = { rn_cp_nr = 71 } set_temp_variable = { rn_cp_ng = 190 } set_temp_variable = { rn_cp_nb = 152 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SLO } set_temp_variable = { rn_cp_nr = 158 } set_temp_variable = { rn_cp_ng = 161 } set_temp_variable = { rn_cp_nb = 188 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SND } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 92 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SNG } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SOK } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 43 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SOV } set_temp_variable = { rn_cp_nr = 125 } set_temp_variable = { rn_cp_ng = 13 } set_temp_variable = { rn_cp_nb = 24 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SPM } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 255 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SPR } set_temp_variable = { rn_cp_nr = 242 } set_temp_variable = { rn_cp_ng = 205 } set_temp_variable = { rn_cp_nb = 94 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SSI } set_temp_variable = { rn_cp_nr = 247 } set_temp_variable = { rn_cp_ng = 25 } set_temp_variable = { rn_cp_nb = 36 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SWE } set_temp_variable = { rn_cp_nr = 36 } set_temp_variable = { rn_cp_ng = 132 } set_temp_variable = { rn_cp_nb = 247 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SWI } set_temp_variable = { rn_cp_nr = 224 } set_temp_variable = { rn_cp_ng = 5 } set_temp_variable = { rn_cp_nb = 5 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = SYR } set_temp_variable = { rn_cp_nr = 100 } set_temp_variable = { rn_cp_ng = 100 } set_temp_variable = { rn_cp_nb = 150 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = TAN } set_temp_variable = { rn_cp_nr = 152 } set_temp_variable = { rn_cp_ng = 130 } set_temp_variable = { rn_cp_nb = 191 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = TAT } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 51 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = TAY } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 102 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = THU } set_temp_variable = { rn_cp_nr = 102 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = TIB } set_temp_variable = { rn_cp_nr = 80 } set_temp_variable = { rn_cp_ng = 100 } set_temp_variable = { rn_cp_nb = 45 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = TIG } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 51 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = TML } set_temp_variable = { rn_cp_nr = 128 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = TNE } set_temp_variable = { rn_cp_nr = 54 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 70 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = TOS } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 128 } set_temp_variable = { rn_cp_nb = 128 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = TTS } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 230 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = TUR } set_temp_variable = { rn_cp_nr = 171 } set_temp_variable = { rn_cp_ng = 190 } set_temp_variable = { rn_cp_nb = 152 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = UBD } set_temp_variable = { rn_cp_nr = 92 } set_temp_variable = { rn_cp_ng = 92 } set_temp_variable = { rn_cp_nb = 138 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = UDM } set_temp_variable = { rn_cp_nr = 64 } set_temp_variable = { rn_cp_ng = 64 } set_temp_variable = { rn_cp_nb = 64 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = UKR } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 80 } set_temp_variable = { rn_cp_nb = 230 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = URG } set_temp_variable = { rn_cp_nr = 171 } set_temp_variable = { rn_cp_ng = 190 } set_temp_variable = { rn_cp_nb = 152 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = USA } set_temp_variable = { rn_cp_nr = 20 } set_temp_variable = { rn_cp_ng = 133 } set_temp_variable = { rn_cp_nb = 237 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = VAN } set_temp_variable = { rn_cp_nr = 179 } set_temp_variable = { rn_cp_ng = 0 } set_temp_variable = { rn_cp_nb = 59 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = VEN } set_temp_variable = { rn_cp_nr = 171 } set_temp_variable = { rn_cp_ng = 190 } set_temp_variable = { rn_cp_nb = 152 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = VGE } set_temp_variable = { rn_cp_nr = 153 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = VIN } set_temp_variable = { rn_cp_nr = 230 } set_temp_variable = { rn_cp_ng = 223 } set_temp_variable = { rn_cp_nb = 50 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = VLA } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = WPG } set_temp_variable = { rn_cp_nr = 172 } set_temp_variable = { rn_cp_ng = 57 } set_temp_variable = { rn_cp_nb = 57 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = WUR } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 204 } set_temp_variable = { rn_cp_nb = 153 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = XIC } set_temp_variable = { rn_cp_nr = 43 } set_temp_variable = { rn_cp_ng = 92 } set_temp_variable = { rn_cp_nb = 181 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = XSM } set_temp_variable = { rn_cp_nr = 105 } set_temp_variable = { rn_cp_ng = 90 } set_temp_variable = { rn_cp_nb = 132 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = YAK } set_temp_variable = { rn_cp_nr = 0 } set_temp_variable = { rn_cp_ng = 255 } set_temp_variable = { rn_cp_nb = 255 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = YAM } set_temp_variable = { rn_cp_nr = 204 } set_temp_variable = { rn_cp_ng = 153 } set_temp_variable = { rn_cp_nb = 0 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = YEM } set_temp_variable = { rn_cp_nr = 155 } set_temp_variable = { rn_cp_ng = 101 } set_temp_variable = { rn_cp_nb = 107 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = YUC } set_temp_variable = { rn_cp_nr = 255 } set_temp_variable = { rn_cp_ng = 26 } set_temp_variable = { rn_cp_nb = 26 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = YUG } set_temp_variable = { rn_cp_nr = 72 } set_temp_variable = { rn_cp_ng = 73 } set_temp_variable = { rn_cp_nb = 126 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = YUN } set_temp_variable = { rn_cp_nr = 114 } set_temp_variable = { rn_cp_ng = 148 } set_temp_variable = { rn_cp_nb = 80 } set_temp_variable = { rn_cp_nk = 1 } }
+	else_if = { limit = { tag = ZIM } set_temp_variable = { rn_cp_nr = 7 } set_temp_variable = { rn_cp_ng = 7 } set_temp_variable = { rn_cp_nb = 239 } set_temp_variable = { rn_cp_nk = 1 } }
 }
 
 # Country scope. Writes the snapshot of the country's cosmetic tag (capie_cc_cos

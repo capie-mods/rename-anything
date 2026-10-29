@@ -9,6 +9,8 @@ defined_text = {
 	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 15 } } } localization_key = RN_CP_ERR_CAPIE_OLD }
 	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 16 } } } localization_key = RN_CP_ERR_NO_LAYER }
 	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 20 } } } localization_key = RN_CP_ERR_RIGHTS }
+	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 17 } } } localization_key = RN_CP_ERR_CODE }
+	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 18 } } } localization_key = RN_CP_ERR_MINE }
 	text = { trigger = { ROOT = { check_variable = { rn_cv1_st_err = 11 } } } localization_key = RN_CP_ERR_CD }
 	text = { trigger = { rn_feature_colour_off = yes } localization_key = RN_FEAT_COLOUR_OFF_LINE }
 	text = { trigger = { ROOT = { has_country_flag = rn_cp_open_sub } rn_feature_subjects_off = yes } localization_key = RN_FEAT_SUBJECTS_OFF_LINE }

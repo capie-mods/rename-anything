@@ -15,3 +15,26 @@ rn_cp_cooldown_active = {
 	subtract_from_temp_variable = { rn_ip_cd_left = global.num_days }
 	check_variable = { rn_ip_cd_left > 0 }
 }
+
+# Whose colour the player may change (scope: the country, ROOT: the player), by the colour rule
+# rn_feature_colour. The host switches themselves (colour off, "other countries" off) are checked
+# apart (rn_cp_switch), so that a refusal says which one it is.
+#   RN_FEATURE_COLOUR_ON (default)  own country and own subjects
+#   RN_FEATURE_COLOUR_OWN           own country only
+#   RN_FEATURE_COLOUR_ANY           as the default, and the host changes every country
+# The host: the only human in single player, or the player whose CAPIE command carried
+# capie_host = 1 (rn_rights_host, as for the rename rights).
+rn_cp_may_edit = {
+	exists = yes
+	OR = {
+		tag = ROOT
+		AND = {
+			NOT = { rn_feature_colour_own_only = yes }
+			is_subject_of = ROOT
+		}
+		AND = {
+			rn_feature_colour_any = yes
+			ROOT = { rn_rights_host = yes }
+		}
+	}
+}

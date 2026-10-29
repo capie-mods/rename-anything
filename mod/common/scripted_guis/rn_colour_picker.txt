@@ -2,8 +2,8 @@
 # Colour picker (tools/modgen/features/colour_picker.py). ROOT is the player in both
 # editors; THIS is the country whose colour changes (the player in the politics view,
 # the selected country in its diplomacy view). The effects (rn_colour_picker.txt)
-# re-check the pinned target, the rights, the cooldown and the CAPIE records; a click
-# never trusts the command scope.
+# re-check the pinned target, the colour rule, the cooldown and the CAPIE records; a
+# click never trusts the command scope.
 scripted_gui = {
 	capie_v1_ed__rncc__colour = {
 		context_type = player_context
@@ -42,18 +42,115 @@ scripted_gui = {
 			rn_cp_sw_22_click = { ROOT = { set_temp_variable = { rn_cp_pick = 22 } rn_cp_pick_preset = yes } }
 			rn_cp_sw_23_click = { ROOT = { set_temp_variable = { rn_cp_pick = 23 } rn_cp_pick_preset = yes } }
 			rn_cp_sw_24_click = { ROOT = { set_temp_variable = { rn_cp_pick = 24 } rn_cp_pick_preset = yes } }
-			rn_cp_r_m16_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = -16 } rn_cp_step = yes } }
+			rn_cp_sw_25_click = { ROOT = { set_temp_variable = { rn_cp_pick = 25 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_26_click = { ROOT = { set_temp_variable = { rn_cp_pick = 26 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_27_click = { ROOT = { set_temp_variable = { rn_cp_pick = 27 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_28_click = { ROOT = { set_temp_variable = { rn_cp_pick = 28 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_29_click = { ROOT = { set_temp_variable = { rn_cp_pick = 29 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_30_click = { ROOT = { set_temp_variable = { rn_cp_pick = 30 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_31_click = { ROOT = { set_temp_variable = { rn_cp_pick = 31 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_32_click = { ROOT = { set_temp_variable = { rn_cp_pick = 32 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_33_click = { ROOT = { set_temp_variable = { rn_cp_pick = 33 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_34_click = { ROOT = { set_temp_variable = { rn_cp_pick = 34 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_35_click = { ROOT = { set_temp_variable = { rn_cp_pick = 35 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_36_click = { ROOT = { set_temp_variable = { rn_cp_pick = 36 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_37_click = { ROOT = { set_temp_variable = { rn_cp_pick = 37 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_38_click = { ROOT = { set_temp_variable = { rn_cp_pick = 38 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_39_click = { ROOT = { set_temp_variable = { rn_cp_pick = 39 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_40_click = { ROOT = { set_temp_variable = { rn_cp_pick = 40 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_41_click = { ROOT = { set_temp_variable = { rn_cp_pick = 41 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_42_click = { ROOT = { set_temp_variable = { rn_cp_pick = 42 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_43_click = { ROOT = { set_temp_variable = { rn_cp_pick = 43 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_44_click = { ROOT = { set_temp_variable = { rn_cp_pick = 44 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_45_click = { ROOT = { set_temp_variable = { rn_cp_pick = 45 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_46_click = { ROOT = { set_temp_variable = { rn_cp_pick = 46 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_47_click = { ROOT = { set_temp_variable = { rn_cp_pick = 47 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_48_click = { ROOT = { set_temp_variable = { rn_cp_pick = 48 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_49_click = { ROOT = { set_temp_variable = { rn_cp_pick = 49 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_50_click = { ROOT = { set_temp_variable = { rn_cp_pick = 50 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_51_click = { ROOT = { set_temp_variable = { rn_cp_pick = 51 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_52_click = { ROOT = { set_temp_variable = { rn_cp_pick = 52 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_53_click = { ROOT = { set_temp_variable = { rn_cp_pick = 53 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_54_click = { ROOT = { set_temp_variable = { rn_cp_pick = 54 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_55_click = { ROOT = { set_temp_variable = { rn_cp_pick = 55 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_56_click = { ROOT = { set_temp_variable = { rn_cp_pick = 56 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_57_click = { ROOT = { set_temp_variable = { rn_cp_pick = 57 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_58_click = { ROOT = { set_temp_variable = { rn_cp_pick = 58 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_59_click = { ROOT = { set_temp_variable = { rn_cp_pick = 59 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_60_click = { ROOT = { set_temp_variable = { rn_cp_pick = 60 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_61_click = { ROOT = { set_temp_variable = { rn_cp_pick = 61 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_62_click = { ROOT = { set_temp_variable = { rn_cp_pick = 62 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_63_click = { ROOT = { set_temp_variable = { rn_cp_pick = 63 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_64_click = { ROOT = { set_temp_variable = { rn_cp_pick = 64 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_65_click = { ROOT = { set_temp_variable = { rn_cp_pick = 65 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_66_click = { ROOT = { set_temp_variable = { rn_cp_pick = 66 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_67_click = { ROOT = { set_temp_variable = { rn_cp_pick = 67 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_68_click = { ROOT = { set_temp_variable = { rn_cp_pick = 68 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_69_click = { ROOT = { set_temp_variable = { rn_cp_pick = 69 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_70_click = { ROOT = { set_temp_variable = { rn_cp_pick = 70 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_71_click = { ROOT = { set_temp_variable = { rn_cp_pick = 71 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_72_click = { ROOT = { set_temp_variable = { rn_cp_pick = 72 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_73_click = { ROOT = { set_temp_variable = { rn_cp_pick = 73 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_74_click = { ROOT = { set_temp_variable = { rn_cp_pick = 74 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_75_click = { ROOT = { set_temp_variable = { rn_cp_pick = 75 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_76_click = { ROOT = { set_temp_variable = { rn_cp_pick = 76 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_77_click = { ROOT = { set_temp_variable = { rn_cp_pick = 77 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_78_click = { ROOT = { set_temp_variable = { rn_cp_pick = 78 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_79_click = { ROOT = { set_temp_variable = { rn_cp_pick = 79 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_80_click = { ROOT = { set_temp_variable = { rn_cp_pick = 80 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_81_click = { ROOT = { set_temp_variable = { rn_cp_pick = 81 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_82_click = { ROOT = { set_temp_variable = { rn_cp_pick = 82 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_83_click = { ROOT = { set_temp_variable = { rn_cp_pick = 83 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_84_click = { ROOT = { set_temp_variable = { rn_cp_pick = 84 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_85_click = { ROOT = { set_temp_variable = { rn_cp_pick = 85 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_86_click = { ROOT = { set_temp_variable = { rn_cp_pick = 86 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_87_click = { ROOT = { set_temp_variable = { rn_cp_pick = 87 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_88_click = { ROOT = { set_temp_variable = { rn_cp_pick = 88 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_89_click = { ROOT = { set_temp_variable = { rn_cp_pick = 89 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_90_click = { ROOT = { set_temp_variable = { rn_cp_pick = 90 } rn_cp_pick_preset = yes } }
+			rn_cp_r_m50_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = -50 } rn_cp_step = yes } }
+			rn_cp_r_m10_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = -10 } rn_cp_step = yes } }
 			rn_cp_r_m1_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = -1 } rn_cp_step = yes } }
 			rn_cp_r_p1_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = 1 } rn_cp_step = yes } }
-			rn_cp_r_p16_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = 16 } rn_cp_step = yes } }
-			rn_cp_g_m16_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = -16 } rn_cp_step = yes } }
+			rn_cp_r_p10_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = 10 } rn_cp_step = yes } }
+			rn_cp_r_p50_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = 50 } rn_cp_step = yes } }
+			rn_cp_g_m50_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = -50 } rn_cp_step = yes } }
+			rn_cp_g_m10_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = -10 } rn_cp_step = yes } }
 			rn_cp_g_m1_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = -1 } rn_cp_step = yes } }
 			rn_cp_g_p1_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = 1 } rn_cp_step = yes } }
-			rn_cp_g_p16_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = 16 } rn_cp_step = yes } }
-			rn_cp_b_m16_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = -16 } rn_cp_step = yes } }
+			rn_cp_g_p10_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = 10 } rn_cp_step = yes } }
+			rn_cp_g_p50_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = 50 } rn_cp_step = yes } }
+			rn_cp_b_m50_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = -50 } rn_cp_step = yes } }
+			rn_cp_b_m10_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = -10 } rn_cp_step = yes } }
 			rn_cp_b_m1_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = -1 } rn_cp_step = yes } }
 			rn_cp_b_p1_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = 1 } rn_cp_step = yes } }
-			rn_cp_b_p16_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = 16 } rn_cp_step = yes } }
+			rn_cp_b_p10_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = 10 } rn_cp_step = yes } }
+			rn_cp_b_p50_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = 50 } rn_cp_step = yes } }
+			rn_cp_key_Sa_click = { ROOT = { set_temp_variable = { rn_cp_k = 10 } rn_cp_key = yes } }
+			rn_cp_key_Sb_click = { ROOT = { set_temp_variable = { rn_cp_k = 11 } rn_cp_key = yes } }
+			rn_cp_key_Sc_click = { ROOT = { set_temp_variable = { rn_cp_k = 12 } rn_cp_key = yes } }
+			rn_cp_key_Sd_click = { ROOT = { set_temp_variable = { rn_cp_k = 13 } rn_cp_key = yes } }
+			rn_cp_key_Se_click = { ROOT = { set_temp_variable = { rn_cp_k = 14 } rn_cp_key = yes } }
+			rn_cp_key_Sf_click = { ROOT = { set_temp_variable = { rn_cp_k = 15 } rn_cp_key = yes } }
+			rn_cp_key_0_click = { ROOT = { set_temp_variable = { rn_cp_k = 0 } rn_cp_key = yes } }
+			rn_cp_key_1_click = { ROOT = { set_temp_variable = { rn_cp_k = 1 } rn_cp_key = yes } }
+			rn_cp_key_2_click = { ROOT = { set_temp_variable = { rn_cp_k = 2 } rn_cp_key = yes } }
+			rn_cp_key_3_click = { ROOT = { set_temp_variable = { rn_cp_k = 3 } rn_cp_key = yes } }
+			rn_cp_key_4_click = { ROOT = { set_temp_variable = { rn_cp_k = 4 } rn_cp_key = yes } }
+			rn_cp_key_5_click = { ROOT = { set_temp_variable = { rn_cp_k = 5 } rn_cp_key = yes } }
+			rn_cp_key_6_click = { ROOT = { set_temp_variable = { rn_cp_k = 6 } rn_cp_key = yes } }
+			rn_cp_key_7_click = { ROOT = { set_temp_variable = { rn_cp_k = 7 } rn_cp_key = yes } }
+			rn_cp_key_8_click = { ROOT = { set_temp_variable = { rn_cp_k = 8 } rn_cp_key = yes } }
+			rn_cp_key_9_click = { ROOT = { set_temp_variable = { rn_cp_k = 9 } rn_cp_key = yes } }
+			rn_cp_key_sep_click = { ROOT = { set_temp_variable = { rn_cp_k = 16 } rn_cp_key = yes } }
+			rn_cp_key_a_click = { ROOT = { set_temp_variable = { rn_cp_k = 10 } rn_cp_key = yes } }
+			rn_cp_key_b_click = { ROOT = { set_temp_variable = { rn_cp_k = 11 } rn_cp_key = yes } }
+			rn_cp_key_c_click = { ROOT = { set_temp_variable = { rn_cp_k = 12 } rn_cp_key = yes } }
+			rn_cp_key_d_click = { ROOT = { set_temp_variable = { rn_cp_k = 13 } rn_cp_key = yes } }
+			rn_cp_key_e_click = { ROOT = { set_temp_variable = { rn_cp_k = 14 } rn_cp_key = yes } }
+			rn_cp_key_f_click = { ROOT = { set_temp_variable = { rn_cp_k = 15 } rn_cp_key = yes } }
+			rn_cp_key_back_click = { ROOT = { rn_cp_key_back = yes } }
+			rn_cp_key_clear_click = { ROOT = { rn_cp_key_clear = yes } }
 		}
 		triggers = {
 			capie_v1_ep__rncc__colour_visible = { always = no }
@@ -90,18 +187,90 @@ scripted_gui = {
 			rn_cp_mark_22_visible = { ROOT = { check_variable = { rn_cp_sel = 22 } } }
 			rn_cp_mark_23_visible = { ROOT = { check_variable = { rn_cp_sel = 23 } } }
 			rn_cp_mark_24_visible = { ROOT = { check_variable = { rn_cp_sel = 24 } } }
-			rn_cp_r_m16_click_enabled = { ROOT = { check_variable = { rn_cp_r > 0 } } }
+			rn_cp_mark_25_visible = { ROOT = { check_variable = { rn_cp_sel = 25 } } }
+			rn_cp_mark_26_visible = { ROOT = { check_variable = { rn_cp_sel = 26 } } }
+			rn_cp_mark_27_visible = { ROOT = { check_variable = { rn_cp_sel = 27 } } }
+			rn_cp_mark_28_visible = { ROOT = { check_variable = { rn_cp_sel = 28 } } }
+			rn_cp_mark_29_visible = { ROOT = { check_variable = { rn_cp_sel = 29 } } }
+			rn_cp_mark_30_visible = { ROOT = { check_variable = { rn_cp_sel = 30 } } }
+			rn_cp_mark_31_visible = { ROOT = { check_variable = { rn_cp_sel = 31 } } }
+			rn_cp_mark_32_visible = { ROOT = { check_variable = { rn_cp_sel = 32 } } }
+			rn_cp_mark_33_visible = { ROOT = { check_variable = { rn_cp_sel = 33 } } }
+			rn_cp_mark_34_visible = { ROOT = { check_variable = { rn_cp_sel = 34 } } }
+			rn_cp_mark_35_visible = { ROOT = { check_variable = { rn_cp_sel = 35 } } }
+			rn_cp_mark_36_visible = { ROOT = { check_variable = { rn_cp_sel = 36 } } }
+			rn_cp_mark_37_visible = { ROOT = { check_variable = { rn_cp_sel = 37 } } }
+			rn_cp_mark_38_visible = { ROOT = { check_variable = { rn_cp_sel = 38 } } }
+			rn_cp_mark_39_visible = { ROOT = { check_variable = { rn_cp_sel = 39 } } }
+			rn_cp_mark_40_visible = { ROOT = { check_variable = { rn_cp_sel = 40 } } }
+			rn_cp_mark_41_visible = { ROOT = { check_variable = { rn_cp_sel = 41 } } }
+			rn_cp_mark_42_visible = { ROOT = { check_variable = { rn_cp_sel = 42 } } }
+			rn_cp_mark_43_visible = { ROOT = { check_variable = { rn_cp_sel = 43 } } }
+			rn_cp_mark_44_visible = { ROOT = { check_variable = { rn_cp_sel = 44 } } }
+			rn_cp_mark_45_visible = { ROOT = { check_variable = { rn_cp_sel = 45 } } }
+			rn_cp_mark_46_visible = { ROOT = { check_variable = { rn_cp_sel = 46 } } }
+			rn_cp_mark_47_visible = { ROOT = { check_variable = { rn_cp_sel = 47 } } }
+			rn_cp_mark_48_visible = { ROOT = { check_variable = { rn_cp_sel = 48 } } }
+			rn_cp_mark_49_visible = { ROOT = { check_variable = { rn_cp_sel = 49 } } }
+			rn_cp_mark_50_visible = { ROOT = { check_variable = { rn_cp_sel = 50 } } }
+			rn_cp_mark_51_visible = { ROOT = { check_variable = { rn_cp_sel = 51 } } }
+			rn_cp_mark_52_visible = { ROOT = { check_variable = { rn_cp_sel = 52 } } }
+			rn_cp_mark_53_visible = { ROOT = { check_variable = { rn_cp_sel = 53 } } }
+			rn_cp_mark_54_visible = { ROOT = { check_variable = { rn_cp_sel = 54 } } }
+			rn_cp_mark_55_visible = { ROOT = { check_variable = { rn_cp_sel = 55 } } }
+			rn_cp_mark_56_visible = { ROOT = { check_variable = { rn_cp_sel = 56 } } }
+			rn_cp_mark_57_visible = { ROOT = { check_variable = { rn_cp_sel = 57 } } }
+			rn_cp_mark_58_visible = { ROOT = { check_variable = { rn_cp_sel = 58 } } }
+			rn_cp_mark_59_visible = { ROOT = { check_variable = { rn_cp_sel = 59 } } }
+			rn_cp_mark_60_visible = { ROOT = { check_variable = { rn_cp_sel = 60 } } }
+			rn_cp_mark_61_visible = { ROOT = { check_variable = { rn_cp_sel = 61 } } }
+			rn_cp_mark_62_visible = { ROOT = { check_variable = { rn_cp_sel = 62 } } }
+			rn_cp_mark_63_visible = { ROOT = { check_variable = { rn_cp_sel = 63 } } }
+			rn_cp_mark_64_visible = { ROOT = { check_variable = { rn_cp_sel = 64 } } }
+			rn_cp_mark_65_visible = { ROOT = { check_variable = { rn_cp_sel = 65 } } }
+			rn_cp_mark_66_visible = { ROOT = { check_variable = { rn_cp_sel = 66 } } }
+			rn_cp_mark_67_visible = { ROOT = { check_variable = { rn_cp_sel = 67 } } }
+			rn_cp_mark_68_visible = { ROOT = { check_variable = { rn_cp_sel = 68 } } }
+			rn_cp_mark_69_visible = { ROOT = { check_variable = { rn_cp_sel = 69 } } }
+			rn_cp_mark_70_visible = { ROOT = { check_variable = { rn_cp_sel = 70 } } }
+			rn_cp_mark_71_visible = { ROOT = { check_variable = { rn_cp_sel = 71 } } }
+			rn_cp_mark_72_visible = { ROOT = { check_variable = { rn_cp_sel = 72 } } }
+			rn_cp_mark_73_visible = { ROOT = { check_variable = { rn_cp_sel = 73 } } }
+			rn_cp_mark_74_visible = { ROOT = { check_variable = { rn_cp_sel = 74 } } }
+			rn_cp_mark_75_visible = { ROOT = { check_variable = { rn_cp_sel = 75 } } }
+			rn_cp_mark_76_visible = { ROOT = { check_variable = { rn_cp_sel = 76 } } }
+			rn_cp_mark_77_visible = { ROOT = { check_variable = { rn_cp_sel = 77 } } }
+			rn_cp_mark_78_visible = { ROOT = { check_variable = { rn_cp_sel = 78 } } }
+			rn_cp_mark_79_visible = { ROOT = { check_variable = { rn_cp_sel = 79 } } }
+			rn_cp_mark_80_visible = { ROOT = { check_variable = { rn_cp_sel = 80 } } }
+			rn_cp_mark_81_visible = { ROOT = { check_variable = { rn_cp_sel = 81 } } }
+			rn_cp_mark_82_visible = { ROOT = { check_variable = { rn_cp_sel = 82 } } }
+			rn_cp_mark_83_visible = { ROOT = { check_variable = { rn_cp_sel = 83 } } }
+			rn_cp_mark_84_visible = { ROOT = { check_variable = { rn_cp_sel = 84 } } }
+			rn_cp_mark_85_visible = { ROOT = { check_variable = { rn_cp_sel = 85 } } }
+			rn_cp_mark_86_visible = { ROOT = { check_variable = { rn_cp_sel = 86 } } }
+			rn_cp_mark_87_visible = { ROOT = { check_variable = { rn_cp_sel = 87 } } }
+			rn_cp_mark_88_visible = { ROOT = { check_variable = { rn_cp_sel = 88 } } }
+			rn_cp_mark_89_visible = { ROOT = { check_variable = { rn_cp_sel = 89 } } }
+			rn_cp_mark_90_visible = { ROOT = { check_variable = { rn_cp_sel = 90 } } }
+			rn_cp_r_m50_click_enabled = { ROOT = { check_variable = { rn_cp_r > 0 } } }
+			rn_cp_r_m10_click_enabled = { ROOT = { check_variable = { rn_cp_r > 0 } } }
 			rn_cp_r_m1_click_enabled = { ROOT = { check_variable = { rn_cp_r > 0 } } }
 			rn_cp_r_p1_click_enabled = { ROOT = { check_variable = { rn_cp_r < 255 } } }
-			rn_cp_r_p16_click_enabled = { ROOT = { check_variable = { rn_cp_r < 255 } } }
-			rn_cp_g_m16_click_enabled = { ROOT = { check_variable = { rn_cp_g > 0 } } }
+			rn_cp_r_p10_click_enabled = { ROOT = { check_variable = { rn_cp_r < 255 } } }
+			rn_cp_r_p50_click_enabled = { ROOT = { check_variable = { rn_cp_r < 255 } } }
+			rn_cp_g_m50_click_enabled = { ROOT = { check_variable = { rn_cp_g > 0 } } }
+			rn_cp_g_m10_click_enabled = { ROOT = { check_variable = { rn_cp_g > 0 } } }
 			rn_cp_g_m1_click_enabled = { ROOT = { check_variable = { rn_cp_g > 0 } } }
 			rn_cp_g_p1_click_enabled = { ROOT = { check_variable = { rn_cp_g < 255 } } }
-			rn_cp_g_p16_click_enabled = { ROOT = { check_variable = { rn_cp_g < 255 } } }
-			rn_cp_b_m16_click_enabled = { ROOT = { check_variable = { rn_cp_b > 0 } } }
+			rn_cp_g_p10_click_enabled = { ROOT = { check_variable = { rn_cp_g < 255 } } }
+			rn_cp_g_p50_click_enabled = { ROOT = { check_variable = { rn_cp_g < 255 } } }
+			rn_cp_b_m50_click_enabled = { ROOT = { check_variable = { rn_cp_b > 0 } } }
+			rn_cp_b_m10_click_enabled = { ROOT = { check_variable = { rn_cp_b > 0 } } }
 			rn_cp_b_m1_click_enabled = { ROOT = { check_variable = { rn_cp_b > 0 } } }
 			rn_cp_b_p1_click_enabled = { ROOT = { check_variable = { rn_cp_b < 255 } } }
-			rn_cp_b_p16_click_enabled = { ROOT = { check_variable = { rn_cp_b < 255 } } }
+			rn_cp_b_p10_click_enabled = { ROOT = { check_variable = { rn_cp_b < 255 } } }
+			rn_cp_b_p50_click_enabled = { ROOT = { check_variable = { rn_cp_b < 255 } } }
 		}
 		properties = {
 			rn_cp_preview = { frame = rn_cp_frame }
@@ -111,12 +280,13 @@ scripted_gui = {
 		context_type = selected_country_context
 		parent_window_token = selected_country_view_diplomacy
 		window_name = "capie_v1_ed__rncc__subcolour"
-		visible = { NOT = { tag = ROOT } rn_sub_may_edit = yes is_in_array = { array = ROOT.rn_cp_target_arr value = THIS } ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } has_country_flag = rn_cp_open_sub } }
+		visible = { NOT = { tag = ROOT } rn_cp_may_edit = yes is_in_array = { array = ROOT.rn_cp_target_arr value = THIS } ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } has_country_flag = rn_cp_open_sub } }
 		ai_enabled = { always = no }
 		effects = {
 			capie_v1_ed__rncc__subcolour_apply_click = { ROOT = { rn_cp_apply = yes } }
 			rn_cp_cancel_click = { ROOT = { rn_cp_close = yes rn_cv1_status_clear = yes } }
 			rn_cp_reset_click = { ROOT = { rn_cp_reset = yes } }
+			rn_cp_mine_click = { ROOT = { rn_cp_pick_mine = yes } }
 			rn_cp_subcolour_tab_country_click = {
 				if = {
 					limit = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_country_off = yes } NOT = { rn_feature_subjects_off = yes } }
@@ -166,18 +336,115 @@ scripted_gui = {
 			rn_cp_sw_22_click = { ROOT = { set_temp_variable = { rn_cp_pick = 22 } rn_cp_pick_preset = yes } }
 			rn_cp_sw_23_click = { ROOT = { set_temp_variable = { rn_cp_pick = 23 } rn_cp_pick_preset = yes } }
 			rn_cp_sw_24_click = { ROOT = { set_temp_variable = { rn_cp_pick = 24 } rn_cp_pick_preset = yes } }
-			rn_cp_r_m16_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = -16 } rn_cp_step = yes } }
+			rn_cp_sw_25_click = { ROOT = { set_temp_variable = { rn_cp_pick = 25 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_26_click = { ROOT = { set_temp_variable = { rn_cp_pick = 26 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_27_click = { ROOT = { set_temp_variable = { rn_cp_pick = 27 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_28_click = { ROOT = { set_temp_variable = { rn_cp_pick = 28 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_29_click = { ROOT = { set_temp_variable = { rn_cp_pick = 29 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_30_click = { ROOT = { set_temp_variable = { rn_cp_pick = 30 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_31_click = { ROOT = { set_temp_variable = { rn_cp_pick = 31 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_32_click = { ROOT = { set_temp_variable = { rn_cp_pick = 32 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_33_click = { ROOT = { set_temp_variable = { rn_cp_pick = 33 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_34_click = { ROOT = { set_temp_variable = { rn_cp_pick = 34 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_35_click = { ROOT = { set_temp_variable = { rn_cp_pick = 35 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_36_click = { ROOT = { set_temp_variable = { rn_cp_pick = 36 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_37_click = { ROOT = { set_temp_variable = { rn_cp_pick = 37 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_38_click = { ROOT = { set_temp_variable = { rn_cp_pick = 38 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_39_click = { ROOT = { set_temp_variable = { rn_cp_pick = 39 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_40_click = { ROOT = { set_temp_variable = { rn_cp_pick = 40 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_41_click = { ROOT = { set_temp_variable = { rn_cp_pick = 41 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_42_click = { ROOT = { set_temp_variable = { rn_cp_pick = 42 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_43_click = { ROOT = { set_temp_variable = { rn_cp_pick = 43 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_44_click = { ROOT = { set_temp_variable = { rn_cp_pick = 44 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_45_click = { ROOT = { set_temp_variable = { rn_cp_pick = 45 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_46_click = { ROOT = { set_temp_variable = { rn_cp_pick = 46 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_47_click = { ROOT = { set_temp_variable = { rn_cp_pick = 47 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_48_click = { ROOT = { set_temp_variable = { rn_cp_pick = 48 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_49_click = { ROOT = { set_temp_variable = { rn_cp_pick = 49 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_50_click = { ROOT = { set_temp_variable = { rn_cp_pick = 50 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_51_click = { ROOT = { set_temp_variable = { rn_cp_pick = 51 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_52_click = { ROOT = { set_temp_variable = { rn_cp_pick = 52 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_53_click = { ROOT = { set_temp_variable = { rn_cp_pick = 53 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_54_click = { ROOT = { set_temp_variable = { rn_cp_pick = 54 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_55_click = { ROOT = { set_temp_variable = { rn_cp_pick = 55 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_56_click = { ROOT = { set_temp_variable = { rn_cp_pick = 56 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_57_click = { ROOT = { set_temp_variable = { rn_cp_pick = 57 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_58_click = { ROOT = { set_temp_variable = { rn_cp_pick = 58 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_59_click = { ROOT = { set_temp_variable = { rn_cp_pick = 59 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_60_click = { ROOT = { set_temp_variable = { rn_cp_pick = 60 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_61_click = { ROOT = { set_temp_variable = { rn_cp_pick = 61 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_62_click = { ROOT = { set_temp_variable = { rn_cp_pick = 62 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_63_click = { ROOT = { set_temp_variable = { rn_cp_pick = 63 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_64_click = { ROOT = { set_temp_variable = { rn_cp_pick = 64 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_65_click = { ROOT = { set_temp_variable = { rn_cp_pick = 65 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_66_click = { ROOT = { set_temp_variable = { rn_cp_pick = 66 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_67_click = { ROOT = { set_temp_variable = { rn_cp_pick = 67 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_68_click = { ROOT = { set_temp_variable = { rn_cp_pick = 68 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_69_click = { ROOT = { set_temp_variable = { rn_cp_pick = 69 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_70_click = { ROOT = { set_temp_variable = { rn_cp_pick = 70 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_71_click = { ROOT = { set_temp_variable = { rn_cp_pick = 71 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_72_click = { ROOT = { set_temp_variable = { rn_cp_pick = 72 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_73_click = { ROOT = { set_temp_variable = { rn_cp_pick = 73 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_74_click = { ROOT = { set_temp_variable = { rn_cp_pick = 74 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_75_click = { ROOT = { set_temp_variable = { rn_cp_pick = 75 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_76_click = { ROOT = { set_temp_variable = { rn_cp_pick = 76 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_77_click = { ROOT = { set_temp_variable = { rn_cp_pick = 77 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_78_click = { ROOT = { set_temp_variable = { rn_cp_pick = 78 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_79_click = { ROOT = { set_temp_variable = { rn_cp_pick = 79 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_80_click = { ROOT = { set_temp_variable = { rn_cp_pick = 80 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_81_click = { ROOT = { set_temp_variable = { rn_cp_pick = 81 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_82_click = { ROOT = { set_temp_variable = { rn_cp_pick = 82 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_83_click = { ROOT = { set_temp_variable = { rn_cp_pick = 83 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_84_click = { ROOT = { set_temp_variable = { rn_cp_pick = 84 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_85_click = { ROOT = { set_temp_variable = { rn_cp_pick = 85 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_86_click = { ROOT = { set_temp_variable = { rn_cp_pick = 86 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_87_click = { ROOT = { set_temp_variable = { rn_cp_pick = 87 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_88_click = { ROOT = { set_temp_variable = { rn_cp_pick = 88 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_89_click = { ROOT = { set_temp_variable = { rn_cp_pick = 89 } rn_cp_pick_preset = yes } }
+			rn_cp_sw_90_click = { ROOT = { set_temp_variable = { rn_cp_pick = 90 } rn_cp_pick_preset = yes } }
+			rn_cp_r_m50_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = -50 } rn_cp_step = yes } }
+			rn_cp_r_m10_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = -10 } rn_cp_step = yes } }
 			rn_cp_r_m1_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = -1 } rn_cp_step = yes } }
 			rn_cp_r_p1_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = 1 } rn_cp_step = yes } }
-			rn_cp_r_p16_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = 16 } rn_cp_step = yes } }
-			rn_cp_g_m16_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = -16 } rn_cp_step = yes } }
+			rn_cp_r_p10_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = 10 } rn_cp_step = yes } }
+			rn_cp_r_p50_click = { ROOT = { set_temp_variable = { rn_cp_ch = 1 } set_temp_variable = { rn_cp_d = 50 } rn_cp_step = yes } }
+			rn_cp_g_m50_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = -50 } rn_cp_step = yes } }
+			rn_cp_g_m10_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = -10 } rn_cp_step = yes } }
 			rn_cp_g_m1_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = -1 } rn_cp_step = yes } }
 			rn_cp_g_p1_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = 1 } rn_cp_step = yes } }
-			rn_cp_g_p16_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = 16 } rn_cp_step = yes } }
-			rn_cp_b_m16_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = -16 } rn_cp_step = yes } }
+			rn_cp_g_p10_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = 10 } rn_cp_step = yes } }
+			rn_cp_g_p50_click = { ROOT = { set_temp_variable = { rn_cp_ch = 2 } set_temp_variable = { rn_cp_d = 50 } rn_cp_step = yes } }
+			rn_cp_b_m50_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = -50 } rn_cp_step = yes } }
+			rn_cp_b_m10_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = -10 } rn_cp_step = yes } }
 			rn_cp_b_m1_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = -1 } rn_cp_step = yes } }
 			rn_cp_b_p1_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = 1 } rn_cp_step = yes } }
-			rn_cp_b_p16_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = 16 } rn_cp_step = yes } }
+			rn_cp_b_p10_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = 10 } rn_cp_step = yes } }
+			rn_cp_b_p50_click = { ROOT = { set_temp_variable = { rn_cp_ch = 3 } set_temp_variable = { rn_cp_d = 50 } rn_cp_step = yes } }
+			rn_cp_key_Sa_click = { ROOT = { set_temp_variable = { rn_cp_k = 10 } rn_cp_key = yes } }
+			rn_cp_key_Sb_click = { ROOT = { set_temp_variable = { rn_cp_k = 11 } rn_cp_key = yes } }
+			rn_cp_key_Sc_click = { ROOT = { set_temp_variable = { rn_cp_k = 12 } rn_cp_key = yes } }
+			rn_cp_key_Sd_click = { ROOT = { set_temp_variable = { rn_cp_k = 13 } rn_cp_key = yes } }
+			rn_cp_key_Se_click = { ROOT = { set_temp_variable = { rn_cp_k = 14 } rn_cp_key = yes } }
+			rn_cp_key_Sf_click = { ROOT = { set_temp_variable = { rn_cp_k = 15 } rn_cp_key = yes } }
+			rn_cp_key_0_click = { ROOT = { set_temp_variable = { rn_cp_k = 0 } rn_cp_key = yes } }
+			rn_cp_key_1_click = { ROOT = { set_temp_variable = { rn_cp_k = 1 } rn_cp_key = yes } }
+			rn_cp_key_2_click = { ROOT = { set_temp_variable = { rn_cp_k = 2 } rn_cp_key = yes } }
+			rn_cp_key_3_click = { ROOT = { set_temp_variable = { rn_cp_k = 3 } rn_cp_key = yes } }
+			rn_cp_key_4_click = { ROOT = { set_temp_variable = { rn_cp_k = 4 } rn_cp_key = yes } }
+			rn_cp_key_5_click = { ROOT = { set_temp_variable = { rn_cp_k = 5 } rn_cp_key = yes } }
+			rn_cp_key_6_click = { ROOT = { set_temp_variable = { rn_cp_k = 6 } rn_cp_key = yes } }
+			rn_cp_key_7_click = { ROOT = { set_temp_variable = { rn_cp_k = 7 } rn_cp_key = yes } }
+			rn_cp_key_8_click = { ROOT = { set_temp_variable = { rn_cp_k = 8 } rn_cp_key = yes } }
+			rn_cp_key_9_click = { ROOT = { set_temp_variable = { rn_cp_k = 9 } rn_cp_key = yes } }
+			rn_cp_key_sep_click = { ROOT = { set_temp_variable = { rn_cp_k = 16 } rn_cp_key = yes } }
+			rn_cp_key_a_click = { ROOT = { set_temp_variable = { rn_cp_k = 10 } rn_cp_key = yes } }
+			rn_cp_key_b_click = { ROOT = { set_temp_variable = { rn_cp_k = 11 } rn_cp_key = yes } }
+			rn_cp_key_c_click = { ROOT = { set_temp_variable = { rn_cp_k = 12 } rn_cp_key = yes } }
+			rn_cp_key_d_click = { ROOT = { set_temp_variable = { rn_cp_k = 13 } rn_cp_key = yes } }
+			rn_cp_key_e_click = { ROOT = { set_temp_variable = { rn_cp_k = 14 } rn_cp_key = yes } }
+			rn_cp_key_f_click = { ROOT = { set_temp_variable = { rn_cp_k = 15 } rn_cp_key = yes } }
+			rn_cp_key_back_click = { ROOT = { rn_cp_key_back = yes } }
+			rn_cp_key_clear_click = { ROOT = { rn_cp_key_clear = yes } }
 		}
 		triggers = {
 			capie_v1_ep__rncc__subcolour_visible = { always = no }
@@ -187,6 +454,8 @@ scripted_gui = {
 			rn_cp_note_game_visible = { NOT = { has_variable = capie_cc_ver } ROOT = { NOT = { has_country_flag = rn_cp_changed } } }
 			rn_cp_note_current_visible = { has_variable = capie_cc_ver ROOT = { NOT = { has_country_flag = rn_cp_changed } } }
 			rn_cp_note_new_visible = { ROOT = { has_country_flag = rn_cp_changed } }
+			rn_cp_mine_visible = { is_subject_of = ROOT }
+			rn_cp_mine_click_enabled = { is_subject_of = ROOT NOT = { rn_feature_colour_off = yes } NOT = { rn_feature_subjects_off = yes } }
 			rn_cp_subcolour_tab_country_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_country_off = yes } NOT = { rn_feature_subjects_off = yes } }
 			rn_cp_subcolour_tab_leader_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_leader_off = yes } NOT = { rn_feature_subjects_off = yes } }
 			rn_cp_subcolour_tab_party_click_enabled = { rn_sub_may_edit = yes ROOT = { is_ai = no NOT = { has_country_flag = rn_open } NOT = { has_country_flag = rn_input } } NOT = { rn_feature_party_off = yes } NOT = { rn_feature_subjects_off = yes } }
@@ -215,18 +484,90 @@ scripted_gui = {
 			rn_cp_mark_22_visible = { ROOT = { check_variable = { rn_cp_sel = 22 } } }
 			rn_cp_mark_23_visible = { ROOT = { check_variable = { rn_cp_sel = 23 } } }
 			rn_cp_mark_24_visible = { ROOT = { check_variable = { rn_cp_sel = 24 } } }
-			rn_cp_r_m16_click_enabled = { ROOT = { check_variable = { rn_cp_r > 0 } } }
+			rn_cp_mark_25_visible = { ROOT = { check_variable = { rn_cp_sel = 25 } } }
+			rn_cp_mark_26_visible = { ROOT = { check_variable = { rn_cp_sel = 26 } } }
+			rn_cp_mark_27_visible = { ROOT = { check_variable = { rn_cp_sel = 27 } } }
+			rn_cp_mark_28_visible = { ROOT = { check_variable = { rn_cp_sel = 28 } } }
+			rn_cp_mark_29_visible = { ROOT = { check_variable = { rn_cp_sel = 29 } } }
+			rn_cp_mark_30_visible = { ROOT = { check_variable = { rn_cp_sel = 30 } } }
+			rn_cp_mark_31_visible = { ROOT = { check_variable = { rn_cp_sel = 31 } } }
+			rn_cp_mark_32_visible = { ROOT = { check_variable = { rn_cp_sel = 32 } } }
+			rn_cp_mark_33_visible = { ROOT = { check_variable = { rn_cp_sel = 33 } } }
+			rn_cp_mark_34_visible = { ROOT = { check_variable = { rn_cp_sel = 34 } } }
+			rn_cp_mark_35_visible = { ROOT = { check_variable = { rn_cp_sel = 35 } } }
+			rn_cp_mark_36_visible = { ROOT = { check_variable = { rn_cp_sel = 36 } } }
+			rn_cp_mark_37_visible = { ROOT = { check_variable = { rn_cp_sel = 37 } } }
+			rn_cp_mark_38_visible = { ROOT = { check_variable = { rn_cp_sel = 38 } } }
+			rn_cp_mark_39_visible = { ROOT = { check_variable = { rn_cp_sel = 39 } } }
+			rn_cp_mark_40_visible = { ROOT = { check_variable = { rn_cp_sel = 40 } } }
+			rn_cp_mark_41_visible = { ROOT = { check_variable = { rn_cp_sel = 41 } } }
+			rn_cp_mark_42_visible = { ROOT = { check_variable = { rn_cp_sel = 42 } } }
+			rn_cp_mark_43_visible = { ROOT = { check_variable = { rn_cp_sel = 43 } } }
+			rn_cp_mark_44_visible = { ROOT = { check_variable = { rn_cp_sel = 44 } } }
+			rn_cp_mark_45_visible = { ROOT = { check_variable = { rn_cp_sel = 45 } } }
+			rn_cp_mark_46_visible = { ROOT = { check_variable = { rn_cp_sel = 46 } } }
+			rn_cp_mark_47_visible = { ROOT = { check_variable = { rn_cp_sel = 47 } } }
+			rn_cp_mark_48_visible = { ROOT = { check_variable = { rn_cp_sel = 48 } } }
+			rn_cp_mark_49_visible = { ROOT = { check_variable = { rn_cp_sel = 49 } } }
+			rn_cp_mark_50_visible = { ROOT = { check_variable = { rn_cp_sel = 50 } } }
+			rn_cp_mark_51_visible = { ROOT = { check_variable = { rn_cp_sel = 51 } } }
+			rn_cp_mark_52_visible = { ROOT = { check_variable = { rn_cp_sel = 52 } } }
+			rn_cp_mark_53_visible = { ROOT = { check_variable = { rn_cp_sel = 53 } } }
+			rn_cp_mark_54_visible = { ROOT = { check_variable = { rn_cp_sel = 54 } } }
+			rn_cp_mark_55_visible = { ROOT = { check_variable = { rn_cp_sel = 55 } } }
+			rn_cp_mark_56_visible = { ROOT = { check_variable = { rn_cp_sel = 56 } } }
+			rn_cp_mark_57_visible = { ROOT = { check_variable = { rn_cp_sel = 57 } } }
+			rn_cp_mark_58_visible = { ROOT = { check_variable = { rn_cp_sel = 58 } } }
+			rn_cp_mark_59_visible = { ROOT = { check_variable = { rn_cp_sel = 59 } } }
+			rn_cp_mark_60_visible = { ROOT = { check_variable = { rn_cp_sel = 60 } } }
+			rn_cp_mark_61_visible = { ROOT = { check_variable = { rn_cp_sel = 61 } } }
+			rn_cp_mark_62_visible = { ROOT = { check_variable = { rn_cp_sel = 62 } } }
+			rn_cp_mark_63_visible = { ROOT = { check_variable = { rn_cp_sel = 63 } } }
+			rn_cp_mark_64_visible = { ROOT = { check_variable = { rn_cp_sel = 64 } } }
+			rn_cp_mark_65_visible = { ROOT = { check_variable = { rn_cp_sel = 65 } } }
+			rn_cp_mark_66_visible = { ROOT = { check_variable = { rn_cp_sel = 66 } } }
+			rn_cp_mark_67_visible = { ROOT = { check_variable = { rn_cp_sel = 67 } } }
+			rn_cp_mark_68_visible = { ROOT = { check_variable = { rn_cp_sel = 68 } } }
+			rn_cp_mark_69_visible = { ROOT = { check_variable = { rn_cp_sel = 69 } } }
+			rn_cp_mark_70_visible = { ROOT = { check_variable = { rn_cp_sel = 70 } } }
+			rn_cp_mark_71_visible = { ROOT = { check_variable = { rn_cp_sel = 71 } } }
+			rn_cp_mark_72_visible = { ROOT = { check_variable = { rn_cp_sel = 72 } } }
+			rn_cp_mark_73_visible = { ROOT = { check_variable = { rn_cp_sel = 73 } } }
+			rn_cp_mark_74_visible = { ROOT = { check_variable = { rn_cp_sel = 74 } } }
+			rn_cp_mark_75_visible = { ROOT = { check_variable = { rn_cp_sel = 75 } } }
+			rn_cp_mark_76_visible = { ROOT = { check_variable = { rn_cp_sel = 76 } } }
+			rn_cp_mark_77_visible = { ROOT = { check_variable = { rn_cp_sel = 77 } } }
+			rn_cp_mark_78_visible = { ROOT = { check_variable = { rn_cp_sel = 78 } } }
+			rn_cp_mark_79_visible = { ROOT = { check_variable = { rn_cp_sel = 79 } } }
+			rn_cp_mark_80_visible = { ROOT = { check_variable = { rn_cp_sel = 80 } } }
+			rn_cp_mark_81_visible = { ROOT = { check_variable = { rn_cp_sel = 81 } } }
+			rn_cp_mark_82_visible = { ROOT = { check_variable = { rn_cp_sel = 82 } } }
+			rn_cp_mark_83_visible = { ROOT = { check_variable = { rn_cp_sel = 83 } } }
+			rn_cp_mark_84_visible = { ROOT = { check_variable = { rn_cp_sel = 84 } } }
+			rn_cp_mark_85_visible = { ROOT = { check_variable = { rn_cp_sel = 85 } } }
+			rn_cp_mark_86_visible = { ROOT = { check_variable = { rn_cp_sel = 86 } } }
+			rn_cp_mark_87_visible = { ROOT = { check_variable = { rn_cp_sel = 87 } } }
+			rn_cp_mark_88_visible = { ROOT = { check_variable = { rn_cp_sel = 88 } } }
+			rn_cp_mark_89_visible = { ROOT = { check_variable = { rn_cp_sel = 89 } } }
+			rn_cp_mark_90_visible = { ROOT = { check_variable = { rn_cp_sel = 90 } } }
+			rn_cp_r_m50_click_enabled = { ROOT = { check_variable = { rn_cp_r > 0 } } }
+			rn_cp_r_m10_click_enabled = { ROOT = { check_variable = { rn_cp_r > 0 } } }
 			rn_cp_r_m1_click_enabled = { ROOT = { check_variable = { rn_cp_r > 0 } } }
 			rn_cp_r_p1_click_enabled = { ROOT = { check_variable = { rn_cp_r < 255 } } }
-			rn_cp_r_p16_click_enabled = { ROOT = { check_variable = { rn_cp_r < 255 } } }
-			rn_cp_g_m16_click_enabled = { ROOT = { check_variable = { rn_cp_g > 0 } } }
+			rn_cp_r_p10_click_enabled = { ROOT = { check_variable = { rn_cp_r < 255 } } }
+			rn_cp_r_p50_click_enabled = { ROOT = { check_variable = { rn_cp_r < 255 } } }
+			rn_cp_g_m50_click_enabled = { ROOT = { check_variable = { rn_cp_g > 0 } } }
+			rn_cp_g_m10_click_enabled = { ROOT = { check_variable = { rn_cp_g > 0 } } }
 			rn_cp_g_m1_click_enabled = { ROOT = { check_variable = { rn_cp_g > 0 } } }
 			rn_cp_g_p1_click_enabled = { ROOT = { check_variable = { rn_cp_g < 255 } } }
-			rn_cp_g_p16_click_enabled = { ROOT = { check_variable = { rn_cp_g < 255 } } }
-			rn_cp_b_m16_click_enabled = { ROOT = { check_variable = { rn_cp_b > 0 } } }
+			rn_cp_g_p10_click_enabled = { ROOT = { check_variable = { rn_cp_g < 255 } } }
+			rn_cp_g_p50_click_enabled = { ROOT = { check_variable = { rn_cp_g < 255 } } }
+			rn_cp_b_m50_click_enabled = { ROOT = { check_variable = { rn_cp_b > 0 } } }
+			rn_cp_b_m10_click_enabled = { ROOT = { check_variable = { rn_cp_b > 0 } } }
 			rn_cp_b_m1_click_enabled = { ROOT = { check_variable = { rn_cp_b > 0 } } }
 			rn_cp_b_p1_click_enabled = { ROOT = { check_variable = { rn_cp_b < 255 } } }
-			rn_cp_b_p16_click_enabled = { ROOT = { check_variable = { rn_cp_b < 255 } } }
+			rn_cp_b_p10_click_enabled = { ROOT = { check_variable = { rn_cp_b < 255 } } }
+			rn_cp_b_p50_click_enabled = { ROOT = { check_variable = { rn_cp_b < 255 } } }
 		}
 		properties = {
 			rn_cp_preview = { frame = ROOT.rn_cp_frame }

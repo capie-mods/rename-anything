@@ -26,6 +26,11 @@ Generated files (relative to ``mod/``):
 
 The portrait switch exists before the portrait feature (ADR-0036), so a game
 started now keeps its rule when the feature arrives.
+
+The colour rule has two more options, :data:`COLOUR_OPTIONS`: it also decides
+whose map colour a player may change (own country only; own country and
+subjects, the default; or, for the host, any country). Their triggers,
+``rn_feature_colour_own_only`` and ``rn_feature_colour_any``, are here too.
 """
 
 from __future__ import annotations
@@ -93,6 +98,46 @@ TEXTS = {
 }
 """Shared texts: English and Polish."""
 
+COLOUR_DEFAULT = (
+    ("Own country and subjects", "Własne państwo i podmioty"),
+    (
+        "Players change the map colour of their own country and of their subjects.",
+        "Gracze zmieniają kolor na mapie swojego państwa i swoich podmiotów.",
+    ),
+)
+"""Text and description of the colour rule's default option (``RN_FEATURE_COLOUR_ON``)."""
+
+COLOUR_OPTIONS = (
+    (
+        "OWN",
+        ("Own country only", "Tylko własne państwo"),
+        (
+            "Players change only their own country's map colour.",
+            "Gracze zmieniają tylko kolor swojego państwa na mapie.",
+        ),
+    ),
+    (
+        "ANY",
+        ("Any country (host)", "Każde państwo (host)"),
+        (
+            (
+                "Players change the colour of their own country and of their subjects, and the "
+                "host changes any country's colour. In single player the host is the player; in "
+                "multiplayer, the player CAPIE reports as host."
+            ),
+            (
+                "Gracze zmieniają kolor swojego państwa i swoich podmiotów, a host kolor każdego "
+                "państwa. W grze jednoosobowej hostem jest gracz; w wieloosobowej gracz, którego "
+                "CAPIE zgłasza jako hosta."
+            ),
+        ),
+    ),
+)
+"""Extra options of the colour rule (between the default and Off): suffix, text, description."""
+
+COLOUR_TRIGGERS = (("own_only", "OWN"), ("any", "ANY"))
+"""Colour rule triggers ``rn_feature_colour_<name>`` and the option each one reads."""
+
 PORTRAIT_NOTE = (
     " The portrait choice comes in a later version.",
     " Wybór portretu pojawi się w późniejszej wersji.",
@@ -125,17 +170,26 @@ def rules() -> str:
     ]
     for f in FEATURES:
         up = f.id.upper()
+        on_text = "RN_RULE_FEATURE_COLOUR_ON" if f.id == "colour" else "RN_RULE_FEATURE_ON"
+        extra = "".join(
+            "\toption = {\n"
+            f'\t\tname = "RN_FEATURE_{up}_{suffix}"\n'
+            f'\t\ttext = "RN_RULE_FEATURE_{up}_{suffix}"\n'
+            f'\t\tdesc = "RN_RULE_FEATURE_{up}_{suffix}_DESC"\n'
+            "\t\tallow_achievements = yes\n"
+            "\t}\n"
+            for suffix, _, _ in (COLOUR_OPTIONS if f.id == "colour" else ())
+        )
         out.append(
             f"rn_feature_{f.id} = {{\n"
             f'\tname = "RN_RULE_FEATURE_{up}"\n'
             '\tgroup = "RULE_GROUP_GAMEPLAY"\n'
             "\tdefault = {\n"
             f'\t\tname = "RN_FEATURE_{up}_ON"\n'
-            '\t\ttext = "RN_RULE_FEATURE_ON"\n'
+            f'\t\ttext = "{on_text}"\n'
             f'\t\tdesc = "RN_RULE_FEATURE_{up}_ON_DESC"\n'
             "\t\tallow_achievements = yes\n"
-            "\t}\n"
-            "\toption = {\n"
+            "\t}\n" + extra + "\toption = {\n"
             f'\t\tname = "RN_FEATURE_{up}_OFF"\n'
             '\t\ttext = "RN_RULE_FEATURE_OFF"\n'
             f'\t\tdesc = "RN_RULE_FEATURE_{up}_OFF_DESC"\n'
@@ -163,6 +217,13 @@ def triggers() -> str:
             f"\thas_game_rule = {{ rule = rn_feature_{f.id} option = RN_FEATURE_{up}_OFF }}\n"
             "}\n"
         )
+    out.append("# Whose map colour may change (the colour rule's other options).\n")
+    out += [
+        f"rn_feature_colour_{name} = {{\n"
+        f"\thas_game_rule = {{ rule = rn_feature_colour option = RN_FEATURE_COLOUR_{option} }}\n"
+        "}\n"
+        for name, option in COLOUR_TRIGGERS
+    ]
     return "".join(out)
 
 
@@ -207,14 +268,21 @@ def localisation(lang: str) -> str:
             f"{name}: host wyłączył tę opcję w tej grze.",
         )[pl]
         allowed = (f"{name}: allowed by the host", f"{name}: dozwolone przez hosta")[pl]
+        on_desc = COLOUR_DEFAULT[1][pl] if f.id == "colour" else TEXTS["on_desc"][pl] + note
         lines += [
             f' RN_RULE_FEATURE_{up}:0 "Rename Anything: {name}"\n',
-            f' RN_RULE_FEATURE_{up}_ON_DESC:0 "{TEXTS["on_desc"][pl]}{note}"\n',
+            f' RN_RULE_FEATURE_{up}_ON_DESC:0 "{on_desc}"\n',
             f' RN_RULE_FEATURE_{up}_OFF_DESC:0 "{TEXTS["off_desc"][pl]}{note}"\n',
             f' RN_FEAT_{up}_OFF:0 "\\n§R{off_line}§!"\n',
             f' RN_FEAT_{up}_OFF_LINE:0 "§R{off_line}§!"\n',
             f' RN_FEAT_{up}_TT:0 "[ROOT.RN_FEAT_{up}_LINE]"\n',
             f' RN_FEAT_{up}_ALLOWED:0 "{allowed}"\n',
+        ]
+    lines.append(f' RN_RULE_FEATURE_COLOUR_ON:0 "{COLOUR_DEFAULT[0][pl]}"\n')
+    for suffix, label, desc in COLOUR_OPTIONS:
+        lines += [
+            f' RN_RULE_FEATURE_COLOUR_{suffix}:0 "{label[pl]}"\n',
+            f' RN_RULE_FEATURE_COLOUR_{suffix}_DESC:0 "{desc[pl]}"\n',
         ]
     return "".join(lines)
 

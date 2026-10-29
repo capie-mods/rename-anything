@@ -30,3 +30,10 @@ rn_feature_factions_off = {
 rn_feature_subjects_off = {
 	has_game_rule = { rule = rn_feature_subjects option = RN_FEATURE_SUBJECTS_OFF }
 }
+# Whose map colour may change (the colour rule's other options).
+rn_feature_colour_own_only = {
+	has_game_rule = { rule = rn_feature_colour option = RN_FEATURE_COLOUR_OWN }
+}
+rn_feature_colour_any = {
+	has_game_rule = { rule = rn_feature_colour option = RN_FEATURE_COLOUR_ANY }
+}
