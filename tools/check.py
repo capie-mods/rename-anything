@@ -28,6 +28,9 @@ The checks run in this order, and their findings are printed in the same order:
   ``common/scripted_localisation`` files (legacy tables, cooldown tooltips and
   the in-place editor carriers). Every ``localization_key`` in those files must
   exist in the mod's English tables or as a vanilla ``VICTORY_POINTS_<id>`` key.
+* Layer writers. Only the colour carrier (and the cosmetic snapshot it calls,
+  generated in ``rn_colour_catalog.txt``) writes ``capie_cc_*`` (CONTRACT 19), and only
+  the party ideology carrier writes ``capie_sn_*`` (CONTRACT 20).
 * Typed state scope misuse. ``rn_sel_state`` holds a state scope, so comparing it
   inside ``check_variable`` is reported, as is assigning ``THIS.id`` to
   ``rn_sel_state_id``.
@@ -353,6 +356,41 @@ HAS_DLC = re.compile(r'has_dlc\s*=\s*"([^"]*)"')
 """A quoted ``has_dlc`` value."""
 
 
+LAYER_WRITE = re.compile(
+    r"\b(?:set_variable|clear_variable|clear_array|add_to_array|remove_from_array|"
+    r"add_to_variable|subtract_from_variable|multiply_variable|divide_variable|"
+    r"modulo_variable|round_variable|clamp_variable)\s*=\s*\{?\s*(?:var\s*=\s*)?"
+    r"(capie_(?:cc|sn)_\w+)"
+)
+"""A statement that writes a variable or array of the colour or party ideology layer."""
+
+LAYER_WRITERS = {
+    "capie_cc_": {
+        "common/scripted_effects/rn_country_colour_carrier.txt",
+        "common/scripted_effects/rn_colour_catalog.txt",
+    },
+    "capie_sn_": {"common/scripted_effects/rn_subideology_name_carrier.txt"},
+}
+"""Variable prefix to the only files that may write it."""
+
+
+def layer_writer_check() -> list[str]:
+    """Return every write of a ``capie_cc_*`` or ``capie_sn_*`` variable outside its carrier.
+
+    Returns:
+        One problem per file and variable.
+    """
+    bad: list[str] = []
+    for path in sorted(Path("common").rglob("*.txt")):
+        rel = path.as_posix()
+        text = COMMENT.sub("", path.read_text(encoding="utf-8-sig", errors="replace"))
+        for name in sorted(set(LAYER_WRITE.findall(text))):
+            allowed = next(v for k, v in LAYER_WRITERS.items() if name.startswith(k))
+            if rel not in allowed:
+                bad.append(f"{rel}: writes {name} outside its carrier")
+    return bad
+
+
 def typed_scope_check(scripts: str, effects: str) -> list[str]:
     """Report numeric use of the typed ``rn_sel_state`` scope.
 
@@ -547,6 +585,7 @@ def run_checks(game: GameData) -> list[str]:
     sg = rd(SCRIPTED_GUI_FILE)
     bad += typed_scope_check(sg + allfx + sl, allfx)
     bad += has_dlc_check()
+    bad += layer_writer_check()
     state_table_check(game, eff, bad)
     bad += wiring_check(gui, sg, sg + allfx + sl, allfx + trig)
     bad += brace_check()
