@@ -6,6 +6,18 @@ turns the section of the version in `mod/descriptor.mod` into the Workshop chang
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-29
+
+- New, needs CAPIE 1.6: your country's colour on the map. Open the "Colour" tab of the country
+  name editor or the flag picker (for a subject: "Map colour" in its flag picker). Pick one of
+  24 colours or set red, green and blue, then Apply. "Original colour" brings the game's colour
+  back, and so does a change of the country's form of state.
+- New, needs CAPIE 1.6: rename your ruling party's ideology as the politics panel shows it (for
+  example "Non-Aligned"), with the pencil in the ruling party box. The name ends when the ruling
+  party or its leader changes; "Restore name" brings the game's name back.
+- Both follow the rename cooldown and the rule on who may rename what, and the host can turn
+  each one off with its own game rule.
+
 ## [0.2.1] - 2026-10-28
 
 - Fixed: opening the Characters tab wrote up to 100,000 lines to the game's error.log. It now
