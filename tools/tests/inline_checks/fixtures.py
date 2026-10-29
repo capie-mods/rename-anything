@@ -44,17 +44,42 @@ ApplyVM = VM_MODULE.ApplyVM
 
 Country = VM_MODULE.Country
 
-_ENCODER = (REPO / "plugin" / "src" / "editor_input.hpp").read_text(encoding="utf-8")
-"""Text of the native encoder header that defines the accepted alphabet."""
 
-NATIVE_ALPHABET = "".join(
-    re.findall(
-        r'U"([^"]*)"',
-        _ENCODER[
-            _ENCODER.index("constexpr std::u32string_view alphabet") : _ENCODER.index(
-                "constexpr std::u32string_view delimiters"
-            )
-        ],
+def native_alphabet() -> str:
+    """Return the characters the native encoder accepts, read from the real C++ source.
+
+    It is read on first use, not at import, so the VM cases that need no CAPIE source (the
+    colour and party ideology cases run by pytest) work without the ``plugin`` junction.
+
+    Returns:
+        The 84 characters of ``plugin/src/editor_input.hpp``.
+    """
+    encoder = (REPO / "plugin" / "src" / "editor_input.hpp").read_text(encoding="utf-8")
+    return "".join(
+        re.findall(
+            r'U"([^"]*)"',
+            encoder[
+                encoder.index("constexpr std::u32string_view alphabet") : encoder.index(
+                    "constexpr std::u32string_view delimiters"
+                )
+            ],
+        )
     )
-)
-"""The 84 characters the native encoder accepts, read from the real C++ source."""
+
+
+def __getattr__(name: str) -> str:
+    """Provide ``NATIVE_ALPHABET`` lazily (PEP 562).
+
+    Args:
+        name: Attribute name.
+
+    Returns:
+        The native alphabet.
+
+    Raises:
+        AttributeError: Any other name.
+    """
+    if name == "NATIVE_ALPHABET":
+        return native_alphabet()
+    msg = f"module {__name__!r} has no attribute {name!r}"
+    raise AttributeError(msg)

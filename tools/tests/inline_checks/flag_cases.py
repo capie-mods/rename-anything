@@ -28,7 +28,7 @@ from __future__ import annotations
 import copy
 import re
 from dataclasses import dataclass, field
-from decimal import Decimal
+from decimal import ROUND_HALF_UP, Decimal
 from typing import Any
 
 from inline_checks.constants import ACTIONS_Y, MOD, PANEL_WIDTH, SOURCE, VM_TODAY
@@ -538,7 +538,7 @@ class FlagVM:
         self.here.vars[name] = value
         self.writes.append((self.here.tag, name))
 
-    def effect(self, key: str, op: str, value: Any) -> None:  # noqa: ANN401, ARG002, C901, PLR0911 - one branch per effect
+    def effect(self, key: str, op: str, value: Any) -> None:  # noqa: ANN401, ARG002, C901, PLR0911, PLR0912 - one branch per effect
         """Execute one effect.
 
         Args:
@@ -582,6 +582,18 @@ class FlagVM:
                 "clr_country_flag": lambda: here.flags.discard(value),
             }[key]()
             self.writes.append((here.tag, key + ":" + value))
+            return
+        if key in {"round_temp_variable", "round_variable"}:
+            store = self.temp if key.startswith("round_temp") else here.vars
+            store[value] = store.get(value, Decimal(0)).to_integral_value(ROUND_HALF_UP)
+            return
+        if key in {"clamp_temp_variable", "clamp_variable"}:
+            store = self.temp if key.startswith("clamp_temp") else here.vars
+            name = get(value, "var")
+            lo, hi = self.value(get(value, "min")), self.value(get(value, "max"))
+            store[name] = min(max(store.get(name, Decimal(0)), lo), hi)
+            if store is here.vars:
+                self.writes.append((here.tag, name))
             return
         ((name, _, src),) = value
         new = self.value(src)
